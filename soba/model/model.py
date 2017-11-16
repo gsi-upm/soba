@@ -350,14 +350,14 @@ class ContinuousModel(Model):
 			if x1 == x2:
 				if y2 > y1:
 					for yAux in range(y1, y2):
-						block1 = [(x1, yAux), (x2+1, yAux)]
+						block1 = [(x1, yAux), (x1+1, yAux)]
 						block2 = [(x1, yAux), (x1+1, yAux-1), (x1+1, yAux+1)]
 						block3 = [(x1+1, yAux), (x1, yAux-1), (x1, yAux+1)]
 						w = Wall(block1, block2, block3)
 						self.walls.append(w)
 				else:
 					for yAux in range(y2, y1):
-						block1 = [(x1, yAux), (x2+1, yAux)]
+						block1 = [(x1, yAux), (x1+1, yAux)]
 						block2 = [(x1, yAux), (x1+1, yAux-1), (x1+1, yAux+1)]
 						block3 = [(x1+1, yAux), (x1, yAux-1), (x1, yAux+1)]
 						w = Wall(block1, block2, block3)
