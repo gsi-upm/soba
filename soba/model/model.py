@@ -326,9 +326,18 @@ class ContinuousModel(Model):
 				a = ContinuousOccupant(n, self, json)
 				self.occupants.append(a)
 
-	def getScaledCoordinate(self, coordenate, scale):
+	def getScaledCoordinate1(self, coordenate, scale):
 		n = coordenate/scale
-		up = True if(float(str(n-int(n))[1:]) >= 0.5) else False
+		up = True if(float(str(n-int(n))[1:]) > 0.1) else False
+		#up = True if( scale/2 > n%scale) else False
+		n = int(n)
+		if up == True:
+			return (n+1)
+		return n
+
+	def getScaledCoordinate2(self, coordenate, scale):
+		n = coordenate/scale
+		up = True if(float(str(n-int(n))[1:]) > 0.1) else False
 		n = int(n)
 		if up == True:
 			return (n+1)
@@ -339,25 +348,25 @@ class ContinuousModel(Model):
 		corners = jsonMap["corners"]
 		items = jsonMap["items"]
 
-		#putWalls
+				#putWalls
 		for k, v in walls.items():
 			pos1 = corners[v["corner1"]]
 			pos2 = corners[v["corner2"]]
-			x1 = self.getScaledCoordinate(pos1["x"], scale)
-			y1 = self.getScaledCoordinate(pos1["y"], scale)
-			x2 = self.getScaledCoordinate(pos2["x"], scale)
-			y2 = self.getScaledCoordinate(pos2["y"], scale)
+			x1 = self.getScaledCoordinate1(pos1["x"], scale)
+			y1 = self.getScaledCoordinate1(pos1["y"], scale)
+			x2 = self.getScaledCoordinate1(pos2["x"], scale)
+			y2 = self.getScaledCoordinate1(pos2["y"], scale)
 			if x1 == x2:
 				if y2 > y1:
 					for yAux in range(y1, y2):
-						block1 = [(x1, yAux), (x1+1, yAux)]
+						block1 = [(x1, yAux), (x2+1, yAux)]
 						block2 = [(x1, yAux), (x1+1, yAux-1), (x1+1, yAux+1)]
 						block3 = [(x1+1, yAux), (x1, yAux-1), (x1, yAux+1)]
 						w = Wall(block1, block2, block3)
 						self.walls.append(w)
 				else:
 					for yAux in range(y2, y1):
-						block1 = [(x1, yAux), (x1+1, yAux)]
+						block1 = [(x1, yAux), (x2+1, yAux)]
 						block2 = [(x1, yAux), (x1+1, yAux-1), (x1+1, yAux+1)]
 						block3 = [(x1+1, yAux), (x1, yAux-1), (x1, yAux+1)]
 						w = Wall(block1, block2, block3)
@@ -380,39 +389,86 @@ class ContinuousModel(Model):
 
 		#putItems
 		for k, v in items.items():
-			x = self.getScaledCoordinate(v['pos']['x'], scale)
-			y = self.getScaledCoordinate(v['pos']['y'], scale)
-			dx = math.floor(self.getScaledCoordinate((v["dx"]-scale)/2, scale))
-			dy = math.floor(self.getScaledCoordinate((v["dy"]-scale)/2, scale))
+			x = self.getScaledCoordinate1(v['pos']['x'], scale)
+			y = self.getScaledCoordinate1(v['pos']['y'], scale)
+			centerX = (0.375 > float(str(v['pos']['x']-int(v['pos']['x']))[1:]) > 0.125) or (0.855 > float(str(v['pos']['x']-int(v['pos']['x']))[1:]) > 0.675)
+			centerY = (0.375 > float(str(v['pos']['y']-int(v['pos']['y']))[1:]) > 0.125) or (0.855 > float(str(v['pos']['y']-int(v['pos']['y']))[1:]) > 0.675)
+			dx = math.floor(self.getScaledCoordinate2((v["dx"]), scale))
+			dy = math.floor(self.getScaledCoordinate2((v["dy"]), scale))
+
+			dxAux1 = 0
+			dyAux1 = 0
+			dxAux2 = 0
+			dyAux2 = 0
+
+			if centerY and centerX:
+				dxAux2 = int(dx/2)
+				dyAux2 = int(dy/2)
+				dxAux1 = int(dx/2)
+				dyAux1 = int(dy/2)
+			elif not centerY and centerX:
+				dxAux2 = int(dx/2)
+				dyAux2 = int(dy/2)
+				dxAux1 = int(dx/2)
+				dyAux1 = int(dy/2)-1
+			elif centerY and not centerX:
+				dxAux2 = int(dx/2)
+				dyAux2 = int(dy/2)
+				dxAux1 = int(dx/2)-1
+				dyAux1 = int(dy/2)
+			else:
+				dxAux2 = int(dx/2)
+				dyAux2 = int(dy/2)
+				dxAux1 = int(dx/2)-1
+				dyAux1 = int(dy/2)-1
+
 			if v['itemType'] == 'door':
-				i = Door(self, (x, y), v["rot"])
-				self.doors.append(i)
+				if dx > 1 and dy > 1:
+					for xAux in range(x - dxAux1, x + dxAux2+1):
+						for yAux in range(y - dyAux1, y + dyAux2+1):
+							i = Door(self, (xAux, yAux), v["rot"])
+							self.doors.append(i)
+				elif dx > 1:
+					for xAux in range(x - dxAux1, x + dxAux2+1):
+						yAux = y
+						i = Door(self, (xAux, yAux), v["rot"])
+						self.doors.append(i)
+				elif dy > 1:
+					for yAux in range(y - dyAux1, y + dyAux2+1):
+						xAux = x
+						i = Door(self, (xAux, yAux), v["rot"])
+						self.doors.append(i)
+				elif dx == 1 and dy == 1:
+					xAux = x
+					yAux = y
+					i = Door(self, (x, y), v["rot"])
+					self.doors.append(i)
 			elif v['itemType'] == 'poi':
-				if dx != 0 and dy != 0:
-					for xAux in range(x - dx, x + dx):
-						for yAux in range(y - dy, y + dy):
+				if dx > 1 and dy > 1:
+					for xAux in range(x - dxAux1, x + dxAux2+1):
+						for yAux in range(y - dyAux1, y + dyAux2+1):
 							if 'share' in v:
 								i = Poi(self, (xAux, yAux), v['id'], v['share'])
 							else:
 								i = Poi(self, (xAux, yAux), v['id'])
 							self.pois.append(i)
-				elif dx != 0:
-					for xAux in range(x - dx, x + dx):
+				elif dx > 1:
+					for xAux in range(x - dxAux1, x + dxAux2+1):
 						yAux = y
 						if 'share' in v:
 							i = Poi(self, (xAux, yAux), v['id'], v['share'])
 						else:
 							i = Poi(self, (xAux, yAux), v['id'])
 						self.pois.append(i)
-				elif dy != 0:
-					for yAux in range(y - dy, y + dy):
+				elif dy > 1:
+					for yAux in range(y - dyAux1, y + dyAux2+1):
 						xAux = x
 						if 'share' in v:
 							i = Poi(self, (xAux, yAux), v['id'], v['share'])
 						else:
 							i = Poi(self, (xAux, yAux), v['id'])
 						self.pois.append(i)
-				elif dx == 0 and dy == 0:
+				elif dx == 1 and dy == 1:
 					xAux = x
 					yAux = y
 					if 'share' in v:
@@ -421,24 +477,25 @@ class ContinuousModel(Model):
 						i = Poi(self, (xAux, yAux), v['id'])
 					self.pois.append(i)
 			else:
-				if dx != 0 and dy != 0:
-					for xAux in range(x - dx, x + dx):
-						for yAux in range(y - dy, y + dy):
+				if dx > 1 and dy > 1:
+					for xAux in range(x - dxAux1, x + dxAux2+1):
+						for yAux in range(y - dyAux1, y + dyAux2+1):
 							i = GeneralItem(self, (xAux, yAux))
 							self.generalItems.append(i)
-				elif dy != 0:
-					for yAux in range(y - dy, y + dy):
+				elif dy > 1:
+					for yAux in range(y - dyAux1, y + dyAux2+1):
 						xAux = x
 						i = GeneralItem(self, (xAux, yAux))
 						self.generalItems.append(i)
-				elif dx != 0:
-					for xAux in range(x - dx, x + dx):
+				elif dx > 1:
+					for xAux in range(x - dxAux1, x + dxAux2+1):
 						yAux = y
 						i = GeneralItem(self, (xAux, yAux))
 						self.generalItems.append(i)
-				if dx == 0 and dy == 0:
+				if dx == 1 and dy == 1:
 					i = GeneralItem(self, (x, y))
 					self.generalItems.append(i)
+
 		#{'doors':, 'general': , 'walls': }
 		self.obtacles = soba.agents.aStar.getObtacles(self)
 		self.asciMap = []

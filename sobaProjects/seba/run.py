@@ -13,7 +13,7 @@ jsonsOccupants = []
 N = 2
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 
-schedule = {'s': "00:00:00", 't1': "00:50:00", 't2': "13:00:00", 't3': "14:10:00", 'e': "23:59:59"}
+schedule = {'s': "00:00:00", 't1': "00:05:00", 't2': "13:00:00", 't3': "14:10:00", 'e': "23:59:59"}
 
 markovActivity = {
 	's-t1': [[100, 0, 0], [0, 0, 0], [0, 0, 0]],
@@ -44,7 +44,7 @@ with open('labgsi.blueprint3d') as data_file:
 	walls = {}
 	items = {}
 	offsety = 10
-	offsetx = 1 
+	offsetx = 0
 	flor = data["floorplan"]
 	for k, v in flor["corners"].items():
 		corners[k] = {"x":  v["x"]/100 + offsetx,"y": -v["y"]/100 + offsety}
@@ -70,17 +70,22 @@ with open('labgsi.blueprint3d') as data_file:
 				dy = k["width"]
 				dx = k["depth"]
 			items["idItem" + str(n)] = {"itemType": k["item_type"], "pos": { "x": k["xpos"]/100 + offsetx, "y":  -k["zpos"]/100 + offsety}, "dx" :dx/100, "dy" :dy/100}
+			items["idItem" + str(n)]["itemName"] = k["item_name"]
 			if k["item_name"] == 'Chair':
+				items["idItem" + str(n)]["itemName"] = k["item_name"]
 				items["idItem" + str(n)]["itemType"] = "poi"
 				items["idItem" + str(n)]["id"] = "wp"
 				items["idItem" + str(n)]["share"] = "False"
 			if k["item_name"] == 'Red Chair':
+				items["idItem" + str(n)]["itemName"] = k["item_name"]
 				items["idItem" + str(n)]["itemType"] = "poi"
 				items["idItem" + str(n)]["id"] = "sofa"
 			if k["item_name"] == 'Open Door':
+				items["idItem" + str(n)]["itemName"] = k["item_name"]
 				items["idItem" + str(n)]['rot'] = rot
 				items["idItem" + str(n)]["itemType"] = "door"
 			if k["item_name"] == 'Out Door':
+				items["idItem" + str(n)]["itemName"] = k["item_name"]
 				items["idItem" + str(n)]["itemType"] = "poi"
 				items["idItem" + str(n)]["id"] = "out"
 				items["idItem" + str(n+1000)] = {"itemType": k["item_type"], "pos": { "x": k["xpos"]/100 + offsetx, "y": -k["zpos"]/100 + offsety}, "dx" :dx/100, "dy" :dy/100, 'rot': rot}

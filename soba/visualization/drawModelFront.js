@@ -124,10 +124,10 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 			var y2Draw = gridHeight - wall["y2"] - 1
 			var x2Draw = wall["x2"]
 			if (y1Draw == y2Draw){
-				this.drawLine((x1Draw + x2Draw)/2 + 0.5, y1Draw, (x1Draw + x2Draw)/2 + 0.5, y1Draw +1, 'brown');
+				this.drawLine((x1Draw + x2Draw)/2+ 0.5, y1Draw, (x1Draw + x2Draw)/2 + 0.5, y1Draw -1, 'brown');
 		}
 			else{
-				this.drawLine(x1Draw ,(y1Draw  + y2Draw)/2 + 0.5, x1Draw + 1, (y1Draw + y2Draw)/2 + 0.5, 'brown');
+				this.drawLine(x1Draw ,(y1Draw  + y2Draw)/2 - 0.5, x1Draw +1, (y1Draw + y2Draw)/2 - 0.5, 'brown');
 	}
 			
 		}	
@@ -149,7 +149,7 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 				this.drawLine(xDraw+1, yDraw, xDraw+1, yDraw +1, color);
 		}
 			else{
-				this.drawLine(xDraw, yDraw+1, xDraw +1 , yDraw+1, color);
+				this.drawLine(xDraw, yDraw, xDraw +1 , yDraw, color);
 	}
 }		
 	}
@@ -236,8 +236,6 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 			context.fillStyle = color;
 			context.fill();
 		}
-
-                // This part draws the text inside the Circle
                 if (text !== undefined) {
                         context.fillStyle = text_color;
                         context.textAlign = 'center';
@@ -323,10 +321,10 @@ var CanvasModule = function(canvas_width, canvas_height, grid_width, grid_height
 			canvasDraw.drawRooms(data[10]);
 			canvasDraw.drawDoorsRooms(data[20]);}
 		else{
+			canvasDraw.drawGeneralItem(data[40]);
+			canvasDraw.drawPoi(data[30]);
 			canvasDraw.drawWalls(data[10]);
 			canvasDraw.drawDoors(data[20]);
-			canvasDraw.drawPoi(data[30]);
-			canvasDraw.drawGeneralItem(data[40]);
 			
 		for (var layer in data)
 			canvasDraw.drawLayer(data[layer]);

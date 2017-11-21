@@ -44,7 +44,7 @@ class EmergencyOccupant(ContinuousOccupant):
             pos = 'NW'
         elif x2 > x1 and y1 > y2:
             pos = 'SE'
-        #self.model.reportMovement(self, pos)
+        self.model.reportMovement(self, pos)
         super().makeMovement()
 
 
@@ -142,10 +142,8 @@ class EmergencyOccupant(ContinuousOccupant):
 
     def step(self):
         if self.alive == True:
-            '''
             if self.pos == self.pos_to_go and self.out == False:
                 self.model.reportStop(self)
-            '''
             if self.model.emergency:
                 if self.pos != self.pos_to_go:
                     if self.fireInMyFOV():
@@ -160,13 +158,13 @@ class EmergencyOccupant(ContinuousOccupant):
                 super().step()
                 if self.state != self.stateOne and not self.inbuilding:
                     self.alreadyCreated = False
-                    #self.model.reportCreation(self, 'S')
+                    self.model.reportCreation(self, 'S')
                     self.inbuilding = True
                     self.out = False
                 if self.state == self.stateOne and self.out == False:
                     self.inbuilding = False
                     self.out = True
-                    #self.model.reportExit(self)
+                    Self.model.reportExit(self)
         else:
             pass
 

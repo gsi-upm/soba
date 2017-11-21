@@ -10,7 +10,7 @@ def stopAgent(agent, step):
 
 def createAgent(agent, step, pos, rotation, sentiment = "happiness"):
 	x, y = pos
-	steps[step].append({ "agent": agent.unique_id, "position": {'x': (25*(2*(x+500)-20)), 'y': (25*(20-2*y))}, "sentiment": sentiment})
+	steps[step].append({ "agent": agent.unique_id, "position": {'x': x*100*0.5, 'y': ((10-y*0.5)*100)}, "sentiment": sentiment})
 
 def removeAgent(agent, step):
 	steps[step].append({ "agent": agent.unique_id, "outBuilding": True})
@@ -21,18 +21,3 @@ def generateJSON():
 	with open('/home/merinom/Desktop/ramen/blueprint3d/example/js/movement/lab_move2.json', 'w') as outfile:
 		json.dump(data, outfile)
 		outfile.close()
-
-'''
-steps[0].append({"light":'low', "room": 'Hall.1'})
-steps[0].append({"light":'low', "room": 'Lab1.1'})
-steps[0].append({"light":'low', "room": 'Lab2.1'})
-
-def addLightState(room, state, step):
-	steps[step+2].append({"light":state, "room": room.name})
-
-def stateTV(state, step):
-	stateTV = 'false'
-	if state == True:
-		stateTV = 'true'
-	steps[step].append({"video": stateTV, "room": "Hall.4"})
-'''

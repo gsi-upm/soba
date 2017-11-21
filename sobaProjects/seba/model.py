@@ -52,16 +52,15 @@ class SEBAModel(ContinuousModel):
             occupant.makeEmergencyAction()
 
     def step(self):
-        if self.clock.clock > dt.datetime(2017, 10, 1, 0, 1, 0, 0):
+        if self.clock.clock > dt.datetime(2017, 10, 1, 0, 0, 30, 0):
             self.make = True
-            #ramen.generateJSON()
+            ramen.generateJSON()
         if self.clock.clock >= self.fireTime and not self.emergency:
             self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)
             self.informEmergency()
             self.emergency = True
         super().step()
 
-'''
     def reportCreation(self, agent, rotation):
         ramen.createAgent(agent, self.NStep, agent.pos, rotation, sentiment = "happiness")
 
@@ -73,4 +72,3 @@ class SEBAModel(ContinuousModel):
 
     def reportStop(self, agent):
         ramen.stopAgent(agent, self.NStep)
-'''
