@@ -16,37 +16,16 @@ class EmergencyOccupant(ContinuousOccupant):
         strategies = ['safest', 'uncrowded', 'nearest', 'lessassigned']
         self.exitGateStrategy = 'safest'
         self.smartModel = False
-        self.color = ''
         self.unavailableDoors = []
         self.stateOne = self.state
         self.out = True
         self.alreadyCreated = False
         self.inbuilding = False
+        self.initmove = True
 
     def makeMovement(self):
-        x1, y1 = self.pos
-        x2, y2 = self.movements[self.N]
-        print(23123, x1, y1, x2, y2)
-        pos = ''
-        if x2 > x1 and y2 > y1:
-            pos = 'NE'
-        elif x2 > x1 and y2 == y1:
-            pos = 'E'
-        elif x1 > x2 and y2 == y1:
-            pos = 'W'
-        elif x1 > x2 and y1 > y2:
-            pos = 'SW'
-        elif y2 > y1 and x2 == x1:
-            pos = 'N'
-        elif x1 > x2 and y2 == y1:
-            pos = 'S'
-        elif x1 > x2 and y2 > y1:
-            pos = 'NW'
-        elif x2 > x1 and y1 > y2:
-            pos = 'SE'
-        self.model.reportMovement(self, pos)
         super().makeMovement()
-
+        self.getFOV()
 
     def makeEmergencyAction(self):
         self.N = 0
@@ -144,6 +123,7 @@ class EmergencyOccupant(ContinuousOccupant):
         if self.alive == True:
             if self.pos == self.pos_to_go and self.out == False:
                 self.model.reportStop(self)
+                self.initmove = True
             if self.model.emergency:
                 if self.pos != self.pos_to_go:
                     if self.fireInMyFOV():
@@ -156,15 +136,6 @@ class EmergencyOccupant(ContinuousOccupant):
                         self.makeEmergencyAction()
             else:
                 super().step()
-                if self.state != self.stateOne and not self.inbuilding:
-                    self.alreadyCreated = False
-                    self.model.reportCreation(self, 'S')
-                    self.inbuilding = True
-                    self.out = False
-                if self.state == self.stateOne and self.out == False:
-                    self.inbuilding = False
-                    self.out = True
-                    Self.model.reportExit(self)
         else:
             pass
 
@@ -216,7 +187,7 @@ class FireControl(Agent):
             self.limitFire.remove(fire)
             x, y = fire.pos
             posAdj = [(x + 1, y + 1), (x + 1, y), (x - 1, y), (x - 1, y - 1), (x, y + 1), (x, y - 1), (x - 1, y + 1), (x + 1, y - 1)]
-            doorsPos = self.model.obtacles['doors']
+            doorsPoss = self.model.obtacles['doors']
             for pos in posAdj:
                 cellPos = fire.pos
                 posAux = pos
@@ -225,8 +196,9 @@ class FireControl(Agent):
                     if (cellPos in wall.block1 and posAux in wall.block1) or (cellPos in wall.block2 and posAux in wall.block2) or (cellPos in wall.block3 and posAux in wall.block3):
                         move = False
                 if not move:
-                    if (cellPos in doorsPos or posAux in doorsPos):
-                        move = True
+                    for doorsPos in doorsPoss:
+                        if ((cellPos in doorsPos) and (posAux in doorsPos)):
+                            move = True
                 if move:
                     if not (pos in self.movements):
                         self.createFirePos(pos)

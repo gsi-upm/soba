@@ -1,21 +1,14 @@
-from soba.visualization.drawModelBack import MapVisualization
+from soba.visualization.drawModelBack import BackEndVisualization
 from soba.visualization.server import ModularServer
 import random
 
-def occupancyVisualization(agent):
-    json = {"Shape": "circle",
-                 "Filled": "true",
-                 "Layer": 0,
-                 "Color": agent.color,
-                 "r": 0.5}
-    return json
-
-def run(model, visual = None, *params):
-	mapVisualization = MapVisualization(occupancyVisualization, params[0], params[1], 500, 500)
-	if visual != None:
-		listAux = [mapVisualization] + visual
+def run(model, visualJS = [], *params):
+	print(*params)
+	backEndVisualization = BackEndVisualization(params[0], params[1], 500, 500)
+	if visualJS:
+		listAux = [backEndVisualization] + visualJS
 	else:
-		listAux = [mapVisualization]
+		listAux = [backEndVisualization]
 	method = 'ModularServer(model, listAux, "Simulation"'
 	n=0
 	for e in params:
@@ -23,5 +16,5 @@ def run(model, visual = None, *params):
 		n = n +1
 	method = method + ')'
 	server = eval(method)
-	server.port = 8882
+	server.port = 7777
 	server.launch()

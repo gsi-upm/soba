@@ -1,4 +1,44 @@
-var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
+// Definition of the context for all the front-end
+var context = undefined;
+var canvasDraw = undefined;
+
+var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height) {
+
+	var canvas_tag = "<canvas width='" + canvas_width + "' height='" + canvas_height + "' ";
+	canvas_tag += "style='border:1px dotted'></canvas>";
+	var canvas = $(canvas_tag)[0];
+	$("body").append(canvas);
+
+	context = canvas.getContext("2d");
+	canvasDraw = new DrawMapVisualization(canvas_width, canvas_height, grid_width, grid_height, context);
+
+	this.render = function(data) {
+
+		canvasDraw.resetCanvas();
+		canvasDraw.drawGridLines();
+
+		if(data[0] == 'rooms'){
+			canvasDraw.drawRooms(data[2]);
+			canvasDraw.drawDoorsRooms(data[3]);}
+		else if(data[0] == 'continuous'){
+			canvasDraw.drawPoi(data[2]);
+			canvasDraw.drawGeneralItem(data[3]);
+			canvasDraw.drawWalls(data[4]);
+			canvasDraw.drawDoors(data[5]);
+		}
+		else{
+			console.log('Model is not defined')
+		};
+
+		canvasDraw.drawAgents(data[1]);
+	};
+	this.reset = function() {
+		canvasDraw.resetCanvas();
+	};
+};
+
+
+var DrawMapVisualization = function(width, height, gridWidth, gridHeight, context) {
 	var width = width;
 	var height = height;
 	var context = context;
@@ -6,7 +46,8 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 	var cellHeight = Math.floor(height / gridHeight);
 	var maxR = Math.min(cellHeight, cellWidth)/2 - 1;
 
-	// Draws walls
+// ROOMS METHODS
+	// Draw Rooms
 	this.drawRooms = function(array_rooms){
 		context.font = "15px Arial"
 		rooms = array_rooms;
@@ -31,7 +72,6 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 			var cx = (room.x + 0.25) * cellWidth;
 			var cy = (room.y + 0.35) * cellHeight;
 			color = 'blue'
-
             context.fillStyle = color;
             context.textAlign = 'right';
             context.textBaseline = 'bottom';
@@ -67,6 +107,7 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 		}
 	}
 	
+	// Check adjacent rooms
 	this.areAdj = function(room1, room2){
 		x1 = room1.x
 		y1 = room1.y
@@ -113,10 +154,9 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 		}	
 	}
 
-// Draws walls
+	// Draws walls
 	this.drawWalls = function(array_walls){
 		walls = array_walls;
-		
 		for (var i in walls){
 			var wall = walls[i];
 			var y1Draw = gridHeight - wall["y1"] - 1
@@ -124,19 +164,19 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 			var y2Draw = gridHeight - wall["y2"] - 1
 			var x2Draw = wall["x2"]
 			if (y1Draw == y2Draw){
-				this.drawLine((x1Draw + x2Draw)/2+ 0.5, y1Draw, (x1Draw + x2Draw)/2 + 0.5, y1Draw -1, 'brown');
+				this.drawLine((x1Draw + x2Draw)/2+ 0.5, y1Draw, (x1Draw + x2Draw)/2 + 0.5, y1Draw +1, 'brown');
 		}
 			else{
-				this.drawLine(x1Draw ,(y1Draw  + y2Draw)/2 - 0.5, x1Draw +1, (y1Draw + y2Draw)/2 - 0.5, 'brown');
+				this.drawLine(x1Draw ,(y1Draw  + y2Draw)/2 + 0.5, x1Draw +1, (y1Draw + y2Draw)/2 + 0.5, 'brown');
 	}
 			
 		}	
 	}
 
-// Draws walls
+// CONTINUOUS METHODS
+	// Draws Doors
 	this.drawDoors = function(array_doors){
 		doors = array_doors;
-		
 		for (var i in doors){
 			var door = doors[i];
 			var yDraw = gridHeight - door["y"] - 1
@@ -154,55 +194,57 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 }		
 	}
 
-// Draws walls
-	this.drawPoi = function(array_doors){
-		doors = array_doors;
-		
-		for (var i in doors){
-			var door = doors[i];
-			var yDraw =gridHeight - door["y"] - 1
-			var xDraw = door["x"]
+	// Draws Pois
+	this.drawPoi = function(array_pois){
+		pois = array_pois;
+		for (var i in pois){
+			var poi = pois[i];
+			var yDraw = gridHeight - poi["y"] - 1
+			var xDraw = poi["x"]
 			this.drawRectangle(xDraw, yDraw, 1, 1, 'green', true);
 		}	
 	}
 
-// Draws walls
-	this.drawGeneralItem = function(array_doors){
-		doors = array_doors;
-		
-		for (var i in doors){
-			var door = doors[i];
-			var yDraw = gridHeight - door["y"] - 1
-			var xDraw = door["x"]
+	// Draws General Items
+	this.drawGeneralItem = function(array_genitems){
+		genitems = array_genitems;
+		for (var i in genitems){
+			var genitem = genitems[i];
+			var yDraw = gridHeight - genitem["y"] - 1
+			var xDraw = genitem["x"]
 			this.drawRectangle(xDraw, yDraw, 1, 1, 'grey', true);
 		}
 	}
 
+// AGENTS METHOD
+	// Draws agents
+    this.drawAgents = function(array_agents) {
+    	var agents = array_agents;
+		for (var i in agents) {
+			var agent = agents[i];
+	            y = gridHeight - agent.y - 1;
+	            x = agent.x
+	            color = agent.color
+	            filled = 'true' ? agent.filled == undefined : agent.filled
+	            text = undefined ? agent.text == undefined : agent.text
+	            text_color = undefined ? agent.text_color == undefined : agent.text_color
 
-	// Calls the appropriate shape(agent)
-    this.drawLayer = function(portrayalLayer) {
-		for (var i in portrayalLayer) {
-			var p = portrayalLayer[i];
-
-	            p.y = gridHeight - p.y - 1;
-				if (p.Shape == "rect"){
+				if (agent.shape == "rect"){
 					w = 1
 					h = 1
-					this.drawRectangle(p.x, p.y, w, h, p.Color, p.Filled, p.text, p.text_color);
+					this.drawRectangle(x, y, 1, 1, color, filled, text, text_color);
 				}
-				else if (p.Shape == "circle"){
-					this.drawCircle(p.x, p.y, p.r, p.Color, p.Filled, p.text, p.text_color);
+				else if (agent.shape == "circle"){
+					this.drawCircle(x, y, 0.5, color, filled, text, text_color);
 				}
-	            else if (p.Shape == "arrowHead"){
-					this.drawArrowHead(p.x, p.y, p.heading_x, p.heading_y, p.scale, p.Color, p.Filled, p.text, p.text_color);
+	            else if (agent.shape == "arrowHead"){
+					this.drawArrowHead(x, y, 1, 1, 1, color, filled, text, text_color);
 	            }
-			
+	            else{};
 		}
 	};
 
-
-
-
+// GENERAL CANVAS METHODS
 	this.drawLine = function(x1,y1,x2,y2,color) {
 		var dx1 = x1 * cellWidth;
 		var dy1 = y1 * cellHeight;
@@ -298,40 +340,3 @@ var MapVisualization = function(width, height, gridWidth, gridHeight, context) {
 	};
 
 };
-var context = undefined;
-var CanvasModule = function(canvas_width, canvas_height, grid_width, grid_height) {
-	// Create the element
-	// ------------------
-
-	// Create the tag:
-	var canvas_tag = "<canvas width='" + canvas_width + "' height='" + canvas_height + "' ";
-	canvas_tag += "style='border:1px dotted'></canvas>";
-	// Append it to body:
-	var canvas = $(canvas_tag)[0];
-	$("body").append(canvas);
-
-	// Create the context and the drawing controller:
-	context = canvas.getContext("2d");
-	var canvasDraw = new MapVisualization(canvas_width, canvas_height, grid_width, grid_height, context);
-
-	this.render = function(data) {
-		canvasDraw.resetCanvas();
-		canvasDraw.drawGridLines();
-		if(data[100] == 'rooms'){
-			canvasDraw.drawRooms(data[10]);
-			canvasDraw.drawDoorsRooms(data[20]);}
-		else{
-			canvasDraw.drawGeneralItem(data[40]);
-			canvasDraw.drawPoi(data[30]);
-			canvasDraw.drawWalls(data[10]);
-			canvasDraw.drawDoors(data[20]);
-			
-		for (var layer in data)
-			canvasDraw.drawLayer(data[layer]);
-		};
-	};
-	this.reset = function() {
-		canvasDraw.resetCanvas();
-	};
-
-}

@@ -1,36 +1,21 @@
 from soba.visualization.server import ModularServer
-from itertools import product
 import pandas as pd
 from tqdm import tqdm
 import collections
 import copy
 from itertools import product, count
 import pandas as pd
-from tqdm import tqdm
 
 class BatchRunner:
-    def __init__(self, model_cls, variable_parameters=None,
-            fixed_parameters=None, iterations=1, max_steps=1000,
-            model_reporters=None, agent_reporters=None, display_progress=True):
+    def __init__(self, model_cls, variable_parameters=None, fixed_parameters=None, iterations=1, display_progress=True, ramen=False):
         self.model_cls = model_cls
         self.variable_parameters = self._process_parameters(variable_parameters)
         self.fixed_parameters = fixed_parameters or {}
         self.iterations = iterations
-        self.max_steps = max_steps
-
-        self.model_reporters = model_reporters
-        self.agent_reporters = agent_reporters
-
-        if self.model_reporters:
-            self.model_vars = {}
-
-        if self.agent_reporters:
-            self.agent_vars = {}
-
+        self.ramen = ramen
         self.display_progress = display_progress
 
     def run_all(self):
-        """ Run the model at all parameter combinations and store results. """
         param_names, param_ranges = zip(*self.variable_parameters.items())
         run_count = count()
         total_iterations = self.iterations
@@ -43,7 +28,7 @@ class BatchRunner:
                 model = self.model_cls(**kwargs)
 
                 for _ in range(self.iterations):
-                    self.run_model(model)
+                    self.run_model(model, self.ramen)
                     pbar.update()
 
     def _process_parameters(self, params):
@@ -57,12 +42,13 @@ class BatchRunner:
             raise VariableParameterError(bad_names)
         return params
 
-    def run_model(self, model):
-        while model.running and model.schedule.steps < self.max_steps:
+    def run_model(self, model, ramen = False):
+        model.ramen = ramen
+        while model.running:
             model.step()
 
-def run(model, paramsFixed, paramsVariable, iterations):
-    batch = BatchRunner(model, paramsVariable, paramsFixed, iterations=1, max_steps=1000000)
+def run(model, paramsFixed, paramsVariable, iterations, ramen = False):
+    batch = BatchRunner(model, paramsVariable, paramsFixed, iterations=1, ramen = ramen)
     batch.run_all()
 
 class VariableParameterError(TypeError):

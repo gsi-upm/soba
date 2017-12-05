@@ -5,10 +5,12 @@ import datetime
 from transitions import Machine
 from transitions import State
 import datetime
-import soba.agents.aStar as aStar
-import soba.agents.fov as fov
-from soba.agents.behaviourMarkov import Markov
+import soba.agents.modules.aStar as aStar
+import soba.agents.modules.fov as fov
+from soba.agents.modules.behaviourMarkov import Markov
 from soba.space.continuousItems import Door
+import math
+import soba.visualization.ramen.performanceGenerator as ramen
 
 class Agent():
 
@@ -16,6 +18,8 @@ class Agent():
         self.unique_id = unique_id
         self.model = model
         self.model.schedule.add(self)
+        self.color = 'orange'
+        self.shape = 'circle'
 
     def step(self):
         pass
@@ -25,9 +29,15 @@ class Occupant(Agent):
     def __init__(self, unique_id, model, json, speed = 0.7):
         super().__init__(unique_id, model)
 
+        self.color = 'blue' if json.get('color') == None else color
         self.schedule = {}
         for k, v in json['schedule'].items():
-            self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), int(v[6]+v[7]), 0)
+            variation = json['variation'].get(k)
+            if not variation:
+                self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0)
+            else:
+                variation = datetime.timedelta(2017, 10, 1, int(variation[0]+variation[1]), int(variation[3]+variation[4]), 0, 0)
+                self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0)-variation
         self.type = json['type']
 
         self.markovActivity = json['markovActivity']
@@ -61,7 +71,7 @@ class Occupant(Agent):
         self.lastSchedule = 0.0
         self.N = 0
         self.pos = (0, 0)
-        self.pos_to_go = 0
+        self.pos_to_go = (0, 0)
         self.movements = []
 
         # Methods when entering/exit states
@@ -95,13 +105,9 @@ class Occupant(Agent):
     def getPeriod(self):
         t1 = datetime.datetime(2017, 10, 1, 0, 0, 0, 0)
         t2 = datetime.datetime(2017, 10, 1, 23, 59, 59, 59)
-        t1k = 's'
-        t2k = 'e'
+        t1k = ''
+        t2k = ''
         schedule = self.schedule
-        if 's' in schedule:
-            t1 = schedule['s']
-        if 'e' in schedule:
-            t2 = schedule['e']
         for k, v in schedule.items():
             if((self.model.clock.clock.hour == v.hour and self.model.clock.clock.minute >= v.minute) or (self.model.clock.clock.hour > v.hour)) and ((v.hour > t1.hour) or (v.hour == t1.hour and v.minute >= t1.minute)):
                 t1 = v
@@ -202,7 +208,6 @@ class RoomsOccupant(Occupant):
         super.startActivity()
 
     def step(self):
-        print(self.state)
         if self.markov == True or self.changeSchedule():
             self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
         elif self.onMyWay1 == True:
@@ -248,10 +253,14 @@ class ContinuousOccupant(Occupant):
     def __init__(self, unique_id, model, json, speed = 0.7):
         super().__init__(unique_id, model, json, speed)
 
-        self.costMovement = 0
+        self.costMovement = round(0.25/(self.speed*self.model.clock.timeByStep))
         self.collision = True
         self.door = False
         self.door2 = False
+        self.out = True
+        self.color = 'blue' if json.get('color') == None else color
+        self.initmove = True
+
         #State machine
         for k, v in json['states'].items():
             pos = self.getPosState(v)
@@ -286,90 +295,134 @@ class ContinuousOccupant(Occupant):
             return True
         return False
 
+    def evalAvoid(self, otherAgent):
+        if otherAgent.pos == otherAgent.pos_to_go:
+            return False
+        collision = [()]
+        before1 = self.pos
+        before2 = otherAgent.pos
+        after1 = self.movements[self.N]
+        after2 = otherAgent.movements[otherAgent.N]
+        if before1 == after2 and before2 == after1:
+            return False
+        return True
+
     def evalCollision(self):
         possibleOccupant = self.model.grid.get_items_in_pos(self.movements[self.N])
         for i in possibleOccupant:
             if isinstance(i, Occupant):
+                if len(self.movements) - 1 == self.N:
+                    return False
+                if self.evalAvoid(i):
+                    return False
                 x1, y1 = self.pos
                 x2, y2 = self.movements[self.N]
-                nextPos = False
-                if x1 == x2:
-                    if y2 > y1:
-                        nextPos = (x2+1, y2)
-                    else:
-                        nextPos = (x2-1, y2)
-                elif y1 == y2:
-                    if x2 > x1:
-                        nextPos = (x2, y2-1)
-                    else:
-                        nextPos = (x2, y2+1)
-                else:
-                    if x2 > x1 and y2 > y1:
-                        nextPos = (x2, y1)
-                    elif x1 > x2 and y1 > y2:
-                        nextPos = (x2, y1)
-                    elif x1 > x2 and y2 > y1:
-                        nextPos = (x1, y2)
-                    elif x2 > x1 and y1 > y2:
-                        nextPos = (x1, y2)
-                if aStar.canMovePos(self.model, self.pos, nextPos):
-                    self.model.grid.move_item(self, nextPos)
-                    self.movements = self.getWay()
+                possiblePosition1 = [(x1, y1 + 1), (x1 + 1, y1), (x1 - 1, y1), (x1, y1 - 1)]
+                possiblePosition2 = [(x1 + 1, y1 + 1), (x1 + 1, y1 - 1), (x1 - 1, y1 - 1), (x1 - 1, y1 + 1)]
+                possiblePosition = possiblePosition2 + possiblePosition1
+
+                d = 100000000;
+                pos = (0, 0)
+                path = []
+                for nextPos in possiblePosition:
+                    if aStar.canMovePos(self.model, self.pos, nextPos):
+                        pathAux = self.getWay(nextPos, other = [x2, y2])
+                        dAux = len(pathAux)
+                        if dAux < d:
+                            d = dAux
+                            pos = nextPos
+                            path = pathAux
+                if d != 100000000:
+                    self.model.grid.move_item(self, pos)
+                    self.movements = path
                     self.N = 0
                     return True
                 else:
-                    return True
+                    while True:
+                        posRandom = random.choice(possiblePosition)
+                        if aStar.canMovePos(self.model, self.pos, posRandom):
+                            self.model.grid.move_item(self, posRandom)
+                            self.movements = self.getWay()
+                            self.N = 0
+                            return True
         return False
 
     def makeMovement(self):
         if self.costMovement > 1:
             self.costMovement = self.costMovement - 1
+            if self.model.ramen:
+                self.reportMovement()
         else:
-            if not self.evalCollision():
-                self.model.grid.move_item(self, self.movements[self.N])
-                self.N = self.N+1
+            if self.initmove:
                 if self.pos != self.pos_to_go:
                     x1, y1 = self.pos
                     x2, y2 = self.movements[self.N]
                     rect = True
-                    if x1 != x2 and y1!=y2:
+                    if x1!=x2 and y1!=y2:
                         rect = False
                     if rect == True:
-                        self.costMovement = 0.5/(self.speed*self.model.clock.timeByStep)
+                        self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
                     else:
-                        self.costMovement = 0.707/(self.speed*self.model.clock.timeByStep)
+                        self.costMovement = round(0.707106781/(self.speed*self.model.clock.timeByStep))
+                    self.initmove = False
+                    self.step()
+                    return
+            if not self.evalCollision():
+                if self.model.ramen:
+                    self.reportMovement()
+                self.model.grid.move_item(self, self.movements[self.N])
+                if self.pos != self.pos_to_go:
+                    self.N = self.N+1
+                    x1, y1 = self.pos
+                    x2, y2 = self.movements[self.N]
+                    rect = True
+                    if x1!=x2 and y1!=y2:
+                        rect = False
+                    if rect == True:
+                        self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
+                    else:
+                        self.costMovement = round(0.707106781/(self.speed*self.model.clock.timeByStep))
                 else:
-                    self.costMovement = 0.5/(self.speed*self.model.clock.timeByStep)
-                self.getFOV()
+                    self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
 
-    def getAsciMap(self):
-        asciMapAux = []
-        asciMap = []
-        for i in range(self.model.height):
-            asciMapAux.append([0] * self.model.width)
-        for i in range(self.model.height):
-            for j in range( self.model.width):
-                asciMapAux[i][j] = '.'
-        for wall in self.model.walls:
-            x, y = wall.block1[0]
-            asciMapAux[y][x] = '#'
-        for door in self.model.obtacles['doors']:
-            x, y = door
-            asciMapAux[y][x] = '.'
+    def reportMovement(self):
+        x1, y1 = self.pos
+        x2, y2 = self.movements[self.N]
+        pos = ''
+        if x2 > x1 and y2 > y1:
+            pos = 'NE'
+        elif x2 > x1 and y2 == y1:
+            pos = 'E'
+        elif x1 > x2 and y2 == y1:
+            pos = 'W'
+        elif x1 > x2 and y1 > y2:
+            pos = 'SW'
+        elif y2 > y1 and x2 == x1:
+            pos = 'N'
+        elif x1 == x2 and y1 > y2:
+            pos = 'S'
+        elif x1 > x2 and y2 > y1:
+            pos = 'NW'
+        elif x2 > x1 and y1 > y2:
+            pos = 'SE'
+        else:
+            ramen.reportStop(self)
+            return
+        ramen.reportMovement(self, pos)
 
-        string = ''
-        for line in asciMapAux:
-            for element in line:
-                string = string + element
-            asciMap.append(string)
-            string = ''
-        return asciMap
+    def checkLeaveArrive(self):
+        if self.pos in self.model.exits and not self.inbuilding:
+            self.alreadyCreated = False
+            ramen.reportCreation(self, 'E')
+            self.inbuilding = True
+            self.out = False
+        elif self.pos in self.model.exits and self.out == False:
+            self.inbuilding = False
+            self.out = True
+            ramen.reportExit(self)
 
     def getFOV(self):
         asciMap = self.model.asciMap
-        if len(asciMap) == 0:
-            asciMap = self.getAsciMap()
-            self.model.asciMap = asciMap
         fovMap, flag = fov.makeFOV(asciMap, self.pos)
         self.fov = []
         for index1, line in enumerate(fovMap):
@@ -378,13 +431,14 @@ class ContinuousOccupant(Occupant):
                     self.fov.append((index2, index1))
 
     def step(self):
-        print(self.state, self.pos, self.pos_to_go, self.unique_id)
         if self.markov == True or self.changeSchedule():
             self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
         elif self.pos != self.pos_to_go:
             self.makeMovement()
         elif self.time_activity > 0:
             self.time_activity = self.time_activity - 1
+            if self.model.ramen:
+                self.checkLeaveArrive()
         else:
             self.markov = True
             self.step()

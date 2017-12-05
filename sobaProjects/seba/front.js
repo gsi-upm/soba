@@ -11,8 +11,6 @@ var VisualModule = function(width, height, gridWidth, gridHeight){
 		var x0 = (x + 0.5) * cellWidth - dx/2;
 		var y0 = (y + 0.5) * cellHeight - dy/2;
 
-		console.log(dx, dy)
-
 		context.strokeStyle = color;
 		context.fillStyle = color;
 		if (fill)
@@ -32,7 +30,6 @@ var VisualModule = function(width, height, gridWidth, gridHeight){
 	};
 
 	this.render = function(data) {
-		console.log(data[1])
 		for (var i in data[1]){
 			console.log(data[1][i])
 			var yDraw = gridHeight - data[1][i]["y"] - 1

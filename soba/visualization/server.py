@@ -24,7 +24,7 @@ class PageHandler(tornado.web.RequestHandler):
         elements = self.application.visualization_elements
         for i, element in enumerate(elements):
             element.index = i
-        self.render("modular_template.html", port=self.application.port,
+        self.render("template.html", port=self.application.port,
                     model_name=self.application.model_name,
                     package_includes=self.application.package_includes,
                     local_includes=self.application.local_includes,
@@ -50,7 +50,7 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
                     "data": self.application.render_model()})
 
         elif msg["type"] == "reset":
-            self.application.reset_model()
+            self.application.resetModel()
             self.write_message({"type": "viz_state",
                     "data": self.application.render_model()})
 
@@ -63,8 +63,7 @@ class ModularServer(tornado.web.Application):
     verbose = True
     model_name = "SOBA Model"
     model_cls = None
-    portrayal_method = None
-    port = 8521
+    port = 7777
     canvas_width = 500
     canvas_height = 500
     grid_height = 0
@@ -97,13 +96,12 @@ class ModularServer(tornado.web.Application):
             self.js_code.append(element.js_code)
         self.model_name = name
         self.model_cls = model_cls
-
         self.model_args = args
         self.model_kwargs = kwargs
-        self.reset_model()
+        self.resetModel()
         super().__init__(self.handlers, **self.settings)
 
-    def reset_model(self):
+    def resetModel(self):
         self.model = self.model_cls(*self.model_args, **self.model_kwargs)
 
     def render_model(self):

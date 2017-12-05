@@ -15,7 +15,7 @@ class SEBAModel(ContinuousModel):
 
         self.emergency = False
         self.FireControl = False
-        self.fireTime = dt.datetime(2017, 10, 1, 1, 0, 0, 0)
+        self.fireTime = dt.datetime(2017, 10, 1, 20, 0, 0, 0)
         self.outDoors = []
         self.getOutDoors()
         self.make = False
@@ -34,7 +34,6 @@ class SEBAModel(ContinuousModel):
                     self.children.append(a)
                 else:
                     self.parents.append(a)
-                a.color = random.choice(['blue', 'red', 'yellow', 'brown'])
         for a in self.parents:
             if len(self.children)>0:
                 ch = random.choice(self.children)
@@ -52,9 +51,7 @@ class SEBAModel(ContinuousModel):
             occupant.makeEmergencyAction()
 
     def step(self):
-        if self.clock.clock > dt.datetime(2017, 10, 1, 0, 0, 30, 0):
-            self.make = True
-            ramen.generateJSON()
+        ramen.generateJSON()
         if self.clock.clock >= self.fireTime and not self.emergency:
             self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)
             self.informEmergency()

@@ -2,11 +2,13 @@ import random
 import time
 
 generalItemsPos = []
-doorsPos = []
+doorsPoss = []
 
 class Cell(object):
     def __init__(self, pos):
         self.x, self.y = pos
+        self.x = self.x if not 0 > self.x else 0
+        self.y = self.y if not 0 > self.y else 0
         self.parent = None
 
 def getPathRooms(model, start, finish):
@@ -22,7 +24,7 @@ def getPathRooms(model, start, finish):
                 finishCell = cell_not_visited
                 notFinished = False
             else:
-                cells = get_conected_cells1(model, cell_not_visited) #create adject cells with conection
+                cells = getConectedCellsRooms(model, cell_not_visited) #create adject cells with conection
                 for cell in cells:
                     cell_already_visited = isCellVisited(cell, visited)
                     if not cell_already_visited:
@@ -57,7 +59,7 @@ def getPathContinuous(model, start, finish, other = []):
                 finishCell = cell_not_visited
                 notFinished = False
             else:
-                cells = get_conected_cells2(model, cell_not_visited, other) #create adject cells with conection
+                cells = getConectedCellsContinuous(model, cell_not_visited, other) #create adject cells with conection
                 for cell in cells:
                     cell_already_visited = isCellVisited(cell, visited)
                     if not cell_already_visited:
@@ -80,7 +82,7 @@ def getPathContinuous(model, start, finish, other = []):
     way.reverse()
     return way
 
-def get_conected_cells1(model, cell):
+def getConectedCellsRooms(model, cell):
     room = model.getRoom((cell.x, cell.y))
     rooms = room.roomsConected
     cells = []
@@ -89,13 +91,13 @@ def get_conected_cells1(model, cell):
         cells = cells + [cell]
     return cells
 
-def get_conected_cells2(model, cell, others):
+def getConectedCellsContinuous(model, cell, others):
     cellPos = (cell.x, cell.y)
     cells = []
     possiblePosition1 = [(cell.x, cell.y + 1), (cell.x + 1, cell.y), (cell.x - 1, cell.y), (cell.x, cell.y - 1)]
     possiblePosition2 = [(cell.x + 1, cell.y + 1), (cell.x + 1, cell.y - 1), (cell.x - 1, cell.y - 1), (cell.x - 1, cell.y + 1)]
-    possiblePosition1 = possiblePosition1 + possiblePosition2
-    for posAux in possiblePosition1:
+    possiblePosition = possiblePosition1 + possiblePosition2
+    for posAux in possiblePosition:
         pos1 = (0, 0)
         pos2 = (0, 0)
         aux = True
@@ -108,9 +110,10 @@ def getObtacles(model):
     for i in model.generalItems:
         generalItemsPos.append(i.pos)
     for d in model.doors:
-        doorsPos.append(d.pos)
-    return {'doors':doorsPos, 'general': generalItemsPos}
-
+        doorsPosAux = []
+        doorsPosAux.append(d.pos1)
+        doorsPosAux.append(d.pos2)
+        doorsPoss.append(doorsPosAux)
 
 def canMovePos(model, cellPos, posAux, others = []):
     move = True
@@ -118,8 +121,9 @@ def canMovePos(model, cellPos, posAux, others = []):
         if (cellPos in wall.block1 and posAux in wall.block1) or (cellPos in wall.block2 and posAux in wall.block2) or (cellPos in wall.block3 and posAux in wall.block3):
             move = False
     if not move:
-        if (cellPos in doorsPos or posAux in doorsPos):
-            move = True
+        for doorsPos in doorsPoss:
+            if ((cellPos in doorsPos) and (posAux in doorsPos)):
+                move = True
     if move:
         if not (cellPos in generalItemsPos or posAux in generalItemsPos):
             if not (cellPos in others):
