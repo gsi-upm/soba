@@ -13,6 +13,7 @@ import soba
 import os
 import re
 from soba.model.model import ContinuousModel
+from soba.model.model import RoomsModel
 
 class BackEndVisualization(VisualizationElement):
 	path = os.path.abspath(soba.__file__)
@@ -92,28 +93,26 @@ class BackEndVisualization(VisualizationElement):
 				for roomAux in roomsSends:
 					if (roomAux.name.split(r".")[0] == room.name.split(r".")[0]):
 						send = True
-					if send == False:
-						nAgents = 0
-						for room2 in model.rooms:
-							if (room2.name.split(r".")[0] == room.name.split(r".")[0]):
-								nAgents = nAgents + len(room2.agentsInRoom)
-						x, y = room.pos
-						JSON_room = {"x":x, "y": y, "nAgents": nAgents, "name": room.name.split(r".")[0], "text": room.name.split(r".")[0]}
-						JSONs_rooms.append(JSON_room)
-						roomsSends.append(room)
-					else:
-						x, y = room.pos
-						JSON_room = {"x":x, "y": y, "nAgents":'', "name": room.name.split(r".")[0], "text": ''}
-						JSONs_rooms.append(JSON_room)
-			grid_state[offSet_Doors].append(JSON_rooms)
-
+				if send == False:
+					nAgents = 0
+					for room2 in model.rooms:
+						if (room2.name.split(r".")[0] == room.name.split(r".")[0]):
+							nAgents = nAgents + len(room2.agentsInRoom)
+					x, y = room.pos
+					JSON_room = {"x":x, "y": y, "nAgents": nAgents, "name": room.name.split(r".")[0], "text": room.name.split(r".")[0]}
+					JSONs_rooms.append(JSON_room)
+					roomsSends.append(room)
+				else:
+					x, y = room.pos
+					JSON_room = {"x":x, "y": y, "nAgents":'', "name": room.name.split(r".")[0], "text": ''}
+					JSONs_rooms.append(JSON_room)
+			grid_state[offSet_Rooms] = JSONs_rooms
 			offSet_Doors = 3
 			JSONs_Doors = []
 			for door in model.doors:
 				x1, y1 = door.room1.pos
 				x2, y2 = door.room2.pos
 				JSON_Door = {"x1": x1, "y1": y1, "x2": x2, "y2": y2, "state": door.state}
-				JSONs_Doors.append(JSON_room)
-			grid_state[offSet_Doors].append(JSONs_Doors)
-   
+				JSONs_Doors.append(JSON_Door)
+			grid_state[offSet_Doors] = JSONs_Doors
 		return grid_state

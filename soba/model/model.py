@@ -4,8 +4,8 @@ import os
 import os.path
 import math
 from soba.model.time import Time
-from soba.agents.agent import ContinuousOccupant
-from soba.agents.agent import RoomsOccupant
+from soba.agents.occupant import ContinuousOccupant
+from soba.agents.occupant import RoomsOccupant
 import soba.agents.modules.aStar as aStar
 from soba.space.roomsItems import Room
 from soba.space.roomsItems import Door as DoorRooms
