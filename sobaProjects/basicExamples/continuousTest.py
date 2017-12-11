@@ -8,11 +8,10 @@ import datetime as dt
 
 class ModelExample(ContinuousModel):
 
-	def __init__(self, width, height, jsonMap, jsonsOccupants, seed):
+	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now()):
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed)
 
 	def step(self):
-		print(self.clock.clock.day)
 		if self.clock.clock.day > 3:
 			self.finishSimulation = True
 		super().step()
