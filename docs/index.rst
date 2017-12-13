@@ -1,13 +1,16 @@
 SOBA
 ====
 
-SOBA is ...
+SOBA is a new system of Simulation of Occupancy Based on Agents implemented in Python.
+This software is useful for conducting studies based on occupancy simulations in buildings, such as drill simulation. 
 
+It is provided as open source software:
+``Github repository``:
+http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
-.. image:: https://cloud.githubusercontent.com/assets/166734/8611697/ce61ad08-268a-11e5-880b-4776dd738e0e.png
+.. image:: images/architecture.png
    :width: 100%
    :scale: 100%
-   :alt: A screenshot of the Schelling Model in Mesa
 
 
 .. toctree::

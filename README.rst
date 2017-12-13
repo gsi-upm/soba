@@ -5,28 +5,18 @@ SOBA
 
 `See complete tutorial. <http://soba.readthedocs.io/>`_
 
-`Quick presentation. <https://github.com/gsi-upm/soba/blob/master/docs/soba.pptx>`_
 
 How to install
 ~~~~~~~~~~~~~~
-First of all, you need to download the repository from GitHub
-(pip download will be available soon)
+First of all, you need to install the package using pip.
 
 .. code:: bash
 
-	$ mkdir soba
-	$ cd soba
-	$ git init
-	$ git clone https://github.com/gsi-upm/soba
-	$ cd soba
+	$ pip install mesa
 
-Once downloaded, it is necessary to install the requirements:
+In case of error, this other command should be used, ensuring to have installed python 3 and pip 3.
 
-.. code:: bash
-
-	$ pip install -r requirements.txt
-
-As you can see, there are now three downloaded folders.'GreenSOBA' is an example of high complexity of the use of SOBA realized as an end of degree project. The folder 'docs' should be ignored.
+The folder 'docs' should be ignored.
 
 First run
 ~~~~~~~~~
