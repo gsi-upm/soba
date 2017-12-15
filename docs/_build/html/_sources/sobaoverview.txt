@@ -1,0 +1,46 @@
+SOBA Overview
+=============
+
+SOBA is a new system of Simulation of Occupancy Based on Agents implemented in Python.
+This software is useful for conducting studies based on occupancy simulations, mainly in buildings, such as drill simulation or energy studies. 
+
+The simulations are configured by declaring one or more types of occupants, with specific and definable behavior, a physical space (rooms of the building) and agents that are interconnected with each other and with the occupants. The simulation and results can be evaluated both in real time and post-simulation.
+
+
+It is provided as open source software:
+
+``Github repository``:
+http://docs.python-guide.org/en/latest/dev/virtualenvs/
+
+
+Arquitecture Description
+------------------------
+
+.. image:: images/architecture.png
+   :width: 100%
+   :scale: 100%
+
+
+SOBA is implemented through 5 modules which group independent components with a related function.
+
+- **Model**.
+	- **Model**.
+	- Time.
+
+- **Agents**.
+	- **Occupant**.
+	- **Agent**.
+	- Occupant modules.
+		- **Markov**.
+		- AStar.
+		- Fov.
+	- **Transitions**.
+
+- **Space**.
+	- **Grid**.
+	- ContinuousItems.
+	- RoomsItems.
+
+- Visualization.
+
+- Launchers.

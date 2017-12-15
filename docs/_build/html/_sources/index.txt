@@ -1,19 +1,10 @@
-SOBA
-====
-
-SOBA is ...
-
-
-.. image:: images/architecture.png
-   :width: 100%
-   :scale: 100%
-   :alt: A screenshot of the Schelling Model in Mesa
-
+SOBA Documentation
+==================
 
 .. toctree::
-   :hidden:
 
+   sobaoverview
    howinstall
-   basictutorial
-   advancedtutorial
+   introductorytutorial
    api
+   :maxdepth: 2

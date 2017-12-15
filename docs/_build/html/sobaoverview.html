@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Advanced Tutorial &mdash; SOBA 1 documentation</title>
+  <title>SOBA Overview &mdash; SOBA 1 documentation</title>
   
 
   
@@ -33,8 +33,8 @@
 
   
     <link rel="top" title="SOBA 1 documentation" href="index.html"/>
-        <link rel="next" title="API Documentation" href="api.html"/>
-        <link rel="prev" title="Introductory Tutorial" href="basictutorial.html"/> 
+        <link rel="next" title="How install" href="howinstall.html"/>
+        <link rel="prev" title="SOBA Documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -88,9 +88,12 @@
             
             
               <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SOBA Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#arquitecture-description">Arquitecture Description</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="basictutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introductorytutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
 
@@ -136,13 +139,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Advanced Tutorial</li>
+      <li>SOBA Overview</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/advancedtutorial.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/sobaoverview.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -155,8 +158,67 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="advanced-tutorial">
-<h1>Advanced Tutorial<a class="headerlink" href="#advanced-tutorial" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="soba-overview">
+<h1>SOBA Overview<a class="headerlink" href="#soba-overview" title="Permalink to this headline">¶</a></h1>
+<p>SOBA is a new system of Simulation of Occupancy Based on Agents implemented in Python.
+This software is useful for conducting studies based on occupancy simulations, mainly in buildings, such as drill simulation or energy studies.</p>
+<p>The simulations are configured by declaring one or more types of occupants, with specific and definable behavior, a physical space (rooms of the building) and agents that are interconnected with each other and with the occupants. The simulation and results can be evaluated both in real time and post-simulation.</p>
+<p>It is provided as open source software:</p>
+<p><code class="docutils literal"><span class="pre">Github</span> <span class="pre">repository</span></code>:
+<a class="reference external" href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">http://docs.python-guide.org/en/latest/dev/virtualenvs/</a></p>
+<div class="section" id="arquitecture-description">
+<h2>Arquitecture Description<a class="headerlink" href="#arquitecture-description" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/architecture.png"><img alt="_images/architecture.png" src="_images/architecture.png" style="width: 100.0%; height: 609.0px;" /></a>
+<p>SOBA is implemented through 5 modules which group independent components with a related function.</p>
+<ul>
+<li><dl class="first docutils">
+<dt><strong>Model</strong>.</dt>
+<dd><ul class="first last simple">
+<li><strong>Model</strong>.</li>
+<li>Time.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Agents</strong>.</dt>
+<dd><ul class="first last">
+<li><p class="first"><strong>Occupant</strong>.</p>
+</li>
+<li><p class="first"><strong>Agent</strong>.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Occupant modules.</dt>
+<dd><ul class="first last simple">
+<li><strong>Markov</strong>.</li>
+<li>AStar.</li>
+<li>Fov.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>Transitions</strong>.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Space</strong>.</dt>
+<dd><ul class="first last simple">
+<li><strong>Grid</strong>.</li>
+<li>ContinuousItems.</li>
+<li>RoomsItems.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Visualization.</p>
+</li>
+<li><p class="first">Launchers.</p>
+</li>
+</ul>
+</div>
 </div>
 
 
@@ -169,10 +231,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="howinstall.html" class="btn btn-neutral float-right" title="How install" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="basictutorial.html" class="btn btn-neutral" title="Introductory Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="SOBA Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
