@@ -28,7 +28,7 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     keywords='simulation agents crowds',
-    packages=['soba', 'soba/agents', 'soba/modules', 'soba/launchers', 'soba/model', 'soba/space', 'soba/visualization', 'soba/visualization/ramen'],
+    packages=['soba', 'soba/agents', 'soba/agents/modules', 'soba/launchers', 'soba/model', 'soba/space', 'soba/visualization', 'soba/visualization/ramen'],
     package_data={'soba': ['visualization/favicon.ico', 'visualization/lib/*.js', 'visualization/*.html', 'visualization/*.js']},
     install_requires=['numpy', 'transitions', 'pandas', 'anaconda-client'],
 
