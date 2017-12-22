@@ -48,12 +48,11 @@ cellW = 40
 cellH = 40
 
 #Visual run
-soba.run.run(ModelExample, [], cellW, cellH, jsonMap, jsonsOccupants)
+#soba.run.run(ModelExample, [], cellW, cellH, jsonMap, jsonsOccupants)
 
 #Batch run
-'''
+
 fixed_params = {"width": cellW, "height": cellH, "jsonMap": jsonMap, "jsonsOccupants": jsonsOccupants}
 variable_params = {"seed": range(10, 500, 10)}
 
 soba.run.run(ModelExample, fixed_params, variable_params)
-'''

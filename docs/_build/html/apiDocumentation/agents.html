@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Agents Module Documentation &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
+        <link rel="up" title="APIs" href="api.html"/>
+        <link rel="next" title="Space Module Documentation" href="space.html"/>
+        <link rel="prev" title="Model Module Documentation" href="model.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Agents Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-agent">Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-occupant">Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#agent-modules">Agent Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-aStar">AStar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-behaviourMarkov">Markov</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-fov">FOV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">APIs</a> &raquo;</li>
+        
+      <li>Agents Module Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apiDocumentation/agents.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="agents-module-documentation">
+<h1>Agents Module Documentation<a class="headerlink" href="#agents-module-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-agent">
+<span id="agent"></span><h2>Agent<a class="headerlink" href="#module-agent" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="agent.Agent">
+<em class="property">class </em><code class="descclassname">agent.</code><code class="descname">Agent</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#agent.Agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to create Agent objects.
+The agents are controlled by the scheduler of the Model associated.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>model: Model associated to the agent.
+unique_id: Unique id of the agent.
+color: Color with which the agent will be represented in the visualization.</dd>
+<dt>Methods:</dt>
+<dd>step: Method invoked by the Model scheduler in each step. Step common to all Agents.</dd>
+</dl>
+<dl class="method">
+<dt id="agent.Agent.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agent.Agent.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoked by the Model scheduler in each step. Step common to all Agents.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-occupant">
+<span id="occupant"></span><h2>Occupant<a class="headerlink" href="#module-occupant" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="occupant.ContinuousOccupant">
+<em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">ContinuousOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class enables to create occupants that are modelled with a continuous space model.
+based on considering a scaled grid (x, y). Cell size of 0.5m ^ 2 by default.
+The occupants are agents with their activity defined by markov states.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>Those Inherited from the Occupant class.
+fov: List of positions (x, y) that the occupant can see.</dd>
+<dt>Methods:</dt>
+<dd>getPosState: Auxiliary method to distribute the occupants between the points of interests with same id for more than one occupant.
+getWay: Invocation of the AStar resource to calculate the optimal path.
+getPlaceToGo: Obtaining the position associated with the current state.
+posInMyFOV: Check if a position is in my field of vision.
+evalAvoid: Check the future movement to be made by another agent to assess a possible collision.
+evalCollision: Evaluate a possible collision with an agent and solve it if necessary by calculating another path.
+makeMovement: Carry out a movement: displacement between cells or reduction of the movement cost parameter.
+getFOV: Calculation of the occupant&#8217;s field of vision, registered in the attribute fov.
+step: Method invoked by the Model scheduler in each step.</dd>
+</dl>
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.evalAvoid">
+<code class="descname">evalAvoid</code><span class="sig-paren">(</span><em>otherAgent</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.evalAvoid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check the future movement to be made by another agent to assess a possible collision.</dt>
+<dd><dl class="first docutils">
+<dt>Args: </dt>
+<dd>otherAgent: The other agent to be avoid.</dd>
+</dl>
+<p class="last">Return: Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.evalCollision">
+<code class="descname">evalCollision</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.evalCollision" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate a possible collision with an agent, invoking the evalAvoid method, and solve it if necessary by calculating another path.</dt>
+<dd>Return: True if the collision exists and is avoided, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.getFOV">
+<code class="descname">getFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getFOV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of the occupant&#8217;s field of vision, registered in the attribute fov</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.getPlaceToGo">
+<code class="descname">getPlaceToGo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getPlaceToGo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Obtaining the position associated with the current state. It is invoked when you enter a new state.</dt>
+<dd>Return: Position as coordinate (x, y).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.getPosState">
+<code class="descname">getPosState</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getPosState" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Auxiliary method to distribute the occupants between the points of interests with same id for more than one occupant.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>name: Poi id/name.</dd>
+</dl>
+<p class="last">Return: Position associated with this occupant.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.getWay">
+<code class="descname">getWay</code><span class="sig-paren">(</span><em>pos=None</em>, <em>pos_to_go=None</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getWay" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Invocation of the AStar resource to calculate the optimal path.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Initial position, by default the current position of the occupant.
+pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; attribute of the occupant.
+other: List of auxiliary positions given to be considered impenetrable by the occupants, 
+that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.makeMovement">
+<code class="descname">makeMovement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.makeMovement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carry out a movement: displacement between cells or reduction of the movement cost parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.posInMyFOV">
+<code class="descname">posInMyFOV</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.posInMyFOV" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check if the position is in my field of vision</dt>
+<dd><dl class="first docutils">
+<dt>Args: </dt>
+<dd>pos: Position to be checked</dd>
+</dl>
+<p class="last">Return: Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.ContinuousOccupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: 
+A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="occupant.Occupant">
+<em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">Occupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to model occupants as Occupant objects.
+The occupants are agents with their activity defined by markov states.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Attributes:</dt>
+<dd>color: Color with which the occupant will be represented in the visualization.
+positionByState: Position associated to each state for an occupant.
+timeActivity: Time that is required to complete an activity (state) in minutes.
+schedule: Activity periods (hours:minutes).
+states: States of the occupant.
+machine: State machine defined by the attribute &#8216;states&#8217;.
+movements: List of movements that will be followed by the occupant.
+pos_to_go: Position to which the occupant wishes to move.
+markov_machine: Object of the Markov class that regulates markovian behavior.</dd>
+<dt>Methods:</dt>
+<dd>start_activity: Defines the actions that are made when a state is started.
+finish_activity: Defines the actions that are made when a state is finished.
+changeSchedule: Force a possible change of state to reach a certain end of period.
+getPeriod: Get the temporary period in which the occupant is.
+step: Method invoked by the Model scheduler in each step. Step common to all occupants.</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="occupant.Occupant.changeSchedule">
+<code class="descname">changeSchedule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.changeSchedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force a possible change of state to reach a certain end of period.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Return: </dt>
+<dd>True if the period has been changed, False otherwise.</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.Occupant.finish_activity">
+<code class="descname">finish_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.finish_activity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the actions that are made when a state is finished.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.Occupant.getPeriod">
+<code class="descname">getPeriod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.getPeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the temporary period in which the occupant is.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Return: </dt>
+<dd>Current period as String</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.Occupant.start_activity">
+<code class="descname">start_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.start_activity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the actions that are made when a state is started. 
+Default, this method calculates the value of the attributes &#8216;time_activity&#8217; and &#8216;movements&#8217;
+corresponding to the new state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.Occupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoked by the Model scheduler in each step. Step common to all occupants.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="occupant.RoomsOccupant">
+<em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">RoomsOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class enables to create occupants that are modelled with a simplified model based on a discrete space associated with rooms.
+The occupants are agents with their activity defined by markov states.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>Those inherited from the Occupant class.</dd>
+<dt>Methods:</dt>
+<dd>getPosState: Auxiliary method to distribute the occupants between the rooms shared by more than one occupant object.
+getWay: Invocation of the AStar resource to calculate the optimal path.
+occupantMovePos: Calculation of the control attributes that regulate the cost (steps) of the movement between rooms according to their size.
+getPlaceToGo: Obtaining the position associated with the current state.
+step: Method invoked by the Model scheduler in each step.</dd>
+</dl>
+<dl class="method">
+<dt id="occupant.RoomsOccupant.getPlaceToGo">
+<code class="descname">getPlaceToGo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.getPlaceToGo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Obtaining the position associated with the current state. It is invoked when you enter a new state.</dt>
+<dd>Return: Position as coordinate (x, y).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.RoomsOccupant.getPosState">
+<code class="descname">getPosState</code><span class="sig-paren">(</span><em>name</em>, <em>posAux</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.getPosState" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Auxiliary method to distribute the occupants between the rooms shared by more than one occupant object.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>name: State name.
+posAux: Name of the room associated with this state, string, 
+or dictionary of room names with number of occupants. {&#8216;RoomName1&#8217;: numberofOccupantsAssigned1,
+&#8216;RoomName2&#8217;: numberofOccupantsAssigned2... }</dd>
+</dl>
+<p class="last">Return: Position associated with this occupant</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.RoomsOccupant.getWay">
+<code class="descname">getWay</code><span class="sig-paren">(</span><em>pos=None</em>, <em>pos_to_go=None</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.getWay" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Invocation of the AStar resource to calculate the optimal path.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Initial position, by default the current position of the occupant.
+pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; attribute of the occupant.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.RoomsOccupant.occupantMovePos">
+<code class="descname">occupantMovePos</code><span class="sig-paren">(</span><em>new_position</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.occupantMovePos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculation of the control attributes that regulate the cost (steps) of the movement between rooms according to their size.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>new_position: Room object to which it moves.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="occupant.RoomsOccupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: 
+A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="agent-modules">
+<h2>Agent Modules<a class="headerlink" href="#agent-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-aStar">
+<span id="astar"></span><h3>AStar<a class="headerlink" href="#module-aStar" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="aStar.canMovePos">
+<code class="descclassname">aStar.</code><code class="descname">canMovePos</code><span class="sig-paren">(</span><em>model</em>, <em>cellPos</em>, <em>posAux</em>, <em>others=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.canMovePos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate if a position is reachable in a continuous space.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+cellPos: a first one position given as (x, y).
+posAux: a second one position given as (x, y).
+others: List of auxiliary positions given to be considered impenetrable,
+that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="aStar.getConectedCellsContinuous">
+<code class="descclassname">aStar.</code><code class="descname">getConectedCellsContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em>, <em>others</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getConectedCellsContinuous" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Gets a list of connected cells in a continuous space.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+cell: cell object corresponding to the position.
+other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="aStar.getConectedCellsRooms">
+<code class="descclassname">aStar.</code><code class="descname">getConectedCellsRooms</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getConectedCellsRooms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Gets a list of connected cells in a space defined by rooms.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+cell: cell object corresponding to the room.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="aStar.getPathContinuous">
+<code class="descclassname">aStar.</code><code class="descname">getPathContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getPathContinuous" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the optimal path in the model with the space continuous.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+start: Initial position.
+finish: Final position.
+other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="aStar.getPathRooms">
+<code class="descclassname">aStar.</code><code class="descname">getPathRooms</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getPathRooms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the optimal path in the model with the space defined by rooms.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+start: Initial position.
+finish: Final position.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-behaviourMarkov">
+<span id="markov"></span><h3>Markov<a class="headerlink" href="#module-behaviourMarkov" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="behaviourMarkov.Markov">
+<em class="property">class </em><code class="descclassname">behaviourMarkov.</code><code class="descname">Markov</code><span class="sig-paren">(</span><em>agent_aux</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to model the activity of the agents by means of Markovian behavior.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Attributes:</dt>
+<dd>agent: Agent that is controlled by this model.</dd>
+<dt>Methods:</dt>
+<dd>runStep: Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.
+getNextState: Evaluate a random change based on the probabilities corresponding to each state.</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="behaviourMarkov.Markov.getNextState">
+<code class="descname">getNextState</code><span class="sig-paren">(</span><em>markov_matrix</em>, <em>NumberCurrentState</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov.getNextState" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate a random change based on the probabilities corresponding to each state.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>markov_matrix: Markov matrix corresponding to a certain moment.
+NumberCurrentState: Unique id as number of the current state.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="behaviourMarkov.Markov.runStep">
+<code class="descname">runStep</code><span class="sig-paren">(</span><em>markov_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov.runStep" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>markov_matrix: Markov matrix corresponding to a certain moment.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fov">
+<span id="fov"></span><h3>FOV<a class="headerlink" href="#module-fov" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="fov.FOV_RADIUS">
+<code class="descclassname">fov.</code><code class="descname">FOV_RADIUS</code><em class="property"> = 30000</em><a class="headerlink" href="#fov.FOV_RADIUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>In the file aStar.py the filed of vision algorithm is implemented.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fov.Map">
+<em class="property">class </em><code class="descclassname">fov.</code><code class="descname">Map</code><span class="sig-paren">(</span><em>map</em><span class="sig-paren">)</span><a class="headerlink" href="#fov.Map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to calculate the field of vision (fov).</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>data: Map to which to apply the algorithm.</dd>
+<dt>Methods:</dt>
+<dd>do_fov: Calculate the field of view from a position (x, y).</dd>
+<dt>More information:</dt>
+<dd><a class="reference external" href="http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation">http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation</a></dd>
+</dl>
+<dl class="method">
+<dt id="fov.Map.do_fov">
+<code class="descname">do_fov</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fov.Map.do_fov" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the field of view from a position (x, y).</dt>
+<dd><dl class="first docutils">
+<dt>Args: </dt>
+<dd>x, y: Observer&#8217;s position</dd>
+</dl>
+<p class="last">Return: Array of sight positions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="fov.makeFOV">
+<code class="descclassname">fov.</code><code class="descname">makeFOV</code><span class="sig-paren">(</span><em>dungeon</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#fov.makeFOV" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create the invocation object of the fov algorithm and invoke it.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>dungeon: Array 
+pos: Observer&#8217;s position</dd>
+</dl>
+<p class="last">Return: Array of sight positions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="space.html" class="btn btn-neutral float-right" title="Space Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="model.html" class="btn btn-neutral" title="Model Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Eduardo Merino.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

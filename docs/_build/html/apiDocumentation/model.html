@@ -1,0 +1,921 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Model Module Documentation &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
+        <link rel="up" title="APIs" href="api.html"/>
+        <link rel="next" title="Agents Module Documentation" href="agents.html"/>
+        <link rel="prev" title="APIs" href="api.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-model">Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-time">Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">APIs</a> &raquo;</li>
+        
+      <li>Model Module Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apiDocumentation/model.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="model-module-documentation">
+<h1>Model Module Documentation<a class="headerlink" href="#model-module-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-model">
+<span id="model"></span><h2>Model<a class="headerlink" href="#module-model" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="model.ContinuousModel">
+<em class="property">class </em><code class="descclassname">model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2017</em>, <em>12</em>, <em>22</em>, <em>18</em>, <em>41</em>, <em>9</em>, <em>672572)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Base Class to create simulation models on a simplified space based on rooms.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>Those inherited from the Occupant class.
+rooms: List of Room objects.
+walls: List of Wall objects.
+pois: List of Pois objects.
+generalItems: List of GeneralItem objects.
+doors: List of Door objects.</dd>
+<dt>Methods:</dt>
+<dd>createOccupants: Create occupants of the ContinuousOccupant type.
+getScaledCoordinate: Gets the value of a coordinate or a cell size scaled.
+setMap: Define the map plane distribution.
+getAsciMap: Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.
+thereIsClosedDoor: Check if one door is closed or open.
+getDoorInPos: Get a Door object in a position given.
+getOccupantsPos: Get a Occupant objects in a position given.
+thereIsOccupant: Check if there is any Occupant object in a position given.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="model.ContinuousModel.createOccupants">
+<code class="descname">createOccupants</code><span class="sig-paren">(</span><em>jsonsOccupants</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.createOccupants" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create occupants of the ContinuousOccupant type.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>jsonOccupants: Json of description of the occupants.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.getAsciMap">
+<code class="descname">getAsciMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getAsciMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.getDoorInPos">
+<code class="descname">getDoorInPos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getDoorInPos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get a Door object in a position given.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Position of the door as (x, y).</dd>
+</dl>
+<p class="last">Return: Door object or false.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.getOccupantsPos">
+<code class="descname">getOccupantsPos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getOccupantsPos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get a Occupant objects in a position given.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Position as (x, y).</dd>
+</dl>
+<p class="last">Return: List of Cccupant objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.getScaledCoordinate">
+<code class="descname">getScaledCoordinate</code><span class="sig-paren">(</span><em>coordenate</em>, <em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getScaledCoordinate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Gets the value of a coordinate or a cell size scaled to the size of the grid in relation to a given scale.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>coordenate: Coordenate value to be scale
+scale: Value of the scale to be applied.</dd>
+</dl>
+<p class="last">Return: value of the coordinate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.setMap">
+<code class="descname">setMap</code><span class="sig-paren">(</span><em>jsonMap</em>, <em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.setMap" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Define the map plane distribution.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>jsonMap: Json of description of the map plane.
+scale: Value of the scale.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.thereIsClosedDoor">
+<code class="descname">thereIsClosedDoor</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.thereIsClosedDoor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check if one door is closed or open.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Position of the door as (x, y).</dd>
+</dl>
+<p class="last">Return: State of the door as boolean.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.ContinuousModel.thereIsOccupant">
+<code class="descname">thereIsOccupant</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.thereIsOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check if there is any Occupant object in a position given.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Position as (x, y).</dd>
+</dl>
+<p class="last">Return: True (yes), False (no).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="model.Model">
+<em class="property">class </em><code class="descclassname">model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2017</em>, <em>12</em>, <em>22</em>, <em>18</em>, <em>41</em>, <em>9</em>, <em>672460)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class to create simulation models.
+It creates and manages space and agents.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Attributes:</dt>
+<dd>height: Height in number of grid cells.
+width: Width in number of grid cells.
+schedule: BaseScheduler object for agent activation.
+grid: Grid object to implement space.
+running: Parameter to control the model execution.
+NStep: Measure of the number of steps.
+occupants: List of Occupant objects created.
+agents: List of the all Agent objects created.
+asciMap: Representation of the map as ASCI used to get FOV information.
+seed: Seed employ in random generations.
+finishSimulation: Parameter to stop the software simulation.</dd>
+<dt>Methods:</dt>
+<dd>finishTheSimulation: Finish with the execution of the simulation software.
+run_model: Model execution.
+step: Execution of the scheduler steps.</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="model.Model.finishTheSimulation">
+<code class="descname">finishTheSimulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.Model.finishTheSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish with the execution of the simulation software.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.Model.run_model">
+<code class="descname">run_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.Model.run_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model execution.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.Model.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.Model.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main step of the simulation, execution of the scheduler steps.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="model.RoomsModel">
+<em class="property">class </em><code class="descclassname">model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2017</em>, <em>12</em>, <em>22</em>, <em>18</em>, <em>41</em>, <em>9</em>, <em>672518)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class to create simulation models on a simplified space based on rooms.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Attributes:</dt>
+<dd>Those inherited from the Occupant class.
+rooms: List of Room objects.
+Those inherited from the Occupant class.
+rooms: List of Room objects.
+walls: List of Wall objects.
+pois: List of Pois objects.
+generalItems: List of GeneralItem objects.
+doors: List of Door objects.</dd>
+<dt>Methods:</dt>
+<dd>createOccupants: Create occupants of the RoomsOccupant type.
+createRooms: Create the rooms in the grid space.
+setMap: Define the map plane distribution.
+createDoors: Create the doors in the grid space.
+createWalls: Create the walls in the grid space.
+thereIsClosedDoor: Check if one door is closed or open.
+thereIsOtherOccupantInRoom: Evaluate if there is another occupant apart of the past as a parameter in a room.
+thereIsSomeOccupantInRoom: Evaluate if there is any occupant in a room.
+thereIsOccupantInRoom: Evaluate if there is one specific occupant in a room.
+getRoom: Get one Room Object by position.
+pushAgentRoom: Add one agent to a room.
+popAgentRoom: Remove one agent from a room.
+openDoor: Change the status of the door to open.
+closeDoor: Change the status of the door to close.</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="model.RoomsModel.closeDoor">
+<code class="descname">closeDoor</code><span class="sig-paren">(</span><em>agent</em>, <em>room1</em>, <em>room2</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.closeDoor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Change the status of the door to close (False).</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>agent: Agent object which want to close the door.
+room1, room2: The two common rooms of the door as Room object.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.createDoors">
+<code class="descname">createDoors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createDoors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the doors in the grid space.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.createOccupants">
+<code class="descname">createOccupants</code><span class="sig-paren">(</span><em>jsonsOccupants</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createOccupants" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create occupants of the RoomsOccupant type.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>jsonOccupants: Json of description of the occupants.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.createRooms">
+<code class="descname">createRooms</code><span class="sig-paren">(</span><em>jsonRooms</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createRooms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create the rooms in the grid space.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>jsonRooms: Json of description of the map plane.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.createWalls">
+<code class="descname">createWalls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createWalls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the walls in the grid space.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.getRoom">
+<code class="descname">getRoom</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.getRoom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get one Room Object by position.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>pos: Position of the grid as (x,y).</dd>
+</dl>
+<p class="last">Return: Room Object or False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.openDoor">
+<code class="descname">openDoor</code><span class="sig-paren">(</span><em>agent</em>, <em>room1</em>, <em>room2</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.openDoor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Change the status of the door to open (True). </dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>agent: Agent object which want to open the door.
+room1, room2: The two common rooms of the door as Room object.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.popAgentRoom">
+<code class="descname">popAgentRoom</code><span class="sig-paren">(</span><em>agent</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.popAgentRoom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Remove one agent from a room.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>agent: Agent Object
+pos: Position of the grid as (x,y)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.pushAgentRoom">
+<code class="descname">pushAgentRoom</code><span class="sig-paren">(</span><em>agent</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.pushAgentRoom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Add one agent to a room.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>agent: Agent Object
+pos: Position of the grid as (x,y)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.setMap">
+<code class="descname">setMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.setMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the map plane distribution.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.thereIsClosedDoor">
+<code class="descname">thereIsClosedDoor</code><span class="sig-paren">(</span><em>beforePos</em>, <em>nextPos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsClosedDoor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check if one door is closed or open.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>beforePos, nextPos: The two common positions of the door as (x, y).</dd>
+</dl>
+<p class="last">Return: True (closed) or False (opened).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.thereIsOccupantInRoom">
+<code class="descname">thereIsOccupantInRoom</code><span class="sig-paren">(</span><em>room</em>, <em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsOccupantInRoom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate if there is one specific occupant in a room.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>room: Room object to be checked.</dd>
+</dl>
+<p class="last">Return: True (yes), False (no)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.thereIsOtherOccupantInRoom">
+<code class="descname">thereIsOtherOccupantInRoom</code><span class="sig-paren">(</span><em>room</em>, <em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsOtherOccupantInRoom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate if there is another occupant apart of the past as a parameter in a room.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>room: Room object to be checked.
+agent: Occupant object to be ignored.</dd>
+</dl>
+<p class="last">Return: True (yes), False (no)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.RoomsModel.thereIsSomeOccupantInRoom">
+<code class="descname">thereIsSomeOccupantInRoom</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsSomeOccupantInRoom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate if there is any occupant in a room.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>room: Room object to be checked.</dd>
+</dl>
+<p class="last">Return: True (yes), False (no)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-time">
+<span id="time"></span><h2>Time<a class="headerlink" href="#module-time" title="Permalink to this headline">¶</a></h2>
+<p>This module provides various functions to manipulate time values.</p>
+<p>There are two standard representations of time.  One is the number
+of seconds since the Epoch, in UTC (a.k.a. GMT).  It may be an integer
+or a floating point number (to represent fractions of seconds).
+The Epoch is system-defined; on Unix, it is generally January 1st, 1970.
+The actual value can be retrieved by calling gmtime(0).</p>
+<p>The other representation is a tuple of 9 integers giving local time.
+The tuple items are:</p>
+<blockquote>
+<div>year (including century, e.g. 1998)
+month (1-12)
+day (1-31)
+hours (0-23)
+minutes (0-59)
+seconds (0-59)
+weekday (0-6, Monday is 0)
+Julian day (day in the year, 1-366)
+DST (Daylight Savings Time) flag (-1, 0 or 1)</div></blockquote>
+<p>If the DST flag is 0, the time is given in the regular time zone;
+if it is 1, the time is given in the DST time zone;
+if it is -1, mktime() should guess based on the date and time.</p>
+<p>Variables:</p>
+<p>timezone &#8211; difference in seconds between UTC and local standard time
+altzone &#8211; difference in  seconds between UTC and local DST time
+daylight &#8211; whether local time should reflect DST
+tzname &#8211; tuple of (standard time zone name, DST time zone name)</p>
+<p>Functions:</p>
+<p>time() &#8211; return current time in seconds since the Epoch as a float
+clock() &#8211; return CPU time since process start as a float
+sleep() &#8211; delay for a number of seconds given as a float
+gmtime() &#8211; convert seconds since Epoch to UTC tuple
+localtime() &#8211; convert seconds since Epoch to local time tuple
+asctime() &#8211; convert time tuple to string
+ctime() &#8211; convert time in seconds to string
+mktime() &#8211; convert local time tuple to seconds since Epoch
+strftime() &#8211; convert time tuple to string according to format specification
+strptime() &#8211; parse string to time tuple according to format specification
+tzset() &#8211; change the local timezone</p>
+<dl class="function">
+<dt id="time.asctime">
+<code class="descclassname">time.</code><code class="descname">asctime</code><span class="sig-paren">(</span><span class="optional">[</span><em>tuple</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; string<a class="headerlink" href="#time.asctime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a time tuple to a string, e.g. &#8216;Sat Jun 06 16:26:11 1998&#8217;.
+When the time tuple is not present, current time as returned by localtime()
+is used.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.clock">
+<code class="descclassname">time.</code><code class="descname">clock</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; floating point number<a class="headerlink" href="#time.clock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the CPU time or real time since the start of the process or since
+the first call to clock().  This has as much precision as the system
+records.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.clock_getres">
+<code class="descclassname">time.</code><code class="descname">clock_getres</code><span class="sig-paren">(</span><em>clk_id</em><span class="sig-paren">)</span> &rarr; floating point number<a class="headerlink" href="#time.clock_getres" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the resolution (precision) of the specified clock clk_id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.clock_gettime">
+<code class="descclassname">time.</code><code class="descname">clock_gettime</code><span class="sig-paren">(</span><em>clk_id</em><span class="sig-paren">)</span> &rarr; floating point number<a class="headerlink" href="#time.clock_gettime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the time of the specified clock clk_id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.clock_settime">
+<code class="descclassname">time.</code><code class="descname">clock_settime</code><span class="sig-paren">(</span><em>clk_id</em>, <em>time</em><span class="sig-paren">)</span><a class="headerlink" href="#time.clock_settime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the time of the specified clock clk_id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.ctime">
+<code class="descclassname">time.</code><code class="descname">ctime</code><span class="sig-paren">(</span><em>seconds</em><span class="sig-paren">)</span> &rarr; string<a class="headerlink" href="#time.ctime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a time in seconds since the Epoch to a string in local time.
+This is equivalent to asctime(localtime(seconds)). When the time tuple is
+not present, current time as returned by localtime() is used.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.get_clock_info">
+<code class="descclassname">time.</code><code class="descname">get_clock_info</code><span class="sig-paren">(</span><em>name: str</em><span class="sig-paren">)</span> &rarr; dict<a class="headerlink" href="#time.get_clock_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information of the specified clock.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.gmtime">
+<code class="descclassname">time.</code><code class="descname">gmtime</code><span class="sig-paren">(</span><span class="optional">[</span><em>seconds</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; (tm_year, tm_mon, tm_mday, tm_hour, tm_min,<a class="headerlink" href="#time.gmtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>tm_sec, tm_wday, tm_yday, tm_isdst)</p>
+<p>Convert seconds since the Epoch to a time tuple expressing UTC (a.k.a.
+GMT).  When &#8216;seconds&#8217; is not passed in, convert the current time instead.</p>
+<p>If the platform supports the tm_gmtoff and tm_zone, they are available as
+attributes only.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.localtime">
+<code class="descclassname">time.</code><code class="descname">localtime</code><span class="sig-paren">(</span><span class="optional">[</span><em>seconds</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; (tm_year,tm_mon,tm_mday,tm_hour,tm_min,<a class="headerlink" href="#time.localtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>tm_sec,tm_wday,tm_yday,tm_isdst)</p>
+<p>Convert seconds since the Epoch to a time tuple expressing local time.
+When &#8216;seconds&#8217; is not passed in, convert the current time instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.mktime">
+<code class="descclassname">time.</code><code class="descname">mktime</code><span class="sig-paren">(</span><em>tuple</em><span class="sig-paren">)</span> &rarr; floating point number<a class="headerlink" href="#time.mktime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a time tuple in local time to seconds since the Epoch.
+Note that mktime(gmtime(0)) will not generally return zero for most
+time zones; instead the returned value will either be equal to that
+of the timezone or altzone attributes on the time module.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.monotonic">
+<code class="descclassname">time.</code><code class="descname">monotonic</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#time.monotonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Monotonic clock, cannot go backward.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.perf_counter">
+<code class="descclassname">time.</code><code class="descname">perf_counter</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#time.perf_counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performance counter for benchmarking.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.process_time">
+<code class="descclassname">time.</code><code class="descname">process_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#time.process_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process time for profiling: sum of the kernel and user-space CPU time.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.sleep">
+<code class="descclassname">time.</code><code class="descname">sleep</code><span class="sig-paren">(</span><em>seconds</em><span class="sig-paren">)</span><a class="headerlink" href="#time.sleep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delay execution for a given number of seconds.  The argument may be
+a floating point number for subsecond precision.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.strftime">
+<code class="descclassname">time.</code><code class="descname">strftime</code><span class="sig-paren">(</span><em>format</em><span class="optional">[</span>, <em>tuple</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; string<a class="headerlink" href="#time.strftime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a time tuple to a string according to a format specification.
+See the library reference manual for formatting codes. When the time tuple
+is not present, current time as returned by localtime() is used.</p>
+<p>Commonly used format codes:</p>
+<p>%Y  Year with century as a decimal number.
+%m  Month as a decimal number [01,12].
+%d  Day of the month as a decimal number [01,31].
+%H  Hour (24-hour clock) as a decimal number [00,23].
+%M  Minute as a decimal number [00,59].
+%S  Second as a decimal number [00,61].
+%z  Time zone offset from UTC.
+%a  Locale&#8217;s abbreviated weekday name.
+%A  Locale&#8217;s full weekday name.
+%b  Locale&#8217;s abbreviated month name.
+%B  Locale&#8217;s full month name.
+%c  Locale&#8217;s appropriate date and time representation.
+%I  Hour (12-hour clock) as a decimal number [01,12].
+%p  Locale&#8217;s equivalent of either AM or PM.</p>
+<p>Other codes may be available on your platform.  See documentation for
+the C library strftime function.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.strptime">
+<code class="descclassname">time.</code><code class="descname">strptime</code><span class="sig-paren">(</span><em>string</em>, <em>format</em><span class="sig-paren">)</span> &rarr; struct_time<a class="headerlink" href="#time.strptime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a string to a time tuple according to a format specification.
+See the library reference manual for formatting codes (same as
+strftime()).</p>
+<p>Commonly used format codes:</p>
+<p>%Y  Year with century as a decimal number.
+%m  Month as a decimal number [01,12].
+%d  Day of the month as a decimal number [01,31].
+%H  Hour (24-hour clock) as a decimal number [00,23].
+%M  Minute as a decimal number [00,59].
+%S  Second as a decimal number [00,61].
+%z  Time zone offset from UTC.
+%a  Locale&#8217;s abbreviated weekday name.
+%A  Locale&#8217;s full weekday name.
+%b  Locale&#8217;s abbreviated month name.
+%B  Locale&#8217;s full month name.
+%c  Locale&#8217;s appropriate date and time representation.
+%I  Hour (12-hour clock) as a decimal number [01,12].
+%p  Locale&#8217;s equivalent of either AM or PM.</p>
+<p>Other codes may be available on your platform.  See documentation for
+the C library strftime function.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="time.struct_time">
+<em class="property">class </em><code class="descclassname">time.</code><code class="descname">struct_time</code><a class="headerlink" href="#time.struct_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time value as returned by gmtime(), localtime(), and strptime(), and
+accepted by asctime(), mktime() and strftime().  May be considered as a
+sequence of 9 integers.</p>
+<p>Note that several fields&#8217; values are not the same as those defined by
+the C language standard for struct tm.  For example, the value of the
+field tm_year is the actual year, not year - 1900.  See individual
+fields&#8217; descriptions for details.</p>
+<dl class="attribute">
+<dt id="time.struct_time.tm_gmtoff">
+<code class="descname">tm_gmtoff</code><a class="headerlink" href="#time.struct_time.tm_gmtoff" title="Permalink to this definition">¶</a></dt>
+<dd><p>offset from UTC in seconds</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_hour">
+<code class="descname">tm_hour</code><a class="headerlink" href="#time.struct_time.tm_hour" title="Permalink to this definition">¶</a></dt>
+<dd><p>hours, range [0, 23]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_isdst">
+<code class="descname">tm_isdst</code><a class="headerlink" href="#time.struct_time.tm_isdst" title="Permalink to this definition">¶</a></dt>
+<dd><p>1 if summer time is in effect, 0 if not, and -1 if unknown</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_mday">
+<code class="descname">tm_mday</code><a class="headerlink" href="#time.struct_time.tm_mday" title="Permalink to this definition">¶</a></dt>
+<dd><p>day of month, range [1, 31]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_min">
+<code class="descname">tm_min</code><a class="headerlink" href="#time.struct_time.tm_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>minutes, range [0, 59]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_mon">
+<code class="descname">tm_mon</code><a class="headerlink" href="#time.struct_time.tm_mon" title="Permalink to this definition">¶</a></dt>
+<dd><p>month of year, range [1, 12]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_sec">
+<code class="descname">tm_sec</code><a class="headerlink" href="#time.struct_time.tm_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>seconds, range [0, 61])</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_wday">
+<code class="descname">tm_wday</code><a class="headerlink" href="#time.struct_time.tm_wday" title="Permalink to this definition">¶</a></dt>
+<dd><p>day of week, range [0, 6], Monday is 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_yday">
+<code class="descname">tm_yday</code><a class="headerlink" href="#time.struct_time.tm_yday" title="Permalink to this definition">¶</a></dt>
+<dd><p>day of year, range [1, 366]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_year">
+<code class="descname">tm_year</code><a class="headerlink" href="#time.struct_time.tm_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>year, for example, 1993</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="time.struct_time.tm_zone">
+<code class="descname">tm_zone</code><a class="headerlink" href="#time.struct_time.tm_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p>abbreviation of timezone name</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="time.time">
+<code class="descclassname">time.</code><code class="descname">time</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; floating point number<a class="headerlink" href="#time.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current time in seconds since the Epoch.
+Fractions of a second may be present if the system clock provides them.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="time.tzset">
+<code class="descclassname">time.</code><code class="descname">tzset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#time.tzset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize, or reinitialize, the local timezone to the value stored in
+os.environ[&#8216;TZ&#8217;]. The TZ environment variable should be specified in
+standard Unix timezone format as documented in the tzset man page
+(eg. &#8216;US/Eastern&#8217;, &#8216;Europe/Amsterdam&#8217;). Unknown timezones will silently
+fall back to UTC. If the TZ environment variable is not set, the local
+timezone is set to the systems best guess of wallclock time.
+Changing the TZ environment variable without calling tzset <em>may</em> change
+the local timezone used by methods such as localtime, but this behaviour
+should not be relied on.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="agents.html" class="btn btn-neutral float-right" title="Agents Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Eduardo Merino.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

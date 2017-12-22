@@ -5,6 +5,5 @@ SOBA Documentation
 
    sobaoverview
    howinstall
-   introductorytutorial
-   api
-   :maxdepth: 2
+   intro_tutorial
+   APIs Documentation <apiDocumentation/api.rst>

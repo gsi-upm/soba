@@ -17,9 +17,17 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, "../soba")
+sys.path.insert(0, "../soba/agents")
+sys.path.insert(0, "../soba/agents/modules")
+sys.path.insert(0, "../soba/launchers")
+sys.path.insert(0, "../soba/model")
+sys.path.insert(0, "../soba/space")
+
+
 
 # -- General configuration ------------------------------------------------
 
@@ -34,8 +42,7 @@ import sphinx_rtd_theme
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-extensions = []
-
+extensions = ['sphinx.ext.autodoc']
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -340,3 +347,4 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #
 # texinfo_no_detailmenu = False
+intersphinx_mapping = {'http://docs.python.org/': None}

@@ -25,7 +25,7 @@ SOBA is implemented through 5 modules which group independent components with a 
 
 - Module **Model**.
 	- **Model**. This component is the core of the simulations. The model creates and manages space and agents, provides a scheduler that controls the agents activation regime, stores model-level parameters and serves as a container for the rest of components.
-	- Time. Component of time management during the simulation in sexagesimal units, which is key to achieve a correct perfomance with facets such as the occupants' behaviour.
+	- Time. Component of time management during the simulation in sexagesimal units and controller of the scheduler during the simulation.
 
 - Module **Agents**.
 	- **Agent**. Base class to define any type of agent, which performs actions and interactions within a model.
@@ -33,8 +33,8 @@ SOBA is implemented through 5 modules which group independent components with a 
 	- Occupancy module.
 		- **Markov**.
 		- AStar. Auxiliar class used by the occupants to move in the building.
-		- `**FOV** <http://www.roguebasin.com/index.php?title=Permissive_Field_of_View>`_.This component is a permissive field of view, which is useful to define the occupant visibility.
-	- `**Transitions** <https://github.com/pytransitions/transitions#threading>`_. This external package is a lightweight, object-oriented state machine implementation in Python.
+		- `FOV <http://www.roguebasin.com/index.php?title=Permissive_Field_of_View>`_.This component is a permissive field of view, which is useful to define the occupant visibility.
+	- `Transitions <https://github.com/pytransitions/transitions#threading>`_. This external package is a lightweight, object-oriented state machine implementation in Python.
 
 - Module **Space**.
 	- **Grid**. The space where the agents are situated and where they perform their actions is defined by means of a grid with coordinates (x, y).

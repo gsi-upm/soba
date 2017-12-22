@@ -1,7 +1,20 @@
 FOV_RADIUS = 30000
 
+"""In the file aStar.py the filed of vision algorithm is implemented."""
+
 class Map(object):
+	"""
+	Class to calculate the field of vision (fov).
+
+	Attributes:
+		data: Map to which to apply the algorithm.
 	
+	Methods:
+		do_fov: Calculate the field of view from a position (x, y).
+	
+	More information:
+		http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation
+	"""
 	mult = [[1,  0,  0, -1, -1,  0,  0,  1], [0,  1, -1,  0,  0, -1,  1,  0], [0,  1,  1,  0,  0, -1, -1,  0], [1,  0,  0,  1, -1,  0,  0, -1]]
 	
 	def __init__(self, map):
@@ -60,6 +73,13 @@ class Map(object):
 				break
 
 	def do_fov(self, x, y):
+		"""
+		Calculate the field of view from a position (x, y).
+			Args: 
+				x, y: Observer's position
+
+			Return: Array of sight positions.
+		"""
 		self.flag += 1
 		for oct in range(8):
 			self._cast_light(x, y, 1, 1.0, 0.0, 100,
@@ -68,6 +88,14 @@ class Map(object):
 		return (self.light, self.flag)
 
 def makeFOV(dungeon, pos):
+	"""
+		Create the invocation object of the fov algorithm and invoke it.
+			Args:
+				dungeon: Array 
+				pos: Observer's position
+
+			Return: Array of sight positions.
+	"""
 	map = Map(dungeon)
 	x, y = pos
 	return map.do_fov(x, y)

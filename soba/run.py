@@ -2,6 +2,13 @@ import sys
 import soba.launchers.visual as visual
 import soba.launchers.batch as batch
 
+"""
+In the file run.py is implemented the method
+	Methods: 
+		-run: This method is implemented to start the execution of the simulation.
+
+"""
+
 def process(aux):
 	if aux == True:
 		print('SOBA is running')
@@ -11,6 +18,13 @@ def process(aux):
 		print(' ')
 
 def run(model, *args, iterations = 1):
+	"""
+	Execution of the simulation according to the parameters given in the console.
+		Args:
+			model: Model that is simulated.
+			args: List of parameters to configure the model simulation.
+			iterations: Number of simulations that will be executed in batch mode.
+	"""
 	if len(sys.argv) > 1:
 		if sys.argv[1] == '-v':
 			process(True)

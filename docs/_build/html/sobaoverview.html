@@ -93,8 +93,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introductorytutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
 </ul>
 
             
@@ -160,62 +160,61 @@
             
   <div class="section" id="soba-overview">
 <h1>SOBA Overview<a class="headerlink" href="#soba-overview" title="Permalink to this headline">¶</a></h1>
-<p>SOBA is a new system of Simulation of Occupancy Based on Agents implemented in Python.
-This software is useful for conducting studies based on occupancy simulations, mainly in buildings, such as drill simulation or energy studies.</p>
+<p><a class="reference external" href="https://github.com/gsi-upm/soba">SOBA</a>. is a new system of Simulation of Occupancy Based on Agents implemented in <a class="reference external" href="http://www.python.org/">Python</a>., which has become an increasingly popular language for scientific computing.</p>
+<p>This software is useful for conducting studies based on occupancy simulations, mainly in buildings, such as drill simulation or energy studies.</p>
 <p>The simulations are configured by declaring one or more types of occupants, with specific and definable behavior, a physical space (rooms of the building) and agents that are interconnected with each other and with the occupants. The simulation and results can be evaluated both in real time and post-simulation.</p>
 <p>It is provided as open source software:</p>
 <p><code class="docutils literal"><span class="pre">Github</span> <span class="pre">repository</span></code>:
-<a class="reference external" href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">http://docs.python-guide.org/en/latest/dev/virtualenvs/</a></p>
+<a class="reference external" href="https://github.com/gsi-upm/soba">https://github.com/gsi-upm/soba</a></p>
 <div class="section" id="arquitecture-description">
 <h2>Arquitecture Description<a class="headerlink" href="#arquitecture-description" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/architecture.png"><img alt="_images/architecture.png" src="_images/architecture.png" style="width: 100.0%; height: 609.0px;" /></a>
 <p>SOBA is implemented through 5 modules which group independent components with a related function.</p>
 <ul>
 <li><dl class="first docutils">
-<dt><strong>Model</strong>.</dt>
+<dt>Module <strong>Model</strong>.</dt>
 <dd><ul class="first last simple">
-<li><strong>Model</strong>.</li>
-<li>Time.</li>
+<li><strong>Model</strong>. This component is the core of the simulations. The model creates and manages space and agents, provides a scheduler that controls the agents activation regime, stores model-level parameters and serves as a container for the rest of components.</li>
+<li>Time. Component of time management during the simulation in sexagesimal units and controller of the scheduler during the simulation.</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><strong>Agents</strong>.</dt>
+<dt>Module <strong>Agents</strong>.</dt>
 <dd><ul class="first last">
-<li><p class="first"><strong>Occupant</strong>.</p>
+<li><p class="first"><strong>Agent</strong>. Base class to define any type of agent, which performs actions and interactions within a model.</p>
 </li>
-<li><p class="first"><strong>Agent</strong>.</p>
+<li><p class="first"><strong>Occupant</strong>. An object of the Occupant class is a type of agent developed and characterized to simulate the behavior of crowds in buildings.</p>
 </li>
 <li><dl class="first docutils">
-<dt>Occupant modules.</dt>
+<dt>Occupancy module.</dt>
 <dd><ul class="first last simple">
 <li><strong>Markov</strong>.</li>
-<li>AStar.</li>
-<li>Fov.</li>
+<li>AStar. Auxiliar class used by the occupants to move in the building.</li>
+<li><a class="reference external" href="http://www.roguebasin.com/index.php?title=Permissive_Field_of_View">FOV</a>.This component is a permissive field of view, which is useful to define the occupant visibility.</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first"><strong>Transitions</strong>.</p>
+<li><p class="first"><a class="reference external" href="https://github.com/pytransitions/transitions#threading">Transitions</a>. This external package is a lightweight, object-oriented state machine implementation in Python.</p>
 </li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><strong>Space</strong>.</dt>
+<dt>Module <strong>Space</strong>.</dt>
 <dd><ul class="first last simple">
-<li><strong>Grid</strong>.</li>
-<li>ContinuousItems.</li>
-<li>RoomsItems.</li>
+<li><strong>Grid</strong>. The space where the agents are situated and where they perform their actions is defined by means of a grid with coordinates (x, y).</li>
+<li>ContinuousItems / RoomsItems. Various classes that define the representation of physical space objects in the model.</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">Visualization.</p>
+<li><p class="first">Module Visualization. Two components provide a simple mechanism to represent the model in a web interface, based on HTML rendering though a server interface, implemented with web sockets.</p>
 </li>
-<li><p class="first">Launchers.</p>
+<li><p class="first">Module Launchers. The simulation will be executed defining a type of perfomance: in bacth or with visual representation.</p>
 </li>
 </ul>
 </div>

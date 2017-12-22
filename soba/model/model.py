@@ -20,11 +20,57 @@ import random
 from soba.space.grid import Grid
 import soba.visualization.ramen.performanceGenerator as ramen
 
-#Class Model base
+"""
+In the file model.py three classes are defined:
+
+	-Model: Base Class to create simulation models.
+	-RoomsModel:
+	-ContinuousModel:
+
+"""
+
 class Model:
+	"""
+	Base Class to create simulation models.
+	It creates and manages space and agents.
+
+		Attributes:
+			height: Height in number of grid cells.
+			width: Width in number of grid cells.
+			schedule: BaseScheduler object for agent activation.
+			grid: Grid object to implement space.
+			running: Parameter to control the model execution.
+			NStep: Measure of the number of steps.
+			occupants: List of Occupant objects created.
+			agents: List of the all Agent objects created.
+			asciMap: Representation of the map as ASCI used to get FOV information.
+			seed: Seed employ in random generations.
+			finishSimulation: Parameter to stop the software simulation.
+		Methods:
+			finishTheSimulation: Finish with the execution of the simulation software.
+			run_model: Model execution.
+			step: Execution of the scheduler steps.
+
+	"""
 
 	def __init__(self, width, height, seed = dt.datetime.now(), timeByStep = 60):
+		"""
+		Create a new Model object.
+			Args:
+				height: Height in number of grid cells.
+				width: Width in number of grid cells.
+				schedule: BaseScheduler object for agent activation.
+				grid: Grid object to implement space.
+				running: Parameter to control the model execution.
+				NStep: Measure of the number of steps.
+				occupants: List of Occupant objects created.
+				agents: List of the all Agent objects created.
+				asciMap: Representation of the map as ASCI used to get FOV information.
+				seed: Seed employ in random generations.
+				finishSimulation: Parameter to stop the software simulation.
+			Return: Model object
 
+		"""
 		self.width = width
 		self.height = height
 		self.schedule = BaseScheduler(self)
@@ -40,25 +86,65 @@ class Model:
 		self.finishSimulation = False
 
 	def finishTheSimulation(self):
+		"""Finish with the execution of the simulation software."""
 		PID = os.system('$!')
 		os.system('kill ' + str(PID))
 
 	def run_model(self):
+		"""Model execution."""
 		while self.running:
 			self.step()
 
 	def step(self):
+		"""Main step of the simulation, execution of the scheduler steps."""
 		if self.finishSimulation:
 			self.finishTheSimulation()
 		self.schedule.step()
 		self.NStep = self.NStep + 1
 
-# Model for rooms option
 class RoomsModel(Model):
+	"""
+	Base Class to create simulation models on a simplified space based on rooms.
 
+		Attributes:
+			Those inherited from the Occupant class.
+			rooms: List of Room objects.
+			Those inherited from the Occupant class.
+			rooms: List of Room objects.
+			walls: List of Wall objects.
+			pois: List of Pois objects.
+			generalItems: List of GeneralItem objects.
+			doors: List of Door objects.
+		Methods:
+			createOccupants: Create occupants of the RoomsOccupant type.
+			createRooms: Create the rooms in the grid space.
+			setMap: Define the map plane distribution.
+			createDoors: Create the doors in the grid space.
+			createWalls: Create the walls in the grid space.
+			thereIsClosedDoor: Check if one door is closed or open.
+			thereIsOtherOccupantInRoom: Evaluate if there is another occupant apart of the past as a parameter in a room.
+			thereIsSomeOccupantInRoom: Evaluate if there is any occupant in a room.
+			thereIsOccupantInRoom: Evaluate if there is one specific occupant in a room.
+			getRoom: Get one Room Object by position.
+			pushAgentRoom: Add one agent to a room.
+			popAgentRoom: Remove one agent from a room.
+			openDoor: Change the status of the door to open.
+			closeDoor: Change the status of the door to close.
+
+	"""
 	def __init__(self, width, height, jsonRooms, jsonsOccupants, seed = dt.datetime.now(), timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
-
+		"""
+		Create a new RoomsModel object.
+			Args:
+				height: Height in number of grid cells.
+				width: Width in number of grid cells.
+				jsonRooms: Json of description of the map plane.
+				jsonsOccupants: Json of description of the occupancy.
+				seed: Seed employ in random generations.
+				timeByStep: Time in seconds associated with each step.
+			Return: RoomsModel object
+		"""
 		self.rooms = []
 		self.createRooms(jsonRooms)
 		self.setMap()
@@ -68,25 +154,22 @@ class RoomsModel(Model):
 		self.createOccupants(jsonsOccupants)
 	
 	def createOccupants(self, jsonsOccupants):
+		"""
+		Create occupants of the RoomsOccupant type.
+				Args:
+					jsonOccupants: Json of description of the occupants.
+		"""
 		for json in jsonsOccupants:
 			for n in range(0, json['N']):
 				a = RoomsOccupant(n, self, json)
 				self.occupants.append(a)
 
-	def isConected(self, pos):
-		nextRoom = False
-		for room in self.rooms:
-			if room.pos == pos:
-				nextRoom = room
-		if nextRoom == False:
-			return False
-		for x in range(0, width):
-			for y in range(0, height):
-				self.pos_out_of_map.append(x, y)
-		for room in self.rooms:
-			self.pos_out_of_map.remove(room.pos)
-
 	def createRooms(self, jsonRooms):
+		"""
+		Create the rooms in the grid space.
+			Args:
+				jsonRooms: Json of description of the map plane.
+		"""
 		rooms = jsonRooms
 		self.rooms = []
 		for k,v in rooms.items():
@@ -117,6 +200,7 @@ class RoomsModel(Model):
 				sameRoom[room.name.split(r".")[0]] = sameRoom[room.name.split(r".")[0]] + 1
 
 	def setMap(self):
+		"""Define the map plane distribution."""
 		rooms_noPos = self.rooms
 		rooms_using = []
 		rooms_used = []
@@ -168,6 +252,7 @@ class RoomsModel(Model):
 		self.rooms = rooms_used
 
 	def createDoors(self):
+		"""Create the doors in the grid space."""
 		self.doors = []
 		for roomC in self.rooms:
 			roomsConected = roomC.roomsConected
@@ -187,6 +272,7 @@ class RoomsModel(Model):
 						roomC.doors.append(d)
 
 	def createWalls(self):
+		"""Create the walls in the grid space."""
 		for room in self.rooms:
 			walls = []
 			xr, yr = room.pos
@@ -233,11 +319,13 @@ class RoomsModel(Model):
 
 			room.walls = walls
 
-	##
-	#Auxiliar methods
-	##
-
 	def thereIsClosedDoor(self, beforePos, nextPos):
+		"""
+		Check if one door is closed or open.
+			Args:
+				beforePos, nextPos: The two common positions of the door as (x, y).
+			Return: True (closed) or False (opened).
+		"""
 		oldRoom = False
 		newRoom = False
 		for room in rooms:
@@ -251,7 +339,14 @@ class RoomsModel(Model):
 					return True
 		return False
 
-	def ThereIsOtherOccupantInRoom(self, room, agent):
+	def thereIsOtherOccupantInRoom(self, room, agent):
+		"""
+		Evaluate if there is another occupant apart of the past as a parameter in a room.
+			Args:
+				room: Room object to be checked.
+				agent: Occupant object to be ignored.
+			Return: True (yes), False (no)
+		"""
 		for roomAux in self.rooms:
 			possible_occupant = []
 			if roomAux.name.split(r".")[0] == room.name.split(r".")[0]:
@@ -261,7 +356,13 @@ class RoomsModel(Model):
 					return True
 		return False
 
-	def ThereIsSomeOccupantInRoom(self, room):
+	def thereIsSomeOccupantInRoom(self, room):
+		"""
+		Evaluate if there is any occupant in a room.
+			Args:
+				room: Room object to be checked.
+			Return: True (yes), False (no)
+		"""
 		for roomAux in self.rooms:
 			possible_occupant = []
 			if roomAux.name.split(r".")[0] == room.name.split(r".")[0]:
@@ -272,6 +373,12 @@ class RoomsModel(Model):
 		return False
 
 	def thereIsOccupantInRoom(self, room, agent):
+		"""
+		Evaluate if there is one specific occupant in a room.
+			Args:
+				room: Room object to be checked.
+			Return: True (yes), False (no)
+		"""
 		for roomAux in self.rooms:
 			possible_occupant = []
 			if roomAux.name.split(r".")[0] == room.name.split(r".")[0]:
@@ -282,25 +389,55 @@ class RoomsModel(Model):
 		return False
 
 	def getRoom(self, pos):
+		""" 
+		Get one Room Object by position.
+			Args:
+				pos: Position of the grid as (x,y).
+			Return: Room Object or False
+		"""
 		for room in self.rooms:
 			if room.pos == pos:
 				return room
 		return False
 
 	def pushAgentRoom(self, agent, pos):
+		"""
+		Add one agent to a room.
+			Args:
+				agent: Agent Object
+				pos: Position of the grid as (x,y)
+		"""
 		room = self.getRoom(pos)
 		room.agentsInRoom.append(agent)
 
 	def popAgentRoom(self, agent, pos):
+		"""
+		Remove one agent from a room.
+			Args:
+				agent: Agent Object
+				pos: Position of the grid as (x,y)
+		"""
 		room = self.getRoom(pos)
 		room.agentsInRoom.remove(agent)
 
 	def openDoor(self, agent, room1, room2):
+		"""
+		Change the status of the door to open (True). 
+			Args:
+				agent: Agent object which want to open the door.
+				room1, room2: The two common rooms of the door as Room object.
+				"""
 		for door in self.doors:
 			if ((door.room1 == room1 and door.room2 == room2) or (door.room1 == room2 and door.room2 == room1)):
 				door.state = False
 
 	def closeDoor(self, agent, room1, room2):
+		"""
+		Change the status of the door to close (False).
+			Args:
+				agent: Agent object which want to close the door.
+				room1, room2: The two common rooms of the door as Room object.
+		"""
 		numb = random.randint(0, 10)
 		for door in self.doors:
 			if ((door.room1 == room1 and door.room2 == room2) or (door.room1 == room2 and door.room2 == room1)):
@@ -312,12 +449,41 @@ class RoomsModel(Model):
 	def step(self):
 		super().step()
 
-# Model for continuous option
 class ContinuousModel(Model):
-
+	"""
+	Base Class to create simulation models on a simplified space based on rooms.
+		Attributes:
+			Those inherited from the Occupant class.
+			rooms: List of Room objects.
+			walls: List of Wall objects.
+			pois: List of Pois objects.
+			generalItems: List of GeneralItem objects.
+			doors: List of Door objects.
+		Methods:
+			createOccupants: Create occupants of the ContinuousOccupant type.
+			getScaledCoordinate: Gets the value of a coordinate or a cell size scaled.
+			setMap: Define the map plane distribution.
+			getAsciMap: Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.
+			thereIsClosedDoor: Check if one door is closed or open.
+			getDoorInPos: Get a Door object in a position given.
+			getOccupantsPos: Get a Occupant objects in a position given.
+			thereIsOccupant: Check if there is any Occupant object in a position given.
+"""
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
-
+		"""
+		Create a new ContinuousModel object.
+			Args:
+				height: Height in number of grid cells.
+				width: Width in number of grid cells.
+				jsonMap: Json of description of the map plane.
+				jsonsOccupants: Json of description of the occupancy.
+				seed: Seed employ in random generations.
+				scale: Define the scale of the cells in relation with the measures given in the jsonMap.
+				timeByStep: Time in seconds associated with each step.
+				asciMap: Plane of the grid in an ASCII format to apply the fov algorithm.
+			Return: ContinuousModel object.
+		"""
 		self.walls = []
 		self.lineWalls = []
 		self.pois = []
@@ -332,12 +498,24 @@ class ContinuousModel(Model):
 		self.createOccupants(jsonsOccupants)
 
 	def createOccupants(self, jsonsOccupants):
+		"""
+		Create occupants of the ContinuousOccupant type.
+				Args:
+					jsonOccupants: Json of description of the occupants.
+		"""
 		for json in jsonsOccupants:
 			for n in range(0, json['N']):
 				a = ContinuousOccupant(n, self, json)
 				self.occupants.append(a)
 
 	def getScaledCoordinate(self, coordenate, scale):
+		"""
+		Gets the value of a coordinate or a cell size scaled to the size of the grid in relation to a given scale.
+			Args:
+				coordenate: Coordenate value to be scale
+				scale: Value of the scale to be applied.
+			Return: value of the coordinate.
+		"""
 		n = coordenate/scale
 		up = True if(float(str(n-int(n))[1:]) > 0.1) else False
 		n = int(n)
@@ -346,6 +524,12 @@ class ContinuousModel(Model):
 		return n
 
 	def setMap(self, jsonMap, scale):
+		"""
+		Define the map plane distribution.
+			Args:
+				jsonMap: Json of description of the map plane.
+				scale: Value of the scale.
+		"""
 		walls = jsonMap["walls"]
 		corners = jsonMap["corners"]
 		items = jsonMap["items"]
@@ -492,6 +676,7 @@ class ContinuousModel(Model):
 		self.getAsciMap()
 
 	def getAsciMap(self):
+		"""Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm."""
 		asciMapAux = []
 		asciMap2 = []
 		for i in range(self.height):
@@ -515,38 +700,38 @@ class ContinuousModel(Model):
 			string = ''
 		self.asciMap = asciMap2
 
-	##
-	#Auxiliar methods
-	##
-
 	def thereIsClosedDoor(self, pos):
+		"""
+		Check if one door is closed or open.
+			Args:
+				pos: Position of the door as (x, y).
+			Return: State of the door as boolean.
+		"""
 		possibleDoor = self.grid.get_items_in_pos(pos)
 		for item in possibleDoor:
 			if isinstance(item, Door):
 				return Door.state
 
 	def getDoorInPos(self, pos):
+		"""
+		Get a Door object in a position given.
+			Args:
+				pos: Position of the door as (x, y).
+			Return: Door object or false.
+		"""
 		possibleDoor = self.grid.get_items_in_pos(pos)
 		for item in possibleDoor:
 			if isinstance(item, Door):
 				return item
 		return False
 
-	def thereIsAOccupant(self, pos, agent):
-		possibleDoor = self.grid.get_items_in_pos(pos)
-		for item in possibleDoor:
-			if agent == time:
-				return True
-		return False
-
-	def thereIsSomeOccupant(self, pos):
-		possibleDoor = self.grid.get_items_in_pos(pos)
-		for item in possibleDoor:
-			if agent == time:
-				return True
-		return False
-
 	def getOccupantsPos(self, pos):
+		"""
+		Get a Occupant objects in a position given.
+			Args:
+				pos: Position as (x, y).
+			Return: List of Cccupant objects.
+		"""
 		possibleOccupants = self.grid.get_items_in_pos(pos)
 		occupants = []
 		for item in possibleOccupants:
@@ -555,6 +740,12 @@ class ContinuousModel(Model):
 		return occupants
 
 	def thereIsOccupant(self, pos):
+		"""
+		Check if there is any Occupant object in a position given.
+			Args:
+				pos: Position as (x, y).
+			Return: True (yes), False (no).
+		"""
 		possible_occupant = self.grid.get_cell_list_contents([pos])
 		if (len(possible_occupant) > 0):
 			for occupant in possible_occupant:

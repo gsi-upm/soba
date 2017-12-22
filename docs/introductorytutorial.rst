@@ -1,2 +1,0 @@
-Introductory Tutorial
-===========
