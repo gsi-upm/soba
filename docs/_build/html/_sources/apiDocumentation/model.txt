@@ -10,5 +10,5 @@ Model
 Time
 ----
 
-.. automodule:: time
+.. automodule:: timeControl
    :members:

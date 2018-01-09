@@ -20,9 +20,9 @@ class SensorAgent(Agent):
         self.state = 'on'
 
     def step(self):
-        #self.temperature = self.temperature_data[self.temperature_data['day'] == self.model.timer.days%29][self.temperature_data['hour'] == self.model.timer.clock].at[0, 'temp']
-        #print(self.model.timer.days)
-        #print(self.model.timer.clock)
+        #self.temperature = self.temperature_data[self.temperature_data['day'] == self.models.timer.days%29][self.temperature_data['hour'] == self.models.timer.clock].at[0, 'temp']
+        #print(self.models.timer.days)
+        #print(self.models.timer.clock)
         self.temperature = self.temperature_data[self.temperature_data['day'] == self.model.timer.days%30][self.temperature_data['hour'] == '' + str(self.model.timer.hours).zfill(2) + ':00'].iloc[0]['temp']
         self.humidity = self.temperature_data[self.temperature_data['day'] == self.model.timer.days%30][self.temperature_data['hour'] == '' + str(self.model.timer.hours).zfill(2) + ':00'].iloc[0]['humidity']
         self.wbgt = 0.567*self.temperature+0.393*(6.105*self.humidity/100*pow(math.e, (17.27*self.temperature/(237.7+self.temperature)))) + 3.94

@@ -18,14 +18,14 @@ In the file occupant.py three classes are defined:
 
 	-Occupant: Class that inherits of the Agent class and implements Occupant objects with states.
 	-RoomsOccupant: Class that inherits from the Occupant class. It implements the creation 
-		of Occupant objects in the simplified model of rooms.
+		of Occupant objects in the simplified models of rooms.
 	-ContinuousOccupant: Class that inherits from the Occupant class. It implements the creation 
-		of Occupant objects in the continuous space model.
+		of Occupant objects in the continuous space models.
 """
 
 class Occupant(Agent):
 	"""
-	Base class to model occupants as Occupant objects.
+	Base class to models occupants as Occupant objects.
 	The occupants are agents with their activity defined by markov states.
 
 		Attributes:
@@ -54,7 +54,7 @@ class Occupant(Agent):
 		Create a new Occupant object.
 			Args: 
 				unique_id: Unique identifier corresponding to the agent.
-				model: Associated Model object
+				models: Associated Model object
 				json: Json of definition of parameters of behavior
 				speed: Movement speed in m/s
 			Return: Occupant object
@@ -173,7 +173,7 @@ class Occupant(Agent):
 
 class RoomsOccupant(Occupant):
 	"""
-	This class enables to create occupants that are modelled with a simplified model based on a discrete space associated with rooms.
+	This class enables to create occupants that are modelled with a simplified models based on a discrete space associated with rooms.
 	The occupants are agents with their activity defined by markov states.
 
 	Attributes:
@@ -193,7 +193,7 @@ class RoomsOccupant(Occupant):
 		Create a new RoomsOccupant object.
 			Args: 
 				unique_id: Unique identifier corresponding to the Occupant.
-				model: Associated Model object, by default RoomsModel.
+				models: Associated Model object, by default RoomsModel.
 				json: Json of definition of parameters of behavior
 				speed: Movement speed in m/s
 			Return: RoomsOccupant object
@@ -358,7 +358,7 @@ class RoomsOccupant(Occupant):
 
 class ContinuousOccupant(Occupant):
 	"""
-	This class enables to create occupants that are modelled with a continuous space model.
+	This class enables to create occupants that are modelled with a continuous space models.
 	based on considering a scaled grid (x, y). Cell size of 0.5m ^ 2 by default.
 	The occupants are agents with their activity defined by markov states.
 
@@ -385,7 +385,7 @@ class ContinuousOccupant(Occupant):
 		Create a new ContinuousOccupant object.
 			Args: 
 				unique_id: Unique identifier corresponding to the Occupant.
-				model: Associated Model object, by default ContinuousModel.
+				models: Associated Model object, by default ContinuousModel.
 				json: Json of definition of parameters of behavior
 				speed: Movement speed in m/s
 			Return: ContinuousOccupant object

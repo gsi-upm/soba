@@ -24,10 +24,9 @@ sys.path.insert(0, "../soba")
 sys.path.insert(0, "../soba/agents")
 sys.path.insert(0, "../soba/agents/modules")
 sys.path.insert(0, "../soba/launchers")
-sys.path.insert(0, "../soba/model")
+sys.path.insert(0, "../soba/models")
 sys.path.insert(0, "../soba/space")
-
-
+sys.path.insert(0, "../soba/visualization")
 
 # -- General configuration ------------------------------------------------
 
@@ -61,8 +60,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'SOBA'
-copyright = '2017, Eduardo Merino'
-author = 'Eduardo Merino'
+copyright = '2017, GSI - UPM'
+author = 'GSI - UPM'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

@@ -1,4 +1,4 @@
-from soba.model.model import RoomsModel
+from soba.models.model import RoomsModel
 import soba.run
 from collections import OrderedDict
 import datetime as dt

@@ -15,14 +15,14 @@ def run(model, visualJS = [], *params):
 		Args:
 			model: Model that is simulated.
 			visualJS: JS files with the visualization elements that are included in the JavaScript browser visualization template.
-			params: Parameters loaded in the model about the agents and anything else.
+			params: Parameters loaded in the models about the agents and anything else.
 	"""
 	backEndVisualization = BackEndVisualization(params[0], params[1], 500, 500)
 	if visualJS:
 		listAux = [backEndVisualization] + visualJS
 	else:
 		listAux = [backEndVisualization]
-	method = 'ModularServer(model, listAux, "Simulation"'
+	method = 'ModularServer(models, listAux, "Simulation"'
 	n=0
 	for e in params:
 		method = method+',params['+str(n)+']'

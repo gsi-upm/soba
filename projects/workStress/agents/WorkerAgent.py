@@ -262,7 +262,7 @@ class WorkerAgent(Agent):
             self.logStress()
 
     def logStress(self):
-    	#model.ramenScript.addAgentEmotion(self, self.stress)
+    	#models.ramenScript.addAgentEmotion(self, self.stress)
         model.ramenScript.addAgentEmotion(self, self.stress, self.model.NStep)
     
     def logTV(self, state):

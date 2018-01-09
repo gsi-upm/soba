@@ -3,7 +3,7 @@ from mesa.datacollection import DataCollector
 class WorkerCollector(DataCollector):
 
      def collect(self, model):
-        """ Collect all the data for the given model object. """
+        """ Collect all the data for the given models object. """
         if self.model_reporters:
             for var, reporter in self.model_reporters.items():
                 self.model_vars[var].append(reporter(model))

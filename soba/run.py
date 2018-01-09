@@ -22,7 +22,7 @@ def run(model, *args, iterations = 1):
 	Execution of the simulation according to the parameters given in the console.
 		Args:
 			model: Model that is simulated.
-			args: List of parameters to configure the model simulation.
+			args: List of parameters to configure the models simulation.
 			iterations: Number of simulations that will be executed in batch mode.
 	"""
 	if len(sys.argv) > 1:

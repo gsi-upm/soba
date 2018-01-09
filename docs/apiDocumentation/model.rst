@@ -7,8 +7,8 @@ Model
 .. automodule:: model
    :members:
 
-Time
+Time Control
 ----
 
-.. automodule:: time
+.. automodule:: timeControl
    :members:

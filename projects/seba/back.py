@@ -4,7 +4,7 @@ from soba.visualization.server import VisualizationElement
 import soba
 import os
 import re
-from soba.model.model import ContinuousModel
+from soba.models.model import ContinuousModel
 
 class Visualization(VisualizationElement):
 	local_includes = ["front.js"]

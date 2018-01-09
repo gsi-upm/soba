@@ -1,4 +1,4 @@
-from soba.model.model import ContinuousModel
+from soba.models.model import ContinuousModel
 from agents import EmergencyOccupant
 from agents import FireControl
 import random

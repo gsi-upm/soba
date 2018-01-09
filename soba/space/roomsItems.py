@@ -79,7 +79,6 @@ class Wall():
 	"""
 	Class that implements building walls.
 		Attributes:
-			state: Door status, open (True) or closed (False).
 			room1: First room to croos the door.
 			room2: Second room to croos the door.
 	"""

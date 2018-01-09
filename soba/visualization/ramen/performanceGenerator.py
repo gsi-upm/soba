@@ -1,5 +1,5 @@
 import json
-import os
+
 
 steps = [[] for _ in range(10000)]
 

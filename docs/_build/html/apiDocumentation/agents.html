@@ -205,7 +205,7 @@ color: Color with which the agent will be represented in the visualization.</dd>
 <dl class="class">
 <dt id="occupant.ContinuousOccupant">
 <em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">ContinuousOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class enables to create occupants that are modelled with a continuous space model.
+<dd><p>This class enables to create occupants that are modelled with a continuous space models.
 based on considering a scaled grid (x, y). Cell size of 0.5m ^ 2 by default.
 The occupants are agents with their activity defined by markov states.</p>
 <dl class="docutils">
@@ -324,7 +324,7 @@ A change of state, a movement or advance in the cost of a movement, or an advanc
 <dl class="class">
 <dt id="occupant.Occupant">
 <em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">Occupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class to model occupants as Occupant objects.
+<dd><p>Base class to models occupants as Occupant objects.
 The occupants are agents with their activity defined by markov states.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -395,7 +395,7 @@ corresponding to the new state.</p>
 <dl class="class">
 <dt id="occupant.RoomsOccupant">
 <em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">RoomsOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class enables to create occupants that are modelled with a simplified model based on a discrete space associated with rooms.
+<dd><p>This class enables to create occupants that are modelled with a simplified models based on a discrete space associated with rooms.
 The occupants are agents with their activity defined by markov states.</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -528,7 +528,7 @@ cell: cell object corresponding to the room.</dd>
 <dt id="aStar.getPathContinuous">
 <code class="descclassname">aStar.</code><code class="descname">getPathContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getPathContinuous" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
-<dt>Calculate the optimal path in the model with the space continuous.</dt>
+<dt>Calculate the optimal path in the models with the space continuous.</dt>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>model: Model which invokes the algorithm.
@@ -545,7 +545,7 @@ other: List of auxiliary positions given to be considered impenetrable, that is,
 <dt id="aStar.getPathRooms">
 <code class="descclassname">aStar.</code><code class="descname">getPathRooms</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getPathRooms" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
-<dt>Calculate the optimal path in the model with the space defined by rooms.</dt>
+<dt>Calculate the optimal path in the models with the space defined by rooms.</dt>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>model: Model which invokes the algorithm.
@@ -563,11 +563,11 @@ finish: Final position.</dd>
 <dl class="class">
 <dt id="behaviourMarkov.Markov">
 <em class="property">class </em><code class="descclassname">behaviourMarkov.</code><code class="descname">Markov</code><span class="sig-paren">(</span><em>agent_aux</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class to model the activity of the agents by means of Markovian behavior.</p>
+<dd><p>Base class to models the activity of the agents by means of Markovian behavior.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt>Attributes:</dt>
-<dd>agent: Agent that is controlled by this model.</dd>
+<dd>agent: Agent that is controlled by this models.</dd>
 <dt>Methods:</dt>
 <dd>runStep: Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.
 getNextState: Evaluate a random change based on the probabilities corresponding to each state.</dd>
@@ -680,7 +680,7 @@ pos: Observer&#8217;s position</dd>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Eduardo Merino.
+        &copy; Copyright 2017, GSI - UPM.
 
     </p>
   </div>

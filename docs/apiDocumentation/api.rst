@@ -6,6 +6,5 @@ APIs
    agents
    space
    launchers
-   :maxdepth: 3
 
-
+   :maxdepth: 8

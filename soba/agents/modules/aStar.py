@@ -5,8 +5,8 @@ import time
 In the file aStar.py the AStar algorithm is implemented.
 
 	Methods:
-		getPathRooms: Calculate the optimal path in the model with the space defined by rooms.
-		getPathContinuous: Calculate the optimal path in the model with the space continuous.
+		getPathRooms: Calculate the optimal path in the models with the space defined by rooms.
+		getPathContinuous: Calculate the optimal path in the models with the space continuous.
 		getConectedCellsRooms: Gets a list of connected cells in a space defined by rooms.
 		getConectedCellsContinuous: Gets a list of connected cells in a continuous space.
 		canMovePos: Evaluate if a position is reachable in a continuous space.
@@ -25,7 +25,7 @@ class Cell(object):
 
 def getPathRooms(model, start, finish):
 	"""
-	Calculate the optimal path in the model with the space defined by rooms.
+	Calculate the optimal path in the models with the space defined by rooms.
 		Args:
 			model: Model which invokes the algorithm.
 			start: Initial position.
@@ -68,7 +68,7 @@ def getPathRooms(model, start, finish):
 
 def getPathContinuous(model, start, finish, other = []):
 	"""
-	Calculate the optimal path in the model with the space continuous.
+	Calculate the optimal path in the models with the space continuous.
 		Args:
 			model: Model which invokes the algorithm.
 			start: Initial position.

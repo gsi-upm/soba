@@ -6,10 +6,10 @@ In the file behaviourMarkov.py the Markovian behavior based on states is impleme
 """
 class Markov(object):
 	"""
-	Base class to model the activity of the agents by means of Markovian behavior.
+	Base class to models the activity of the agents by means of Markovian behavior.
 		
 		Attributes:
-			agent: Agent that is controlled by this model. 
+			agent: Agent that is controlled by this models.
 
 		Methods:
 			runStep: Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.

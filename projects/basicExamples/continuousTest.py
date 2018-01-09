@@ -1,4 +1,4 @@
-from soba.model.model import ContinuousModel
+from soba.models.model import ContinuousModel
 import soba.visualization.ramen.mapGenerator as ramen
 import soba.run
 from collections import OrderedDict

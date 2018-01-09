@@ -1,7 +1,3 @@
-import itertools
-import random
-import math
-
 """
 In the file grid.py it is defined the class Grid, which implements the space where take place the simulation as a grid (x, y).
 """

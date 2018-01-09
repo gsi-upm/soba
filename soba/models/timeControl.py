@@ -3,10 +3,10 @@ import datetime
 from soba.agents.agent import Agent
 
 """
-In the file occupant.py three classes are defined:
+In the file timeControl.py three classes are defined:
 
 	-Time: Class that inherits of the Agent class to manage the time in sexagesimal units. 
-	-BaseScheduler: Class to store and manage the activation of agents added to the model's schedule.
+	-BaseScheduler: Class to store and manage the activation of agents added to the models's schedule.
 	-RandomActivation: Class that inherits from the BaseScheduler class. Add random activation.
 
 """
@@ -31,7 +31,7 @@ class Time(Agent):
 		"""
 		Create a new Time object.
 			Args: 
-				model: Associated Model object.
+				models: Associated Model object.
 				timeByStep: Time in seconds associated with each step.
 				day, hour, minute, seg, microsecond: Initial time value of the clock.
 			Return: Time object.
@@ -75,11 +75,11 @@ class Time(Agent):
 
 class BaseScheduler():
 	"""
-	Class to store and manage the activation of agents added to the model's schedule. 
+	Class to store and manage the activation of agents added to the models's schedule.
 	The agents are activated in the order in which they were added.
 	
 		Attributes:
-			steps: Measurement of the progress of the simulation. In each step the agents perform actions in the model.
+			steps: Measurement of the progress of the simulation. In each step the agents perform actions in the models.
 			agents: List of agents that are included in the scheduler and are activated in each step.
 			
 		Methods:
@@ -132,7 +132,7 @@ class BaseScheduler():
 class RandomActivation(BaseScheduler):
 	"""
 	Class that inherits from the BaseScheduler class. Manage the activation of agents added 
-	to the model's schedule following a random order.
+	to the models's schedule following a random order.
 	
 		Attributes:
 			Those inherited from the BaseScheduler class.

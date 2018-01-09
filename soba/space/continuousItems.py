@@ -1,5 +1,6 @@
 """
-In the file continuousItems.py four classes are defined to implement the elements of the physical space in a continuous model:
+In the file continuousItems.py four classes are defined to implement the elements of
+the physical space in a continuous model:
 
 	-GeneralItem: Class that implements generic elements positioned on the map with the effect of being impenetrable.
 	-Door: Class that implements bulding plane doors.

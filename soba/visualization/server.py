@@ -6,6 +6,7 @@ import tornado.escape
 import tornado.gen
 import webbrowser
 
+
 class VisualizationElement:
     package_includes = []
     local_includes = []

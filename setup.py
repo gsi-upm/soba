@@ -12,10 +12,10 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='soba',
-    version='1.0',
+    version='1.01',
     description='Simulator of Occupancy Based on Agent',
     url='https://github.com/gsi-upm/soba',
-    author='GSI - UPM, Eduardo Merino',
+    author='GSI - UPM',
     author_email='eduardo.merinom13@gmail.com',
     license='MIT',
     classifiers=[
@@ -28,9 +28,9 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     keywords='simulation agents crowds',
-    packages=['soba', 'soba/agents', 'soba/agents/modules', 'soba/launchers', 'soba/model', 'soba/space', 'soba/visualization', 'soba/visualization/ramen'],
+    packages=['soba', 'soba/agents', 'soba/agents/modules', 'soba/launchers', 'soba/models', 'soba/space', 'soba/visualization', 'soba/visualization/ramen'],
     package_data={'soba': ['visualization/favicon.ico', 'visualization/lib/*.js', 'visualization/*.html', 'visualization/*.js']},
-    install_requires=['numpy', 'transitions', 'pandas', 'anaconda-client'],
+    install_requires=['numpy', 'transitions', 'pandas', 'anaconda-client', 'tornado'],
 
     python_requires='>=3',
 )

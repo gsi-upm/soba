@@ -3,7 +3,7 @@ import random
 import os
 import os.path
 import math
-from soba.model.time import Time
+from soba.models.timeControl import Time
 from soba.agents.occupant import ContinuousOccupant
 from soba.agents.occupant import RoomsOccupant
 import soba.agents.modules.aStar as aStar
@@ -14,14 +14,14 @@ from soba.space.continuousItems import GeneralItem
 from soba.space.continuousItems import Door
 from soba.space.continuousItems import Wall
 from soba.space.continuousItems import Poi
-from soba.model.time import BaseScheduler
+from soba.models.timeControl import BaseScheduler
 import datetime as dt
 import random
 from soba.space.grid import Grid
 import soba.visualization.ramen.performanceGenerator as ramen
 
 """
-In the file model.py three classes are defined:
+In the file models.py three classes are defined:
 
 	-Model: Base Class to create simulation models.
 	-RoomsModel:
@@ -39,7 +39,7 @@ class Model:
 			width: Width in number of grid cells.
 			schedule: BaseScheduler object for agent activation.
 			grid: Grid object to implement space.
-			running: Parameter to control the model execution.
+			running: Parameter to control the models execution.
 			NStep: Measure of the number of steps.
 			occupants: List of Occupant objects created.
 			agents: List of the all Agent objects created.
@@ -61,7 +61,7 @@ class Model:
 				width: Width in number of grid cells.
 				schedule: BaseScheduler object for agent activation.
 				grid: Grid object to implement space.
-				running: Parameter to control the model execution.
+				running: Parameter to control the models execution.
 				NStep: Measure of the number of steps.
 				occupants: List of Occupant objects created.
 				agents: List of the all Agent objects created.
@@ -74,7 +74,7 @@ class Model:
 		self.width = width
 		self.height = height
 		self.schedule = BaseScheduler(self)
-		self.grid = Grid(width, height, False)
+		self.grid = Grid(width, height)
 		self.running = True
 		self.agents = []
 		self.NStep = 0
