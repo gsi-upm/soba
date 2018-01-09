@@ -3,3 +3,4 @@ transitions
 pandas
 anaconda-client
 tornado
+tqdm
