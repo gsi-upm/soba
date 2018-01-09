@@ -1,4 +1,0 @@
-numpy
-transitions
-pandas
-anaconda-client
