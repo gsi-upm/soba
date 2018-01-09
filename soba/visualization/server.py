@@ -1,9 +1,5 @@
 import os
-import tornado.ioloop
-import tornado.web
-import tornado.websocket
-import tornado.escape
-import tornado.gen
+import tornado
 import webbrowser
 
 

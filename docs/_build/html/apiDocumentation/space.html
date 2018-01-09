@@ -32,10 +32,10 @@
   
 
   
-    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
-        <link rel="up" title="APIs" href="api.html"/>
-        <link rel="next" title="Launchers Module Documentation" href="launchers.html"/>
-        <link rel="prev" title="Agents Module Documentation" href="agents.html"/> 
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,22 +88,11 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Space Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-grid">Grid</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-continuousItems">Items in continuous modeling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-roomsItems">Items in simplified modeling</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">APIs Documentation</a></li>
 </ul>
 
             
@@ -148,15 +137,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="api.html">APIs</a> &raquo;</li>
-        
       <li>Space Module Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/apiDocumentation/space.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/apiDocumentation/space.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -171,12 +158,12 @@
             
   <div class="section" id="space-module-documentation">
 <h1>Space Module Documentation<a class="headerlink" href="#space-module-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-grid">
-<span id="grid"></span><h2>Grid<a class="headerlink" href="#module-grid" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.space.grid">
+<span id="grid"></span><h2>Grid<a class="headerlink" href="#module-soba.space.grid" title="Permalink to this headline">¶</a></h2>
 <p>In the file grid.py it is defined the class Grid, which implements the space where take place the simulation as a grid (x, y).</p>
 <dl class="class">
-<dt id="grid.Grid">
-<em class="property">class </em><code class="descclassname">grid.</code><code class="descname">Grid</code><span class="sig-paren">(</span><em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid">
+<em class="property">class </em><code class="descclassname">soba.space.grid.</code><code class="descname">Grid</code><span class="sig-paren">(</span><em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to implement the space where take place the simulation as a grid (x, y).</p>
 <blockquote>
 <div><dl class="docutils">
@@ -194,8 +181,8 @@ is_cell_empty: Evaluate if a cell does not contain any item.</dd>
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="grid.Grid.get_all_item">
-<code class="descname">get_all_item</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid.get_all_item" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid.get_all_item">
+<code class="descname">get_all_item</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid.get_all_item" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Get all the elements that have been placed in the grid.</dt>
 <dd>Return: List of items.</dd>
@@ -203,8 +190,8 @@ is_cell_empty: Evaluate if a cell does not contain any item.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="grid.Grid.get_items_in_pos">
-<code class="descname">get_items_in_pos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid.get_items_in_pos" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid.get_items_in_pos">
+<code class="descname">get_items_in_pos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid.get_items_in_pos" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Gets the elements located in a grid position.</dt>
 <dd><dl class="first docutils">
@@ -217,8 +204,8 @@ is_cell_empty: Evaluate if a cell does not contain any item.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="grid.Grid.is_cell_empty">
-<code class="descname">is_cell_empty</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid.is_cell_empty" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid.is_cell_empty">
+<code class="descname">is_cell_empty</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid.is_cell_empty" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate if a cell does not contain any item.</dt>
 <dd><dl class="first docutils">
@@ -231,8 +218,8 @@ is_cell_empty: Evaluate if a cell does not contain any item.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="grid.Grid.move_item">
-<code class="descname">move_item</code><span class="sig-paren">(</span><em>item</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid.move_item" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid.move_item">
+<code class="descname">move_item</code><span class="sig-paren">(</span><em>item</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid.move_item" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Change the position of a grid element.</dt>
 <dd><dl class="first last docutils">
@@ -245,8 +232,8 @@ pos: New position of the item.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="grid.Grid.place_item">
-<code class="descname">place_item</code><span class="sig-paren">(</span><em>item</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid.place_item" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid.place_item">
+<code class="descname">place_item</code><span class="sig-paren">(</span><em>item</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid.place_item" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Place an element in a grid position.</dt>
 <dd><dl class="first last docutils">
@@ -259,8 +246,8 @@ item: Element outside the grid.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="grid.Grid.remove_item">
-<code class="descname">remove_item</code><span class="sig-paren">(</span><em>pos</em>, <em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#grid.Grid.remove_item" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.grid.Grid.remove_item">
+<code class="descname">remove_item</code><span class="sig-paren">(</span><em>pos</em>, <em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.grid.Grid.remove_item" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Remove an item from the grid.</dt>
 <dd><dl class="first last docutils">
@@ -275,8 +262,8 @@ item: Element inside the grid.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-continuousItems">
-<span id="items-in-continuous-modeling"></span><h2>Items in continuous modeling<a class="headerlink" href="#module-continuousItems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.space.continuousItems">
+<span id="items-in-continuous-modeling"></span><h2>Items in continuous modeling<a class="headerlink" href="#module-soba.space.continuousItems" title="Permalink to this headline">¶</a></h2>
 <p>In the file continuousItems.py four classes are defined to implement the elements of
 the physical space in a continuous model:</p>
 <blockquote>
@@ -285,8 +272,8 @@ the physical space in a continuous model:</p>
 -Wall: Class that implements building walls.
 -Poi: Class that implements points of interest where Occupancy objects perform certain actions.</div></blockquote>
 <dl class="class">
-<dt id="continuousItems.Door">
-<em class="property">class </em><code class="descclassname">continuousItems.</code><code class="descname">Door</code><span class="sig-paren">(</span><em>model</em>, <em>pos1</em>, <em>pos2</em>, <em>rot</em>, <em>state=True</em><span class="sig-paren">)</span><a class="headerlink" href="#continuousItems.Door" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.continuousItems.Door">
+<em class="property">class </em><code class="descclassname">soba.space.continuousItems.</code><code class="descname">Door</code><span class="sig-paren">(</span><em>model</em>, <em>pos1</em>, <em>pos2</em>, <em>rot</em>, <em>state=True</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.continuousItems.Door" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements bulding plane doors.</dt>
 <dd><dl class="first last docutils">
@@ -294,7 +281,7 @@ the physical space in a continuous model:</p>
 <dd>state: Door status, open (True) or closed (False).
 pos1: First position to access to the door.
 pos2: Second position to access to the door.
-rot: Door orientation in the grid (&#8216;x&#8217; or &#8216;y&#8217;).</dd>
+rot: Door orientation in the grid (‘x’ or ‘y’).</dd>
 <dt>Methods:</dt>
 <dd>open: Change the status of the door to open.
 close: Change the status of the door to close.</dd>
@@ -302,22 +289,22 @@ close: Change the status of the door to close.</dd>
 </dd>
 </dl>
 <dl class="method">
-<dt id="continuousItems.Door.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#continuousItems.Door.close" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.continuousItems.Door.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.continuousItems.Door.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of the door to close (False)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="continuousItems.Door.open">
-<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#continuousItems.Door.open" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.continuousItems.Door.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.continuousItems.Door.open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of the door to open (True)</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="continuousItems.GeneralItem">
-<em class="property">class </em><code class="descclassname">continuousItems.</code><code class="descname">GeneralItem</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#continuousItems.GeneralItem" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.continuousItems.GeneralItem">
+<em class="property">class </em><code class="descclassname">soba.space.continuousItems.</code><code class="descname">GeneralItem</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.continuousItems.GeneralItem" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements generic elements positioned on the map with the effect of being impenetrable.</dt>
 <dd><dl class="first last docutils">
@@ -330,8 +317,8 @@ color: Color with which the object will be represented in the visualization.</dd
 </dd></dl>
 
 <dl class="class">
-<dt id="continuousItems.Poi">
-<em class="property">class </em><code class="descclassname">continuousItems.</code><code class="descname">Poi</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em>, <em>ide</em>, <em>share=True</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#continuousItems.Poi" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.continuousItems.Poi">
+<em class="property">class </em><code class="descclassname">soba.space.continuousItems.</code><code class="descname">Poi</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em>, <em>ide</em>, <em>share=True</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.continuousItems.Poi" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements relevant elements in the simulations: points of interest where Occupancy objects perform certain actions by associating these points with certain states.</dt>
 <dd><dl class="first last docutils">
@@ -346,8 +333,8 @@ color: Color with which the object will be represented in the visualization.</dd
 </dd></dl>
 
 <dl class="class">
-<dt id="continuousItems.Wall">
-<em class="property">class </em><code class="descclassname">continuousItems.</code><code class="descname">Wall</code><span class="sig-paren">(</span><em>block1</em>, <em>block2</em>, <em>block3</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#continuousItems.Wall" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.continuousItems.Wall">
+<em class="property">class </em><code class="descclassname">soba.space.continuousItems.</code><code class="descname">Wall</code><span class="sig-paren">(</span><em>block1</em>, <em>block2</em>, <em>block3</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.continuousItems.Wall" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements building walls.</dt>
 <dd><dl class="first last docutils">
@@ -364,8 +351,8 @@ color: Color with which the object will be represented in the visualization.</dd
 </dd></dl>
 
 </div>
-<div class="section" id="module-roomsItems">
-<span id="items-in-simplified-modeling"></span><h2>Items in simplified modeling<a class="headerlink" href="#module-roomsItems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.space.roomsItems">
+<span id="items-in-simplified-modeling"></span><h2>Items in simplified modeling<a class="headerlink" href="#module-soba.space.roomsItems" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>In the file continuousItems.py three classes are defined to implement the elements </dt>
 <dd><p class="first">of the physical space in a simplified model based on a room distribution:</p>
@@ -376,8 +363,8 @@ move and where activities are carried out.
 </dd>
 </dl>
 <dl class="class">
-<dt id="roomsItems.Door">
-<em class="property">class </em><code class="descclassname">roomsItems.</code><code class="descname">Door</code><span class="sig-paren">(</span><em>room1=False</em>, <em>room2=False</em>, <em>state=False</em><span class="sig-paren">)</span><a class="headerlink" href="#roomsItems.Door" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.roomsItems.Door">
+<em class="property">class </em><code class="descclassname">soba.space.roomsItems.</code><code class="descname">Door</code><span class="sig-paren">(</span><em>room1=False</em>, <em>room2=False</em>, <em>state=False</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.roomsItems.Door" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements bulding plane doors.</dt>
 <dd><dl class="first last docutils">
@@ -392,22 +379,22 @@ close: Change the status of the door to close.</dd>
 </dd>
 </dl>
 <dl class="method">
-<dt id="roomsItems.Door.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roomsItems.Door.close" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.roomsItems.Door.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.roomsItems.Door.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of the door to closed (False)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="roomsItems.Door.open">
-<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#roomsItems.Door.open" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.roomsItems.Door.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.roomsItems.Door.open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of the door to open (True)</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="roomsItems.Room">
-<em class="property">class </em><code class="descclassname">roomsItems.</code><code class="descname">Room</code><span class="sig-paren">(</span><em>name</em>, <em>conectedTo</em>, <em>dx</em>, <em>dy</em>, <em>pos=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#roomsItems.Room" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.roomsItems.Room">
+<em class="property">class </em><code class="descclassname">soba.space.roomsItems.</code><code class="descname">Room</code><span class="sig-paren">(</span><em>name</em>, <em>conectedTo</em>, <em>dx</em>, <em>dy</em>, <em>pos=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.roomsItems.Room" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements the rooms through which the Agent/Ocupant objects are located, move and where activities are carried out.</dt>
 <dd><dl class="first last docutils">
@@ -426,8 +413,8 @@ doors: List of Doors objects of the room.</dd>
 </dd></dl>
 
 <dl class="class">
-<dt id="roomsItems.Wall">
-<em class="property">class </em><code class="descclassname">roomsItems.</code><code class="descname">Wall</code><span class="sig-paren">(</span><em>room1=False</em>, <em>room2=False</em><span class="sig-paren">)</span><a class="headerlink" href="#roomsItems.Wall" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.space.roomsItems.Wall">
+<em class="property">class </em><code class="descclassname">soba.space.roomsItems.</code><code class="descname">Wall</code><span class="sig-paren">(</span><em>room1=False</em>, <em>room2=False</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.space.roomsItems.Wall" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Class that implements building walls.</dt>
 <dd><dl class="first last docutils">
@@ -449,15 +436,6 @@ room2: Second room to croos the door.</dd>
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="launchers.html" class="btn btn-neutral float-right" title="Launchers Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="agents.html" class="btn btn-neutral" title="Agents Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -490,7 +468,7 @@ room2: Second room to croos the door.</dd>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

@@ -32,10 +32,10 @@
   
 
   
-    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
-        <link rel="up" title="APIs" href="api.html"/>
-        <link rel="next" title="Agents Module Documentation" href="agents.html"/>
-        <link rel="prev" title="APIs" href="api.html"/> 
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,21 +88,11 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Model Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-model">Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-timeControl">Time Control</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">APIs Documentation</a></li>
 </ul>
 
             
@@ -147,15 +137,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="api.html">APIs</a> &raquo;</li>
-        
       <li>Model Module Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/apiDocumentation/model.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/apiDocumentation/model.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -170,11 +158,11 @@
             
   <div class="section" id="model-module-documentation">
 <h1>Model Module Documentation<a class="headerlink" href="#model-module-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-model">
-<span id="model"></span><h2>Model<a class="headerlink" href="#module-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.models.model">
+<span id="model"></span><h2>Model<a class="headerlink" href="#module-soba.models.model" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="model.ContinuousModel">
-<em class="property">class </em><code class="descclassname">model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>46</em>, <em>44</em>, <em>865250)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel">
+<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>54</em>, <em>34</em>, <em>757276)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Base Class to create simulation models on a simplified space based on rooms.</dt>
 <dd><dl class="first last docutils">
@@ -198,8 +186,8 @@ thereIsOccupant: Check if there is any Occupant object in a position given.</dd>
 </dd>
 </dl>
 <dl class="method">
-<dt id="model.ContinuousModel.createOccupants">
-<code class="descname">createOccupants</code><span class="sig-paren">(</span><em>jsonsOccupants</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.createOccupants" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.createOccupants">
+<code class="descname">createOccupants</code><span class="sig-paren">(</span><em>jsonsOccupants</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.createOccupants" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Create occupants of the ContinuousOccupant type.</dt>
 <dd><dl class="first last docutils">
@@ -211,14 +199,14 @@ thereIsOccupant: Check if there is any Occupant object in a position given.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.getAsciMap">
-<code class="descname">getAsciMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getAsciMap" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.getAsciMap">
+<code class="descname">getAsciMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.getAsciMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.getDoorInPos">
-<code class="descname">getDoorInPos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getDoorInPos" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.getDoorInPos">
+<code class="descname">getDoorInPos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.getDoorInPos" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Get a Door object in a position given.</dt>
 <dd><dl class="first docutils">
@@ -231,8 +219,8 @@ thereIsOccupant: Check if there is any Occupant object in a position given.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.getOccupantsPos">
-<code class="descname">getOccupantsPos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getOccupantsPos" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.getOccupantsPos">
+<code class="descname">getOccupantsPos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.getOccupantsPos" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Get a Occupant objects in a position given.</dt>
 <dd><dl class="first docutils">
@@ -245,8 +233,8 @@ thereIsOccupant: Check if there is any Occupant object in a position given.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.getScaledCoordinate">
-<code class="descname">getScaledCoordinate</code><span class="sig-paren">(</span><em>coordenate</em>, <em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.getScaledCoordinate" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.getScaledCoordinate">
+<code class="descname">getScaledCoordinate</code><span class="sig-paren">(</span><em>coordenate</em>, <em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.getScaledCoordinate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Gets the value of a coordinate or a cell size scaled to the size of the grid in relation to a given scale.</dt>
 <dd><dl class="first docutils">
@@ -260,8 +248,8 @@ scale: Value of the scale to be applied.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.setMap">
-<code class="descname">setMap</code><span class="sig-paren">(</span><em>jsonMap</em>, <em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.setMap" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.setMap">
+<code class="descname">setMap</code><span class="sig-paren">(</span><em>jsonMap</em>, <em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.setMap" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Define the map plane distribution.</dt>
 <dd><dl class="first last docutils">
@@ -274,8 +262,8 @@ scale: Value of the scale.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.thereIsClosedDoor">
-<code class="descname">thereIsClosedDoor</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.thereIsClosedDoor" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.thereIsClosedDoor">
+<code class="descname">thereIsClosedDoor</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.thereIsClosedDoor" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Check if one door is closed or open.</dt>
 <dd><dl class="first docutils">
@@ -288,8 +276,8 @@ scale: Value of the scale.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.ContinuousModel.thereIsOccupant">
-<code class="descname">thereIsOccupant</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel.thereIsOccupant" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.ContinuousModel.thereIsOccupant">
+<code class="descname">thereIsOccupant</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel.thereIsOccupant" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Check if there is any Occupant object in a position given.</dt>
 <dd><dl class="first docutils">
@@ -304,8 +292,8 @@ scale: Value of the scale.</dd>
 </dd></dl>
 
 <dl class="class">
-<dt id="model.Model">
-<em class="property">class </em><code class="descclassname">model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>46</em>, <em>44</em>, <em>865179)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.Model" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.Model">
+<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>54</em>, <em>34</em>, <em>757212)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models.
 It creates and manages space and agents.</p>
 <blockquote>
@@ -329,28 +317,28 @@ step: Execution of the scheduler steps.</dd>
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="model.Model.finishTheSimulation">
-<code class="descname">finishTheSimulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.Model.finishTheSimulation" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.Model.finishTheSimulation">
+<code class="descname">finishTheSimulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.Model.finishTheSimulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finish with the execution of the simulation software.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.Model.run_model">
-<code class="descname">run_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.Model.run_model" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.Model.run_model">
+<code class="descname">run_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.Model.run_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Model execution.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.Model.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.Model.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.Model.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.Model.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main step of the simulation, execution of the scheduler steps.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="model.RoomsModel">
-<em class="property">class </em><code class="descclassname">model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>46</em>, <em>44</em>, <em>865218)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel">
+<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>54</em>, <em>34</em>, <em>757249)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models on a simplified space based on rooms.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -381,8 +369,8 @@ closeDoor: Change the status of the door to close.</dd>
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="model.RoomsModel.closeDoor">
-<code class="descname">closeDoor</code><span class="sig-paren">(</span><em>agent</em>, <em>room1</em>, <em>room2</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.closeDoor" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.closeDoor">
+<code class="descname">closeDoor</code><span class="sig-paren">(</span><em>agent</em>, <em>room1</em>, <em>room2</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.closeDoor" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Change the status of the door to close (False).</dt>
 <dd><dl class="first last docutils">
@@ -395,14 +383,14 @@ room1, room2: The two common rooms of the door as Room object.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.createDoors">
-<code class="descname">createDoors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createDoors" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.createDoors">
+<code class="descname">createDoors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.createDoors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the doors in the grid space.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.createOccupants">
-<code class="descname">createOccupants</code><span class="sig-paren">(</span><em>jsonsOccupants</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createOccupants" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.createOccupants">
+<code class="descname">createOccupants</code><span class="sig-paren">(</span><em>jsonsOccupants</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.createOccupants" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Create occupants of the RoomsOccupant type.</dt>
 <dd><dl class="first last docutils">
@@ -414,8 +402,8 @@ room1, room2: The two common rooms of the door as Room object.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.createRooms">
-<code class="descname">createRooms</code><span class="sig-paren">(</span><em>jsonRooms</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createRooms" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.createRooms">
+<code class="descname">createRooms</code><span class="sig-paren">(</span><em>jsonRooms</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.createRooms" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Create the rooms in the grid space.</dt>
 <dd><dl class="first last docutils">
@@ -427,14 +415,14 @@ room1, room2: The two common rooms of the door as Room object.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.createWalls">
-<code class="descname">createWalls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.createWalls" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.createWalls">
+<code class="descname">createWalls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.createWalls" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the walls in the grid space.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.getRoom">
-<code class="descname">getRoom</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.getRoom" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.getRoom">
+<code class="descname">getRoom</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.getRoom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Get one Room Object by position.</dt>
 <dd><dl class="first docutils">
@@ -447,8 +435,8 @@ room1, room2: The two common rooms of the door as Room object.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.openDoor">
-<code class="descname">openDoor</code><span class="sig-paren">(</span><em>agent</em>, <em>room1</em>, <em>room2</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.openDoor" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.openDoor">
+<code class="descname">openDoor</code><span class="sig-paren">(</span><em>agent</em>, <em>room1</em>, <em>room2</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.openDoor" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Change the status of the door to open (True). </dt>
 <dd><dl class="first last docutils">
@@ -461,8 +449,8 @@ room1, room2: The two common rooms of the door as Room object.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.popAgentRoom">
-<code class="descname">popAgentRoom</code><span class="sig-paren">(</span><em>agent</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.popAgentRoom" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.popAgentRoom">
+<code class="descname">popAgentRoom</code><span class="sig-paren">(</span><em>agent</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.popAgentRoom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Remove one agent from a room.</dt>
 <dd><dl class="first last docutils">
@@ -475,8 +463,8 @@ pos: Position of the grid as (x,y)</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.pushAgentRoom">
-<code class="descname">pushAgentRoom</code><span class="sig-paren">(</span><em>agent</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.pushAgentRoom" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.pushAgentRoom">
+<code class="descname">pushAgentRoom</code><span class="sig-paren">(</span><em>agent</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.pushAgentRoom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Add one agent to a room.</dt>
 <dd><dl class="first last docutils">
@@ -489,14 +477,14 @@ pos: Position of the grid as (x,y)</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.setMap">
-<code class="descname">setMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.setMap" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.setMap">
+<code class="descname">setMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.setMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the map plane distribution.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.thereIsClosedDoor">
-<code class="descname">thereIsClosedDoor</code><span class="sig-paren">(</span><em>beforePos</em>, <em>nextPos</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsClosedDoor" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.thereIsClosedDoor">
+<code class="descname">thereIsClosedDoor</code><span class="sig-paren">(</span><em>beforePos</em>, <em>nextPos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.thereIsClosedDoor" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Check if one door is closed or open.</dt>
 <dd><dl class="first docutils">
@@ -509,8 +497,8 @@ pos: Position of the grid as (x,y)</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.thereIsOccupantInRoom">
-<code class="descname">thereIsOccupantInRoom</code><span class="sig-paren">(</span><em>room</em>, <em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsOccupantInRoom" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.thereIsOccupantInRoom">
+<code class="descname">thereIsOccupantInRoom</code><span class="sig-paren">(</span><em>room</em>, <em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.thereIsOccupantInRoom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate if there is one specific occupant in a room.</dt>
 <dd><dl class="first docutils">
@@ -523,8 +511,8 @@ pos: Position of the grid as (x,y)</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.thereIsOtherOccupantInRoom">
-<code class="descname">thereIsOtherOccupantInRoom</code><span class="sig-paren">(</span><em>room</em>, <em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsOtherOccupantInRoom" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.thereIsOtherOccupantInRoom">
+<code class="descname">thereIsOtherOccupantInRoom</code><span class="sig-paren">(</span><em>room</em>, <em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.thereIsOtherOccupantInRoom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate if there is another occupant apart of the past as a parameter in a room.</dt>
 <dd><dl class="first docutils">
@@ -538,8 +526,8 @@ agent: Occupant object to be ignored.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="model.RoomsModel.thereIsSomeOccupantInRoom">
-<code class="descname">thereIsSomeOccupantInRoom</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel.thereIsSomeOccupantInRoom" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.model.RoomsModel.thereIsSomeOccupantInRoom">
+<code class="descname">thereIsSomeOccupantInRoom</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel.thereIsSomeOccupantInRoom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate if there is any occupant in a room.</dt>
 <dd><dl class="first docutils">
@@ -554,12 +542,12 @@ agent: Occupant object to be ignored.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-timeControl">
-<span id="time-control"></span><h2>Time Control<a class="headerlink" href="#module-timeControl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.models.timeControl">
+<span id="time-control"></span><h2>Time Control<a class="headerlink" href="#module-soba.models.timeControl" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="timeControl.BaseScheduler">
-<em class="property">class </em><code class="descclassname">timeControl.</code><code class="descname">BaseScheduler</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.BaseScheduler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class to store and manage the activation of agents added to the models&#8217;s schedule.
+<dt id="soba.models.timeControl.BaseScheduler">
+<em class="property">class </em><code class="descclassname">soba.models.timeControl.</code><code class="descname">BaseScheduler</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.BaseScheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to store and manage the activation of agents added to the models’s schedule.
 The agents are activated in the order in which they were added.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -574,8 +562,8 @@ getAgentCount: Get number of agents that are included in the scheduler.</dd>
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="timeControl.BaseScheduler.add">
-<code class="descname">add</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.BaseScheduler.add" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.BaseScheduler.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.BaseScheduler.add" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Add an agent to the scheduler.</dt>
 <dd><dl class="first last docutils">
@@ -587,8 +575,8 @@ getAgentCount: Get number of agents that are included in the scheduler.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="timeControl.BaseScheduler.getAgentCount">
-<code class="descname">getAgentCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.BaseScheduler.getAgentCount" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.BaseScheduler.getAgentCount">
+<code class="descname">getAgentCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.BaseScheduler.getAgentCount" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Get number of agents that are included in the scheduler.</dt>
 <dd>Return: Number of agents.</dd>
@@ -596,8 +584,8 @@ getAgentCount: Get number of agents that are included in the scheduler.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="timeControl.BaseScheduler.remove">
-<code class="descname">remove</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.BaseScheduler.remove" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.BaseScheduler.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.BaseScheduler.remove" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Remove an agent from the scheduler.</dt>
 <dd><dl class="first last docutils">
@@ -609,18 +597,18 @@ getAgentCount: Get number of agents that are included in the scheduler.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="timeControl.BaseScheduler.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.BaseScheduler.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.BaseScheduler.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.BaseScheduler.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advances in the simulation, activating the action of the agents, following the orded in which they were added.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="timeControl.RandomActivation">
-<em class="property">class </em><code class="descclassname">timeControl.</code><code class="descname">RandomActivation</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.RandomActivation" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.RandomActivation">
+<em class="property">class </em><code class="descclassname">soba.models.timeControl.</code><code class="descname">RandomActivation</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.RandomActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that inherits from the BaseScheduler class. Manage the activation of agents added 
-to the models&#8217;s schedule following a random order.</p>
+to the models’s schedule following a random order.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt>Attributes:</dt>
@@ -630,16 +618,16 @@ to the models&#8217;s schedule following a random order.</p>
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="timeControl.RandomActivation.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.RandomActivation.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.RandomActivation.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.RandomActivation.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advances in the simulation, activating the action of the agents, following a random order.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="timeControl.Time">
-<em class="property">class </em><code class="descclassname">timeControl.</code><code class="descname">Time</code><span class="sig-paren">(</span><em>model</em>, <em>timeByStep=1</em>, <em>day=1</em>, <em>hour=7</em>, <em>minute=0</em>, <em>seg=0</em>, <em>microsecond=0</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.Time" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.Time">
+<em class="property">class </em><code class="descclassname">soba.models.timeControl.</code><code class="descname">Time</code><span class="sig-paren">(</span><em>model</em>, <em>timeByStep=1</em>, <em>day=1</em>, <em>hour=7</em>, <em>minute=0</em>, <em>seg=0</em>, <em>microsecond=0</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.Time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that inherits of the Agent class to manage the time in sexagesimal units.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -655,8 +643,8 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="timeControl.Time.decreaseTime">
-<code class="descname">decreaseTime</code><span class="sig-paren">(</span><em>days=0</em>, <em>hours=0</em>, <em>minutes=0</em>, <em>seconds=0</em>, <em>microseconds=0</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.Time.decreaseTime" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.Time.decreaseTime">
+<code class="descname">decreaseTime</code><span class="sig-paren">(</span><em>days=0</em>, <em>hours=0</em>, <em>minutes=0</em>, <em>seconds=0</em>, <em>microseconds=0</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.Time.decreaseTime" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Decrease the value of the clock a given time.</dt>
 <dd><dl class="first docutils">
@@ -669,8 +657,8 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="timeControl.Time.increaseTime">
-<code class="descname">increaseTime</code><span class="sig-paren">(</span><em>seconds=0</em>, <em>days=0</em>, <em>hours=0</em>, <em>minutes=0</em>, <em>microseconds=0</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.Time.increaseTime" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.Time.increaseTime">
+<code class="descname">increaseTime</code><span class="sig-paren">(</span><em>seconds=0</em>, <em>days=0</em>, <em>hours=0</em>, <em>minutes=0</em>, <em>microseconds=0</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.Time.increaseTime" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Increase the value of the clock a given time.</dt>
 <dd><dl class="first docutils">
@@ -683,8 +671,8 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="timeControl.Time.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.Time.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.models.timeControl.Time.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.Time.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance of the clock in a step.</p>
 </dd></dl>
 
@@ -700,15 +688,6 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="agents.html" class="btn btn-neutral float-right" title="Agents Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="api.html" class="btn btn-neutral" title="APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -741,7 +720,7 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

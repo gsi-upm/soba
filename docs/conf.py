@@ -19,14 +19,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, "../soba")
-sys.path.insert(0, "../soba/agents")
-sys.path.insert(0, "../soba/agents/modules")
-sys.path.insert(0, "../soba/launchers")
-sys.path.insert(0, "../soba/models")
-sys.path.insert(0, "../soba/space")
-sys.path.insert(0, "../soba/visualization")
+sys.path.append(os.path.abspath('..'))
+print(sys.path)
+
 
 from unittest.mock import MagicMock
 

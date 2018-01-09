@@ -4,11 +4,11 @@ Launchers Module Documentation
 Visual
 ------
 
-.. automodule:: visual
+.. automodule:: soba.launchers.visual
    :members:
 
 Batch
 -----
 
-.. automodule:: batch
+.. automodule:: soba.launchers.batch
    :members:

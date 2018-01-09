@@ -32,10 +32,10 @@
   
 
   
-    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
-        <link rel="up" title="APIs" href="api.html"/>
-        <link rel="next" title="Space Module Documentation" href="space.html"/>
-        <link rel="prev" title="Model Module Documentation" href="model.html"/> 
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,27 +88,11 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Agents Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-agent">Agent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-occupant">Occupant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#agent-modules">Agent Modules</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#module-aStar">AStar</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-behaviourMarkov">Markov</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-fov">FOV</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">APIs Documentation</a></li>
 </ul>
 
             
@@ -153,15 +137,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="api.html">APIs</a> &raquo;</li>
-        
       <li>Agents Module Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/apiDocumentation/agents.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/apiDocumentation/agents.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,11 +158,11 @@
             
   <div class="section" id="agents-module-documentation">
 <h1>Agents Module Documentation<a class="headerlink" href="#agents-module-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-agent">
-<span id="agent"></span><h2>Agent<a class="headerlink" href="#module-agent" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.agent">
+<span id="agent"></span><h2>Agent<a class="headerlink" href="#module-soba.agents.agent" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="agent.Agent">
-<em class="property">class </em><code class="descclassname">agent.</code><code class="descname">Agent</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#agent.Agent" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.agent.Agent">
+<em class="property">class </em><code class="descclassname">soba.agents.agent.</code><code class="descname">Agent</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.agent.Agent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class to create Agent objects.
 The agents are controlled by the scheduler of the Model associated.</p>
 <dl class="docutils">
@@ -192,19 +174,19 @@ color: Color with which the agent will be represented in the visualization.</dd>
 <dd>step: Method invoked by the Model scheduler in each step. Step common to all Agents.</dd>
 </dl>
 <dl class="method">
-<dt id="agent.Agent.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agent.Agent.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.agent.Agent.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.agent.Agent.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method invoked by the Model scheduler in each step. Step common to all Agents.</p>
 </dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-occupant">
-<span id="occupant"></span><h2>Occupant<a class="headerlink" href="#module-occupant" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.occupant">
+<span id="occupant"></span><h2>Occupant<a class="headerlink" href="#module-soba.agents.occupant" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="occupant.ContinuousOccupant">
-<em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">ContinuousOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant">
+<em class="property">class </em><code class="descclassname">soba.agents.occupant.</code><code class="descname">ContinuousOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class enables to create occupants that are modelled with a continuous space models.
 based on considering a scaled grid (x, y). Cell size of 0.5m ^ 2 by default.
 The occupants are agents with their activity defined by markov states.</p>
@@ -220,12 +202,12 @@ posInMyFOV: Check if a position is in my field of vision.
 evalAvoid: Check the future movement to be made by another agent to assess a possible collision.
 evalCollision: Evaluate a possible collision with an agent and solve it if necessary by calculating another path.
 makeMovement: Carry out a movement: displacement between cells or reduction of the movement cost parameter.
-getFOV: Calculation of the occupant&#8217;s field of vision, registered in the attribute fov.
+getFOV: Calculation of the occupant’s field of vision, registered in the attribute fov.
 step: Method invoked by the Model scheduler in each step.</dd>
 </dl>
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.evalAvoid">
-<code class="descname">evalAvoid</code><span class="sig-paren">(</span><em>otherAgent</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.evalAvoid" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.evalAvoid">
+<code class="descname">evalAvoid</code><span class="sig-paren">(</span><em>otherAgent</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.evalAvoid" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Check the future movement to be made by another agent to assess a possible collision.</dt>
 <dd><dl class="first docutils">
@@ -238,8 +220,8 @@ step: Method invoked by the Model scheduler in each step.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.evalCollision">
-<code class="descname">evalCollision</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.evalCollision" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.evalCollision">
+<code class="descname">evalCollision</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.evalCollision" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate a possible collision with an agent, invoking the evalAvoid method, and solve it if necessary by calculating another path.</dt>
 <dd>Return: True if the collision exists and is avoided, False otherwise.</dd>
@@ -247,14 +229,14 @@ step: Method invoked by the Model scheduler in each step.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.getFOV">
-<code class="descname">getFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getFOV" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculation of the occupant&#8217;s field of vision, registered in the attribute fov</p>
+<dt id="soba.agents.occupant.ContinuousOccupant.getFOV">
+<code class="descname">getFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.getFOV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of the occupant’s field of vision, registered in the attribute fov</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.getPlaceToGo">
-<code class="descname">getPlaceToGo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getPlaceToGo" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.getPlaceToGo">
+<code class="descname">getPlaceToGo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.getPlaceToGo" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Obtaining the position associated with the current state. It is invoked when you enter a new state.</dt>
 <dd>Return: Position as coordinate (x, y).</dd>
@@ -262,8 +244,8 @@ step: Method invoked by the Model scheduler in each step.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.getPosState">
-<code class="descname">getPosState</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getPosState" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.getPosState">
+<code class="descname">getPosState</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.getPosState" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Auxiliary method to distribute the occupants between the points of interests with same id for more than one occupant.</dt>
 <dd><dl class="first docutils">
@@ -276,14 +258,14 @@ step: Method invoked by the Model scheduler in each step.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.getWay">
-<code class="descname">getWay</code><span class="sig-paren">(</span><em>pos=None</em>, <em>pos_to_go=None</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.getWay" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.getWay">
+<code class="descname">getWay</code><span class="sig-paren">(</span><em>pos=None</em>, <em>pos_to_go=None</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.getWay" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Invocation of the AStar resource to calculate the optimal path.</dt>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>pos: Initial position, by default the current position of the occupant.
-pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; attribute of the occupant.
+pos_to_go: Final position, by default the value of the ‘pos_to_go’ attribute of the occupant.
 other: List of auxiliary positions given to be considered impenetrable by the occupants, 
 that is, they will not be used by the AStar.</dd>
 </dl>
@@ -293,14 +275,14 @@ that is, they will not be used by the AStar.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.makeMovement">
-<code class="descname">makeMovement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.makeMovement" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.makeMovement">
+<code class="descname">makeMovement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.makeMovement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Carry out a movement: displacement between cells or reduction of the movement cost parameter.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.posInMyFOV">
-<code class="descname">posInMyFOV</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.posInMyFOV" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.posInMyFOV">
+<code class="descname">posInMyFOV</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.posInMyFOV" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Check if the position is in my field of vision</dt>
 <dd><dl class="first docutils">
@@ -313,8 +295,8 @@ that is, they will not be used by the AStar.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.ContinuousOccupant.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.ContinuousOccupant.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.ContinuousOccupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: 
 A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.</p>
 </dd></dl>
@@ -322,8 +304,8 @@ A change of state, a movement or advance in the cost of a movement, or an advanc
 </dd></dl>
 
 <dl class="class">
-<dt id="occupant.Occupant">
-<em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">Occupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.Occupant">
+<em class="property">class </em><code class="descclassname">soba.agents.occupant.</code><code class="descname">Occupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class to models occupants as Occupant objects.
 The occupants are agents with their activity defined by markov states.</p>
 <blockquote>
@@ -334,7 +316,7 @@ positionByState: Position associated to each state for an occupant.
 timeActivity: Time that is required to complete an activity (state) in minutes.
 schedule: Activity periods (hours:minutes).
 states: States of the occupant.
-machine: State machine defined by the attribute &#8216;states&#8217;.
+machine: State machine defined by the attribute ‘states’.
 movements: List of movements that will be followed by the occupant.
 pos_to_go: Position to which the occupant wishes to move.
 markov_machine: Object of the Markov class that regulates markovian behavior.</dd>
@@ -347,8 +329,8 @@ step: Method invoked by the Model scheduler in each step. Step common to all occ
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="occupant.Occupant.changeSchedule">
-<code class="descname">changeSchedule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.changeSchedule" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.Occupant.changeSchedule">
+<code class="descname">changeSchedule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant.changeSchedule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Force a possible change of state to reach a certain end of period.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -359,14 +341,14 @@ step: Method invoked by the Model scheduler in each step. Step common to all occ
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.Occupant.finish_activity">
-<code class="descname">finish_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.finish_activity" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.Occupant.finish_activity">
+<code class="descname">finish_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant.finish_activity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the actions that are made when a state is finished.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.Occupant.getPeriod">
-<code class="descname">getPeriod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.getPeriod" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.Occupant.getPeriod">
+<code class="descname">getPeriod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant.getPeriod" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the temporary period in which the occupant is.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -377,24 +359,24 @@ step: Method invoked by the Model scheduler in each step. Step common to all occ
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.Occupant.start_activity">
-<code class="descname">start_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.start_activity" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.Occupant.start_activity">
+<code class="descname">start_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant.start_activity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the actions that are made when a state is started. 
-Default, this method calculates the value of the attributes &#8216;time_activity&#8217; and &#8216;movements&#8217;
+Default, this method calculates the value of the attributes ‘time_activity’ and ‘movements’
 corresponding to the new state.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.Occupant.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.Occupant.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.Occupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method invoked by the Model scheduler in each step. Step common to all occupants.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="occupant.RoomsOccupant">
-<em class="property">class </em><code class="descclassname">occupant.</code><code class="descname">RoomsOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.RoomsOccupant">
+<em class="property">class </em><code class="descclassname">soba.agents.occupant.</code><code class="descname">RoomsOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em>, <em>speed=0.7</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.RoomsOccupant" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class enables to create occupants that are modelled with a simplified models based on a discrete space associated with rooms.
 The occupants are agents with their activity defined by markov states.</p>
 <dl class="docutils">
@@ -408,8 +390,8 @@ getPlaceToGo: Obtaining the position associated with the current state.
 step: Method invoked by the Model scheduler in each step.</dd>
 </dl>
 <dl class="method">
-<dt id="occupant.RoomsOccupant.getPlaceToGo">
-<code class="descname">getPlaceToGo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.getPlaceToGo" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.RoomsOccupant.getPlaceToGo">
+<code class="descname">getPlaceToGo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.RoomsOccupant.getPlaceToGo" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Obtaining the position associated with the current state. It is invoked when you enter a new state.</dt>
 <dd>Return: Position as coordinate (x, y).</dd>
@@ -417,16 +399,16 @@ step: Method invoked by the Model scheduler in each step.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.RoomsOccupant.getPosState">
-<code class="descname">getPosState</code><span class="sig-paren">(</span><em>name</em>, <em>posAux</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.getPosState" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.RoomsOccupant.getPosState">
+<code class="descname">getPosState</code><span class="sig-paren">(</span><em>name</em>, <em>posAux</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.RoomsOccupant.getPosState" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Auxiliary method to distribute the occupants between the rooms shared by more than one occupant object.</dt>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>name: State name.
 posAux: Name of the room associated with this state, string, 
-or dictionary of room names with number of occupants. {&#8216;RoomName1&#8217;: numberofOccupantsAssigned1,
-&#8216;RoomName2&#8217;: numberofOccupantsAssigned2... }</dd>
+or dictionary of room names with number of occupants. {‘RoomName1’: numberofOccupantsAssigned1,
+‘RoomName2’: numberofOccupantsAssigned2… }</dd>
 </dl>
 <p class="last">Return: Position associated with this occupant</p>
 </dd>
@@ -434,14 +416,14 @@ or dictionary of room names with number of occupants. {&#8216;RoomName1&#8217;: 
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.RoomsOccupant.getWay">
-<code class="descname">getWay</code><span class="sig-paren">(</span><em>pos=None</em>, <em>pos_to_go=None</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.getWay" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.RoomsOccupant.getWay">
+<code class="descname">getWay</code><span class="sig-paren">(</span><em>pos=None</em>, <em>pos_to_go=None</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.RoomsOccupant.getWay" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Invocation of the AStar resource to calculate the optimal path.</dt>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>pos: Initial position, by default the current position of the occupant.
-pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; attribute of the occupant.</dd>
+pos_to_go: Final position, by default the value of the ‘pos_to_go’ attribute of the occupant.</dd>
 </dl>
 <p class="last">Return: List of positions (x, y).</p>
 </dd>
@@ -449,8 +431,8 @@ pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; a
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.RoomsOccupant.occupantMovePos">
-<code class="descname">occupantMovePos</code><span class="sig-paren">(</span><em>new_position</em><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.occupantMovePos" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.RoomsOccupant.occupantMovePos">
+<code class="descname">occupantMovePos</code><span class="sig-paren">(</span><em>new_position</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.RoomsOccupant.occupantMovePos" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Calculation of the control attributes that regulate the cost (steps) of the movement between rooms according to their size.</dt>
 <dd><dl class="first last docutils">
@@ -462,8 +444,8 @@ pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; a
 </dd></dl>
 
 <dl class="method">
-<dt id="occupant.RoomsOccupant.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#occupant.RoomsOccupant.step" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.occupant.RoomsOccupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.RoomsOccupant.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: 
 A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.</p>
 </dd></dl>
@@ -473,11 +455,11 @@ A change of state, a movement or advance in the cost of a movement, or an advanc
 </div>
 <div class="section" id="agent-modules">
 <h2>Agent Modules<a class="headerlink" href="#agent-modules" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="module-aStar">
-<span id="astar"></span><h3>AStar<a class="headerlink" href="#module-aStar" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-soba.agents.modules.aStar">
+<span id="astar"></span><h3>AStar<a class="headerlink" href="#module-soba.agents.modules.aStar" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
-<dt id="aStar.canMovePos">
-<code class="descclassname">aStar.</code><code class="descname">canMovePos</code><span class="sig-paren">(</span><em>model</em>, <em>cellPos</em>, <em>posAux</em>, <em>others=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.canMovePos" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.aStar.canMovePos">
+<code class="descclassname">soba.agents.modules.aStar.</code><code class="descname">canMovePos</code><span class="sig-paren">(</span><em>model</em>, <em>cellPos</em>, <em>posAux</em>, <em>others=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.aStar.canMovePos" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate if a position is reachable in a continuous space.</dt>
 <dd><dl class="first docutils">
@@ -494,8 +476,8 @@ that is, they will not be used by the AStar.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="aStar.getConectedCellsContinuous">
-<code class="descclassname">aStar.</code><code class="descname">getConectedCellsContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em>, <em>others</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getConectedCellsContinuous" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.aStar.getConectedCellsContinuous">
+<code class="descclassname">soba.agents.modules.aStar.</code><code class="descname">getConectedCellsContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em>, <em>others</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.aStar.getConectedCellsContinuous" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Gets a list of connected cells in a continuous space.</dt>
 <dd><dl class="first docutils">
@@ -510,8 +492,8 @@ other: List of auxiliary positions given to be considered impenetrable, that is,
 </dd></dl>
 
 <dl class="function">
-<dt id="aStar.getConectedCellsRooms">
-<code class="descclassname">aStar.</code><code class="descname">getConectedCellsRooms</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getConectedCellsRooms" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.aStar.getConectedCellsRooms">
+<code class="descclassname">soba.agents.modules.aStar.</code><code class="descname">getConectedCellsRooms</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.aStar.getConectedCellsRooms" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Gets a list of connected cells in a space defined by rooms.</dt>
 <dd><dl class="first docutils">
@@ -525,8 +507,8 @@ cell: cell object corresponding to the room.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="aStar.getPathContinuous">
-<code class="descclassname">aStar.</code><code class="descname">getPathContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getPathContinuous" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.aStar.getPathContinuous">
+<code class="descclassname">soba.agents.modules.aStar.</code><code class="descname">getPathContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.aStar.getPathContinuous" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Calculate the optimal path in the models with the space continuous.</dt>
 <dd><dl class="first docutils">
@@ -542,8 +524,8 @@ other: List of auxiliary positions given to be considered impenetrable, that is,
 </dd></dl>
 
 <dl class="function">
-<dt id="aStar.getPathRooms">
-<code class="descclassname">aStar.</code><code class="descname">getPathRooms</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em><span class="sig-paren">)</span><a class="headerlink" href="#aStar.getPathRooms" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.aStar.getPathRooms">
+<code class="descclassname">soba.agents.modules.aStar.</code><code class="descname">getPathRooms</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.aStar.getPathRooms" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Calculate the optimal path in the models with the space defined by rooms.</dt>
 <dd><dl class="first docutils">
@@ -558,11 +540,11 @@ finish: Final position.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-behaviourMarkov">
-<span id="markov"></span><h3>Markov<a class="headerlink" href="#module-behaviourMarkov" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-soba.agents.modules.behaviourMarkov">
+<span id="markov"></span><h3>Markov<a class="headerlink" href="#module-soba.agents.modules.behaviourMarkov" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="behaviourMarkov.Markov">
-<em class="property">class </em><code class="descclassname">behaviourMarkov.</code><code class="descname">Markov</code><span class="sig-paren">(</span><em>agent_aux</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.behaviourMarkov.Markov">
+<em class="property">class </em><code class="descclassname">soba.agents.modules.behaviourMarkov.</code><code class="descname">Markov</code><span class="sig-paren">(</span><em>agent_aux</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.behaviourMarkov.Markov" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class to models the activity of the agents by means of Markovian behavior.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -574,8 +556,8 @@ getNextState: Evaluate a random change based on the probabilities corresponding 
 </dl>
 </div></blockquote>
 <dl class="method">
-<dt id="behaviourMarkov.Markov.getNextState">
-<code class="descname">getNextState</code><span class="sig-paren">(</span><em>markov_matrix</em>, <em>NumberCurrentState</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov.getNextState" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.behaviourMarkov.Markov.getNextState">
+<code class="descname">getNextState</code><span class="sig-paren">(</span><em>markov_matrix</em>, <em>NumberCurrentState</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.behaviourMarkov.Markov.getNextState" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Evaluate a random change based on the probabilities corresponding to each state.</dt>
 <dd><dl class="first last docutils">
@@ -588,8 +570,8 @@ NumberCurrentState: Unique id as number of the current state.</dd>
 </dd></dl>
 
 <dl class="method">
-<dt id="behaviourMarkov.Markov.runStep">
-<code class="descname">runStep</code><span class="sig-paren">(</span><em>markov_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#behaviourMarkov.Markov.runStep" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.behaviourMarkov.Markov.runStep">
+<code class="descname">runStep</code><span class="sig-paren">(</span><em>markov_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.behaviourMarkov.Markov.runStep" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.</dt>
 <dd><dl class="first last docutils">
@@ -603,17 +585,17 @@ NumberCurrentState: Unique id as number of the current state.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-fov">
-<span id="fov"></span><h3>FOV<a class="headerlink" href="#module-fov" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-soba.agents.modules.fov">
+<span id="fov"></span><h3>FOV<a class="headerlink" href="#module-soba.agents.modules.fov" title="Permalink to this headline">¶</a></h3>
 <dl class="data">
-<dt id="fov.FOV_RADIUS">
-<code class="descclassname">fov.</code><code class="descname">FOV_RADIUS</code><em class="property"> = 30000</em><a class="headerlink" href="#fov.FOV_RADIUS" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.fov.FOV_RADIUS">
+<code class="descclassname">soba.agents.modules.fov.</code><code class="descname">FOV_RADIUS</code><em class="property"> = 30000</em><a class="headerlink" href="#soba.agents.modules.fov.FOV_RADIUS" title="Permalink to this definition">¶</a></dt>
 <dd><p>In the file aStar.py the filed of vision algorithm is implemented.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="fov.Map">
-<em class="property">class </em><code class="descclassname">fov.</code><code class="descname">Map</code><span class="sig-paren">(</span><em>map</em><span class="sig-paren">)</span><a class="headerlink" href="#fov.Map" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.fov.Map">
+<em class="property">class </em><code class="descclassname">soba.agents.modules.fov.</code><code class="descname">Map</code><span class="sig-paren">(</span><em>map</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.fov.Map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to calculate the field of vision (fov).</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -624,13 +606,13 @@ NumberCurrentState: Unique id as number of the current state.</dd>
 <dd><a class="reference external" href="http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation">http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation</a></dd>
 </dl>
 <dl class="method">
-<dt id="fov.Map.do_fov">
-<code class="descname">do_fov</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fov.Map.do_fov" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.fov.Map.do_fov">
+<code class="descname">do_fov</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.fov.Map.do_fov" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Calculate the field of view from a position (x, y).</dt>
 <dd><dl class="first docutils">
 <dt>Args: </dt>
-<dd>x, y: Observer&#8217;s position</dd>
+<dd>x, y: Observer’s position</dd>
 </dl>
 <p class="last">Return: Array of sight positions.</p>
 </dd>
@@ -640,14 +622,14 @@ NumberCurrentState: Unique id as number of the current state.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="fov.makeFOV">
-<code class="descclassname">fov.</code><code class="descname">makeFOV</code><span class="sig-paren">(</span><em>dungeon</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#fov.makeFOV" title="Permalink to this definition">¶</a></dt>
+<dt id="soba.agents.modules.fov.makeFOV">
+<code class="descclassname">soba.agents.modules.fov.</code><code class="descname">makeFOV</code><span class="sig-paren">(</span><em>dungeon</em>, <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.modules.fov.makeFOV" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Create the invocation object of the fov algorithm and invoke it.</dt>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>dungeon: Array 
-pos: Observer&#8217;s position</dd>
+pos: Observer’s position</dd>
 </dl>
 <p class="last">Return: Array of sight positions.</p>
 </dd>
@@ -665,15 +647,6 @@ pos: Observer&#8217;s position</dd>
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="space.html" class="btn btn-neutral float-right" title="Space Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="model.html" class="btn btn-neutral" title="Model Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -706,7 +679,7 @@ pos: Observer&#8217;s position</dd>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

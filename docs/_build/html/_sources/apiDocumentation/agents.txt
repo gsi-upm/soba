@@ -4,13 +4,13 @@ Agents Module Documentation
 Agent
 -----
 
-.. automodule:: agent
+.. automodule:: soba.agents.agent
    :members:
 
 Occupant
 --------
 
-.. automodule:: occupant
+.. automodule:: soba.agents.occupant
    :members:
 
 Agent Modules
@@ -19,18 +19,18 @@ Agent Modules
 AStar
 ~~~~~
 
-.. automodule:: aStar
+.. automodule:: soba.agents.modules.aStar
    :members:
 
 Markov
 ~~~~~~
 
-.. automodule:: behaviourMarkov
+.. automodule:: soba.agents.modules.behaviourMarkov
    :members:
 
 FOV
 ~~~
 
-.. automodule:: fov
+.. automodule:: soba.agents.modules.fov
    :members:
 

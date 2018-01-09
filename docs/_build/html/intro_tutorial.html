@@ -32,6 +32,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="SOBA 1 documentation" href="index.html"/>
         <link rel="next" title="APIs" href="apiDocumentation/api.html"/>
         <link rel="prev" title="How install" href="howinstall.html"/> 
@@ -151,7 +154,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/intro_tutorial.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/intro_tutorial.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -253,7 +256,7 @@ define the generic parameters to both types of scenario.</p>
 <span class="k">class</span> <span class="nc">ModelExample</span><span class="p">(</span><span class="n">ContinuousModel</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">day</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
@@ -340,7 +343,7 @@ define the generic parameters to both types of scenario.</p>
 <span class="k">class</span> <span class="nc">ModelExample</span><span class="p">(</span><span class="n">RoomsModel</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">day</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
@@ -432,7 +435,7 @@ define the generic parameters to both types of scenario.</p>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

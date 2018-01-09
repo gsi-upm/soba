@@ -4,17 +4,17 @@ Space Module Documentation
 Grid
 ----
 
-.. automodule:: grid
+.. automodule:: soba.space.grid
    :members:
 
 Items in continuous modeling
 ----------------------------
 
-.. automodule:: continuousItems
+.. automodule:: soba.space.continuousItems
    :members:
 
 Items in simplified modeling
 ----------------------------
 
-.. automodule:: roomsItems
+.. automodule:: soba.space.roomsItems
    :members:
