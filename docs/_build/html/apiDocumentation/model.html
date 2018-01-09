@@ -95,7 +95,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Model Module Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-model">Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-timeControl">Time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-timeControl">Time Control</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
@@ -174,7 +174,7 @@
 <span id="model"></span><h2>Model<a class="headerlink" href="#module-model" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="model.ContinuousModel">
-<em class="property">class </em><code class="descclassname">model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>11</em>, <em>46</em>, <em>57</em>, <em>860778)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>0</em>, <em>18</em>, <em>575474)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Base Class to create simulation models on a simplified space based on rooms.</dt>
 <dd><dl class="first last docutils">
@@ -305,7 +305,7 @@ scale: Value of the scale.</dd>
 
 <dl class="class">
 <dt id="model.Model">
-<em class="property">class </em><code class="descclassname">model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>11</em>, <em>46</em>, <em>57</em>, <em>860692)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.Model" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>0</em>, <em>18</em>, <em>575402)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models.
 It creates and manages space and agents.</p>
 <blockquote>
@@ -350,7 +350,7 @@ step: Execution of the scheduler steps.</dd>
 
 <dl class="class">
 <dt id="model.RoomsModel">
-<em class="property">class </em><code class="descclassname">model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>11</em>, <em>46</em>, <em>57</em>, <em>860743)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>0</em>, <em>18</em>, <em>575443)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#model.RoomsModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models on a simplified space based on rooms.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -555,7 +555,7 @@ agent: Occupant object to be ignored.</dd>
 
 </div>
 <div class="section" id="module-timeControl">
-<span id="time"></span><h2>Time<a class="headerlink" href="#module-timeControl" title="Permalink to this headline">¶</a></h2>
+<span id="time-control"></span><h2>Time Control<a class="headerlink" href="#module-timeControl" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="timeControl.BaseScheduler">
 <em class="property">class </em><code class="descclassname">timeControl.</code><code class="descname">BaseScheduler</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#timeControl.BaseScheduler" title="Permalink to this definition">¶</a></dt>

@@ -8,7 +8,7 @@ Model
    :members:
 
 Time Control
-----
+------------
 
 .. automodule:: timeControl
    :members:
