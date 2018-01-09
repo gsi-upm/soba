@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="SOBA 1 documentation" href="../index.html"/> 
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
+        <link rel="up" title="APIs" href="api.html"/>
+        <link rel="next" title="Agents Module Documentation" href="agents.html"/>
+        <link rel="prev" title="APIs" href="api.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,11 +88,21 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">APIs Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.models.model">Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.models.timeControl">Time Control</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -137,13 +147,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
+          <li><a href="api.html">APIs</a> &raquo;</li>
+        
       <li>Model Module Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/apiDocumentation/model.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/apiDocumentation/model.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,7 +174,7 @@
 <span id="model"></span><h2>Model<a class="headerlink" href="#module-soba.models.model" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="soba.models.model.ContinuousModel">
-<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>54</em>, <em>34</em>, <em>757276)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>15</em>, <em>52</em>, <em>2</em>, <em>16070)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.ContinuousModel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Base Class to create simulation models on a simplified space based on rooms.</dt>
 <dd><dl class="first last docutils">
@@ -293,7 +305,7 @@ scale: Value of the scale.</dd>
 
 <dl class="class">
 <dt id="soba.models.model.Model">
-<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>54</em>, <em>34</em>, <em>757212)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.Model" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>15</em>, <em>52</em>, <em>2</em>, <em>16006)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models.
 It creates and manages space and agents.</p>
 <blockquote>
@@ -338,7 +350,7 @@ step: Execution of the scheduler steps.</dd>
 
 <dl class="class">
 <dt id="soba.models.model.RoomsModel">
-<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>12</em>, <em>54</em>, <em>34</em>, <em>757249)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">soba.models.model.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>1</em>, <em>9</em>, <em>15</em>, <em>52</em>, <em>2</em>, <em>16041)</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.model.RoomsModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models on a simplified space based on rooms.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -547,7 +559,7 @@ agent: Occupant object to be ignored.</dd>
 <dl class="class">
 <dt id="soba.models.timeControl.BaseScheduler">
 <em class="property">class </em><code class="descclassname">soba.models.timeControl.</code><code class="descname">BaseScheduler</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.BaseScheduler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class to store and manage the activation of agents added to the models’s schedule.
+<dd><p>Class to store and manage the activation of agents added to the models&#8217;s schedule.
 The agents are activated in the order in which they were added.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -608,7 +620,7 @@ getAgentCount: Get number of agents that are included in the scheduler.</dd>
 <dt id="soba.models.timeControl.RandomActivation">
 <em class="property">class </em><code class="descclassname">soba.models.timeControl.</code><code class="descname">RandomActivation</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#soba.models.timeControl.RandomActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that inherits from the BaseScheduler class. Manage the activation of agents added 
-to the models’s schedule following a random order.</p>
+to the models&#8217;s schedule following a random order.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt>Attributes:</dt>
@@ -689,6 +701,15 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="agents.html" class="btn btn-neutral float-right" title="Agents Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
@@ -720,7 +741,7 @@ decreaseTime: Decrease the value of the clock a given time.</dd>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            SOURCELINK_SUFFIX: ''
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

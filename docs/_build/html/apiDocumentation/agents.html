@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="SOBA 1 documentation" href="../index.html"/> 
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
+        <link rel="up" title="APIs" href="api.html"/>
+        <link rel="next" title="Space Module Documentation" href="space.html"/>
+        <link rel="prev" title="Model Module Documentation" href="model.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,11 +88,27 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">APIs Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Agents Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.agents.agent">Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.agents.occupant">Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#agent-modules">Agent Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.modules.aStar">AStar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.modules.behaviourMarkov">Markov</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.modules.fov">FOV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -137,13 +153,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
+          <li><a href="api.html">APIs</a> &raquo;</li>
+        
       <li>Agents Module Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/apiDocumentation/agents.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/apiDocumentation/agents.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -202,7 +220,7 @@ posInMyFOV: Check if a position is in my field of vision.
 evalAvoid: Check the future movement to be made by another agent to assess a possible collision.
 evalCollision: Evaluate a possible collision with an agent and solve it if necessary by calculating another path.
 makeMovement: Carry out a movement: displacement between cells or reduction of the movement cost parameter.
-getFOV: Calculation of the occupant’s field of vision, registered in the attribute fov.
+getFOV: Calculation of the occupant&#8217;s field of vision, registered in the attribute fov.
 step: Method invoked by the Model scheduler in each step.</dd>
 </dl>
 <dl class="method">
@@ -231,7 +249,7 @@ step: Method invoked by the Model scheduler in each step.</dd>
 <dl class="method">
 <dt id="soba.agents.occupant.ContinuousOccupant.getFOV">
 <code class="descname">getFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.ContinuousOccupant.getFOV" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculation of the occupant’s field of vision, registered in the attribute fov</p>
+<dd><p>Calculation of the occupant&#8217;s field of vision, registered in the attribute fov</p>
 </dd></dl>
 
 <dl class="method">
@@ -265,7 +283,7 @@ step: Method invoked by the Model scheduler in each step.</dd>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>pos: Initial position, by default the current position of the occupant.
-pos_to_go: Final position, by default the value of the ‘pos_to_go’ attribute of the occupant.
+pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; attribute of the occupant.
 other: List of auxiliary positions given to be considered impenetrable by the occupants, 
 that is, they will not be used by the AStar.</dd>
 </dl>
@@ -316,7 +334,7 @@ positionByState: Position associated to each state for an occupant.
 timeActivity: Time that is required to complete an activity (state) in minutes.
 schedule: Activity periods (hours:minutes).
 states: States of the occupant.
-machine: State machine defined by the attribute ‘states’.
+machine: State machine defined by the attribute &#8216;states&#8217;.
 movements: List of movements that will be followed by the occupant.
 pos_to_go: Position to which the occupant wishes to move.
 markov_machine: Object of the Markov class that regulates markovian behavior.</dd>
@@ -362,7 +380,7 @@ step: Method invoked by the Model scheduler in each step. Step common to all occ
 <dt id="soba.agents.occupant.Occupant.start_activity">
 <code class="descname">start_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soba.agents.occupant.Occupant.start_activity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the actions that are made when a state is started. 
-Default, this method calculates the value of the attributes ‘time_activity’ and ‘movements’
+Default, this method calculates the value of the attributes &#8216;time_activity&#8217; and &#8216;movements&#8217;
 corresponding to the new state.</p>
 </dd></dl>
 
@@ -407,8 +425,8 @@ step: Method invoked by the Model scheduler in each step.</dd>
 <dt>Args:</dt>
 <dd>name: State name.
 posAux: Name of the room associated with this state, string, 
-or dictionary of room names with number of occupants. {‘RoomName1’: numberofOccupantsAssigned1,
-‘RoomName2’: numberofOccupantsAssigned2… }</dd>
+or dictionary of room names with number of occupants. {&#8216;RoomName1&#8217;: numberofOccupantsAssigned1,
+&#8216;RoomName2&#8217;: numberofOccupantsAssigned2... }</dd>
 </dl>
 <p class="last">Return: Position associated with this occupant</p>
 </dd>
@@ -423,7 +441,7 @@ or dictionary of room names with number of occupants. {‘RoomName1’: numberof
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>pos: Initial position, by default the current position of the occupant.
-pos_to_go: Final position, by default the value of the ‘pos_to_go’ attribute of the occupant.</dd>
+pos_to_go: Final position, by default the value of the &#8216;pos_to_go&#8217; attribute of the occupant.</dd>
 </dl>
 <p class="last">Return: List of positions (x, y).</p>
 </dd>
@@ -612,7 +630,7 @@ NumberCurrentState: Unique id as number of the current state.</dd>
 <dt>Calculate the field of view from a position (x, y).</dt>
 <dd><dl class="first docutils">
 <dt>Args: </dt>
-<dd>x, y: Observer’s position</dd>
+<dd>x, y: Observer&#8217;s position</dd>
 </dl>
 <p class="last">Return: Array of sight positions.</p>
 </dd>
@@ -629,7 +647,7 @@ NumberCurrentState: Unique id as number of the current state.</dd>
 <dd><dl class="first docutils">
 <dt>Args:</dt>
 <dd>dungeon: Array 
-pos: Observer’s position</dd>
+pos: Observer&#8217;s position</dd>
 </dl>
 <p class="last">Return: Array of sight positions.</p>
 </dd>
@@ -647,6 +665,15 @@ pos: Observer’s position</dd>
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="space.html" class="btn btn-neutral float-right" title="Space Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="model.html" class="btn btn-neutral" title="Model Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -679,7 +706,7 @@ pos: Observer’s position</dd>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            SOURCELINK_SUFFIX: ''
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

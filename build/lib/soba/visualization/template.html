@@ -1,0 +1,102 @@
+<html>
+<head>
+	<link rel="icon" href="static/favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon"/>
+	<title>{{ model_name }}</title>
+	<script src="/static/lib/jquery.min.js"></script>
+	<script src="/static/lib/dat.gui.min.js"></script>
+	<script src="/static/lib/canvasjs.min.js"></script>
+	<script>
+		var SOBAVisualizationControl = function() {
+			this.tick = -1;
+			this.running = false;
+			this.fps  = 0 ;
+		}
+		var player;
+		var control = new SOBAVisualizationControl();
+		var elements = [];
+		var ws = new WebSocket("ws://127.0.0.1:{{ port }}/ws"); // Open the websocket connection
+                ws.onopen = function() {
+                    console.log("Connection opened!");
+                    reset();
+                };
+		ws.onmessage = function(message) {
+			msg = JSON.parse(message.data);
+			switch (msg["type"]) {
+				case "viz_state":
+					data = msg["data"]
+					for (var i in elements) {
+						elements[i].render(data[i]);
+					}
+					break;
+				case "end":
+					control.running = false;
+					break;
+				default:
+					console.log("Unexpected message.");
+			}
+		}
+			var send = function(message) {
+			msg = JSON.stringify(message);
+			ws.send(msg);
+		}
+		var reset = function() {
+			control.tick = 0;
+			send({"type": "reset"});
+			for (var i in elements) {
+				elements[i].reset();
+			}
+		};
+		var single_step = function() {
+			control.tick += 1;
+			send({"type": "get_step", "step": control.tick});
+		};
+		var step = function() {
+			if (!control.running) {single_step()}
+			else {run()};
+		};
+		var run = function() {
+			if (control.running) {
+				control.running = false;
+				runController.name("run");
+				if (player) {
+					clearInterval(player);
+					player = null;
+				}
+			}
+			else {
+				control.running = true;
+				runController.name("stop");
+				player = setInterval(single_step, 1000/control.fps);
+			}
+		};
+	</script>
+	
+</head>
+<body>
+	<h2>{{ model_name }}</h2>
+	{% for file_name in package_includes %}
+		<script src="/static/{{ file_name }}" type="text/javascript"></script>
+	{% end %}
+	{% for file_name in local_includes %}
+		<script src="/local/{{ file_name }}" type="text/javascript"></script>
+	{% end %}
+<script>
+	var gui = new dat.GUI();
+	var fps_control = gui.add(control, "fps", 0, 1000).step(1);
+	gui.add(this, "reset"); 
+	gui.add(this, "step");
+	var runController = gui.add(this, "run");
+	fps_control.onFinishChange(function(value) {
+		if (control.running) {
+			run();
+			run();
+		}
+	});
+	{% for script in scripts %}
+			{% raw script %}
+	{% end %}
+
+</script>
+
+</body>

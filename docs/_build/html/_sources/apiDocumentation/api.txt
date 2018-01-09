@@ -2,7 +2,7 @@ APIs
 ----
 
 .. toctree::
-   soba.model
-   soba.agents
-   soba.space
-   soba.launchers
+   model
+   agents
+   space
+   launchers
