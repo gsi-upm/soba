@@ -25,6 +25,8 @@ sys.path.insert(0, "../soba/agents")
 sys.path.insert(0, "../soba/agents/modules")
 sys.path.insert(0, "../soba/launchers")
 sys.path.insert(0, "../soba/models")
+sys.path.insert(0, "../soba/models/")
+sys.path.insert(0, "../soba/launchers/")
 sys.path.insert(0, "../soba/space")
 sys.path.insert(0, "../soba/visualization")
 
