@@ -1,64 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6df3e5bf-f3ea-4653-b2b5-464f6af6a135" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/agents.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/agents.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/api.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/api.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/launchers.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/launchers.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/model.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/model.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/space.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/apiDocumentation/space.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/howinstall.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/howinstall.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/intro_tutorial.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/intro_tutorial.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/sobaoverview.doctree" afterPath="$PROJECT_DIR$/docs/_build/doctrees/sobaoverview.doctree" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/.buildinfo" afterPath="$PROJECT_DIR$/docs/_build/html/.buildinfo" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/apiDocumentation/api.txt" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/apiDocumentation/api.txt" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/apiDocumentation/model.txt" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/apiDocumentation/model.txt" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/jquery-1.11.1.js" afterPath="$PROJECT_DIR$/docs/_build/html/_static/jquery-1.11.1.js" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/agents.html" afterPath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/agents.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/api.html" afterPath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/api.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/launchers.html" afterPath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/launchers.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/model.html" afterPath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/model.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/space.html" afterPath="$PROJECT_DIR$/docs/_build/html/apiDocumentation/space.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/howinstall.html" afterPath="$PROJECT_DIR$/docs/_build/html/howinstall.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/intro_tutorial.html" afterPath="$PROJECT_DIR$/docs/_build/html/intro_tutorial.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" afterPath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" afterPath="$PROJECT_DIR$/docs/_build/html/search.html" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/sobaoverview.html" afterPath="$PROJECT_DIR$/docs/_build/html/sobaoverview.html" />
-      <change beforePath="$PROJECT_DIR$/docs/apiDocumentation/api.rst" afterPath="$PROJECT_DIR$/docs/apiDocumentation/api.rst" />
-      <change beforePath="$PROJECT_DIR$/docs/apiDocumentation/model.rst" afterPath="$PROJECT_DIR$/docs/apiDocumentation/model.rst" />
-      <change beforePath="$PROJECT_DIR$/docs/conf.py" afterPath="$PROJECT_DIR$/docs/conf.py" />
-      <change beforePath="$PROJECT_DIR$/projects/GreenSOBA/space/thermalZone.py" afterPath="$PROJECT_DIR$/projects/GreenSOBA/space/thermalZone.py" />
-      <change beforePath="$PROJECT_DIR$/projects/basicExamples/continuousTest.py" afterPath="$PROJECT_DIR$/projects/basicExamples/continuousTest.py" />
-      <change beforePath="$PROJECT_DIR$/projects/basicExamples/roomsTest.py" afterPath="$PROJECT_DIR$/projects/basicExamples/roomsTest.py" />
-      <change beforePath="$PROJECT_DIR$/projects/seba/back.py" afterPath="$PROJECT_DIR$/projects/seba/back.py" />
-      <change beforePath="$PROJECT_DIR$/projects/seba/model.py" afterPath="$PROJECT_DIR$/projects/seba/model.py" />
-      <change beforePath="$PROJECT_DIR$/projects/workStress/agents/SensorAgent.py" afterPath="$PROJECT_DIR$/projects/workStress/agents/SensorAgent.py" />
-      <change beforePath="$PROJECT_DIR$/projects/workStress/agents/WorkerAgent.py" afterPath="$PROJECT_DIR$/projects/workStress/agents/WorkerAgent.py" />
-      <change beforePath="$PROJECT_DIR$/projects/workStress/datacollection/SensorCollector.py" afterPath="$PROJECT_DIR$/projects/workStress/datacollection/SensorCollector.py" />
-      <change beforePath="$PROJECT_DIR$/projects/workStress/datacollection/TimeCollector.py" afterPath="$PROJECT_DIR$/projects/workStress/datacollection/TimeCollector.py" />
-      <change beforePath="$PROJECT_DIR$/projects/workStress/datacollection/WorkerCollector.py" afterPath="$PROJECT_DIR$/projects/workStress/datacollection/WorkerCollector.py" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-      <change beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
-      <change beforePath="$PROJECT_DIR$/soba/agents/modules/aStar.py" afterPath="$PROJECT_DIR$/soba/agents/modules/aStar.py" />
-      <change beforePath="$PROJECT_DIR$/soba/agents/modules/behaviourMarkov.py" afterPath="$PROJECT_DIR$/soba/agents/modules/behaviourMarkov.py" />
-      <change beforePath="$PROJECT_DIR$/soba/agents/occupant.py" afterPath="$PROJECT_DIR$/soba/agents/occupant.py" />
-      <change beforePath="$PROJECT_DIR$/soba/launchers/visual.py" afterPath="$PROJECT_DIR$/soba/launchers/visual.py" />
-      <change beforePath="$PROJECT_DIR$/soba/model/model.py" afterPath="$PROJECT_DIR$/soba/models/model.py" />
-      <change beforePath="$PROJECT_DIR$/soba/model/time.py" afterPath="$PROJECT_DIR$/soba/models/timeControl.py" />
-      <change beforePath="$PROJECT_DIR$/soba/run.py" afterPath="$PROJECT_DIR$/soba/run.py" />
-      <change beforePath="$PROJECT_DIR$/soba/space/continuousItems.py" afterPath="$PROJECT_DIR$/soba/space/continuousItems.py" />
-      <change beforePath="$PROJECT_DIR$/soba/space/grid.py" afterPath="$PROJECT_DIR$/soba/space/grid.py" />
-      <change beforePath="$PROJECT_DIR$/soba/space/roomsItems.py" afterPath="$PROJECT_DIR$/soba/space/roomsItems.py" />
-      <change beforePath="$PROJECT_DIR$/soba/visualization/drawModelBack.py" afterPath="$PROJECT_DIR$/soba/visualization/drawModelBack.py" />
-      <change beforePath="$PROJECT_DIR$/soba/visualization/ramen/performanceGenerator.py" afterPath="$PROJECT_DIR$/soba/visualization/ramen/performanceGenerator.py" />
-      <change beforePath="$PROJECT_DIR$/soba/visualization/server.py" afterPath="$PROJECT_DIR$/soba/visualization/server.py" />
-    </list>
+    <list default="true" id="6df3e5bf-f3ea-4653-b2b5-464f6af6a135" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,8 +14,8 @@
       <file leaf-file-name="model.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/soba/models/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="13" column="26" lean-forward="true" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+            <state relative-caret-position="126">
+              <caret line="7" column="24" lean-forward="false" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -236,7 +179,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16290909" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16290909" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32957393" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -483,8 +426,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/soba/models/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="26" lean-forward="true" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+        <state relative-caret-position="126">
+          <caret line="7" column="24" lean-forward="false" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
           <folding />
         </state>
       </provider>
