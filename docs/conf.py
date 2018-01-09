@@ -22,7 +22,6 @@ import sys
 sys.path.append(os.path.abspath('..'))
 print(sys.path)
 
-
 from unittest.mock import MagicMock
 
 class Mock(MagicMock):
