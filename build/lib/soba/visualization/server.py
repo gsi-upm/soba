@@ -1,7 +1,7 @@
 import os
 import tornado
 import tornado.web
-import tornado.WebSocketHandler
+import tornado.websocket
 import tornado.ioloop
 import tornado.escape
 import webbrowser
