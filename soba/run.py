@@ -1,7 +1,6 @@
 import sys
 import soba.launchers.visual as visual
-import soba.launchers.batch as batch
-
+from mesa.batchrunner import BatchRunner as batch
 """
 In the file run.py is implemented the method
 	Methods: 
