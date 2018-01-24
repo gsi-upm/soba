@@ -1,26 +1,17 @@
-from collections import defaultdict
-import random
-import os
-import os.path
-import math
 from soba.models.timeControl import Time
-from soba.agents.occupant import ContinuousOccupant
-from soba.agents.occupant import RoomsOccupant
-import soba.agents.modules.aStar as aStar
-from soba.space.roomsItems import Room
-from soba.space.roomsItems import Door as DoorRooms
-from soba.space.roomsItems import Wall as WallRooms
-from soba.space.continuousItems import GeneralItem
-from soba.space.continuousItems import Door
-from soba.space.continuousItems import Wall
-from soba.space.continuousItems import Poi
-from soba.models.timeControl import BaseScheduler
+from soba.agents.continuousOccupant import ContinuousOccupant
+from soba.agents.roomsOccupant import RoomsOccupant
+import soba.agents.resources.aStar as aStar
+from soba.space.roomsElements import Room
+from soba.space.roomsElements import Door as DoorRooms
+from soba.space.roomsElements import Wall as WallRooms
 import datetime as dt
 import random
 from mesa.space import Grid
 import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import SimultaneousActivation
+from soba.models.generalModel import GeneralModel
 
 class RoomsModel(GeneralModel):
 	"""

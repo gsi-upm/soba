@@ -1,6 +1,5 @@
 from soba.visualization.drawModelBack import BackEndVisualization
-from soba.visualization.server import ModularServer
-import random
+from mesa.visualization.ModularVisualization import ModularServer
 
 """
 In the file visual.py is implemented the execution with visual representation:
@@ -22,12 +21,13 @@ def run(model, visualJS = [], *params):
 		listAux = [backEndVisualization] + visualJS
 	else:
 		listAux = [backEndVisualization]
-	method = 'ModularServer(models, listAux, "Simulation"'
+	method = 'ModularServer(model, listAux, "Simulation"'
 	n=0
 	for e in params:
 		method = method+',params['+str(n)+']'
 		n = n +1
 	method = method + ')'
+	print(method)
 	server = eval(method)
 	server.port = 7777
 	server.launch()

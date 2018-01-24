@@ -1,12 +1,12 @@
 from collections import defaultdict
-from soba.agents.agent import Agent
-from soba.space.continuousItems import Poi
-from soba.space.continuousItems import GeneralItem
-from soba.visualization.server import VisualizationElement
+from mesa import Agent
+from soba.space.continuousElements import Poi
+from soba.space.continuousElements import GeneralItem
 import soba
 import os
-from soba.models.model import ContinuousModel
-from soba.models.model import RoomsModel
+from soba.models.continuousModel import ContinuousModel
+from soba.models.roomsModel import RoomsModel
+from mesa.visualization.ModularVisualization import VisualizationElement
 
 class BackEndVisualization(VisualizationElement):
 	path = os.path.abspath(soba.__file__)

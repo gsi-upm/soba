@@ -4,3 +4,4 @@ pandas
 anaconda-client
 tornado
 tqdm
+mesa
