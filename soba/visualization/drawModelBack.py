@@ -9,10 +9,14 @@ from soba.models.roomsModel import RoomsModel
 from mesa.visualization.ModularVisualization import VisualizationElement
 
 class BackEndVisualization(VisualizationElement):
+	'''
 	path = os.path.abspath(soba.__file__)
 	path = path.rsplit('/', 1)[0]
 	path = path + "/visualization/drawModelFront.js"
-	package_includes = [path]
+	'''
+
+	path = "visualization/drawModelFront.js"
+	local_includes = [path]
 
 	def __init__(self, cellW=500, cellH=500, canvas_width=500, canvas_height=500):
 		self.grid_width = cellW
@@ -36,7 +40,7 @@ class BackEndVisualization(VisualizationElement):
 
 		for x in range(model.grid.width):
 			for y in range(model.grid.height):
-				cell_objects = model.grid.get_items_in_pos((x, y))
+				cell_objects = model.grid.get_cell_list_contents((x, y))
 				for obj in cell_objects:
 					if isinstance(obj, Agent):
 						offset = 1
@@ -49,7 +53,7 @@ class BackEndVisualization(VisualizationElement):
 		if grid_state[0] == 'continuous':
 			for x in range(model.grid.width):
 				for y in range(model.grid.height):
-					cell_objects = model.grid.get_items_in_pos((x, y))
+					cell_objects = model.grid.get_cell_list_contents((x, y))
 					for obj in cell_objects:
 						if isinstance(obj, Poi):
 							offSet = 2

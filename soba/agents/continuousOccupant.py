@@ -51,7 +51,7 @@ class ContinuousOccupant(Occupant):
 			pos = self.getPosState(v)
 			self.positionByState[k] = pos
 		pos = self.positionByState[list(json['states'].items())[0][0]]
-		self.model.grid.place_item(self, pos)
+		self.model.grid.place_agent(self, pos)
 
 	def getPosState(self, name):
 		'''
@@ -128,7 +128,7 @@ class ContinuousOccupant(Occupant):
 		Evaluate a possible collision with an agent, invoking the evalAvoid method, and solve it if necessary by calculating another path.
 			Return: True if the collision exists and is avoided, False otherwise.
 		"""
-		possibleOccupant = self.model.grid.get_items_in_pos(self.movements[self.N])
+		possibleOccupant = self.model.grid.get_cell_list_contents(self.movements[self.N])
 		for i in possibleOccupant:
 			if isinstance(i, Occupant):
 				if len(self.movements) - 1 == self.N:

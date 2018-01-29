@@ -1,10 +1,11 @@
 import os
-import datetime as dt
+from time import time
 import random
 from mesa.space import Grid
 import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
-from mesa.time import SimultaneousActivation
+from mesa.time import RandomActivation
+from soba.models.timeControl import Time
 
 class GeneralModel(Model):
 	"""
@@ -30,7 +31,7 @@ class GeneralModel(Model):
 
 	"""
 
-	def __init__(self, width, height, seed = dt.datetime.now(), timeByStep = 60):
+	def __init__(self, width, height, seed = int(time()), timeByStep = 60):
 		super().__init__(seed)
 		"""
 		Create a new Model object.
@@ -51,8 +52,8 @@ class GeneralModel(Model):
 
 		self.width = width
 		self.height = height
-		self.schedule = SimultaneousActivation(self)
-		self.grid = Grid(width, height)
+		self.schedule = RandomActivation(self)
+		self.grid = Grid(width, height, True)
 		self.agents = []
 		self.NStep = 0
 		self.occupants = []

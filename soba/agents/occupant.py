@@ -43,6 +43,7 @@ class Occupant(Agent):
 			Return: Occupant object
 		"""
 
+		self.shape = 'circle' if json.get('shape') == None else color
 		self.model.schedule.add(self)
 		self.color = 'blue' if json.get('color') == None else color
 		self.schedule = {}

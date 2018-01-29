@@ -51,7 +51,7 @@ class RoomsOccupant(Occupant):
 		else:
 			roomaux = possible_rooms[0]
 
-		self.model.grid.place_item(self, roomaux.pos)
+		self.model.grid.place_agent(self, roomaux.pos)
 		self.model.pushAgentRoom(self, roomaux.pos)
 
 		#control

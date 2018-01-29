@@ -3,11 +3,11 @@ import soba.visualization.ramen.mapGenerator as ramen
 import soba.run
 from collections import OrderedDict
 import json
-import datetime as dt
+from time import time
 
 class ModelExample(ContinuousModel):
 
-	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now()):
+	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed)
 
 	def step(self):
@@ -48,7 +48,8 @@ cellW = 40
 cellH = 40
 
 #Visual run
-soba.run.run(ModelExample, [], cellW, cellH, jsonMap, jsonsOccupants)
+parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
+soba.run.run(ModelExample, [], parameters)
 
 #Batch run
 '''

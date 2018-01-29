@@ -25,7 +25,7 @@ class GeneralItem():
 			Return: GeneralItem object
 		"""
 		self.pos = pos
-		model.grid.place_item(self, pos)
+		model.grid.place_agent(self, pos)
 		self.color = 'grey' if color == None else color
 
 class Door():
@@ -110,7 +110,7 @@ class Poi():
 		"""
 		self.pos = pos
 		self.id = ide
-		model.grid.place_item(self, pos)
+		model.grid.place_agent(self, pos)
 		self.used = False
 		self.share = share
 		self.color = 'green' if color == None else color
