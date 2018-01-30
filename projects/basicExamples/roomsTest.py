@@ -1,11 +1,11 @@
-from soba.models.model import RoomsModel
+from soba.models.roomsModel import RoomsModel
 import soba.run
 from collections import OrderedDict
-import datetime as dt
+from time import time
 
 class ModelExample(RoomsModel):
 
-	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now()):
+	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed)
 
 	def step(self):
@@ -51,13 +51,14 @@ jsonOccupant = {'type': 'example' , 'N': N, 'states': states , 'schedule': sched
 
 jsonsOccupants.append(jsonOccupant)
 
-#Visual run
-
 cellW = 4
 cellH = 4
 
-#soba.run.run(ModelExample, [], cellW, cellH, jsonMap, jsonsOccupants)
-
+#Visual run
+"""
+parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
+soba.run.run(ModelExample, parameters, visualJS="example.js")
+"""
 #Batch run
 
 fixed_params = {"width": cellW, "height": cellH, "jsonMap": jsonMap, "jsonsOccupants": jsonsOccupants}

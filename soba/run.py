@@ -16,7 +16,7 @@ def process(aux):
 		print('   Options:\n\t-v,\t\tVisual option on browser\n\t-b,\t\tBackground option\n\t-r,\t\tRamen option')
 		print(' ')
 
-def run(model, visualJS, *args, iterations = 1):
+def run(model, *args, visualJS = '', iterations = 1):
 	"""
 	Execution of the simulation according to the parameters given in the console.
 		Args:
@@ -30,14 +30,13 @@ def run(model, visualJS, *args, iterations = 1):
 			visual.run(model, visual = visualJS, parameters = args[0])
 		elif sys.argv[1] == '-b':
 			parameters = args[0]
-			parameters["ramen"] = True
 			process(True)
 			batch = batchRunner(model, fixed_parameters = parameters, variable_parameters = args[1], iterations = iterations)
 			batch.run_all()
 		elif sys.argv[1] == '-r':
 			process(True)
 			parameters = args[0]
-			parameters["ramen"] = True
+			model.ramen = True
 			batch = batchRunner(model, fixed_parameters = parameters, variable_parameters = args[1], iterations = iterations)
 			batch.run_all()
 		else:

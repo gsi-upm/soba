@@ -2,16 +2,24 @@
 var context = undefined;
 var canvasDraw = undefined;
 
-var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height) {
+//css = "<style> body {background-color: linen;}h1 {color: maroon;margin-left: 40px;} canvas {padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;width: 800px;} </style>"
+//$("head").append(css)
 
-	var canvas_tag = "<canvas width='" + canvas_width + "' height='" + canvas_height + "' ";
+var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height, path) {
+
+	/*var canvas_tag = "<canvas width='" + canvas_width + "' height='" + canvas_height + "' ";
 	canvas_tag += "style='border:1px dotted'></canvas>";
-	var canvas = $(canvas_tag)[0];
-	$("body").append(canvas);
+	var canvas = $(canvas_tag)[0];*/
+
+	$('<div>').attr('class', 'container_canvas').css('width', '33.3333333%').css('margin', 'auto').appendTo('body');
+	$('<canvas>').attr('width', canvas_width).attr('height', canvas_height).css('border', '1px dotted').appendTo('div.container_canvas');
+	var canvas = $('canvas')[0];
+	var path = path
 
 	context = canvas.getContext("2d");
 	canvasDraw = new DrawMapVisualization(canvas_width, canvas_height, grid_width, grid_height, context);
-
+	path = "/external/" + path
+	
 	this.render = function(data) {
 
 		canvasDraw.resetCanvas();
@@ -31,6 +39,11 @@ var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height)
 		};
 
 		canvasDraw.drawAgents(data[1]);
+
+		
+		$.getScript(path, function()
+		{ console.log("File js external loaded¡");
+		});
 	};
 	this.reset = function() {
 		canvasDraw.resetCanvas();
@@ -222,7 +235,7 @@ var DrawMapVisualization = function(width, height, gridWidth, gridHeight, contex
     	var agents = array_agents;
 		for (var i in agents) {
 			var agent = agents[i];
-	            y = gridHeight - agent.y - 1;
+	            y = gridHeight - agent.y - 2;
 	            x = agent.x
 	            color = agent.color
 	            filled = 'true' ? agent.filled == undefined : agent.filled

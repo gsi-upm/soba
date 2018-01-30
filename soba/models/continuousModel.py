@@ -39,7 +39,8 @@ class ContinuousModel(GeneralModel):
 			getOccupantsPos: Get a Occupant objects in a position given.
 			thereIsOccupant: Check if there is any Occupant object in a position given.
 """
-	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
+	ramen = False
+	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60, ramen = False):
 		super().__init__(width, height, seed, timeByStep)
 		"""
 		Create a new ContinuousModel object.
@@ -59,7 +60,7 @@ class ContinuousModel(GeneralModel):
 		self.pois = []
 		self.doors = []
 		self.generalItems =  []
-		self.ramen = False
+		self.ramen = ramen
 		self.exits = []
 
 		#Create the map

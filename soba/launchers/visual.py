@@ -19,37 +19,21 @@ def run(model, parameters, visual):
 			visualJS: JS files with the visualization elements that are included in the JavaScript browser visualization template.
 			params: Parameters loaded in the models about the agents and anything else.
 	"""
-	backEndVisualization = BackEndVisualization(int(parameters['width']), int(parameters['height']), 500, 500)
-	if visual:
-		listAux = [backEndVisualization] + visualJS
-	else:
-		listAux = [backEndVisualization]
-	'''
-	method = 'ModularServer(model, listAux, name="Simulation", model_params=dict('
-	n=0
-	for e in params:
-		method = method + 'key'+ str(n) + ' = params['+str(n)+'],'
-		n = n +1
-	method = "".join(method[:-1])
-	print(method)
-	method = method + '))'
-	print(method)
-	server = eval(method)
-	'''
-	
-	
+
+	backEndVisualization = BackEndVisualization(int(parameters['width']), int(parameters['height']), 500, 500, visual)
 
 	path = os.path.abspath(soba.__file__)
 	path = path.rsplit('/', 1)[0]
 
 	local_handler = (r'/local/(.*)', tornado.web.StaticFileHandler,
                      {"path": path})
+	external_handler = (r'/external/(.*)', tornado.web.StaticFileHandler,
+                     {"path": ""})
 
-	print(ModularServer.handlers)
 	ModularServer.handlers = ModularServer.handlers[:-1]
-	print(ModularServer.handlers)
-	ModularServer.handlers = ModularServer.handlers + [local_handler]
-	print(ModularServer.handlers)
-	server = ModularServer(model, listAux, name="Simulation", model_params=parameters)
+	ModularServer.handlers = ModularServer.handlers + [local_handler] + [external_handler]
+
+	server = ModularServer(model, [backEndVisualization], name="Simulation", model_params=parameters)
+
 	server.port = 7777
 	server.launch()

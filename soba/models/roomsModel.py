@@ -12,6 +12,7 @@ import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import SimultaneousActivation
 from soba.models.generalModel import GeneralModel
+from time import time
 
 class RoomsModel(GeneralModel):
 	"""
@@ -43,7 +44,7 @@ class RoomsModel(GeneralModel):
 			closeDoor: Change the status of the door to close.
 
 	"""
-	def __init__(self, width, height, jsonRooms, jsonsOccupants, seed = dt.datetime.now(), timeByStep = 60):
+	def __init__(self, width, height, jsonRooms, jsonsOccupants, seed = int(time()), timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
 		"""
 		Create a new RoomsModel object.

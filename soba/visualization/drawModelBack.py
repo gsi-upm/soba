@@ -9,22 +9,18 @@ from soba.models.roomsModel import RoomsModel
 from mesa.visualization.ModularVisualization import VisualizationElement
 
 class BackEndVisualization(VisualizationElement):
-	'''
-	path = os.path.abspath(soba.__file__)
-	path = path.rsplit('/', 1)[0]
-	path = path + "/visualization/drawModelFront.js"
-	'''
 
 	path = "visualization/drawModelFront.js"
-	local_includes = [path]
+	template = "visualization/template.html"
+	local_includes = [path, template]
 
-	def __init__(self, cellW=500, cellH=500, canvas_width=500, canvas_height=500):
+	def __init__(self, cellW=500, cellH=500, canvas_width=500, canvas_height=500, path=""):
 		self.grid_width = cellW
 		self.grid_height = cellH
 		self.canvas_width = canvas_width
 		self.canvas_height = canvas_height
-
-		visualizationObject = ("new VisualClass({}, {}, {}, {})".format(self.canvas_width, self.canvas_height, self.grid_width, self.grid_height))
+		self.path = path
+		visualizationObject = ("new VisualClass({}, {}, {}, {}, \"{}\")".format(self.canvas_width, self.canvas_height, self.grid_width, self.grid_height, self.path))
 
 		self.js_code = "elements.push(" + visualizationObject + ");"
 
