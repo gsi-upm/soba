@@ -1,6 +1,7 @@
 import sys
 import soba.launchers.visual as visual
 from mesa.batchrunner import BatchRunner as batchRunner
+from soba.models.continuousModel import ContinuousModel
 """
 In the file run.py is implemented the method
 	Methods: 
@@ -36,7 +37,7 @@ def run(model, *args, visualJS = '', iterations = 1):
 		elif sys.argv[1] == '-r':
 			process(True)
 			parameters = args[0]
-			model.ramen = True
+			ContinuousModel.activeRamen()
 			batch = batchRunner(model, fixed_parameters = parameters, variable_parameters = args[1], iterations = iterations)
 			batch.run_all()
 		else:

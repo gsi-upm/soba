@@ -42,8 +42,7 @@ var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height,
 
 		
 		$.getScript(path, function()
-		{ console.log("File js external loaded¡");
-		});
+		{});
 	};
 	this.reset = function() {
 		canvasDraw.resetCanvas();
@@ -235,7 +234,7 @@ var DrawMapVisualization = function(width, height, gridWidth, gridHeight, contex
     	var agents = array_agents;
 		for (var i in agents) {
 			var agent = agents[i];
-	            y = gridHeight - agent.y - 2;
+	            y = gridHeight - agent.y - 1;
 	            x = agent.x
 	            color = agent.color
 	            filled = 'true' ? agent.filled == undefined : agent.filled

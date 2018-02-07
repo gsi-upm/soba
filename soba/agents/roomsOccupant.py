@@ -161,7 +161,7 @@ class RoomsOccupant(Occupant):
 				if room1.name.split(r".")[0] != room2.name.split(r".")[0]:
 					self.model.openDoor(self, room1, room2)
 				self.model.popAgentRoom(self, self.pos)
-				self.model.grid.move_item(self, self.movements[self.N])
+				self.model.grid.move_agent(self, self.movements[self.N])
 				self.model.pushAgentRoom(self, self.pos)
 				self.N = self.N + 1
 				self.onMyWay1 = False

@@ -3,6 +3,7 @@ import soba.agents.resources.aStar as aStar
 import soba.agents.resources.fov as fov
 import soba.visualization.ramen.performanceGenerator as ramen
 from soba.agents.occupant import Occupant
+import time
 
 class ContinuousOccupant(Occupant):
 	"""
@@ -26,6 +27,11 @@ class ContinuousOccupant(Occupant):
 		step: Method invoked by the Model scheduler in each step.
 	
 	"""
+	global ramenAux
+	ramenAux = False
+	def activeRamen():
+		global ramenAux
+		ramenAux = True
 
 	def __init__(self, unique_id, model, json, speed = 0.7):
 		super().__init__(unique_id, model, json, speed)
@@ -45,6 +51,7 @@ class ContinuousOccupant(Occupant):
 		self.costMovement = round(0.25/(self.speed*self.model.clock.timeByStep))
 		self.out = True
 		self.initmove = True
+		self.posEntering = False
 
 		#State machine
 		for k, v in json['states'].items():
@@ -60,10 +67,15 @@ class ContinuousOccupant(Occupant):
 				name: Poi id/name.
 			Return: Position associated with this occupant.
 		'''
+		options = []
 		for poi in self.model.pois:
-			if poi.id == name and (poi.share == True or poi.used == False):
-				poi.used = True
-				return poi.pos
+			if poi.id == name and (poi.share or not poi.used):
+				if not poi.share:
+					poi.used = True
+					time.sleep(50)
+					return poi.pos
+				options.append(poi.pos)
+		return random.choice(options)
 
 	def startActivity(self):
 		super.startActivity()
@@ -153,7 +165,7 @@ class ContinuousOccupant(Occupant):
 							pos = nextPos
 							path = pathAux
 				if d != 100000000:
-					self.model.grid.move_item(self, pos)
+					self.model.grid.move_agent(self, pos)
 					self.movements = path
 					self.N = 0
 					return True
@@ -161,7 +173,7 @@ class ContinuousOccupant(Occupant):
 					while True:
 						posRandom = random.choice(possiblePosition)
 						if aStar.canMovePos(self.model, self.pos, posRandom):
-							self.model.grid.move_item(self, posRandom)
+							self.model.grid.move_agent(self, posRandom)
 							self.movements = self.getWay()
 							self.N = 0
 							return True
@@ -171,7 +183,8 @@ class ContinuousOccupant(Occupant):
 		'''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
 		if self.costMovement > 1:
 			self.costMovement = self.costMovement - 1
-			if self.model.ramen:
+			
+			if ramenAux:
 				self.reportMovement()
 		else:
 			if self.initmove:
@@ -189,9 +202,9 @@ class ContinuousOccupant(Occupant):
 					self.step()
 					return
 			if not self.evalCollision():
-				if self.model.ramen:
+				if ramenAux:
 					self.reportMovement()
-				self.model.grid.move_item(self, self.movements[self.N])
+				self.model.grid.move_agent(self, self.movements[self.N])
 				if self.pos != self.pos_to_go:
 					self.N = self.N+1
 					x1, y1 = self.pos
@@ -232,14 +245,13 @@ class ContinuousOccupant(Occupant):
 		ramen.reportMovement(self, pos)
 
 	def checkLeaveArrive(self):
-		if self.pos in self.model.exits and not self.inbuilding:
+		print(self.pos_to_go)
+		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
 			self.alreadyCreated = False
 			ramen.reportCreation(self, 'E')
 			self.inbuilding = True
-			self.out = False
-		elif self.pos in self.model.exits and self.out == False:
+		elif self.pos in self.model.exits and self.inbuilding:
 			self.inbuilding = False
-			self.out = True
 			ramen.reportExit(self)
 
 	def getFOV(self):
@@ -263,8 +275,8 @@ class ContinuousOccupant(Occupant):
 			self.makeMovement()
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1
-			if self.model.ramen:
-				self.checkLeaveArrive()
 		else:
 			self.markov = True
 			self.step()
+		if ramenAux:
+			self.checkLeaveArrive()

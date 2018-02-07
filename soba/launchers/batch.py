@@ -50,7 +50,7 @@ class BatchRunner:
 		return params
 
 	def run_model(self, model, ramen = False):
-		model.ramen = ramen
+		ContinuousModel = ramen
 		while model.running:
 			model.step()
 

@@ -89,6 +89,7 @@ class Occupant(Agent):
 		self.pos = (0, 0)
 		self.pos_to_go = (0, 0)
 		self.movements = []
+		self.inbuilding = False
 
 	def start_activity(self):
 		""" 

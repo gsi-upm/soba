@@ -50,7 +50,7 @@ def returnMap(data_file):
 				items["idItem" + str(n)]["itemName"] = "exit" #Clave
 				items["idItem" + str(n)]["itemType"] = "poi"
 				items["idItem" + str(n)]["id"] = "out"
-				items["idItem" + str(n+1000)] = {"itemType": k["item_type"], "pos": { "x": k["xpos"]/100 + offsetx, "y": -k["zpos"]/100 + offsety}, "dx" :dx/100, "dy" :dy/100, 'rot': rot}
+				items["idItem" + str(n+1000)] = {"pos": { "x": k["xpos"]/100 + offsetx, "y": -k["zpos"]/100 + offsety}, "dx" :dx/100, "dy" :dy/100, 'rot': rot}
 				items["idItem" + str(n+1000)]["itemType"] = "door"
 			n = n + 1
 	jsonResponse = {"corners": corners, "walls": walls, "items": items}

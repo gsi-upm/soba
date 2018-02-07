@@ -11,8 +11,7 @@ from mesa.visualization.ModularVisualization import VisualizationElement
 class BackEndVisualization(VisualizationElement):
 
 	path = "visualization/drawModelFront.js"
-	template = "visualization/template.html"
-	local_includes = [path, template]
+	local_includes = [path]
 
 	def __init__(self, cellW=500, cellH=500, canvas_width=500, canvas_height=500, path=""):
 		self.grid_width = cellW

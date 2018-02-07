@@ -1,7 +1,7 @@
 import os
 from time import time
 import random
-from mesa.space import Grid
+from mesa.space import MultiGrid
 import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import RandomActivation
@@ -53,7 +53,7 @@ class GeneralModel(Model):
 		self.width = width
 		self.height = height
 		self.schedule = RandomActivation(self)
-		self.grid = Grid(width, height, True)
+		self.grid = MultiGrid(width, height, True)
 		self.agents = []
 		self.NStep = 0
 		self.occupants = []

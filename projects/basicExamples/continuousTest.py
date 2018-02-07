@@ -4,6 +4,7 @@ import soba.run
 from collections import OrderedDict
 import json
 from time import time
+import sys
 
 class ModelExample(ContinuousModel):
 
@@ -11,13 +12,13 @@ class ModelExample(ContinuousModel):
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed)
 
 	def step(self):
-		if self.clock.clock.day > 3:
+		if self.clock.clock.day > 1:
 			self.finishSimulation = True
 		super().step()
 
 jsonsOccupants = []
 
-N = 12
+N = 1
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 
@@ -47,11 +48,19 @@ with open('labgsi.blueprint3d') as data_file:
 cellW = 40
 cellH = 40
 
-#Visual run
+if len(sys.argv) > 1 and sys.argv[1] == '-v':
+	parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
+	soba.run.run(ModelExample, parameters, visualJS="example.js")
+else:
+	fixed_params = {"width": cellW, "height": cellH, "jsonMap": jsonMap, "jsonsOccupants": jsonsOccupants}
+	variable_params = {"seed": range(10, 500, 10)}
+	soba.run.run(ModelExample, fixed_params, variable_params)
 
+#Visual run
+'''
 parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
 soba.run.run(ModelExample, parameters, visualJS="example.js")
-
+'''
 
 #Batch run
 '''

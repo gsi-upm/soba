@@ -38,9 +38,15 @@ class ContinuousModel(GeneralModel):
 			getDoorInPos: Get a Door object in a position given.
 			getOccupantsPos: Get a Occupant objects in a position given.
 			thereIsOccupant: Check if there is any Occupant object in a position given.
-"""
-	ramen = False
-	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60, ramen = False):
+	"""
+	global ramenAux
+	ramenAux = False
+	def activeRamen():
+		global ramenAux
+		ramenAux = True
+		ContinuousOccupant.activeRamen()
+
+	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
 		"""
 		Create a new ContinuousModel object.
@@ -60,7 +66,6 @@ class ContinuousModel(GeneralModel):
 		self.pois = []
 		self.doors = []
 		self.generalItems =  []
-		self.ramen = ramen
 		self.exits = []
 
 		#Create the map
@@ -189,6 +194,7 @@ class ContinuousModel(GeneralModel):
 					self.doors.append(i)
 
 			elif v['itemType'] == 'poi':
+				i = False
 				if dx > 1 and dy > 1:
 					for xAux in range(x - dxAux1, x + dxAux2+1):
 						for yAux in range(y - dyAux1, y + dyAux2+1):
@@ -197,6 +203,8 @@ class ContinuousModel(GeneralModel):
 							else:
 								i = Poi(self, (xAux, yAux), v['id'], color = v.get('Color'))
 							self.pois.append(i)
+							if v['itemName'] == 'exit':
+								self.exits.append(i.pos)
 				elif dx > 1:
 					for xAux in range(x - dxAux1, x + dxAux2+1):
 						yAux = y
@@ -205,6 +213,8 @@ class ContinuousModel(GeneralModel):
 						else:
 							i = Poi(self, (xAux, yAux), v['id'], color = v.get('Color'))
 						self.pois.append(i)
+						if v['itemName'] == 'exit':
+							self.exits.append(i.pos)
 				elif dy > 1:
 					for yAux in range(y - dyAux1, y + dyAux2+1):
 						xAux = x
@@ -213,6 +223,8 @@ class ContinuousModel(GeneralModel):
 						else:
 							i = Poi(self, (xAux, yAux), v['id'], color = v.get('Color'))
 						self.pois.append(i)
+						if v['itemName'] == 'exit':
+							self.exits.append(i.pos)
 				elif dx == 1 and dy == 1:
 					xAux = x
 					yAux = y
@@ -221,9 +233,8 @@ class ContinuousModel(GeneralModel):
 					else:
 						i = Poi(self, (xAux, yAux), v['id'], color = v.get('Color'))
 					self.pois.append(i)
-				if v['itemType'] == 'poi' and v['itemType'] == 'exit':
-					self.exits.append(i.pos)
-
+					if v['itemName'] == 'exit':
+						self.exits.append(i.pos)
 			else:
 				if dx > 1 and dy > 1:
 					for xAux in range(x - dxAux1, x + dxAux2+1):
@@ -325,6 +336,6 @@ class ContinuousModel(GeneralModel):
 		return False
 
 	def step(self):
-		if self.finishSimulation and self.ramen:
+		if self.finishSimulation and ramenAux:
 			ramen.generateJSON()
 		super().step()

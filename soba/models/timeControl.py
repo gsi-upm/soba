@@ -27,6 +27,7 @@ class Time(Agent):
 				day, hour, minute, seg, microsecond: Initial time value of the clock.
 			Return: Time object.
 		"""
+		self.model.schedule.add(self)
 		self.timeByStep = timeByStep
 		today = datetime.date.today()
 		self.startDay = datetime.datetime(today.year, today.month, day, hour, minute, seg, microsecond)

@@ -1,7 +1,7 @@
 import json
+import time
 
-
-steps = [[] for _ in range(10000)]
+steps = [[] for _ in range(1000)]
 
 def addAgentMovement(agent, step, direction, speed, sentiment = "happiness"):
 	steps[step].append({"agent": agent.unique_id, "direction": direction, "speed": speed, "sentiment": sentiment})
@@ -16,13 +16,12 @@ def createAgent(agent, step, pos, rotation, sentiment = "happiness"):
 def removeAgent(agent, step):
 	steps[step].append({ "agent": agent.unique_id, "outBuilding": True})
 
-
 # Called methods
 def reportCreation(agent, rotation):
-    createAgent(agent, agent.NStep, agent.pos, rotation, sentiment = "happiness")
+    createAgent(agent, agent.model.NStep, agent.pos, rotation, sentiment = "happiness")
 
 def reportExit(agent):
-    removeAgent(agent, agent.NStep)
+    removeAgent(agent, agent.model.NStep)
 
 def reportMovement(agent, direction):
     addAgentMovement(agent, agent.model.NStep, direction, agent.speed)
@@ -32,6 +31,7 @@ def reportStop(agent):
 
 def generateJSON():
 	data = {"type":2, "steps": steps}
+	print(steps)
 	with open('outRamen.json', 'w') as outfile:
 		json.dump(data, outfile)
 		outfile.close()
