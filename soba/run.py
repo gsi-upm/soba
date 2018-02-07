@@ -25,6 +25,10 @@ def run(model, *args, visualJS = '', iterations = 1):
 			args: List of parameters to configure the models simulation.
 			iterations: Number of simulations that will be executed in batch mode.
 	"""
+	if len(sys.argv) > 2:
+		if sys.argv[2] == '-r':
+			process(True)
+			ContinuousModel.activeRamen()
 	if len(sys.argv) > 1:
 		if sys.argv[1] == '-v':
 			process(True)
@@ -32,13 +36,7 @@ def run(model, *args, visualJS = '', iterations = 1):
 		elif sys.argv[1] == '-b':
 			parameters = args[0]
 			process(True)
-			batch = batchRunner(model, fixed_parameters = parameters, variable_parameters = args[1], iterations = iterations)
-			batch.run_all()
-		elif sys.argv[1] == '-r':
-			process(True)
-			parameters = args[0]
-			ContinuousModel.activeRamen()
-			batch = batchRunner(model, fixed_parameters = parameters, variable_parameters = args[1], iterations = iterations)
+			batch = batchRunner(model, fixed_parameters = parameters, variable_parameters = args[1], iterations = iterations, max_steps=10000000)
 			batch.run_all()
 		else:
 			process(False)

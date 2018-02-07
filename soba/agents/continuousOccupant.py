@@ -51,7 +51,7 @@ class ContinuousOccupant(Occupant):
 		self.costMovement = round(0.25/(self.speed*self.model.clock.timeByStep))
 		self.out = True
 		self.initmove = True
-		self.posEntering = False
+		self.entering = False
 
 		#State machine
 		for k, v in json['states'].items():
@@ -247,12 +247,18 @@ class ContinuousOccupant(Occupant):
 	def checkLeaveArrive(self):
 		print(self.pos_to_go)
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
-			self.alreadyCreated = False
+			self.entering = True
 			ramen.reportCreation(self, 'E')
 			self.inbuilding = True
-		elif self.pos in self.model.exits and self.inbuilding:
+			return
+		if self.entering and (self.pos in self.model.exits):
+			return
+		else:
+			self.entering = False
+		if (self.pos in self.model.exits) and self.inbuilding:
 			self.inbuilding = False
 			ramen.reportExit(self)
+			return
 
 	def getFOV(self):
 		'''Calculation of the occupant's field of vision, registered in the attribute fov'''
@@ -271,12 +277,17 @@ class ContinuousOccupant(Occupant):
 		"""
 		if self.markov == True or self.changeSchedule():
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
+			if ramenAux:
+				self.checkLeaveArrive()
 		elif self.pos != self.pos_to_go:
 			self.makeMovement()
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1
+			if ramenAux:
+				self.checkLeaveArrive()
+				if self.inbuilding:
+					ramen.reportStop(self)
 		else:
 			self.markov = True
 			self.step()
-		if ramenAux:
-			self.checkLeaveArrive()
+
