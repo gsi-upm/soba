@@ -69,12 +69,14 @@ class ContinuousOccupant(Occupant):
 		'''
 		options = []
 		for poi in self.model.pois:
-			if poi.id == name and (poi.share or not poi.used):
-				if not poi.share:
+			if poi.id == name:
+				if not poi.share and not poi.used:
 					poi.used = True
-					time.sleep(50)
 					return poi.pos
-				options.append(poi.pos)
+				elif poi.share:
+					options.append(poi.pos)
+				else:
+					options.append(poi.pos)
 		return random.choice(options)
 
 	def startActivity(self):
@@ -131,7 +133,7 @@ class ContinuousOccupant(Occupant):
 		before2 = otherAgent.pos
 		after1 = self.movements[self.N]
 		after2 = otherAgent.movements[otherAgent.N]
-		if before1 == after2 and before2 == after1:
+		if before1 == after2 or before2 == after1:
 			return False
 		return True
 
@@ -183,7 +185,6 @@ class ContinuousOccupant(Occupant):
 		'''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
 		if self.costMovement > 1:
 			self.costMovement = self.costMovement - 1
-			
 			if ramenAux:
 				self.reportMovement()
 		else:
@@ -245,7 +246,6 @@ class ContinuousOccupant(Occupant):
 		ramen.reportMovement(self, pos)
 
 	def checkLeaveArrive(self):
-		print(self.pos_to_go)
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
 			self.entering = True
 			ramen.reportCreation(self, 'E')
@@ -290,4 +290,3 @@ class ContinuousOccupant(Occupant):
 		else:
 			self.markov = True
 			self.step()
-

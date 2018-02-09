@@ -1,4 +1,3 @@
-#import random
 import datetime
 from mesa import Agent
 
@@ -17,7 +16,7 @@ class Time(Agent):
 			decreaseTime: Decrease the value of the clock a given time.
 	"""
 
-	def __init__(self, model, timeByStep = 1, day = 1, hour = 8, minute = 0, seg = 0, microsecond = 0):
+	def __init__(self, model, timeByStep = 1, day = 1, hour = 7, minute = 0, seg = 0, microsecond = 0):
 		super().__init__(100000, model)
 		"""
 		Create a new Time object.
@@ -27,7 +26,6 @@ class Time(Agent):
 				day, hour, minute, seg, microsecond: Initial time value of the clock.
 			Return: Time object.
 		"""
-		self.model.schedule.add(self)
 		self.timeByStep = timeByStep
 		today = datetime.date.today()
 		self.startDay = datetime.datetime(today.year, today.month, day, hour, minute, seg, microsecond)

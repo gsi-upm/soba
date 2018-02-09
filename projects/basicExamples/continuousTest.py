@@ -9,7 +9,7 @@ import sys
 class ModelExample(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
-		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
+		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.5)
 
 	def step(self):
 		if self.clock.clock.hour > 9:
@@ -18,27 +18,31 @@ class ModelExample(ContinuousModel):
 
 jsonsOccupants = []
 
-N = 1
+N = 6
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 
-schedule = {'t1': "08:01:00", 't2': "13:00:00", 't3': "14:10:00"}
+schedule = {'t1': "08:00:00", 't2': "13:00:00", 't3': "14:10:00"}
 
-variation = {'t1': "00:00:00", 't2': "01:20:00", 't3': "00:20:00"}
+variation = {'t1': "00:10:00", 't2': "00:10:00", 't3': "00:20:00"}
 
 markovActivity = {
 	'-t1': [[100, 0, 0], [0, 0, 0], [0, 0, 0]],
 	't1-t2': [[30, 40, 30], [0, 50, 50], [0, 50, 50]],
-	't2-t3': [[0, 0, 0], [50, 50, 0], [0, 0, 0]],
-	't3-': [[0, 50, 50], [10, 90, 0], [0, 0, 0]]
+	't2-t3': [[100, 0, 0], [60, 40, 0], [60, 0, 40]],
+	't3-': [[0, 0, 100], [0, 100, 0], [0, 100, 0]]
 }
 
 timeActivity = {
-	'-t1': [3, 0, 0], 't1-t2': [2, 60, 15], 't2-t3': [60, 10, 15], 't3-': [60, 20, 15]
+	'-t1': [3, 0, 0], 't1-t2': [3, 30, 10], 't2-t3': [60, 10, 15], 't3-': [5, 100, 15]
+}
+
+timeActivityVariation = {
+	'-t1': [0, 0, 0], 't1-t2': [0, 5, 2], 't2-t3': [5, 2, 3], 't3-': [0, 13, 3]
 }
 
 jsonOccupant = {'type': 'example' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation, 
-	'markovActivity': markovActivity, 'timeActivity': timeActivity}
+	'markovActivity': markovActivity, 'timeActivity': timeActivity, "timeActivityVariation": timeActivityVariation}
 
 jsonsOccupants.append(jsonOccupant)
 

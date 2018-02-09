@@ -5,6 +5,9 @@ from transitions import Machine
 from transitions import State
 from soba.agents.resources.behaviourMarkov import Markov
 from mesa import Agent
+import random
+import math
+import numpy as np
 
 class Occupant(Agent):
 	"""
@@ -46,18 +49,16 @@ class Occupant(Agent):
 		self.shape = 'circle' if json.get('shape') == None else color
 		self.model.schedule.add(self)
 		self.color = 'blue' if json.get('color') == None else color
-		self.schedule = {}
-		for k, v in json['schedule'].items():
-			variation = json['variation'].get(k)
-			if not variation:
-				self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0)
-			else:
-				variation = datetime.timedelta(2017, 10, 1, int(variation[0]+variation[1]), int(variation[3]+variation[4]), 0, 0)
-				self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0)-variation
+		self.variationSchedule = json.get('variation')
+		self.jsonSchedule = json['schedule']
+		self.schedule = json['schedule'].copy()
+		self.setTodaySchedule()
 		self.type = json['type']
 
 		self.markovActivity = json['markovActivity']
+
 		self.timeActivity = json['timeActivity']
+		self.timeActivityVariation = json.get('timeActivityVariation')
 
 		self.positionByStateAux = json['states']
 
@@ -91,6 +92,22 @@ class Occupant(Agent):
 		self.movements = []
 		self.inbuilding = False
 
+	def setTodaySchedule(self):
+		for k, v in self.jsonSchedule.items():
+			if not self.variationSchedule:
+				self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0)
+			else:
+				variation = self.variationSchedule.get(k)
+				variation = datetime.datetime(2017, 10, 1, int(variation[0]+variation[1]), int(variation[3]+variation[4]), 0, 0)
+				reference = datetime.datetime(2017, 10, 1, 0, 0, 0, 0)
+				variationSeconds = (variation - reference).total_seconds()
+				mu = 0
+				sigma = variationSeconds
+				variationSecondsNormal = np.random.normal(mu, sigma)
+				variationTime = datetime.timedelta(seconds=variationSecondsNormal)
+				newSchedule = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0) + datetime.timedelta(seconds=variationSecondsNormal)
+				self.schedule[k] = newSchedule
+
 	def start_activity(self):
 		""" 
 		Defines the actions that are made when a state is started. 
@@ -104,6 +121,12 @@ class Occupant(Agent):
 		else:
 			self.movements = [self.pos]
 		time_in_state = self.timeActivity[self.getPeriod()][list(self.positionByState.keys()).index(self.state)]
+		if self.timeActivityVariation:
+			time_in_state_variation = self.timeActivityVariation[self.getPeriod()][list(self.positionByState.keys()).index(self.state)]
+			mu = 0
+			sigma = time_in_state_variation
+			if sigma:
+				time_in_state = time_in_state + np.random.normal(mu, sigma, 1)
 		self.time_activity = (time_in_state*60)/self.model.clock.timeByStep
 		self.N = 0
 

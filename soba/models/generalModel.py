@@ -70,5 +70,6 @@ class GeneralModel(Model):
 		"""Main step of the simulation, execution of the scheduler steps."""
 		if self.finishSimulation:
 			self.finishTheSimulation()
+		self.clock.step()
 		self.schedule.step()
 		self.NStep = self.NStep + 1

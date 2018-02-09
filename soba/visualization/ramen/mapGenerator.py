@@ -37,7 +37,7 @@ def returnMap(data_file):
 				items["idItem" + str(n)]["itemName"] = k["item_name"]
 				items["idItem" + str(n)]["itemType"] = "poi"
 				items["idItem" + str(n)]["id"] = "wp"
-				items["idItem" + str(n)]["share"] = "False"
+				items["idItem" + str(n)]["share"] = False
 			if k["item_name"] == 'Red Chair':
 				items["idItem" + str(n)]["itemName"] = k["item_name"]
 				items["idItem" + str(n)]["itemType"] = "poi"
