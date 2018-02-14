@@ -26,9 +26,12 @@ def run(model, *args, visualJS = '', iterations = 1):
 			iterations: Number of simulations that will be executed in batch mode.
 	"""
 	if len(sys.argv) > 2:
-		if sys.argv[2] == '-r':
+		if sys.argv[2] == '-rb':
 			process(True)
-			ContinuousModel.activeRamen()
+			ContinuousModel.activeRamen(rt = False)
+		elif sys.argv[2] == '-rt':
+			process(True)
+			ContinuousModel.activeRamen(rt = True)
 	if len(sys.argv) > 1:
 		if sys.argv[1] == '-v':
 			process(True)

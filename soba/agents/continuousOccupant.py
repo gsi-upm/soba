@@ -33,7 +33,7 @@ class ContinuousOccupant(Occupant):
 		global ramenAux
 		ramenAux = True
 
-	def __init__(self, unique_id, model, json, speed = 0.7):
+	def __init__(self, unique_id, model, json, speed = 0.71428):
 		super().__init__(unique_id, model, json, speed)
 		"""
 		Create a new ContinuousOccupant object.
@@ -52,6 +52,7 @@ class ContinuousOccupant(Occupant):
 		self.out = True
 		self.initmove = True
 		self.entering = False
+		self.rect = True
 
 		#State machine
 		for k, v in json['states'].items():
@@ -197,8 +198,10 @@ class ContinuousOccupant(Occupant):
 						rect = False
 					if rect == True:
 						self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
+						self.rect = True
 					else:
 						self.costMovement = round(0.707106781/(self.speed*self.model.clock.timeByStep))
+						self.rect = False
 					self.initmove = False
 					self.step()
 					return
@@ -215,10 +218,13 @@ class ContinuousOccupant(Occupant):
 						rect = False
 					if rect == True:
 						self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
+						self.rect = True
 					else:
 						self.costMovement = round(0.707106781/(self.speed*self.model.clock.timeByStep))
+						self.rect = False
 				else:
 					self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
+					self.rect = True
 
 	def reportMovement(self):
 		x1, y1 = self.pos
@@ -243,7 +249,7 @@ class ContinuousOccupant(Occupant):
 		else:
 			ramen.reportStop(self)
 			return
-		ramen.reportMovement(self, pos)
+		ramen.reportMovement(self, pos, self.rect)
 
 	def checkLeaveArrive(self):
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
@@ -275,7 +281,9 @@ class ContinuousOccupant(Occupant):
 		Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: 
 		A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.
 		"""
-		if self.markov == True or self.changeSchedule():
+		print(self.speed)
+		print(self.schedule)
+		if self.changeSchedule() or self.markov == True:
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
 			if ramenAux:
 				self.checkLeaveArrive()

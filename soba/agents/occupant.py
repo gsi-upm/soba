@@ -34,7 +34,7 @@ class Occupant(Agent):
 
 	"""
 
-	def __init__(self, unique_id, model, json, speed = 0.7):
+	def __init__(self, unique_id, model, json, speed = 0.71428):
 		super().__init__(unique_id, model)
 		"""
 		Create a new Occupant object.
@@ -102,7 +102,7 @@ class Occupant(Agent):
 				reference = datetime.datetime(2017, 10, 1, 0, 0, 0, 0)
 				variationSeconds = (variation - reference).total_seconds()
 				mu = 0
-				sigma = variationSeconds
+				sigma = variationSeconds/3
 				variationSecondsNormal = np.random.normal(mu, sigma)
 				variationTime = datetime.timedelta(seconds=variationSecondsNormal)
 				newSchedule = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0) + datetime.timedelta(seconds=variationSecondsNormal)
@@ -124,7 +124,7 @@ class Occupant(Agent):
 		if self.timeActivityVariation:
 			time_in_state_variation = self.timeActivityVariation[self.getPeriod()][list(self.positionByState.keys()).index(self.state)]
 			mu = 0
-			sigma = time_in_state_variation
+			sigma = time_in_state_variation/3
 			if sigma:
 				time_in_state = time_in_state + np.random.normal(mu, sigma, 1)
 		self.time_activity = (time_in_state*60)/self.model.clock.timeByStep

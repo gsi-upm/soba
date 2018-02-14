@@ -40,10 +40,14 @@ class ContinuousModel(GeneralModel):
 			thereIsOccupant: Check if there is any Occupant object in a position given.
 	"""
 	global ramenAux
+	global ramenRT
 	ramenAux = False
-	def activeRamen():
+	ramenRT = False
+	def activeRamen(rt):
 		global ramenAux
+		global ramenRT
 		ramenAux = True
+		ramenRT = rt
 		ContinuousOccupant.activeRamen()
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
@@ -339,3 +343,5 @@ class ContinuousModel(GeneralModel):
 		if self.finishSimulation and ramenAux:
 			ramen.generateJSON()
 		super().step()
+		if ramenRT:
+			ramen.generateRTJSON(self.NStep-1)
