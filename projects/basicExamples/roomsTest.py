@@ -2,6 +2,7 @@ from soba.models.roomsModel import RoomsModel
 import soba.run
 from collections import OrderedDict
 from time import time
+import sys
 
 class ModelExample(RoomsModel):
 
@@ -54,14 +55,24 @@ jsonsOccupants.append(jsonOccupant)
 cellW = 4
 cellH = 4
 
+if len(sys.argv) > 1 and sys.argv[1] == '-v':
+	parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
+	soba.run.run(ModelExample, parameters, visualJS="example.js")
+else:
+	fixed_params = {"width": cellW, "height": cellH, "jsonMap": jsonMap, "jsonsOccupants": jsonsOccupants}
+	variable_params = {"seed": range(10, 500, 10)}
+	soba.run.run(ModelExample, fixed_params, variable_params)
+
+
+
 #Visual run
 """
-parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
-soba.run.run(ModelExample, parameters, visualJS="example.js")
-"""
+
+
 #Batch run
 
 fixed_params = {"width": cellW, "height": cellH, "jsonMap": jsonMap, "jsonsOccupants": jsonsOccupants}
 variable_params = {"seed": range(10, 500, 10)}
 
 soba.run.run(ModelExample, fixed_params, variable_params)
+"""
