@@ -342,6 +342,8 @@ class ContinuousModel(GeneralModel):
 	def step(self):
 		if self.finishSimulation and ramenAux:
 			ramen.generateJSON()
+		for a in self.occupants:
+			a.alreadyMovement = False
 		super().step()
 		if ramenRT:
 			ramen.generateRTJSON(self.NStep-1)

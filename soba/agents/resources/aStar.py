@@ -12,6 +12,8 @@ In the file aStar.py the AStar algorithm is implemented.
 		canMovePos: Evaluate if a position is reachable in a continuous space.
 
 """
+global maxIteration
+maxIteration = 600
 
 generalItemsPos = []
 doorsPoss = []
@@ -82,7 +84,11 @@ def getPathContinuous(model, start, finish, other = []):
 	visited = []
 	finishCell = None
 	notFinished = True
+	it = 0
 	while notFinished:
+		it = it + 1
+		if it > maxIteration:
+			return [(start.x, start.y)]
 		for cell_not_visited in not_visited:
 			if cell_not_visited.x == finish.x and cell_not_visited.y == finish.y:
 				finishCell = cell_not_visited
@@ -109,6 +115,8 @@ def getPathContinuous(model, start, finish, other = []):
 		pos = (cell.x, cell.y)
 		way = way + [pos]
 	way.reverse()
+	if not way:
+		way = [start]
 	return way
 
 def getConectedCellsRooms(model, cell):
@@ -180,6 +188,7 @@ def canMovePos(model, cellPos, posAux, others = []):
 				move = True
 	if move:
 		if not (cellPos in generalItemsPos or posAux in generalItemsPos):
+			print('AStar', cellPos, others)
 			if not (cellPos in others):
 				return True
 	return False

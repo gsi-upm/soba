@@ -44,15 +44,14 @@ class ContinuousOccupant(Occupant):
 				speed: Movement speed in m/s
 			Return: ContinuousOccupant object
 		"""
-
 		self.pov = []
-
 		#Control params.
 		self.costMovement = round(0.25/(self.speed*self.model.clock.timeByStep))
 		self.out = True
 		self.initmove = True
 		self.entering = False
 		self.rect = True
+		self.alreadyMovement = False
 
 		#State machine
 		for k, v in json['states'].items():
@@ -127,60 +126,55 @@ class ContinuousOccupant(Occupant):
 				otherAgent: The other agent to be avoid.
 			Return: Boolean
 		'''
+		print(1, otherAgent.N)
+		print(2, otherAgent.pos)
+		print(3, otherAgent.pos_to_go)
+		print(4, self.pos)
+
+		if otherAgent.alreadyMovement:
+			return False
 		if otherAgent.pos == otherAgent.pos_to_go:
 			return False
-		collision = [()]
-		before1 = self.pos
-		before2 = otherAgent.pos
-		after1 = self.movements[self.N]
-		after2 = otherAgent.movements[otherAgent.N]
-		if before1 == after2 or before2 == after1:
+		if otherAgent.movements[otherAgent.N] == self.pos:
 			return False
+		if otherAgent.movements[len(otherAgent.movements)-1] == otherAgent.pos:
+			return False
+		if otherAgent.movements[len(otherAgent.movements)-1] == otherAgent.pos:
+			return False
+		print(True)
 		return True
+
+	def checkCanMove(self):
+		x1, y1 = self.pos
+		possiblePosition1 = [(x1, y1 + 1), (x1 + 1, y1), (x1 - 1, y1), (x1, y1 - 1)]
+		possiblePosition2 = [(x1 + 1, y1 + 1), (x1 + 1, y1 - 1), (x1 - 1, y1 - 1), (x1 - 1, y1 + 1)]
+		possiblePosition = possiblePosition2 + possiblePosition1
+		posOccupied = []
+		for pos in possiblePosition:
+			possibleOccupant = self.model.grid.get_cell_list_contents(pos)
+			for j in possibleOccupant:
+				if isinstance(j, Occupant) and self.evalAvoid(j):
+					posOccupied.append(pos)
+		print(posOccupied)
+		way = self.getWay(other = posOccupied)
+		return way
 
 	def evalCollision(self):
 		"""
 		Evaluate a possible collision with an agent, invoking the evalAvoid method, and solve it if necessary by calculating another path.
 			Return: True if the collision exists and is avoided, False otherwise.
 		"""
+		if self.movements[self.N] in self.model.exits:
+			return True
 		possibleOccupant = self.model.grid.get_cell_list_contents(self.movements[self.N])
 		for i in possibleOccupant:
 			if isinstance(i, Occupant):
-				if len(self.movements) - 1 == self.N:
-					return False
 				if self.evalAvoid(i):
-					return False
-				x1, y1 = self.pos
-				x2, y2 = self.movements[self.N]
-				possiblePosition1 = [(x1, y1 + 1), (x1 + 1, y1), (x1 - 1, y1), (x1, y1 - 1)]
-				possiblePosition2 = [(x1 + 1, y1 + 1), (x1 + 1, y1 - 1), (x1 - 1, y1 - 1), (x1 - 1, y1 + 1)]
-				possiblePosition = possiblePosition2 + possiblePosition1
-
-				d = 100000000;
-				pos = (0, 0)
-				path = []
-				for nextPos in possiblePosition:
-					if aStar.canMovePos(self.model, self.pos, nextPos):
-						pathAux = self.getWay(nextPos, other = [x2, y2])
-						dAux = len(pathAux)
-						if dAux < d:
-							d = dAux
-							pos = nextPos
-							path = pathAux
-				if d != 100000000:
-					self.model.grid.move_agent(self, pos)
-					self.movements = path
-					self.N = 0
 					return True
-				else:
-					while True:
-						posRandom = random.choice(possiblePosition)
-						if aStar.canMovePos(self.model, self.pos, posRandom):
-							self.model.grid.move_agent(self, posRandom)
-							self.movements = self.getWay()
-							self.N = 0
-							return True
-		return False
+				self.movements = self.checkCanMove()
+				self.N = 0
+				return True
+		return True
 
 	def makeMovement(self):
 		'''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
@@ -205,14 +199,16 @@ class ContinuousOccupant(Occupant):
 					self.initmove = False
 					self.step()
 					return
-			if not self.evalCollision():
+			if self.evalCollision():
 				if ramenAux:
 					self.reportMovement()
 				self.model.grid.move_agent(self, self.movements[self.N])
 				if self.pos != self.pos_to_go:
-					self.N = self.N+1
 					x1, y1 = self.pos
 					x2, y2 = self.movements[self.N]
+					self.N = self.N+1
+					if self.N > len(self.movements) - 1:
+						self.N = 0
 					rect = True
 					if x1!=x2 and y1!=y2:
 						rect = False
@@ -223,6 +219,7 @@ class ContinuousOccupant(Occupant):
 						self.costMovement = round(0.707106781/(self.speed*self.model.clock.timeByStep))
 						self.rect = False
 				else:
+					self.N = 0
 					self.costMovement = round(0.5/(self.speed*self.model.clock.timeByStep))
 					self.rect = True
 
@@ -281,14 +278,17 @@ class ContinuousOccupant(Occupant):
 		Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: 
 		A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.
 		"""
-		print(self.speed)
-		print(self.schedule)
 		if self.changeSchedule() or self.markov == True:
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
 			if ramenAux:
 				self.checkLeaveArrive()
+			self.step()
 		elif self.pos != self.pos_to_go:
+			if (self.pos_to_go not in self.movements) or (self.N > len(self.movements)-1):
+				self.movements = self.checkCanMove()
+				self.N = 0
 			self.makeMovement()
+			self.alreadyMovement = True
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1
 			if ramenAux:

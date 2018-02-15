@@ -89,7 +89,7 @@ class Occupant(Agent):
 		self.N = 0
 		self.pos = (0, 0)
 		self.pos_to_go = (0, 0)
-		self.movements = []
+		self.movements = [self.pos]
 		self.inbuilding = False
 
 	def setTodaySchedule(self):
@@ -115,6 +115,7 @@ class Occupant(Agent):
 		corresponding to the new state.
 		"""
 		self.markov = False
+		self.N = 0
 		self.pos_to_go = self.getPlaceToGo()
 		if self.pos != self.pos_to_go:
 			self.movements = self.getWay()
@@ -128,7 +129,6 @@ class Occupant(Agent):
 			if sigma:
 				time_in_state = time_in_state + np.random.normal(mu, sigma, 1)
 		self.time_activity = (time_in_state*60)/self.model.clock.timeByStep
-		self.N = 0
 
 	def finish_activity(self):
 		""" Defines the actions that are made when a state is finished."""

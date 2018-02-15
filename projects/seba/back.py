@@ -1,13 +1,6 @@
-from collections import defaultdict
-import numpy as np
-from soba.visualization.server import VisualizationElement
-import soba
-import os
-import re
-from soba.models.model import ContinuousModel
+from mesa.visualization.ModularVisualization import VisualizationElement
 
 class Visualization(VisualizationElement):
-	local_includes = ["front.js"]
 
 	def __init__(self, cellW, cellH,canvas_width=500, canvas_height=500):
 		self.grid_width = cellW

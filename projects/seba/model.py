@@ -1,18 +1,15 @@
-from soba.models.model import ContinuousModel
 from agents import EmergencyOccupant
 from agents import FireControl
 import random
 import datetime as dt
-import ramenScript as ramen
+from soba.models.continuousModel import ContinuousModel
 
 class SEBAModel(ContinuousModel):
 
-    def __init__(self, width, height, jsonMap, jsonsOccupants, seed, scale = 0.5):
+    def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
+        super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
         self.parents = []
         self.children = []
-
-        super().__init__(width, height, jsonMap, jsonsOccupants, seed, scale)
-
         self.emergency = False
         self.FireControl = False
         self.fireTime = dt.datetime(2017, 10, 1, 20, 0, 0, 0)
@@ -51,21 +48,10 @@ class SEBAModel(ContinuousModel):
             occupant.makeEmergencyAction()
 
     def step(self):
-        ramen.generateJSON()
+        if self.clock.clock.hour > 9:
+            self.finishSimulation = True
         if self.clock.clock >= self.fireTime and not self.emergency:
             self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)
             self.informEmergency()
             self.emergency = True
         super().step()
-
-    def reportCreation(self, agent, rotation):
-        ramen.createAgent(agent, self.NStep, agent.pos, rotation, sentiment = "happiness")
-
-    def reportExit(self, agent):
-        ramen.removeAgent(agent, self.NStep)
-
-    def reportMovement(self, agent, direction):
-        ramen.addAgentMovement(agent, self.NStep, direction, agent.speed)
-
-    def reportStop(self, agent):
-        ramen.stopAgent(agent, self.NStep)

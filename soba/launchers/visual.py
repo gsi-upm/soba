@@ -11,7 +11,7 @@ In the file visual.py is implemented the execution with visual representation:
 
 """
 
-def run(model, parameters, visual):
+def run(model, parameters, visual, back = False):
 	"""
 	Execute the simulation with visual representation.
 		Args:
@@ -32,7 +32,8 @@ def run(model, parameters, visual):
 
 	ModularServer.handlers = ModularServer.handlers[:-1]
 	ModularServer.handlers = ModularServer.handlers + [local_handler] + [external_handler]
-
+	if back != False:
+		server = ModularServer(model, [backEndVisualization, back], name="Simulation", model_params=parameters)
 	server = ModularServer(model, [backEndVisualization], name="Simulation", model_params=parameters)
 
 	server.port = 7777

@@ -11,10 +11,7 @@ def post(file):
 	print('POST petition made!')
 
 def addAgentMovement(agent, step, direction, speed, rect, sentiment = 'happiness'):
-	if rect:
-		speed = (agent.speed/agent.model.clock.timeByStep)*0.1
-	else:
-		speed = (agent.speed*0.9899574133/agent.model.clock.timeByStep)*0.1
+	speed = (agent.speed/agent.model.clock.timeByStep)*0.1
 	steps[step].append({'agent': agent.unique_id, 'direction': direction, 'speed': speed, 'sentiment': sentiment})
 
 def stopAgent(agent, step):
