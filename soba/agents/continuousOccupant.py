@@ -126,11 +126,6 @@ class ContinuousOccupant(Occupant):
 				otherAgent: The other agent to be avoid.
 			Return: Boolean
 		'''
-		print(1, otherAgent.N)
-		print(2, otherAgent.pos)
-		print(3, otherAgent.pos_to_go)
-		print(4, self.pos)
-
 		if otherAgent.alreadyMovement:
 			return False
 		if otherAgent.pos == otherAgent.pos_to_go:
@@ -139,9 +134,7 @@ class ContinuousOccupant(Occupant):
 			return False
 		if otherAgent.movements[len(otherAgent.movements)-1] == otherAgent.pos:
 			return False
-		if otherAgent.movements[len(otherAgent.movements)-1] == otherAgent.pos:
-			return False
-		print(True)
+		print(1)
 		return True
 
 	def checkCanMove(self):
@@ -152,10 +145,11 @@ class ContinuousOccupant(Occupant):
 		posOccupied = []
 		for pos in possiblePosition:
 			possibleOccupant = self.model.grid.get_cell_list_contents(pos)
+			print("iiii", possibleOccupant)
 			for j in possibleOccupant:
-				if isinstance(j, Occupant) and self.evalAvoid(j):
+				if isinstance(j, Occupant) and not self.evalAvoid(j):
+					print("j", j)
 					posOccupied.append(pos)
-		print(posOccupied)
 		way = self.getWay(other = posOccupied)
 		return way
 
@@ -167,9 +161,11 @@ class ContinuousOccupant(Occupant):
 		if self.movements[self.N] in self.model.exits:
 			return True
 		possibleOccupant = self.model.grid.get_cell_list_contents(self.movements[self.N])
+		print("jjjjj", possibleOccupant)
 		for i in possibleOccupant:
 			if isinstance(i, Occupant):
 				if self.evalAvoid(i):
+					print("i", i)
 					return True
 				self.movements = self.checkCanMove()
 				self.N = 0

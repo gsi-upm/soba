@@ -41,5 +41,4 @@ var VisualModule = function(width, height, gridWidth, gridHeight){
 
 	this.reset = function() {
 	};
-
 };

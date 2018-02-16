@@ -188,7 +188,6 @@ def canMovePos(model, cellPos, posAux, others = []):
 				move = True
 	if move:
 		if not (cellPos in generalItemsPos or posAux in generalItemsPos):
-			print('AStar', cellPos, others)
 			if not (cellPos in others):
 				return True
 	return False
