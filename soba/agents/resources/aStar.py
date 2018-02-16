@@ -115,8 +115,8 @@ def getPathContinuous(model, start, finish, other = []):
 		pos = (cell.x, cell.y)
 		way = way + [pos]
 	way.reverse()
-	if not way:
-		way = [start]
+	if len(way) == 1 and not canMovePos(model, start, way[0]):
+		way = (start.x, start.y)
 	return way
 
 def getConectedCellsRooms(model, cell):
@@ -188,7 +188,7 @@ def canMovePos(model, cellPos, posAux, others = []):
 				move = True
 	if move:
 		if not (cellPos in generalItemsPos or posAux in generalItemsPos):
-			if not (cellPos in others):
+			if not (posAux in others):
 				return True
 	return False
 
