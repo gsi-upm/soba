@@ -38,7 +38,7 @@ var VisualModule = function(width, height, gridWidth, gridHeight){
 			this.drawRectangle(xDraw, yDraw, 1, 1, 'red', true);
 		}
 	};
-
-	this.reset = function() {
+		this.reset = function() {
+		canvasDraw.resetCanvas();
 	};
 };

@@ -34,7 +34,8 @@ def run(model, parameters, visual, back = False):
 	ModularServer.handlers = ModularServer.handlers + [local_handler] + [external_handler]
 	if back != False:
 		server = ModularServer(model, [backEndVisualization, back], name="Simulation", model_params=parameters)
-	server = ModularServer(model, [backEndVisualization], name="Simulation", model_params=parameters)
+	else:
+		server = ModularServer(model, [backEndVisualization], name="Simulation", model_params=parameters)
 
 	server.port = 7777
 	server.launch()

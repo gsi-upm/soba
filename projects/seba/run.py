@@ -6,6 +6,8 @@ import json
 from time import time
 import sys
 from model import SEBAModel
+from back import Visualization
+
 
 jsonsOccupants = []
 
@@ -44,8 +46,9 @@ cellW = 40
 cellH = 40
 
 if len(sys.argv) > 1 and sys.argv[1] == '-v':
+	back = Visualization(cellW, cellH)
 	parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}
-	soba.run.run(SEBAModel, parameters, visualJS="front.js")
+	soba.run.run(SEBAModel, parameters, visualJS="front.js", back=back)
 else:
 	fixed_params = {"width": cellW, "height": cellH, "jsonMap": jsonMap, "jsonsOccupants": jsonsOccupants}
 	variable_params = {"seed": range(10, 500, 10)}

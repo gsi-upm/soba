@@ -19,7 +19,7 @@ def stopAgent(agent, step):
 
 def createAgent(agent, step, pos, rotation, sentiment = 'happiness'):
 	x, y = pos
-	steps[step].append({ 'agent': agent.unique_id, 'position': {'x': (x-1)*100*0.5, 'y': ((10-(y+1)*0.5+0.25)*100)}, 'sentiment': sentiment})
+	steps[step].append({ 'agent': agent.unique_id, 'position': {'x': (x+1)*100*0.5, 'y': ((10-(y-1)*0.5+0.25)*100)}, 'sentiment': sentiment})
 
 def removeAgent(agent, step):
 	steps[step].append({ 'agent': agent.unique_id, 'outBuilding': True})

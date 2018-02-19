@@ -1,4 +1,5 @@
 from mesa.visualization.ModularVisualization import VisualizationElement
+import collections
 
 class Visualization(VisualizationElement):
 
@@ -15,7 +16,7 @@ class Visualization(VisualizationElement):
 		self.js_code = "elements.push(" + new_element + ");"
 
 	def render(self, model):
-		data = defaultdict(list)
+		data = collections.defaultdict(list)
 		data[1] = list()
 		if model.FireControl != False:
 			for fire in model.FireControl.fireExpansion:

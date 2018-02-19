@@ -3,19 +3,23 @@ from agents import FireControl
 import random
 import datetime as dt
 from soba.models.continuousModel import ContinuousModel
+from time import time
 
 class SEBAModel(ContinuousModel):
 
     def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
-        super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
+        super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
+        
         self.parents = []
         self.children = []
         self.emergency = False
         self.FireControl = False
-        self.fireTime = dt.datetime(2017, 10, 1, 20, 0, 0, 0)
+        today = dt.date.today()
+        self.fireTime = dt.datetime(today.year, today.month, 1, 9, 0, 0, 0)
         self.outDoors = []
         self.getOutDoors()
         self.make = False
+        self.createOccupants(jsonsOccupants)
 
     def getOutDoors(self):
         for poi in self.pois:
@@ -48,7 +52,7 @@ class SEBAModel(ContinuousModel):
             occupant.makeEmergencyAction()
 
     def step(self):
-        if self.clock.clock.hour > 9:
+        if self.clock.clock.hour > 13:
             self.finishSimulation = True
         if self.clock.clock >= self.fireTime and not self.emergency:
             self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)

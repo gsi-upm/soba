@@ -19,7 +19,10 @@ var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height,
 	context = canvas.getContext("2d");
 	canvasDraw = new DrawMapVisualization(canvas_width, canvas_height, grid_width, grid_height, context);
 	path = "/external/" + path
-	
+	var s = document.createElement("script");
+	s.type = "text/javascript";
+	s.src = path;
+	$("head").append(s);
 	this.render = function(data) {
 
 		canvasDraw.resetCanvas();
@@ -40,9 +43,6 @@ var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height,
 
 		canvasDraw.drawAgents(data[1]);
 
-		
-		$.getScript(path, function()
-		{});
 	};
 	this.reset = function() {
 		canvasDraw.resetCanvas();

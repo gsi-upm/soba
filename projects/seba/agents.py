@@ -1,7 +1,8 @@
-from soba.agents.agent import ContinuousOccupant
-from soba.agents.agent import Agent
+from soba.agents.continuousOccupant import ContinuousOccupant
 import random
 import sys
+from mesa.agent import Agent
+import soba.agents.resources.aStar as aStar
 
 class EmergencyOccupant(ContinuousOccupant):
 
@@ -120,6 +121,7 @@ class EmergencyOccupant(ContinuousOccupant):
         return others
 
     def step(self):
+        print(2)
         if self.alive == True:
             if self.pos == self.pos_to_go and self.out == False:
                 self.model.reportStop(self)
@@ -143,7 +145,7 @@ class Fire():
 
     def __init__(self, model, pos):
         self.pos = pos
-        model.grid.place_item(self, pos)
+        model.grid.place_agent(self, pos)
         self.grade = 1
 
     def harmOccupant(self, occupant):
@@ -157,6 +159,7 @@ class FireControl(Agent):
 
     def __init__(self, unique_id, model, posInit, expansionRate = 1/600, growthRate = 1/600):
         super().__init__(unique_id, model)
+        self.model.schedule.add(self)
         self.fireExpansion = []
         self.limitFire = []
         self.expansionRate = expansionRate #m/s
@@ -187,7 +190,7 @@ class FireControl(Agent):
             self.limitFire.remove(fire)
             x, y = fire.pos
             posAdj = [(x + 1, y + 1), (x + 1, y), (x - 1, y), (x - 1, y - 1), (x, y + 1), (x, y - 1), (x - 1, y + 1), (x + 1, y - 1)]
-            doorsPoss = self.model.obtacles['doors']
+            doorsPoss = aStar.doorsPoss
             for pos in posAdj:
                 cellPos = fire.pos
                 posAux = pos
@@ -205,9 +208,10 @@ class FireControl(Agent):
 
     def growthFire(self):
         for fire in self.fireExpansion:
-                fire.grade = fire.grade + 1
+            fire.grade = fire.grade + 1
 
     def step(self):
+        print(1)
         for occupant in self.model.occupants:
             fire = self.getFirePos(occupant.pos)
             if fire != False:

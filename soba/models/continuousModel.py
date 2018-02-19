@@ -75,7 +75,6 @@ class ContinuousModel(GeneralModel):
 		#Create the map
 		self.setMap(jsonMap, scale)
 		aStar.getObtacles(self)
-		self.createOccupants(jsonsOccupants)
 
 	def createOccupants(self, jsonsOccupants):
 		"""

@@ -9,7 +9,9 @@ import sys
 class ModelExample(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
-		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
+		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
+
+		self.createOccupants(jsonsOccupants)
 
 	def step(self):
 		if self.clock.clock.hour > 17:
@@ -18,7 +20,7 @@ class ModelExample(ContinuousModel):
 
 jsonsOccupants = []
 
-N = 8
+N = 1
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 
