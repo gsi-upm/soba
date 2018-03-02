@@ -18,6 +18,7 @@ from mesa.space import Grid
 import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import SimultaneousActivation
+from soba.agents.occupant import Occupant
 
 class ContinuousModel(GeneralModel):
 	"""
@@ -336,6 +337,38 @@ class ContinuousModel(GeneralModel):
 			for occupant in possible_occupant:
 				if isinstance(occupant,Occupant):
 					return True
+		return False
+
+	def getPOIsId(self, poiId):
+		pois = []
+		for i in self.pois:
+			if i.id == poiId:
+				pois.append(i)
+		if pois:
+			return pois
+		return False
+
+	def getPOIsPos(self, poiPos):
+		pois = []
+		conts = self.grid.get_cell_list_contents(p.pos)
+		for c in conts:
+			if isinstance(c, Poi):
+				pois.append(c)
+		if pois:
+			return pois
+		return False
+
+	def checkFreePOI(self, p):
+		conts = self.grid.get_cell_list_contents(p.pos)
+		for c in conts:
+			if isinstance(c, Occupant):
+				return False
+		return True
+
+	def xyInGrid(self, x, y):
+		if x >= 0 and not x >= self.width:
+			if y >= 0 and not y >= self.height:
+				return True
 		return False
 
 	def step(self):

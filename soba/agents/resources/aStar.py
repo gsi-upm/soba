@@ -13,7 +13,7 @@ In the file aStar.py the AStar algorithm is implemented.
 
 """
 global maxIteration
-maxIteration = 600
+maxIteration = 100000
 
 generalItemsPos = []
 doorsPoss = []

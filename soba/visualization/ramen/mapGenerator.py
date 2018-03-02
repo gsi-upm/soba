@@ -9,7 +9,7 @@ def returnMap(data_file):
 	corners = {}
 	walls = {}
 	items = {}
-	offsety = 10
+	offsety = 9
 	offsetx = 0
 	flor = data["floorplan"]
 	for k, v in flor["corners"].items():

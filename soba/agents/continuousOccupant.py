@@ -136,6 +136,14 @@ class ContinuousOccupant(Occupant):
 			return False
 		return True
 
+	def checkFreeSharedPOI(self):
+		poi = self.model.getPOIsPos(self.pos_to_go) 
+		pois = self.model.getPOIsId(poi.id)
+		for p in pois:
+			if self.model.checkFreePOI(p):
+				return p.pos
+		return False
+	
 	def checkCanMove(self):
 		x1, y1 = self.pos
 		possiblePosition1 = [(x1, y1 + 1), (x1 + 1, y1), (x1 - 1, y1), (x1, y1 - 1)]
@@ -147,6 +155,10 @@ class ContinuousOccupant(Occupant):
 			for j in possibleOccupant:
 				if isinstance(j, Occupant) and not self.evalAvoid(j):
 					posOccupied.append(pos)
+		if self.pos_to_go == self.movements[self.N]:
+			pos_shared = self.checkFreeSharedPOI()
+			if pos_shared:
+				pos_to_go = pos_shared
 		way = self.getWay(other = posOccupied)
 		return way
 
@@ -198,8 +210,8 @@ class ContinuousOccupant(Occupant):
 					x1, y1 = self.pos
 					x2, y2 = self.movements[self.N]
 					self.N = self.N+1
-					if self.N > len(self.movements) - 1:
-						self.N = 0
+					#if self.N > len(self.movements) - 1:
+						#self.N = 0
 					rect = True
 					if x1!=x2 and y1!=y2:
 						rect = False
@@ -275,9 +287,6 @@ class ContinuousOccupant(Occupant):
 				self.checkLeaveArrive()
 			self.step()
 		elif self.pos != self.pos_to_go:
-			if (self.pos_to_go not in self.movements) or (self.N > len(self.movements)-1):
-				self.movements = self.checkCanMove()
-				self.N = 0
 			self.makeMovement()
 			self.alreadyMovement = True
 		elif self.time_activity > 0:
