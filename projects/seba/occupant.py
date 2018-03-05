@@ -2,6 +2,7 @@ from soba.agents.continuousOccupant import ContinuousOccupant
 import random
 import sys
 import soba.agents.resources.aStar as aStar
+import numpy as np
 
 class EmergencyOccupant(ContinuousOccupant):
 
@@ -25,6 +26,8 @@ class EmergencyOccupant(ContinuousOccupant):
         self.initmove = True
         self.adult = True
         self.alone = True
+        self.speedEmergency = 1.38 if not json.get('speedEmergency') else eval(json.get('speedEmergency'))
+        self.parentAsos = False
 
     def makeMovement(self):
         super().makeMovement()
@@ -32,10 +35,12 @@ class EmergencyOccupant(ContinuousOccupant):
             self.getFOV()
 
     def makeEmergencyAction(self):
+        self.speed = self.speedEmergency
         self.N = 0
         self.markov = False
         self.timeActivity = 0
-        if self.children:
+        if self.children and (len(self.foundChildren) != len(self.children)):
+            print('here')
             self.pos_to_go = self.pos
             if len(self.foundChildren) == len(self.children):
                 self.movements = self.getExitGate()
@@ -49,65 +54,27 @@ class EmergencyOccupant(ContinuousOccupant):
                 self.pos_to_go = child.pos
                 self.movements = super().getWay()
         elif not self.adult:
-            self.pos_to_go = self.pos
-            self.movements = [self.pos_to_go]
+            if self.alone:
+                self.pos_to_go = self.pos
+                self.movements = [self.pos_to_go]
         else:
             self.movements = self.getExitGate()
-
-    def getUncrowdedGate(self):
-        fewerPeople = 1000000
-        doorAux = False
-        for door in self.model.outDoors:
-            nPeople = 0
-            x, y = door.pos
-            for xAux in range (-10, 0):
-                for yAux in range(-10, 10):
-                    if self.model.xyInGrid(x + xAux, y + yAux):
-                        items = self.model.grid.get_cell_list_contents((x + xAux, y + yAux))
-                        for item in items:
-                            if isinstance(item, EmergencyOccupant) and item.inbuilding:
-                                nPeople = nPeople + 1
-            if fewerPeople > nPeople:
-                doorAux = door
-                fewerPeople = nPeople
-        return doorAux.pos
-
-    def getSafestGate(self):
-        longPath = 0
-        doorAux = ''
-        for door in self.model.outDoors:
-            for fire in self.model.FireControl.limitFire:
-                path = super().getWay(door.pos, fire.pos)
-                if len(path) > longPath:
-                    longPath = len(path)
-                    doorAux = door
-        return doorAux.pos
-
-    def getNearestGate(self):
-        shortPath = 1000000
-        doorAux = False
-        for door in self.model.outDoors:
-            path = super().getWay(self.pos, door.pos)
-            if shortPath > len(path):
-                shortPath = len(path)
-                pathReturn = path
-                doorAux = door
-        return doorAux.pos
 
     def getExitGate(self):
         if True: #self.smartModel:
             if self.exitGateStrategy == 'uncrowded':
-                self.pos_to_go = self.getUncrowdedGate()
+                self.pos_to_go = self.model.getNearestGate(self)
+                self.model.uncrowdedStr.append(self)
             elif self.exitGateStrategy == 'safest':
-                self.pos_to_go = self.getSafestGate()
+                self.pos_to_go = self.model.getSafestGate(self)
             elif self.exitGateStrategy == 'nearest':
-                self.pos_to_go = self.getNearestGate()
+                self.pos_to_go = self.model.getNearestGate(self)
             elif self.exitGateStrategy == 'lessassigned':
-                self.pos_to_go = self.getLessAssignedGate()
+                self.pos_to_go = self.model.getLessAssignedGate()
             else:
-                self.pos_to_go = self.getNearestGate()
+                self.pos_to_go = self.model.getNearestGate()
         else:
-            self.pos_to_go = self.getNearestGate()
+            self.pos_to_go = self.model.getNearestGate(self)
         pathReturn = super().getWay()
         return pathReturn
 
@@ -130,9 +97,26 @@ class EmergencyOccupant(ContinuousOccupant):
         super().changeSchedule()
 
     def step(self):
-        print(self.unique_id, self.pos_to_go, self.pos, self.N)
+        print(self.adult, self.pos)
         if self.alive == True:
             if self.model.emergency:
+                if self.parentAsos:
+                    self.pos_to_go = self.parentAsos.pos
+                    super().getWay()
+                    self.N = 0
+                if self.children:
+                    posC = self.model.getOccupantsPos(self.movements[self.N])
+                    if posC and posC not in self.model.exits:
+                        posC = posC[0]
+                        if posC in self.children:
+                            posC.alone = False
+                            for parent in posC.parents:
+                                parent.foundChildren.append(posC)
+                            posC.parentAsos = self
+                            for parent in posC.parents:
+                                if parent.pos_to_go == posC.pos:
+                                    parent.makeEmergencyAction()
+                            print("find")
                 self.markov = False
                 self.timeActivity = 0
                 if self.pos != self.pos_to_go:

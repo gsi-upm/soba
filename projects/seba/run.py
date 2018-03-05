@@ -8,24 +8,24 @@ import sys
 from model import SEBAModel
 from visualization.back import Visualization
 
-strategies = ['safest', 'uncrowded', 'nearest']
+strategies = ['nearest', 'safest', 'uncrowded']
 
 # Simulation configuration
 
-families = [] 
+families = []
 
 family1 = {'N': 3, 'child': 1, 'adult': 2} #Only two are neccesary 
-family2 = {'N': 2, 'child': 1, 'adult': 1}
+family2 = {'N': 3, 'child': 2, 'adult': 1}
 families.append(family1)
 families.append(family2)
 
-sebaConfiguration = {'families': []}
+sebaConfiguration = {'families': families}
 
 # Occupancy atributtes
 
 jsonsOccupants = []
 
-N = 5
+N = 8
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 
@@ -35,13 +35,13 @@ variation = {'t1': "00:01:00", 't2': "00:01:00", 't3': "00:20:00"}
 
 markovActivity = {
 	'-t1': [[100, 0, 0], [0, 0, 0], [0, 0, 0]],
-	't1-t2': [[0, 0, 100], [0, 0, 100], [0, 0, 100]],
+	't1-t2': [[0, 100, 0], [0, 0, 100], [0, 0, 100]],
 	't2-t3': [[100, 0, 0], [60, 40, 0], [60, 0, 40]],
 	't3-': [[0, 0, 100], [0, 100, 0], [0, 100, 0]]
 }
 
 timeActivity = {
-	'-t1': [3, 0, 0], 't1-t2': [3, 30, 10], 't2-t3': [60, 10, 15], 't3-': [5, 100, 15]
+	'-t1': [3, 0, 1], 't1-t2': [1, 0, 4], 't2-t3': [60, 10, 15], 't3-': [5, 100, 15]
 }
 
 timeActivityVariation = {
@@ -49,7 +49,8 @@ timeActivityVariation = {
 }
 
 jsonOccupant = {'type': 'sebaOccupant' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation, 
-	'markovActivity': markovActivity, 'timeActivity': timeActivity, "timeActivityVariation": timeActivityVariation, 'strategy': strategies[1]}
+	'markovActivity': markovActivity, 'timeActivity': timeActivity, "timeActivityVariation": timeActivityVariation, 
+	'strategy': strategies[0], 'speedEmergency': 'np.random.normal(1.15, 0.15)'}
 
 
 jsonsOccupants.append(jsonOccupant)

@@ -293,7 +293,7 @@ class ContinuousModel(GeneralModel):
 				pos: Position of the door as (x, y).
 			Return: State of the door as boolean.
 		"""
-		possibleDoor = self.grid.get_items_in_pos(pos)
+		possibleDoor = self.grid.get_cell_list_contents([pos])
 		for item in possibleDoor:
 			if isinstance(item, Door):
 				return Door.state
@@ -305,7 +305,7 @@ class ContinuousModel(GeneralModel):
 				pos: Position of the door as (x, y).
 			Return: Door object or false.
 		"""
-		possibleDoor = self.grid.get_items_in_pos(pos)
+		possibleDoor = self.grid.get_cell_list_contents([pos])
 		for item in possibleDoor:
 			if isinstance(item, Door):
 				return item
@@ -318,7 +318,7 @@ class ContinuousModel(GeneralModel):
 				pos: Position as (x, y).
 			Return: List of Cccupant objects.
 		"""
-		possibleOccupants = self.grid.get_items_in_pos(pos)
+		possibleOccupants = self.grid.get_cell_list_contents([pos])
 		occupants = []
 		for item in possibleOccupants:
 			if isinstance(item, Occupant):
@@ -350,7 +350,7 @@ class ContinuousModel(GeneralModel):
 
 	def getPOIsPos(self, poiPos):
 		pois = []
-		conts = self.grid.get_cell_list_contents(p.pos)
+		conts = self.grid.get_cell_list_contents(poiPos)
 		for c in conts:
 			if isinstance(c, Poi):
 				pois.append(c)

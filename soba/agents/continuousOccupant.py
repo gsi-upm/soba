@@ -137,13 +137,13 @@ class ContinuousOccupant(Occupant):
 		return True
 
 	def checkFreeSharedPOI(self):
-		poi = self.model.getPOIsPos(self.pos_to_go) 
-		pois = self.model.getPOIsId(poi.id)
+		poi = self.model.getPOIsPos(self.pos_to_go)
+		pois = self.model.getPOIsId(poi[0].id)
 		for p in pois:
 			if self.model.checkFreePOI(p):
 				return p.pos
 		return False
-	
+
 	def checkCanMove(self):
 		x1, y1 = self.pos
 		possiblePosition1 = [(x1, y1 + 1), (x1 + 1, y1), (x1 - 1, y1), (x1, y1 - 1)]
@@ -158,7 +158,10 @@ class ContinuousOccupant(Occupant):
 		if self.pos_to_go == self.movements[self.N]:
 			pos_shared = self.checkFreeSharedPOI()
 			if pos_shared:
-				pos_to_go = pos_shared
+				self.pos_to_go = pos_shared
+			else:
+				self.pos_to_go = self.pos
+				return [self.pos]
 		way = self.getWay(other = posOccupied)
 		return way
 
@@ -167,7 +170,9 @@ class ContinuousOccupant(Occupant):
 		Evaluate a possible collision with an agent, invoking the evalAvoid method, and solve it if necessary by calculating another path.
 			Return: True if the collision exists and is avoided, False otherwise.
 		"""
+		print(self.movements, self.N, self.model.exits, self.pos_to_go)
 		if self.movements[self.N] in self.model.exits:
+			print('exits')
 			return True
 		possibleOccupant = self.model.grid.get_cell_list_contents(self.movements[self.N])
 		for i in possibleOccupant:
@@ -206,10 +211,10 @@ class ContinuousOccupant(Occupant):
 				if ramenAux:
 					self.reportMovement()
 				self.model.grid.move_agent(self, self.movements[self.N])
+				self.N = self.N+1
 				if self.pos != self.pos_to_go:
 					x1, y1 = self.pos
 					x2, y2 = self.movements[self.N]
-					self.N = self.N+1
 					#if self.N > len(self.movements) - 1:
 						#self.N = 0
 					rect = True
