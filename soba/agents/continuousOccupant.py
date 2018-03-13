@@ -138,6 +138,8 @@ class ContinuousOccupant(Occupant):
 
 	def checkFreeSharedPOI(self):
 		poi = self.model.getPOIsPos(self.pos_to_go)
+		if not poi:
+			return False
 		pois = self.model.getPOIsId(poi[0].id)
 		for p in pois:
 			if self.model.checkFreePOI(p):
@@ -170,9 +172,7 @@ class ContinuousOccupant(Occupant):
 		Evaluate a possible collision with an agent, invoking the evalAvoid method, and solve it if necessary by calculating another path.
 			Return: True if the collision exists and is avoided, False otherwise.
 		"""
-		print(self.movements, self.N, self.model.exits, self.pos_to_go)
 		if self.movements[self.N] in self.model.exits:
-			print('exits')
 			return True
 		possibleOccupant = self.model.grid.get_cell_list_contents(self.movements[self.N])
 		for i in possibleOccupant:

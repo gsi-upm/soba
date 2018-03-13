@@ -298,6 +298,13 @@ class ContinuousModel(GeneralModel):
 			if isinstance(item, Door):
 				return Door.state
 
+	def nearPos(self, pos1, pos2):
+		x, y = pos2
+		posis = [(x, y), (x+1, y+1), (x-1, y-1), (x+1, y-1), (x-1, y+1), (x+1, y), (x-1, y), (x, y+1), (x, y-1)]
+		if pos1 in posis:
+			return True
+		return False
+
 	def getDoorInPos(self, pos):
 		"""
 		Get a Door object in a position given.

@@ -39,20 +39,10 @@ class EmergencyOccupant(ContinuousOccupant):
         self.N = 0
         self.markov = False
         self.timeActivity = 0
-        if self.children and (len(self.foundChildren) != len(self.children)):
-            print('here')
-            self.pos_to_go = self.pos
-            if len(self.foundChildren) == len(self.children):
-                self.movements = self.getExitGate()
-            else:
-                notSelected = True
-                child = False
-                while notSelected:
-                    child = random.choice(self.children)
-                    if child not in self.foundChildren:
-                        notSelected = False
-                self.pos_to_go = child.pos
-                self.movements = super().getWay()
+        if self.children:
+            child = random.choice(self.children)
+            self.pos_to_go = child.pos
+            self.movements = super().getWay()
         elif not self.adult:
             if self.alone:
                 self.pos_to_go = self.pos
@@ -100,29 +90,34 @@ class EmergencyOccupant(ContinuousOccupant):
         print(self.adult, self.pos)
         if self.alive == True:
             if self.model.emergency:
+                self.markov = False
+                self.timeActivity = 0
                 if self.parentAsos:
-                    self.pos_to_go = self.parentAsos.pos
-                    super().getWay()
-                    self.N = 0
-                if self.children:
+                    if not self.model.nearPos(self.parentAsos.pos, self.pos):
+                        self.pos_to_go = self.parentAsos.pos
+                        super().getWay()
+                        self.N = 0
+                elif self.children:
                     posC = self.model.getOccupantsPos(self.movements[self.N])
                     if posC and posC not in self.model.exits:
                         posC = posC[0]
                         if posC in self.children:
                             posC.alone = False
                             for parent in posC.parents:
-                                parent.foundChildren.append(posC)
+                                if posC in parent.children:
+                                    parent.foundChildren.append(posC)
+                                    parent.children.remove(posC)
                             posC.parentAsos = self
                             for parent in posC.parents:
                                 if parent.pos_to_go == posC.pos:
                                     parent.makeEmergencyAction()
-                            print("find")
-                self.markov = False
-                self.timeActivity = 0
                 if self.pos != self.pos_to_go:
                     if self.fireInMyFOV():
                         super().getWay(others = self.getPosFireFOV())
                     super().step()
+                else:
+                    if self.pos not in self.model.exits:
+                        self.makeEmergencyAction()
             else:
                 super().step()
         else:
