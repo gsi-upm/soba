@@ -12,7 +12,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='soba',
-    version='1.0',
+    version='2.1',
     description='Simulator of Occupancy Based on Agent',
     url='https://github.com/gsi-upm/soba',
     author='GSI - UPM',
@@ -22,16 +22,14 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
     keywords='simulation agents crowds',
-    packages=['soba', 'soba/agents', 'soba/agents/modules', 'soba/launchers', 'soba/models', 'soba/space', 'soba/visualization', 'soba/visualization/ramen'],
+    packages=['soba', 'soba/agents', 'soba/agents/resources', 'soba/launchers', 'soba/models', 'soba/space', 'soba/visualization', 'soba/visualization/ramen', 'soba/visualization/lib'],
     package_data={'soba': ['visualization/favicon.ico', 'visualization/lib/*.js', 'visualization/*.html', 'visualization/*.js']},
-    install_requires=['numpy', 'transitions', 'pandas', 'anaconda-client', 'tornado', 'tqdm'],
-
+    install_requires=['numpy', 'anaconda-client','tqdm','mesa','transitions', 'tornado', 'pandas', 'tornado'],
     python_requires='>=3',
 )
 

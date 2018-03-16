@@ -33,6 +33,12 @@ class ContinuousOccupant(Occupant):
 		global ramenAux
 		ramenAux = True
 
+	global server
+	server = False
+	def activeServer():
+		global server
+		server = True
+
 	def __init__(self, unique_id, model, json, speed = 0.71428):
 		super().__init__(unique_id, model, json, speed)
 		"""
@@ -188,7 +194,7 @@ class ContinuousOccupant(Occupant):
 		'''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
 		if self.costMovement > 1:
 			self.costMovement = self.costMovement - 1
-			if ramenAux:
+			if ramenAux or server:
 				self.reportMovement()
 		else:
 			if self.initmove:
@@ -208,7 +214,7 @@ class ContinuousOccupant(Occupant):
 					self.step()
 					return
 			if self.evalCollision():
-				if ramenAux:
+				if ramenAux or server:
 					self.reportMovement()
 				self.model.grid.move_agent(self, self.movements[self.N])
 				self.N = self.N+1
@@ -252,9 +258,16 @@ class ContinuousOccupant(Occupant):
 		elif x2 > x1 and y1 > y2:
 			pos = 'SE'
 		else:
-			ramen.reportStop(self)
+			if ramen:
+				ramen.reportStop(self)
+			else:
+				model.updateAgentMovement(str(self.unique_id))
 			return
-		ramen.reportMovement(self, pos, self.rect)
+		if ramen:
+			ramen.reportMovement(self, pos, self.rect)
+		else:
+			orientation = pos
+			model.updateAgentMovement(str(self.unique_id), orientation, self.speed)
 
 	def checkLeaveArrive(self):
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
@@ -288,7 +301,7 @@ class ContinuousOccupant(Occupant):
 		"""
 		if self.changeSchedule() or self.markov == True:
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
-			if ramenAux:
+			if ramenAux or server:
 				self.checkLeaveArrive()
 			self.step()
 		elif self.pos != self.pos_to_go:
@@ -296,7 +309,7 @@ class ContinuousOccupant(Occupant):
 			self.alreadyMovement = True
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1
-			if ramenAux:
+			if ramenAux or server:
 				self.checkLeaveArrive()
 				if self.inbuilding:
 					ramen.reportStop(self)

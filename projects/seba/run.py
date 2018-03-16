@@ -19,13 +19,13 @@ family2 = {'N': 3, 'child': 2, 'adult': 1}
 families.append(family1)
 families.append(family2)
 
-sebaConfiguration = {'families': families}
+sebaConfiguration = {'families': []}
 
 # Occupancy atributtes
 
 jsonsOccupants = []
 
-N = 6
+N = 4
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 

@@ -32,6 +32,9 @@ def run(model, *args, visualJS = '', back = False, iterations = 1):
 		elif sys.argv[2] == '-rt':
 			process(True)
 			ContinuousModel.activeRamen(rt = True)
+		elif sys.argv[2] == '-s':
+			process(True)
+			ContinuousModel.activeServer()
 	if len(sys.argv) > 1:
 		if sys.argv[1] == '-v':
 			process(True)

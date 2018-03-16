@@ -1,8 +1,0 @@
-version: '3'
-services:
-  docs:
-    image: python:3.5
-    working_dir: /usr/src/app/docs
-    volumes:
-       - .:/usr/src/app
-    command: /bin/bash

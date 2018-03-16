@@ -19,6 +19,7 @@ import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import SimultaneousActivation
 from soba.agents.occupant import Occupant
+import soba.launchers.linstener as api
 
 class ContinuousModel(GeneralModel):
 	"""
@@ -51,6 +52,13 @@ class ContinuousModel(GeneralModel):
 		ramenRT = rt
 		ContinuousOccupant.activeRamen()
 
+	global server
+	server = False
+	def activeServer():
+		global server
+		server = True
+		ContinuousOccupant.activeServer()
+
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
 		"""
@@ -72,6 +80,10 @@ class ContinuousModel(GeneralModel):
 		self.doors = []
 		self.generalItems =  []
 		self.exits = []
+		if server:
+			api.setModel(self)
+			api.runServer()
+		self.agentsMovement = {}
 
 		#Create the map
 		self.setMap(jsonMap, scale)
@@ -378,8 +390,15 @@ class ContinuousModel(GeneralModel):
 				return True
 		return False
 
+	def updateAgentMovement(unique_id, orientation = 'stop', speed=0.7):
+		agentDict = self.agentsMovement.get(unique_id)
+		if orientation == 'stop':
+			self.agentsMovement[unique_id] = {'stop'}
+		else:
+			self.agentsMovement[unique_id] = {'orientation':orientation,'speed':speed}
+
 	def step(self):
-		if self.finishSimulation and ramenAux:
+		if self.finishSimulation and ramenAux and not ramenRT:
 			ramen.generateJSON()
 		for a in self.occupants:
 			a.alreadyMovement = False

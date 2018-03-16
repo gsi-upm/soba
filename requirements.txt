@@ -1,7 +1,14 @@
 numpy
-transitions
-pandas
 anaconda-client
-tornado
 tqdm
 mesa
+transitions
+tornado
+pandas
+tornado
+tornado.ioloop
+tornado.server
+tornado.web
+tornado.websocket
+tornado.escape
+tornado.gen
