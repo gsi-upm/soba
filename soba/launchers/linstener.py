@@ -2,6 +2,8 @@ from tornado import httpserver
 from tornado import gen
 from tornado.ioloop import IOLoop
 import tornado.web
+from time import sleep
+import threading
 
 # Simulation model
 global model
@@ -36,17 +38,18 @@ class Application(tornado.web.Application):
         ]
         tornado.web.Application.__init__(self, handlers)
 
-@gen.coroutine
 def divide():
     global counter
     global model
     while True:
+        counter = counter + 1
         model.step()
 
-def runServer(host='127.0.0.1', port=7777):
+def runServer(host='127.0.0.1', port=7771):
     print('server ON')
     app = Application()
-    app.listen(7777)
-    IOLoop.current().spawn_callback(divide)
+    app.listen(port)
+    thread = threading.Thread(target=divide, args=())
+    thread.start()
     tornado.autoreload.start()
     IOLoop.current().start()
