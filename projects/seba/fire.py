@@ -12,7 +12,7 @@ class Fire():
 
 class FireControl(Agent):
 
-    def __init__(self, unique_id, model, posInit, expansionRate = 1/6000000000, growthRate = 1/600000000):
+    def __init__(self, unique_id, model, posInit, expansionRate = 1, growthRate = 1):
         super().__init__(unique_id, model)
         self.model.schedule.add(self)
         self.fireExpansion = []

@@ -5,18 +5,19 @@ import datetime as dt
 from soba.models.continuousModel import ContinuousModel
 from time import time
 from ast import literal_eval as make_tuple
+import listener as lstn
 
 class SEBAModel(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed = int(time())):
+		lstn.setModel(self)
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
-
 		self.adults = []
 		self.children = []
 		self.emergency = False
 		self.FireControl = False
 		today = dt.date.today()
-		self.fireTime = dt.datetime(today.year, today.month, 1, 9, 0, 0, 0)
+		self.fireTime = dt.datetime(today.year, today.month, 1, 8, 10, 0, 0)
 		self.outDoors = []
 		self.getOutDoors()
 		self.make = False
@@ -37,7 +38,6 @@ class SEBAModel(ContinuousModel):
 				self.occupants.append(a)
 				self.adults.append(a)
 		if self.familiesJson:
-			print(self.familiesJson)
 			for f in self.familiesJson:
 				nA = 0
 				nC = 0
@@ -62,7 +62,6 @@ class SEBAModel(ContinuousModel):
 					ch.adult = False
 					self.adults.remove(ch)
 					self.children.append(ch)
-				print(self.children, children)
 				for j in range(0, nA):
 					ad = random.choice(self.adults)
 					while ad.children:
@@ -70,9 +69,6 @@ class SEBAModel(ContinuousModel):
 					ad.children = children
 					for c in children:
 						c.parents.append(ad)
-				print('family')
-				print(len(self.adults))
-				print(len(self.children))
 
 	def isThereFire(self, pos):
 		for fire in self.FireControl:
@@ -157,11 +153,15 @@ class SEBAModel(ContinuousModel):
 
 	#API methods
 	def getPositionsFire(self):
-		data = self.FireControl.fireExpansion
+		data = []
+		if not self.FireControl:
+			return data
+		for fire in self.FireControl.fireExpansion:
+			data.append(fire.pos)
 		return data
 
 	def getExitWayAvatar(self, avatar_id, strategy = 'nearest'):
-		a = self.getOccupantId(avatar_id)
+		a = self.getOccupantId(int(avatar_id))
 		a.exitGateStrategy = strategy
 		data = a.getExitGate()
 		return data
