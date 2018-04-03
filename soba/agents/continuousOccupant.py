@@ -33,12 +33,6 @@ class ContinuousOccupant(Occupant):
 		global ramenAux
 		ramenAux = True
 
-	global server
-	server = False
-	def activeServer():
-		global server
-		server = True
-
 	def __init__(self, unique_id, model, json, speed = 0.71428):
 		super().__init__(unique_id, model, json, speed)
 		"""
@@ -50,7 +44,7 @@ class ContinuousOccupant(Occupant):
 				speed: Movement speed in m/s
 			Return: ContinuousOccupant object
 		"""
-		self.pov = []
+		self.fov = []
 		#Control params.
 		self.costMovement = round(0.25/(self.speed*self.model.clock.timeByStep))
 		self.out = True
@@ -58,6 +52,7 @@ class ContinuousOccupant(Occupant):
 		self.entering = False
 		self.rect = True
 		self.alreadyMovement = False
+		self.movement = {'speed': self.speed, 'direction':'out'}
 
 		#State machine
 		for k, v in json['states'].items():
@@ -121,7 +116,7 @@ class ContinuousOccupant(Occupant):
 				pos: Position to be checked
 			Return: Boolean
 		'''
-		if pos in self.pov:
+		if pos in self.fov:
 			return True
 		return False
 
@@ -194,8 +189,7 @@ class ContinuousOccupant(Occupant):
 		'''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
 		if self.costMovement > 1:
 			self.costMovement = self.costMovement - 1
-			if ramenAux or server:
-				self.reportMovement()
+			self.reportMovement()
 		else:
 			if self.initmove:
 				if self.pos != self.pos_to_go:
@@ -214,8 +208,7 @@ class ContinuousOccupant(Occupant):
 					self.step()
 					return
 			if self.evalCollision():
-				if ramenAux or server:
-					self.reportMovement()
+				self.reportMovement()
 				self.model.grid.move_agent(self, self.movements[self.N])
 				self.N = self.N+1
 				if self.pos != self.pos_to_go:
@@ -261,19 +254,21 @@ class ContinuousOccupant(Occupant):
 			if ramen:
 				ramen.reportStop(self)
 			else:
-				model.updateAgentMovement(str(self.unique_id))
+				self.movements = {'speed': self.speed, 'orientation': stop}
 			return
 		if ramen:
 			ramen.reportMovement(self, pos, self.rect)
 		else:
 			orientation = pos
-			model.updateAgentMovement(str(self.unique_id), orientation, self.speed)
+			self.movements = {'speed': self.speed, 'orientation': pos}
 
 	def checkLeaveArrive(self):
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
 			self.entering = True
-			ramen.reportCreation(self, 'E')
+			if ramenAux:
+				ramen.reportCreation(self, 'E')
 			self.inbuilding = True
+			self.movements = {'speed': self.speed, 'orientation': 'E'}
 			return
 		if self.entering and (self.pos in self.model.exits):
 			return
@@ -281,7 +276,9 @@ class ContinuousOccupant(Occupant):
 			self.entering = False
 		if (self.pos in self.model.exits) and self.inbuilding:
 			self.inbuilding = False
-			ramen.reportExit(self)
+			if ramenAux:
+				ramen.reportExit(self)
+			self.movements = {'speed': self.speed, 'orientation': 'out'}
 			return
 
 	def getFOV(self):
@@ -301,18 +298,16 @@ class ContinuousOccupant(Occupant):
 		"""
 		if self.changeSchedule() or self.markov == True:
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
-			if ramenAux or server:
-				self.checkLeaveArrive()
+			self.checkLeaveArrive()
 			self.step()
 		elif self.pos != self.pos_to_go:
 			self.makeMovement()
 			self.alreadyMovement = True
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1
-			if ramenAux or server:
-				self.checkLeaveArrive()
-				if self.inbuilding:
-					ramen.reportStop(self)
+			self.checkLeaveArrive()
+			if self.inbuilding and ramenAux:
+				ramen.reportStop(self)
 		else:
 			self.markov = True
 			self.step()

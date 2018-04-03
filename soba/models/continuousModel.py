@@ -20,6 +20,8 @@ from mesa import Model
 from mesa.time import SimultaneousActivation
 from soba.agents.occupant import Occupant
 import soba.launchers.linstener as api
+import threading
+from avatar import avatar
 
 class ContinuousModel(GeneralModel):
 	"""
@@ -57,7 +59,6 @@ class ContinuousModel(GeneralModel):
 	def activeServer():
 		global server
 		server = True
-		ContinuousOccupant.activeServer()
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
@@ -82,8 +83,9 @@ class ContinuousModel(GeneralModel):
 		self.exits = []
 		if server:
 			api.setModel(self)
-			api.runServer()
-		self.agentsMovement = {}
+			thread = threading.Thread(target=api.runServer, args=())
+			thread.start()
+		self.occupantsInfo = {}
 
 		#Create the map
 		self.setMap(jsonMap, scale)
@@ -99,6 +101,15 @@ class ContinuousModel(GeneralModel):
 			for n in range(0, json['N']):
 				a = ContinuousOccupant(n, self, json)
 				self.occupants.append(a)
+
+	def createAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
+		"""
+		Create one avatar
+		"""
+		unique_id = 100000 + idAvatar
+		a = Avatar(self, unique_id, model, initial_pos, color, initial_state)
+		self.occupants.append(a)
+		return a
 
 	def getScaledCoordinate(self, coordenate, scale):
 		"""
@@ -358,6 +369,12 @@ class ContinuousModel(GeneralModel):
 					return True
 		return False
 
+	def getOccupantId(self, Id):
+		for o in self.occupants:
+			if o.unique_id == poiId:
+				return o
+		return False
+
 	def getPOIsId(self, poiId):
 		pois = []
 		for i in self.pois:
@@ -390,12 +407,62 @@ class ContinuousModel(GeneralModel):
 				return True
 		return False
 
-	def updateAgentMovement(unique_id, orientation = 'stop', speed=0.7):
-		agentDict = self.agentsMovement.get(unique_id)
-		if orientation == 'stop':
-			self.agentsMovement[unique_id] = {'stop'}
-		else:
-			self.agentsMovement[unique_id] = {'orientation':orientation,'speed':speed}
+	#API methods
+	def getMovementsOccupants(self):
+		data = {}
+		for k, v in self.occupantsInfo:
+			data[k] = v.get('movement')
+		return data
+
+	def getPositionOccupants(self):
+		data = {}
+		for k, v in self.occupantsInfo:
+			data[k] = v.get('position')
+		return data
+
+	def getStatesOccupants(self):
+		data = {}
+		for k, v in self.occupantsInfo:
+			data[k] = v.get('state')
+		return data
+
+	def getMovementsOccupant(self, occupant_id):
+		data = self.occupantsInfo.get(str(occupant_id)).get('movement')
+		return data
+
+	def getPositionOccupant(self, occupant_id):
+		data = self.occupantsInfo.get(str(occupant_id)).get('position')
+		return data
+
+	def getStateOccupant(self, occupant_id):
+		data = self.occupantsInfo.get(str(occupant_id)).get('state')
+		return data
+
+	def getFOVOccupant(self, occupant_id):
+		data = self.occupantsInfo.get(str(occupant_id)).get('fov')
+		return data
+
+	def getInfoOccupant(self, occupant_id):
+		data = self.occupantsInfo.get(str(occupant_id))
+		return data
+
+	def putCreateAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking')
+		a = self.createAvatar(idAvatar, pos, color, initial_state)
+		return a
+
+	def postPosAvatar(self, idAvatar, pos)
+		a = getOccupantId(idAvatar)
+		a.makeMovement(pos)
+		return a
+
+	#Report method aux
+	def updateOccupancyInfo(self):
+		for occupant in self.occupants:
+			ocDict = {'movement': occupant.movement,
+					  'state': occupant.state,
+					  'pos': occupant.pos,
+					  'fov': occupant.fov}
+			self.occupantsInfo[str(occupant.unique_id)] = ocDict
 
 	def step(self):
 		if self.finishSimulation and ramenAux and not ramenRT:
@@ -403,5 +470,6 @@ class ContinuousModel(GeneralModel):
 		for a in self.occupants:
 			a.alreadyMovement = False
 		super().step()
+		self.updateOccupancyInfo()
 		if ramenRT:
 			ramen.generateRTJSON(self.NStep-1)

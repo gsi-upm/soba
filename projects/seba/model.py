@@ -155,6 +155,17 @@ class SEBAModel(ContinuousModel):
 				o.N = 0
 			self.uncrowdedStr.remove(o)
 
+	#API methods
+	def getPositionsFire(self):
+		data = self.FireControl.fireExpansion
+		return data
+
+	def getExitWayAvatar(self, avatar_id, strategy = 'nearest'):
+		a = self.getOccupantId(avatar_id)
+		a.exitGateStrategy = strategy
+		data = a.getExitGate()
+		return data
+
 	def step(self):
 		if self.clock.clock.hour > 13:
 			self.finishSimulation = True

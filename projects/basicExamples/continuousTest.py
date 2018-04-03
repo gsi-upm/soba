@@ -20,7 +20,7 @@ class ModelExample(ContinuousModel):
 
 jsonsOccupants = []
 
-N = 1
+N = 3
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 
