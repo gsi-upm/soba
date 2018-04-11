@@ -6,7 +6,28 @@ from soba.agents.occupant import Occupant
 import time
 
 class Avatar(Occupant):
+    """
+    This class enables to create avatars that represent virtual occupants, that is, they are
+    not controlled by the simulation but by an API Rest. However, certain important aspects 
+    such as position in space inherit from the occupant class.
 
+    Attributes:
+        model: Simulation model.
+        unique_id: Unique avatar identifier as an occupant.
+        fov: List of positions (x, y) that the avatar can see.
+        state: Current avatar state.
+        pos: Current avatar position.
+        color: Color of the avatar in the visualization.
+        shape: Shape of the avatar in the visualization.
+    
+    Methods:
+        getWay: Invocation of the AStar resource to calculate the optimal path.
+        posInMyFOV: Check if a position is in my field of vision.
+        makeMovementAvatar: Carry out a movement: displacement between cells.
+        checkLeaveArrive: Notify the entrance and exit of the building by an occupying agent.
+        getFOV: Calculation of the occupant's field of vision, registered in the attribute fov.
+    
+    """
     def __init__(self, unique_id, model, initial_pos, color = 'red', initial_state='walking'):
 
         self.model = model
@@ -17,7 +38,6 @@ class Avatar(Occupant):
         self.model.grid.place_agent(self, initial_pos)
         self.color = color
         self.shape = 'circle'
-        self.speed = None
         self.movement = {}        
         self.movements = [self.pos]
         self.inbuilding = False
@@ -52,7 +72,11 @@ class Avatar(Occupant):
         return False
 
     def makeMovementAvatar(self, pos):
-        '''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
+        '''
+        Carry out a movement: displacement between cells.
+            Args: 
+                pos: Position to be moved.
+        '''
         self.model.grid.move_agent(self, pos)
         self.reportMovement()
         self.movements = [self.pos]
@@ -63,6 +87,7 @@ class Avatar(Occupant):
         pass
 
     def checkLeaveArrive(self):
+        """ Notify the entrance and exit of the building by an occupying agent. """
         if not self.inbuilding:
             if self.model.ramenAux:
                 ramen.reportCreation(self, 'E')

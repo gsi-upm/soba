@@ -22,7 +22,9 @@ def run(model, *args, visualJS = '', back = False, iterations = 1):
 	Execution of the simulation according to the parameters given in the console.
 		Args:
 			model: Model that is simulated.
-			args: List of parameters to configure the models simulation.
+			args: Parameters associated with the simulation model and others such as grid size.
+			visualJS: JS files with the visualization elements that are included in the JavaScript browser visualization template.
+			back: Python file working as backend visualization.
 			iterations: Number of simulations that will be executed in batch mode.
 	"""
 	if len(sys.argv) > 2:

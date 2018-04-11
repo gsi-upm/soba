@@ -26,6 +26,7 @@ class Occupant(Agent):
 			markov_machine: Object of the Markov class that regulates markovian behavior.
 		
 		Methods:
+			setTodaySchedule: Calculate and define the schedules of the occupants.
 			start_activity: Defines the actions that are made when a state is started.
 			finish_activity: Defines the actions that are made when a state is finished.
 			changeSchedule: Force a possible change of state to reach a certain end of period.
@@ -93,6 +94,9 @@ class Occupant(Agent):
 		self.inbuilding = False
 
 	def setTodaySchedule(self):
+		"""
+		Calculate and define the schedules of the occupants applying the information provided and normal Gaussian variations.
+		"""
 		for k, v in self.jsonSchedule.items():
 			if not self.variationSchedule:
 				self.schedule[k] = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0)

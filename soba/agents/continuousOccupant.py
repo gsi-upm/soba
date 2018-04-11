@@ -21,8 +21,12 @@ class ContinuousOccupant(Occupant):
 		getPlaceToGo: Obtaining the position associated with the current state.
 		posInMyFOV: Check if a position is in my field of vision.
 		evalAvoid: Check the future movement to be made by another agent to assess a possible collision.
+		checkFreeSharedPOI: Get a free position of a shared point of interest if possible.
+		checkCanMove: Get a new path in case of possible collision.
 		evalCollision: Evaluate a possible collision with an agent and solve it if necessary by calculating another path.
 		makeMovement: Carry out a movement: displacement between cells or reduction of the movement cost parameter.
+		reportMovement: Auxiliary method to notify a movement giving its orientation and speed.
+		checkLeaveArrive: Evaluates the entrance and exit of the building by an occupying agent.
 		getFOV: Calculation of the occupant's field of vision, registered in the attribute fov.
 		step: Method invoked by the Model scheduler in each step.
 	
@@ -139,6 +143,10 @@ class ContinuousOccupant(Occupant):
 		return True
 
 	def checkFreeSharedPOI(self):
+		"""
+		Get a free position of a shared point of interest if possible.
+			Return: POI object
+		"""
 		poi = self.model.getPOIsPos(self.pos_to_go)
 		if not poi:
 			return False
@@ -149,6 +157,10 @@ class ContinuousOccupant(Occupant):
 		return False
 
 	def checkCanMove(self):
+		"""
+		Get a new path in case of possible collision.
+			Return: List of positions
+		"""
 		x1, y1 = self.pos
 		possiblePosition1 = [(x1, y1 + 1), (x1 + 1, y1), (x1 - 1, y1), (x1, y1 - 1)]
 		possiblePosition2 = [(x1 + 1, y1 + 1), (x1 + 1, y1 - 1), (x1 - 1, y1 - 1), (x1 - 1, y1 + 1)]
@@ -187,7 +199,7 @@ class ContinuousOccupant(Occupant):
 		return True
 
 	def makeMovement(self):
-		'''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
+		"""Carry out a movement: displacement between cells or reduction of the movement cost parameter."""
 		if self.costMovement > 1:
 			self.costMovement = self.costMovement - 1
 			self.reportMovement()
@@ -236,6 +248,7 @@ class ContinuousOccupant(Occupant):
 					self.rect = True
 
 	def reportMovement(self):
+		""" Auxiliary method to notify a movement giving its orientation and speed. """
 		x1, y1 = self.pos
 		x2, y2 = self.movements[self.N]
 		pos = ''
@@ -268,6 +281,7 @@ class ContinuousOccupant(Occupant):
 			self.movement = {'speed': self.speed, 'orientation': pos}
 
 	def checkLeaveArrive(self):
+		""" Evaluates the entrance and exit of the building by an occupying agent. """
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
 			self.entering = True
 			if ramenAux:

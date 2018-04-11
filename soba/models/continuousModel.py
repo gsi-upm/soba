@@ -25,6 +25,7 @@ from soba.agents.avatar import Avatar
 
 class ContinuousModel(GeneralModel):
 	"""
+
 	Base Class to create simulation models on a simplified space based on rooms.
 		Attributes:
 			Those inherited from the Occupant class.
@@ -42,6 +43,13 @@ class ContinuousModel(GeneralModel):
 			getDoorInPos: Get a Door object in a position given.
 			getOccupantsPos: Get a Occupant objects in a position given.
 			thereIsOccupant: Check if there is any Occupant object in a position given.
+			getOccupantId: Get the occupant with the unique_id given.
+			getPOIsId: Get the pois object with the id given.
+			getPOIsPos: Get the position of a poi object.
+			checkFreePOI: Check if one Point of interest is free (there is no occupant on this).
+			xyInGrid: Check if one position is inside the grid.
+			nearPos: Check if two positions are consecutive.
+
 	"""
 	global ramenAux
 	global ramenRT
@@ -323,13 +331,6 @@ class ContinuousModel(GeneralModel):
 			if isinstance(item, Door):
 				return Door.state
 
-	def nearPos(self, pos1, pos2):
-		x, y = pos2
-		posis = [(x, y), (x+1, y+1), (x-1, y-1), (x+1, y-1), (x-1, y+1), (x+1, y), (x-1, y), (x, y+1), (x, y-1)]
-		if pos1 in posis:
-			return True
-		return False
-
 	def getDoorInPos(self, pos):
 		"""
 		Get a Door object in a position given.
@@ -372,12 +373,24 @@ class ContinuousModel(GeneralModel):
 		return False
 
 	def getOccupantId(self, Id):
+		"""
+		Get the occupant with the unique_id given.
+			Args:
+				Id: Unique_id given as number
+			Return: Occupant object or False.
+		"""
 		for o in self.occupants:
 			if o.unique_id == Id:
 				return o
 		return False
 
 	def getPOIsId(self, poiId):
+		"""
+		Get the pois object with the id given.
+			Args:
+				poiId: poi id given as number
+			Return: list of pois object or False.
+		"""
 		pois = []
 		for i in self.pois:
 			if i.id == poiId:
@@ -387,6 +400,12 @@ class ContinuousModel(GeneralModel):
 		return False
 
 	def getPOIsPos(self, poiPos):
+		"""
+		Get the position of a poi object.
+			Args:
+				poiPos: position as (x, y)
+			Return: poi object or False.
+		"""
 		pois = []
 		conts = self.grid.get_cell_list_contents(poiPos)
 		for c in conts:
@@ -397,16 +416,43 @@ class ContinuousModel(GeneralModel):
 		return False
 
 	def checkFreePOI(self, p):
+		"""
+		Check if one Point of interest is free (there is no occupant on this).
+			Args:
+				p: Poi object.
+			Return: True (yes), False (no).
+		"""
 		conts = self.grid.get_cell_list_contents(p.pos)
 		for c in conts:
 			if isinstance(c, Occupant):
 				return False
 		return True
 
-	def xyInGrid(self, x, y):
+	def xyInGrid(self, pos):
+		"""
+		Check if one position is inside the grid.
+			Args:
+				pos: Position as (x, y).
+			Return: True (yes), False (no).
+		"""
+		x, y = pos
 		if x >= 0 and not x >= self.width:
 			if y >= 0 and not y >= self.height:
 				return True
+		return False
+
+	def nearPos(self, pos1, pos2):
+		"""
+		Check if two positions are consecutive.
+			Args:
+				pos1: Position as (x, y).
+				pos2: Position as (x, y).
+			Return: True (yes), False (no).
+		"""
+		x, y = pos2
+		posis = [(x, y), (x+1, y+1), (x-1, y-1), (x+1, y-1), (x-1, y+1), (x+1, y), (x-1, y), (x, y+1), (x, y-1)]
+		if pos1 in posis:
+			return True
 		return False
 
 	#API methods

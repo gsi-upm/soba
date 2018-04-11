@@ -7,7 +7,7 @@ import tornado
 """
 In the file visual.py is implemented the execution with visual representation:
 	Methods: 
-		-run: Execute the simulation with visual representation.
+		run: Execute the simulation with visual representation.
 
 """
 
@@ -15,9 +15,10 @@ def run(model, parameters, visual, back = False):
 	"""
 	Execute the simulation with visual representation.
 		Args:
+			parameters: Parameters associated with the simulation model and others such as grid size.
 			model: Model that is simulated.
-			visualJS: JS files with the visualization elements that are included in the JavaScript browser visualization template.
-			params: Parameters loaded in the models about the agents and anything else.
+			visual: JS files with the visualization elements that are included in the JavaScript browser visualization template.
+			back: Python file working as backend visualization.
 	"""
 
 	backEndVisualization = BackEndVisualization(int(parameters['width']), int(parameters['height']), 500, 500, visual)
