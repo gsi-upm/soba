@@ -6,6 +6,7 @@ from soba.models.continuousModel import ContinuousModel
 from time import time
 from ast import literal_eval as make_tuple
 import listener as lstn
+from avatar import EmergencyAvatar
 
 class SEBAModel(ContinuousModel):
 
@@ -69,6 +70,12 @@ class SEBAModel(ContinuousModel):
 					ad.children = children
 					for c in children:
 						c.parents.append(ad)
+
+	def createEmergencyAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
+		unique_id = 100000 + int(idAvatar)
+		a = EmergencyAvatar(unique_id, self, pos, color, initial_state)
+		self.occupants.append(a)
+		return a
 
 	def isThereFire(self, pos):
 		for fire in self.FireControl:
@@ -165,6 +172,15 @@ class SEBAModel(ContinuousModel):
 		a.exitGateStrategy = strategy
 		data = a.getExitGate()
 		return data
+
+	def getFireInFOVAvatar(self, avatar_id):
+		a = self.getOccupantId(int(avatar_id))
+		data = a.getPosFireFOV()
+		return data
+
+	def putCreateEmergencyAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
+		a = self.createEmergencyAvatar(idAvatar, pos, color, initial_state)
+		return a
 
 	def step(self):
 		if self.clock.clock.hour > 13:

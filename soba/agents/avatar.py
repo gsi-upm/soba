@@ -16,9 +16,11 @@ class Avatar(Occupant):
         self.pos = initial_pos
         self.model.grid.place_agent(self, initial_pos)
         self.color = color
+        self.shape = 'circle'
         self.speed = None
         self.movement = {}        
         self.movements = [self.pos]
+        self.inbuilding = False
 
     def getWay(self, pos = None, pos_to_go = None, other = []):
         '''
@@ -49,9 +51,9 @@ class Avatar(Occupant):
             return True
         return False
 
-    def makeMovement(self, pos):
+    def makeMovementAvatar(self, pos):
         '''Carry out a movement: displacement between cells or reduction of the movement cost parameter.'''
-        self.model.grid.move_agent(pos)
+        self.model.grid.move_agent(self, pos)
         self.reportMovement()
         self.movements = [self.pos]
         self.checkLeaveArrive()
@@ -61,19 +63,14 @@ class Avatar(Occupant):
         pass
 
     def checkLeaveArrive(self):
-        if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
-            self.entering = True
-            if ramenAux:
+        if not self.inbuilding:
+            if self.model.ramenAux:
                 ramen.reportCreation(self, 'E')
             self.inbuilding = True
             return
-        if self.entering and (self.pos in self.model.exits):
-            return
-        else:
-            self.entering = False
         if (self.pos in self.model.exits) and self.inbuilding:
             self.inbuilding = False
-            if ramenAux:
+            if self.model.ramenAux:
                 ramen.reportExit(self)
             return
 

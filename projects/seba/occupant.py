@@ -87,7 +87,6 @@ class EmergencyOccupant(ContinuousOccupant):
         super().changeSchedule()
 
     def step(self):
-        print(self.adult, self.pos)
         if self.alive == True:
             if self.model.emergency:
                 self.markov = False

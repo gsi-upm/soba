@@ -45,6 +45,7 @@ class ContinuousOccupant(Occupant):
 			Return: ContinuousOccupant object
 		"""
 		self.fov = []
+		self.fovCal = True
 		#Control params.
 		self.costMovement = round(0.25/(self.speed*self.model.clock.timeByStep))
 		self.out = True
@@ -206,11 +207,15 @@ class ContinuousOccupant(Occupant):
 						self.rect = False
 					self.initmove = False
 					self.step()
+					if self.fovCal:
+						self.getFOV()
 					return
 			if self.evalCollision():
 				self.reportMovement()
 				self.model.grid.move_agent(self, self.movements[self.N])
 				self.N = self.N+1
+				if self.fovCal:
+					self.getFOV()
 				if self.pos != self.pos_to_go:
 					x1, y1 = self.pos
 					x2, y2 = self.movements[self.N]
@@ -254,13 +259,13 @@ class ContinuousOccupant(Occupant):
 			if ramen:
 				ramen.reportStop(self)
 			else:
-				self.movements = {'speed': self.speed, 'orientation': stop}
+				self.movement = {'speed': self.speed, 'orientation': stop}
 			return
 		if ramen:
 			ramen.reportMovement(self, pos, self.rect)
 		else:
 			orientation = pos
-			self.movements = {'speed': self.speed, 'orientation': pos}
+			self.movement = {'speed': self.speed, 'orientation': pos}
 
 	def checkLeaveArrive(self):
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
@@ -268,7 +273,7 @@ class ContinuousOccupant(Occupant):
 			if ramenAux:
 				ramen.reportCreation(self, 'E')
 			self.inbuilding = True
-			self.movements = {'speed': self.speed, 'orientation': 'E'}
+			self.movement = {'speed': self.speed, 'orientation': 'E'}
 			return
 		if self.entering and (self.pos in self.model.exits):
 			return
@@ -278,7 +283,7 @@ class ContinuousOccupant(Occupant):
 			self.inbuilding = False
 			if ramenAux:
 				ramen.reportExit(self)
-			self.movements = {'speed': self.speed, 'orientation': 'out'}
+			self.movement = {'speed': self.speed, 'orientation': 'out'}
 			return
 
 	def getFOV(self):

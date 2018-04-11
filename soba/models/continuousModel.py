@@ -19,9 +19,9 @@ import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import SimultaneousActivation
 from soba.agents.occupant import Occupant
-import soba.launchers.linstener as api
+import soba.launchers.listener as api
 import threading
-from avatar import avatar
+from soba.agents.avatar import Avatar
 
 class ContinuousModel(GeneralModel):
 	"""
@@ -86,6 +86,7 @@ class ContinuousModel(GeneralModel):
 			thread = threading.Thread(target=api.runServer, args=())
 			thread.start()
 		self.occupantsInfo = {}
+		self.ramenAux = ramenAux
 
 		#Create the map
 		self.setMap(jsonMap, scale)
@@ -101,13 +102,14 @@ class ContinuousModel(GeneralModel):
 			for n in range(0, json['N']):
 				a = ContinuousOccupant(n, self, json)
 				self.occupants.append(a)
+		self.updateOccupancyInfo()
 
 	def createAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
 		"""
 		Create one avatar
 		"""
-		unique_id = 100000 + idAvatar
-		a = Avatar(self, unique_id, model, initial_pos, color, initial_state)
+		unique_id = 100000 + int(idAvatar)
+		a = Avatar(unique_id, self, pos, color, initial_state)
 		self.occupants.append(a)
 		return a
 
@@ -371,7 +373,7 @@ class ContinuousModel(GeneralModel):
 
 	def getOccupantId(self, Id):
 		for o in self.occupants:
-			if o.unique_id == poiId:
+			if o.unique_id == Id:
 				return o
 		return False
 
@@ -410,23 +412,23 @@ class ContinuousModel(GeneralModel):
 	#API methods
 	def getMovementsOccupants(self):
 		data = {}
-		for k, v in self.occupantsInfo:
+		for k, v in self.occupantsInfo.items():
 			data[k] = v.get('movement')
 		return data
 
 	def getPositionOccupants(self):
 		data = {}
-		for k, v in self.occupantsInfo:
+		for k, v in self.occupantsInfo.items():
 			data[k] = v.get('position')
 		return data
 
 	def getStatesOccupants(self):
 		data = {}
-		for k, v in self.occupantsInfo:
+		for k, v in self.occupantsInfo.items():
 			data[k] = v.get('state')
 		return data
 
-	def getMovementsOccupant(self, occupant_id):
+	def getMovementOccupant(self, occupant_id):
 		data = self.occupantsInfo.get(str(occupant_id)).get('movement')
 		return data
 
@@ -446,21 +448,24 @@ class ContinuousModel(GeneralModel):
 		data = self.occupantsInfo.get(str(occupant_id))
 		return data
 
-	def putCreateAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking')
+	def putCreateAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
 		a = self.createAvatar(idAvatar, pos, color, initial_state)
 		return a
 
-	def postPosAvatar(self, idAvatar, pos)
-		a = getOccupantId(idAvatar)
-		a.makeMovement(pos)
+	def postPosAvatar(self, idAvatar, pos):
+		a = self.getOccupantId(int(idAvatar))
+		if not a:
+			return a
+		a.makeMovementAvatar(pos)
 		return a
 
 	#Report method aux
 	def updateOccupancyInfo(self):
 		for occupant in self.occupants:
-			ocDict = {'movement': occupant.movement,
+			ocDict = {'unique_id': occupant.unique_id,
+					  'movement': occupant.movement,
 					  'state': occupant.state,
-					  'pos': occupant.pos,
+					  'position': occupant.pos,
 					  'fov': occupant.fov}
 			self.occupantsInfo[str(occupant.unique_id)] = ocDict
 
