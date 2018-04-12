@@ -1,5 +1,4 @@
 import random
-from transitions import *
 
 """
 In the file behaviourMarkov.py the Markovian behavior based on states is implemented.

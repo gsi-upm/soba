@@ -29,7 +29,7 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return MagicMock()
 
-MOCK_MODULES = ['mesa', 'numpy', 'anaconda-client','tqdm','mesa','transitions', 'tornado', 'pandas', 'tornado', 'tornado.ioloop', 'tornado.server', 'tornado.web', 'tornado.websocket', 'tornado.escape', 'tornado.gen']
+MOCK_MODULES = ['mesa','mesa.space', 'mesa.time', 'transitions.*', 'numpy', 'anaconda-client','tqdm','transitions', 'tornado', 'pandas', 'tornado', 'tornado.ioloop', 'tornado.server', 'tornado.web', 'tornado.websocket', 'tornado.escape', 'tornado.gen']
 
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
@@ -70,7 +70,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'SOBA'
-copyright = '2017, GSI - UPM'
+copyright = '2018, GSI - UPM'
 author = 'GSI - UPM'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -78,7 +78,7 @@ author = 'GSI - UPM'
 # built documents.
 #
 # The short X.Y version.
-version = '1.0'
+version = '2.2'
 # The full version, including alpha/beta/rc tags.
 release = '1'
 

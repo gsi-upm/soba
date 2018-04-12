@@ -7,14 +7,14 @@ Model
 .. automodule:: soba.models.generalModel
    :members:
 
-Model
------
+Continuous Model
+----------------
 
 .. automodule:: soba.models.continuousModel
    :members:
 
-Model
------
+Rooms Model
+-----------
 
 .. automodule:: soba.models.roomsModel
    :members:
