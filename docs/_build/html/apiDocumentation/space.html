@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Space Module Documentation &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
+        <link rel="up" title="APIs" href="api.html"/>
+        <link rel="next" title="Launchers Module Documentation" href="launchers.html"/>
+        <link rel="prev" title="Agents Module Documentation" href="agents.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Space Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.space.continuousElements">Items in continuous modeling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.space.roomsElements">Items in simplified modeling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">APIs</a> &raquo;</li>
+        
+      <li>Space Module Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apiDocumentation/space.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="space-module-documentation">
+<h1>Space Module Documentation<a class="headerlink" href="#space-module-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-soba.space.continuousElements">
+<span id="items-in-continuous-modeling"></span><h2>Items in continuous modeling<a class="headerlink" href="#module-soba.space.continuousElements" title="Permalink to this headline">¶</a></h2>
+<p>In the file continuousItems.py four classes are defined to implement the elements of
+the physical space in a continuous model:</p>
+<blockquote>
+<div>-GeneralItem: Class that implements generic elements positioned on the map with the effect of being impenetrable.
+-Door: Class that implements bulding plane doors.
+-Wall: Class that implements building walls.
+-Poi: Class that implements points of interest where Occupancy objects perform certain actions.</div></blockquote>
+<dl class="class">
+<dt id="soba.space.continuousElements.Door">
+<em class="property">class </em><code class="descclassname">soba.space.continuousElements.</code><code class="descname">Door</code><span class="sig-paren">(</span><em>model</em>, <em>pos1</em>, <em>pos2</em>, <em>rot</em>, <em>state=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/continuousElements.html#Door"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.continuousElements.Door" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements bulding plane doors.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>state: Door status, open (True) or closed (False).
+pos1: First position to access to the door.
+pos2: Second position to access to the door.
+rot: Door orientation in the grid (&#8216;x&#8217; or &#8216;y&#8217;).</dd>
+<dt>Methods:</dt>
+<dd>open: Change the status of the door to open.
+close: Change the status of the door to close.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="soba.space.continuousElements.Door.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/continuousElements.html#Door.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.continuousElements.Door.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the status of the door to close (False)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="soba.space.continuousElements.Door.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/continuousElements.html#Door.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.continuousElements.Door.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the status of the door to open (True)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="soba.space.continuousElements.GeneralItem">
+<em class="property">class </em><code class="descclassname">soba.space.continuousElements.</code><code class="descname">GeneralItem</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em>, <em>color=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/continuousElements.html#GeneralItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.continuousElements.GeneralItem" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements generic elements positioned on the map with the effect of being impenetrable.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>pos: Position where the object is located.
+color: Color with which the object will be represented in the visualization.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="soba.space.continuousElements.Poi">
+<em class="property">class </em><code class="descclassname">soba.space.continuousElements.</code><code class="descname">Poi</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em>, <em>ide</em>, <em>share=True</em>, <em>color=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/continuousElements.html#Poi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.continuousElements.Poi" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements relevant elements in the simulations: points of interest where Occupancy objects perform certain actions by associating these points with certain states.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>pos: Position where the object is located.
+ide: Unique identifier associated with the point of interest.
+share: Define if the poi can be shared by more than one occupant.
+color: Color with which the object will be represented in the visualization.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="soba.space.continuousElements.Wall">
+<em class="property">class </em><code class="descclassname">soba.space.continuousElements.</code><code class="descname">Wall</code><span class="sig-paren">(</span><em>block1</em>, <em>block2</em>, <em>block3</em>, <em>color=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/continuousElements.html#Wall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.continuousElements.Wall" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements building walls.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd><dl class="first docutils">
+<dt>block1, block2, block3: lists of positions that contain positions between which an </dt>
+<dd>occupant can move obeying with the impenetrability of the wall.</dd>
+</dl>
+<p class="last">color: Color with which the object will be represented in the visualization.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-soba.space.roomsElements">
+<span id="items-in-simplified-modeling"></span><h2>Items in simplified modeling<a class="headerlink" href="#module-soba.space.roomsElements" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>In the file continuousItems.py three classes are defined to implement the elements </dt>
+<dd><p class="first">of the physical space in a simplified model based on a room distribution:</p>
+<p class="last">-Room: Class that implements the rooms through which the Agent/Ocupant objects are located, 
+move and where activities are carried out.
+-Door: Class that implements bulding plane doors.
+-Wall: Class that implements building walls.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="soba.space.roomsElements.Door">
+<em class="property">class </em><code class="descclassname">soba.space.roomsElements.</code><code class="descname">Door</code><span class="sig-paren">(</span><em>room1=False</em>, <em>room2=False</em>, <em>state=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/roomsElements.html#Door"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.roomsElements.Door" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements bulding plane doors.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>state: Door status, open (True) or closed (False).
+room1: First room to croos the door.
+room2: Second room to croos the door.</dd>
+<dt>Methods:</dt>
+<dd>open: Change the status of the door to open.
+close: Change the status of the door to close.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="soba.space.roomsElements.Door.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/roomsElements.html#Door.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.roomsElements.Door.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the status of the door to closed (False)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="soba.space.roomsElements.Door.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/roomsElements.html#Door.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.roomsElements.Door.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the status of the door to open (True)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="soba.space.roomsElements.Room">
+<em class="property">class </em><code class="descclassname">soba.space.roomsElements.</code><code class="descname">Room</code><span class="sig-paren">(</span><em>name</em>, <em>conectedTo</em>, <em>dx</em>, <em>dy</em>, <em>pos=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/roomsElements.html#Room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.roomsElements.Room" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements the rooms through which the Agent/Ocupant objects are located, move and where activities are carried out.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>name: Unique name of the room.
+roomsConected: List of accessible rooms from this room.
+dx: Size in the ordinate x (meters).
+dy: Size in the ordinate y (meters).
+pos: Position of the room (x, y).
+agentsInRoom: List of agent objects in the room
+walls: List of Wall objects of the room.
+doors: List of Doors objects of the room.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="soba.space.roomsElements.Wall">
+<em class="property">class </em><code class="descclassname">soba.space.roomsElements.</code><code class="descname">Wall</code><span class="sig-paren">(</span><em>room1=False</em>, <em>room2=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/space/roomsElements.html#Wall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.space.roomsElements.Wall" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class that implements building walls.</dt>
+<dd><dl class="first last docutils">
+<dt>Attributes:</dt>
+<dd>room1: First room to croos the door.
+room2: Second room to croos the door.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="launchers.html" class="btn btn-neutral float-right" title="Launchers Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="agents.html" class="btn btn-neutral" title="Agents Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

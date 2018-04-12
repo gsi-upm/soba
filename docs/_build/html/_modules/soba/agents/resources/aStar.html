@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>soba.agents.resources.aStar &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apiDocumentation/api.html">APIs Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>soba.agents.resources.aStar</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for soba.agents.resources.aStar</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In the file aStar.py the AStar algorithm is implemented.</span>
+
+<span class="sd">	Methods:</span>
+<span class="sd">		getPathRooms: Calculate the optimal path in the models with the space defined by rooms.</span>
+<span class="sd">		getPathContinuous: Calculate the optimal path in the models with the space continuous.</span>
+<span class="sd">		getConectedCellsRooms: Gets a list of connected cells in a space defined by rooms.</span>
+<span class="sd">		getConectedCellsContinuous: Gets a list of connected cells in a continuous space.</span>
+<span class="sd">		canMovePos: Evaluate if a position is reachable in a continuous space.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">global</span> <span class="n">maxIteration</span>
+<span class="n">maxIteration</span> <span class="o">=</span> <span class="mi">100000</span>
+
+<span class="n">generalItemsPos</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">doorsPoss</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">class</span> <span class="nc">Cell</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pos</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="k">else</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="k">else</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="getPathRooms"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.getPathRooms">[docs]</a><span class="k">def</span> <span class="nf">getPathRooms</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Calculate the optimal path in the models with the space defined by rooms.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			model: Model which invokes the algorithm.</span>
+<span class="sd">			start: Initial position.</span>
+<span class="sd">			finish: Final position.</span>
+<span class="sd">		Return: List of positions (x, y). </span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">finish</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">finish</span><span class="p">)</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+	<span class="n">not_visited</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
+	<span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">finishCell</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="n">notFinished</span> <span class="o">=</span> <span class="kc">True</span>
+	<span class="k">while</span> <span class="n">notFinished</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">cell_not_visited</span> <span class="ow">in</span> <span class="n">not_visited</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">cell_not_visited</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">finish</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">cell_not_visited</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">finish</span><span class="o">.</span><span class="n">y</span><span class="p">:</span>
+				<span class="n">finishCell</span> <span class="o">=</span> <span class="n">cell_not_visited</span>
+				<span class="n">notFinished</span> <span class="o">=</span> <span class="kc">False</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">cells</span> <span class="o">=</span> <span class="n">getConectedCellsRooms</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cell_not_visited</span><span class="p">)</span> <span class="c1">#create adject cells with conection</span>
+				<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cells</span><span class="p">:</span>
+					<span class="n">cell_already_visited</span> <span class="o">=</span> <span class="n">isCellVisited</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">visited</span><span class="p">)</span>
+					<span class="k">if</span> <span class="ow">not</span> <span class="n">cell_already_visited</span><span class="p">:</span>
+						<span class="n">cell</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">cell_not_visited</span>
+						<span class="n">not_visited</span> <span class="o">=</span> <span class="n">not_visited</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+						<span class="n">visited</span> <span class="o">=</span> <span class="n">visited</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+				<span class="n">not_visited</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cell_not_visited</span><span class="p">)</span>
+			<span class="k">break</span>
+	<span class="n">cellWay</span> <span class="o">=</span> <span class="p">[</span><span class="n">finishCell</span><span class="p">]</span>
+	<span class="n">cell</span> <span class="o">=</span> <span class="n">finishCell</span>
+	<span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cellWay</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cellWay</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="n">start</span><span class="p">):</span>
+		<span class="n">cell</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">parent</span><span class="p">;</span>
+		<span class="n">cellWay</span> <span class="o">=</span> <span class="n">cellWay</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+	<span class="n">cellWay</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+	<span class="n">way</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cellWay</span><span class="p">:</span>
+		<span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+		<span class="n">way</span> <span class="o">=</span> <span class="n">way</span> <span class="o">+</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+	<span class="n">way</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+	<span class="k">return</span> <span class="n">way</span></div>
+
+<div class="viewcode-block" id="getPathContinuous"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.getPathContinuous">[docs]</a><span class="k">def</span> <span class="nf">getPathContinuous</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="p">[]):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Calculate the optimal path in the models with the space continuous.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			model: Model which invokes the algorithm.</span>
+<span class="sd">			start: Initial position.</span>
+<span class="sd">			finish: Final position.</span>
+<span class="sd">			other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</span>
+<span class="sd">		Return: List of positions (x, y).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">finish</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">finish</span><span class="p">)</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+	<span class="n">not_visited</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
+	<span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">finishCell</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="n">notFinished</span> <span class="o">=</span> <span class="kc">True</span>
+	<span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">while</span> <span class="n">notFinished</span><span class="p">:</span>
+		<span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="n">it</span> <span class="o">&gt;</span> <span class="n">maxIteration</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">[(</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">)]</span>
+		<span class="k">for</span> <span class="n">cell_not_visited</span> <span class="ow">in</span> <span class="n">not_visited</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">cell_not_visited</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">finish</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">cell_not_visited</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">finish</span><span class="o">.</span><span class="n">y</span><span class="p">:</span>
+				<span class="n">finishCell</span> <span class="o">=</span> <span class="n">cell_not_visited</span>
+				<span class="n">notFinished</span> <span class="o">=</span> <span class="kc">False</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">cells</span> <span class="o">=</span> <span class="n">getConectedCellsContinuous</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cell_not_visited</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="c1">#create adject cells with conection</span>
+				<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cells</span><span class="p">:</span>
+					<span class="n">cell_already_visited</span> <span class="o">=</span> <span class="n">isCellVisited</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">visited</span><span class="p">)</span>
+					<span class="k">if</span> <span class="ow">not</span> <span class="n">cell_already_visited</span><span class="p">:</span>
+						<span class="n">cell</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">cell_not_visited</span>
+						<span class="k">if</span> <span class="ow">not</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">not_visited</span><span class="p">:</span>
+							<span class="n">not_visited</span> <span class="o">=</span> <span class="n">not_visited</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+						<span class="n">visited</span> <span class="o">=</span> <span class="n">visited</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+				<span class="n">not_visited</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cell_not_visited</span><span class="p">)</span>
+			<span class="k">break</span>      
+	<span class="n">cellWay</span> <span class="o">=</span> <span class="p">[</span><span class="n">finishCell</span><span class="p">]</span>
+	<span class="n">cell</span> <span class="o">=</span> <span class="n">finishCell</span>
+	<span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cellWay</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cellWay</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="n">start</span><span class="p">):</span>
+		<span class="n">cell</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">parent</span><span class="p">;</span>
+		<span class="n">cellWay</span> <span class="o">=</span> <span class="n">cellWay</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+	<span class="n">cellWay</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+	<span class="n">way</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cellWay</span><span class="p">:</span>
+		<span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+		<span class="n">way</span> <span class="o">=</span> <span class="n">way</span> <span class="o">+</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+	<span class="n">way</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">way</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">canMovePos</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">way</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+		<span class="n">way</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">way</span></div>
+
+<div class="viewcode-block" id="getConectedCellsRooms"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.getConectedCellsRooms">[docs]</a><span class="k">def</span> <span class="nf">getConectedCellsRooms</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Gets a list of connected cells in a space defined by rooms.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			model: Model which invokes the algorithm.</span>
+<span class="sd">			cell: cell object corresponding to the room.</span>
+<span class="sd">		Return: List of positions (x, y).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">room</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">getRoom</span><span class="p">((</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+	<span class="n">rooms</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">roomsConected</span>
+	<span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms</span><span class="p">:</span>
+		<span class="n">cell</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">room</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+		<span class="n">cells</span> <span class="o">=</span> <span class="n">cells</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span>
+	<span class="k">return</span> <span class="n">cells</span></div>
+
+<div class="viewcode-block" id="getConectedCellsContinuous"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.getConectedCellsContinuous">[docs]</a><span class="k">def</span> <span class="nf">getConectedCellsContinuous</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">others</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Gets a list of connected cells in a continuous space.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			model: Model which invokes the algorithm.</span>
+<span class="sd">			cell: cell object corresponding to the position.</span>
+<span class="sd">			other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</span>
+<span class="sd">		Return: List of positions (x, y).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">cellPos</span> <span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+	<span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">possiblePosition1</span> <span class="o">=</span> <span class="p">[(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+	<span class="n">possiblePosition2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+	<span class="n">possiblePosition</span> <span class="o">=</span> <span class="n">possiblePosition1</span> <span class="o">+</span> <span class="n">possiblePosition2</span>
+	<span class="k">for</span> <span class="n">posAux</span> <span class="ow">in</span> <span class="n">possiblePosition</span><span class="p">:</span>
+		<span class="n">pos1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">pos2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">aux</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="k">if</span> <span class="n">canMovePos</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cellPos</span><span class="p">,</span> <span class="n">posAux</span><span class="p">,</span> <span class="n">others</span><span class="p">):</span>
+			<span class="n">cellAdded</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">posAux</span><span class="p">)</span>
+			<span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cellAdded</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">cells</span></div>
+
+<span class="k">def</span> <span class="nf">getObtacles</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">generalItems</span><span class="p">:</span>
+		<span class="n">generalItemsPos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">doors</span><span class="p">:</span>
+		<span class="n">doorsPosAux</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">doorsPosAux</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">pos1</span><span class="p">)</span>
+		<span class="n">doorsPosAux</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">pos2</span><span class="p">)</span>
+		<span class="n">doorsPoss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doorsPosAux</span><span class="p">)</span>
+
+<div class="viewcode-block" id="canMovePos"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.canMovePos">[docs]</a><span class="k">def</span> <span class="nf">canMovePos</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cellPos</span><span class="p">,</span> <span class="n">posAux</span><span class="p">,</span> <span class="n">others</span> <span class="o">=</span> <span class="p">[]):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Evaluate if a position is reachable in a continuous space.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			model: Model which invokes the algorithm.</span>
+<span class="sd">			cellPos: a first one position given as (x, y).</span>
+<span class="sd">			posAux: a second one position given as (x, y).</span>
+<span class="sd">			others: List of auxiliary positions given to be considered impenetrable,</span>
+<span class="sd">			that is, they will not be used by the AStar.</span>
+<span class="sd">		Return: List of positions (x, y).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">move</span> <span class="o">=</span> <span class="kc">True</span>
+	<span class="k">for</span> <span class="n">wall</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">walls</span><span class="p">:</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">block1</span> <span class="ow">and</span> <span class="n">posAux</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">block1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">block2</span> <span class="ow">and</span> <span class="n">posAux</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">block2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">block3</span> <span class="ow">and</span> <span class="n">posAux</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">block3</span><span class="p">):</span>
+			<span class="n">move</span> <span class="o">=</span> <span class="kc">False</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">move</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">doorsPos</span> <span class="ow">in</span> <span class="n">doorsPoss</span><span class="p">:</span>
+			<span class="k">if</span> <span class="p">((</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">doorsPos</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">posAux</span> <span class="ow">in</span> <span class="n">doorsPos</span><span class="p">)):</span>
+				<span class="n">move</span> <span class="o">=</span> <span class="kc">True</span>
+	<span class="k">if</span> <span class="n">move</span><span class="p">:</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">generalItemsPos</span> <span class="ow">or</span> <span class="n">posAux</span> <span class="ow">in</span> <span class="n">generalItemsPos</span><span class="p">):</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">posAux</span> <span class="ow">in</span> <span class="n">others</span><span class="p">):</span>
+				<span class="k">return</span> <span class="kc">True</span>
+	<span class="k">return</span> <span class="kc">False</span></div>
+
+<span class="k">def</span> <span class="nf">isCellVisited</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">visited</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">cells</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">cells</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">cell</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">cells</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">cell</span><span class="o">.</span><span class="n">y</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+	<span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

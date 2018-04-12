@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Agents Module Documentation &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../index.html"/>
+        <link rel="up" title="APIs" href="api.html"/>
+        <link rel="next" title="Space Module Documentation" href="space.html"/>
+        <link rel="prev" title="Model Module Documentation" href="model.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Agents Module Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#occupant">Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous-occupant">Continuous Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rooms-occupant">Rooms Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#avatar">Avatar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#agent-modules">Agent Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.resources.aStar">AStar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#markov">Markov</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.resources.fov">FOV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="space.html">Space Module Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">APIs</a> &raquo;</li>
+        
+      <li>Agents Module Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apiDocumentation/agents.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="agents-module-documentation">
+<h1>Agents Module Documentation<a class="headerlink" href="#agents-module-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="occupant">
+<h2>Occupant<a class="headerlink" href="#occupant" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="continuous-occupant">
+<h2>Continuous Occupant<a class="headerlink" href="#continuous-occupant" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="rooms-occupant">
+<h2>Rooms Occupant<a class="headerlink" href="#rooms-occupant" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="avatar">
+<h2>Avatar<a class="headerlink" href="#avatar" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="agent-modules">
+<h2>Agent Modules<a class="headerlink" href="#agent-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.resources.aStar">
+<span id="astar"></span><h3>AStar<a class="headerlink" href="#module-soba.agents.resources.aStar" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="soba.agents.resources.aStar.canMovePos">
+<code class="descclassname">soba.agents.resources.aStar.</code><code class="descname">canMovePos</code><span class="sig-paren">(</span><em>model</em>, <em>cellPos</em>, <em>posAux</em>, <em>others=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/aStar.html#canMovePos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.aStar.canMovePos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate if a position is reachable in a continuous space.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+cellPos: a first one position given as (x, y).
+posAux: a second one position given as (x, y).
+others: List of auxiliary positions given to be considered impenetrable,
+that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="soba.agents.resources.aStar.getConectedCellsContinuous">
+<code class="descclassname">soba.agents.resources.aStar.</code><code class="descname">getConectedCellsContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em>, <em>others</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/aStar.html#getConectedCellsContinuous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.aStar.getConectedCellsContinuous" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Gets a list of connected cells in a continuous space.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+cell: cell object corresponding to the position.
+other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="soba.agents.resources.aStar.getConectedCellsRooms">
+<code class="descclassname">soba.agents.resources.aStar.</code><code class="descname">getConectedCellsRooms</code><span class="sig-paren">(</span><em>model</em>, <em>cell</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/aStar.html#getConectedCellsRooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.aStar.getConectedCellsRooms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Gets a list of connected cells in a space defined by rooms.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+cell: cell object corresponding to the room.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="soba.agents.resources.aStar.getPathContinuous">
+<code class="descclassname">soba.agents.resources.aStar.</code><code class="descname">getPathContinuous</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em>, <em>other=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/aStar.html#getPathContinuous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.aStar.getPathContinuous" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the optimal path in the models with the space continuous.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+start: Initial position.
+finish: Final position.
+other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="soba.agents.resources.aStar.getPathRooms">
+<code class="descclassname">soba.agents.resources.aStar.</code><code class="descname">getPathRooms</code><span class="sig-paren">(</span><em>model</em>, <em>start</em>, <em>finish</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/aStar.html#getPathRooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.aStar.getPathRooms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the optimal path in the models with the space defined by rooms.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>model: Model which invokes the algorithm.
+start: Initial position.
+finish: Final position.</dd>
+</dl>
+<p class="last">Return: List of positions (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="markov">
+<h3>Markov<a class="headerlink" href="#markov" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="module-soba.agents.resources.fov">
+<span id="fov"></span><h3>FOV<a class="headerlink" href="#module-soba.agents.resources.fov" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="soba.agents.resources.fov.FOV_RADIUS">
+<code class="descclassname">soba.agents.resources.fov.</code><code class="descname">FOV_RADIUS</code><em class="property"> = 30000</em><a class="headerlink" href="#soba.agents.resources.fov.FOV_RADIUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>In the file aStar.py the filed of vision algorithm is implemented.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="soba.agents.resources.fov.Map">
+<em class="property">class </em><code class="descclassname">soba.agents.resources.fov.</code><code class="descname">Map</code><span class="sig-paren">(</span><em>map</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/fov.html#Map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.fov.Map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to calculate the field of vision (fov).</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>data: Map to which to apply the algorithm.</dd>
+<dt>Methods:</dt>
+<dd>do_fov: Calculate the field of view from a position (x, y).</dd>
+<dt>More information:</dt>
+<dd><a class="reference external" href="http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation">http://www.roguebasin.com/index.php?title=Python_shadowcasting_implementation</a></dd>
+</dl>
+<dl class="method">
+<dt id="soba.agents.resources.fov.Map.do_fov">
+<code class="descname">do_fov</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/fov.html#Map.do_fov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.fov.Map.do_fov" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the field of view from a position (x, y).</dt>
+<dd><dl class="first docutils">
+<dt>Args: </dt>
+<dd>x, y: Observer&#8217;s position</dd>
+</dl>
+<p class="last">Return: Array of sight positions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="soba.agents.resources.fov.makeFOV">
+<code class="descclassname">soba.agents.resources.fov.</code><code class="descname">makeFOV</code><span class="sig-paren">(</span><em>dungeon</em>, <em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/fov.html#makeFOV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.fov.makeFOV" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create the invocation object of the fov algorithm and invoke it.</dt>
+<dd><dl class="first docutils">
+<dt>Args:</dt>
+<dd>dungeon: Array 
+pos: Observer&#8217;s position</dd>
+</dl>
+<p class="last">Return: Array of sight positions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="space.html" class="btn btn-neutral float-right" title="Space Module Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="model.html" class="btn btn-neutral" title="Model Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
