@@ -16,7 +16,7 @@ https://github.com/gsi-upm/soba
 Arquitecture Description
 ------------------------
 
-.. image:: images/architecture.png
+.. image:: images/arquitectura.png
    :width: 100%
    :scale: 100%
 
