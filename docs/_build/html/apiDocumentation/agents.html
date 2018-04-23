@@ -95,13 +95,13 @@
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Agents Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#occupant">Occupant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#continuous-occupant">Continuous Occupant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rooms-occupant">Rooms Occupant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#avatar">Avatar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.agents.occupant">Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.agents.continuousOccupant">Continuous Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.agents.roomsOccupant">Rooms Occupant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-soba.agents.avatar">Avatar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#agent-modules">Agent Modules</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.resources.aStar">AStar</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#markov">Markov</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.resources.behaviourMarkov">Markov</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-soba.agents.resources.fov">FOV</a></li>
 </ul>
 </li>
@@ -178,17 +178,17 @@
             
   <div class="section" id="agents-module-documentation">
 <h1>Agents Module Documentation<a class="headerlink" href="#agents-module-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="occupant">
-<h2>Occupant<a class="headerlink" href="#occupant" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.occupant">
+<span id="occupant"></span><h2>Occupant<a class="headerlink" href="#module-soba.agents.occupant" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="continuous-occupant">
-<h2>Continuous Occupant<a class="headerlink" href="#continuous-occupant" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.continuousOccupant">
+<span id="continuous-occupant"></span><h2>Continuous Occupant<a class="headerlink" href="#module-soba.agents.continuousOccupant" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="rooms-occupant">
-<h2>Rooms Occupant<a class="headerlink" href="#rooms-occupant" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.roomsOccupant">
+<span id="rooms-occupant"></span><h2>Rooms Occupant<a class="headerlink" href="#module-soba.agents.roomsOccupant" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="avatar">
-<h2>Avatar<a class="headerlink" href="#avatar" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-soba.agents.avatar">
+<span id="avatar"></span><h2>Avatar<a class="headerlink" href="#module-soba.agents.avatar" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="agent-modules">
 <h2>Agent Modules<a class="headerlink" href="#agent-modules" title="Permalink to this headline">¶</a></h2>
@@ -277,8 +277,50 @@ finish: Final position.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="markov">
-<h3>Markov<a class="headerlink" href="#markov" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-soba.agents.resources.behaviourMarkov">
+<span id="markov"></span><h3>Markov<a class="headerlink" href="#module-soba.agents.resources.behaviourMarkov" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="soba.agents.resources.behaviourMarkov.Markov">
+<em class="property">class </em><code class="descclassname">soba.agents.resources.behaviourMarkov.</code><code class="descname">Markov</code><span class="sig-paren">(</span><em>agent_aux</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/behaviourMarkov.html#Markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.behaviourMarkov.Markov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to models the activity of the agents by means of Markovian behavior.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Attributes:</dt>
+<dd>agent: Agent that is controlled by this models.</dd>
+<dt>Methods:</dt>
+<dd>runStep: Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.
+getNextState: Evaluate a random change based on the probabilities corresponding to each state.</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="soba.agents.resources.behaviourMarkov.Markov.getNextState">
+<code class="descname">getNextState</code><span class="sig-paren">(</span><em>markov_matrix</em>, <em>NumberCurrentState</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/behaviourMarkov.html#Markov.getNextState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.behaviourMarkov.Markov.getNextState" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Evaluate a random change based on the probabilities corresponding to each state.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>markov_matrix: Markov matrix corresponding to a certain moment.
+NumberCurrentState: Unique id as number of the current state.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="soba.agents.resources.behaviourMarkov.Markov.runStep">
+<code class="descname">runStep</code><span class="sig-paren">(</span><em>markov_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/behaviourMarkov.html#Markov.runStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.behaviourMarkov.Markov.runStep" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Execute a Markovian state change by evaluating the initial state and the probabilities associated with each possible state.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>markov_matrix: Markov matrix corresponding to a certain moment.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-soba.agents.resources.fov">
 <span id="fov"></span><h3>FOV<a class="headerlink" href="#module-soba.agents.resources.fov" title="Permalink to this headline">¶</a></h3>

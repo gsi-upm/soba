@@ -29,7 +29,7 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return MagicMock()
 
-MOCK_MODULES = ['mesa','mesa.space', 'mesa.time', 'transitions.*', 'numpy', 'anaconda-client','tqdm','transitions', 'tornado', 'pandas', 'tornado', 'tornado.ioloop', 'tornado.server', 'tornado.web', 'tornado.websocket', 'tornado.escape', 'tornado.gen']
+MOCK_MODULES = ['mesa','mesa.space', 'mesa.visualization.ModularVisualization', 'mesa.time', 'transitions.*', 'numpy', 'anaconda-client','tqdm','transitions', 'tornado', 'pandas', 'tornado', 'tornado.ioloop', 'tornado.server', 'tornado.web', 'tornado.websocket', 'tornado.escape', 'tornado.gen']
 
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 

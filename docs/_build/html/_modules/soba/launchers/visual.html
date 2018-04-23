@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>soba.launchers.visual &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>soba.launchers.visual</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for soba.launchers.visual</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">soba.visualization.drawModelBack</span> <span class="k">import</span> <span class="n">BackEndVisualization</span>
+<span class="kn">from</span> <span class="nn">mesa.visualization.ModularVisualization</span> <span class="k">import</span> <span class="n">ModularServer</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">soba</span>
+<span class="kn">import</span> <span class="nn">tornado</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In the file visual.py is implemented the execution with visual representation:</span>
+<span class="sd">	Methods: </span>
+<span class="sd">		run: Execute the simulation with visual representation.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../apiDocumentation/launchers.html#soba.launchers.visual.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">visual</span><span class="p">,</span> <span class="n">back</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Execute the simulation with visual representation.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			parameters: Parameters associated with the simulation model and others such as grid size.</span>
+<span class="sd">			model: Model that is simulated.</span>
+<span class="sd">			visual: JS files with the visualization elements that are included in the JavaScript browser visualization template.</span>
+<span class="sd">			back: Python file working as backend visualization.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">backEndVisualization</span> <span class="o">=</span> <span class="n">BackEndVisualization</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]),</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">visual</span><span class="p">)</span>
+
+	<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">soba</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
+	<span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+	<span class="n">local_handler</span> <span class="o">=</span> <span class="p">(</span><span class="s1">r&#39;/local/(.*)&#39;</span><span class="p">,</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">StaticFileHandler</span><span class="p">,</span>
+                     <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">})</span>
+	<span class="n">external_handler</span> <span class="o">=</span> <span class="p">(</span><span class="s1">r&#39;/external/(.*)&#39;</span><span class="p">,</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">StaticFileHandler</span><span class="p">,</span>
+                     <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">})</span>
+
+	<span class="n">ModularServer</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="n">ModularServer</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	<span class="n">ModularServer</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="n">ModularServer</span><span class="o">.</span><span class="n">handlers</span> <span class="o">+</span> <span class="p">[</span><span class="n">local_handler</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">external_handler</span><span class="p">]</span>
+	<span class="k">if</span> <span class="n">back</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
+		<span class="n">server</span> <span class="o">=</span> <span class="n">ModularServer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="n">backEndVisualization</span><span class="p">,</span> <span class="n">back</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Simulation&quot;</span><span class="p">,</span> <span class="n">model_params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">server</span> <span class="o">=</span> <span class="n">ModularServer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="n">backEndVisualization</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Simulation&quot;</span><span class="p">,</span> <span class="n">model_params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+
+	<span class="n">server</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">7777</span>
+	<span class="n">server</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -8,13 +8,13 @@ Model
    :members:
 
 Continuous Model
------
+----------------
 
 .. automodule:: soba.models.continuousModel
    :members:
 
 Rooms Model
------
+-----------
 
 .. automodule:: soba.models.roomsModel
    :members:
