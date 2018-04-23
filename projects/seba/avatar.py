@@ -32,3 +32,6 @@ class EmergencyAvatar(Avatar):
 			if pos in self.model.FireControl.fireExpansion:
 				others.append(pos)
 		return others
+
+	def step():
+		pass
