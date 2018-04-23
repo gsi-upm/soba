@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>soba.models.roomsModel &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>soba.models.roomsModel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for soba.models.roomsModel</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">soba.models.timeControl</span> <span class="k">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">soba.agents.continuousOccupant</span> <span class="k">import</span> <span class="n">ContinuousOccupant</span>
+<span class="kn">from</span> <span class="nn">soba.agents.roomsOccupant</span> <span class="k">import</span> <span class="n">RoomsOccupant</span>
+<span class="kn">import</span> <span class="nn">soba.agents.resources.aStar</span> <span class="k">as</span> <span class="nn">aStar</span>
+<span class="kn">from</span> <span class="nn">soba.space.roomsElements</span> <span class="k">import</span> <span class="n">Room</span>
+<span class="kn">from</span> <span class="nn">soba.space.roomsElements</span> <span class="k">import</span> <span class="n">Door</span> <span class="k">as</span> <span class="n">DoorRooms</span>
+<span class="kn">from</span> <span class="nn">soba.space.roomsElements</span> <span class="k">import</span> <span class="n">Wall</span> <span class="k">as</span> <span class="n">WallRooms</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">mesa.space</span> <span class="k">import</span> <span class="n">Grid</span>
+<span class="kn">import</span> <span class="nn">soba.visualization.ramen.performanceGenerator</span> <span class="k">as</span> <span class="nn">ramen</span>
+<span class="kn">from</span> <span class="nn">mesa</span> <span class="k">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">mesa.time</span> <span class="k">import</span> <span class="n">SimultaneousActivation</span>
+<span class="kn">from</span> <span class="nn">soba.models.generalModel</span> <span class="k">import</span> <span class="n">GeneralModel</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+
+<div class="viewcode-block" id="RoomsModel"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel">[docs]</a><span class="k">class</span> <span class="nc">RoomsModel</span><span class="p">(</span><span class="n">GeneralModel</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Base Class to create simulation models on a simplified space based on rooms.</span>
+
+<span class="sd">		Attributes:</span>
+<span class="sd">			Those inherited from the Occupant class.</span>
+<span class="sd">			rooms: List of Room objects.</span>
+<span class="sd">			Those inherited from the Occupant class.</span>
+<span class="sd">			rooms: List of Room objects.</span>
+<span class="sd">			walls: List of Wall objects.</span>
+<span class="sd">			pois: List of Pois objects.</span>
+<span class="sd">			generalItems: List of GeneralItem objects.</span>
+<span class="sd">			doors: List of Door objects.</span>
+<span class="sd">		Methods:</span>
+<span class="sd">			createOccupants: Create occupants of the RoomsOccupant type.</span>
+<span class="sd">			createRooms: Create the rooms in the grid space.</span>
+<span class="sd">			setMap: Define the map plane distribution.</span>
+<span class="sd">			createDoors: Create the doors in the grid space.</span>
+<span class="sd">			createWalls: Create the walls in the grid space.</span>
+<span class="sd">			thereIsClosedDoor: Check if one door is closed or open.</span>
+<span class="sd">			thereIsOtherOccupantInRoom: Evaluate if there is another occupant apart of the past as a parameter in a room.</span>
+<span class="sd">			thereIsSomeOccupantInRoom: Evaluate if there is any occupant in a room.</span>
+<span class="sd">			thereIsOccupantInRoom: Evaluate if there is one specific occupant in a room.</span>
+<span class="sd">			getRoom: Get one Room Object by position.</span>
+<span class="sd">			pushAgentRoom: Add one agent to a room.</span>
+<span class="sd">			popAgentRoom: Remove one agent from a room.</span>
+<span class="sd">			openDoor: Change the status of the door to open.</span>
+<span class="sd">			closeDoor: Change the status of the door to close.</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonRooms</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">()),</span> <span class="n">timeByStep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">timeByStep</span><span class="p">)</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create a new RoomsModel object.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				height: Height in number of grid cells.</span>
+<span class="sd">				width: Width in number of grid cells.</span>
+<span class="sd">				jsonRooms: Json of description of the map plane.</span>
+<span class="sd">				jsonsOccupants: Json of description of the occupancy.</span>
+<span class="sd">				seed: Seed employ in random generations.</span>
+<span class="sd">				timeByStep: Time in seconds associated with each step.</span>
+<span class="sd">			Return: RoomsModel object</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rooms</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">createRooms</span><span class="p">(</span><span class="n">jsonRooms</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">setMap</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">createDoors</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">createWalls</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">createOccupants</span><span class="p">(</span><span class="n">jsonsOccupants</span><span class="p">)</span>
+	
+<div class="viewcode-block" id="RoomsModel.createOccupants"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.createOccupants">[docs]</a>	<span class="k">def</span> <span class="nf">createOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create occupants of the RoomsOccupant type.</span>
+<span class="sd">				Args:</span>
+<span class="sd">					jsonOccupants: Json of description of the occupants.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">json</span> <span class="ow">in</span> <span class="n">jsonsOccupants</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]):</span>
+				<span class="n">a</span> <span class="o">=</span> <span class="n">RoomsOccupant</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">json</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoomsModel.createRooms"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.createRooms">[docs]</a>	<span class="k">def</span> <span class="nf">createRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jsonRooms</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create the rooms in the grid space.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				jsonRooms: Json of description of the map plane.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">rooms</span> <span class="o">=</span> <span class="n">jsonRooms</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rooms</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">rooms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">newRoom</span>  <span class="o">=</span> <span class="mi">0</span>
+			<span class="n">name</span> <span class="o">=</span> <span class="n">k</span>
+			<span class="n">conectedTo</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;conectedTo&#39;</span><span class="p">)</span>
+			<span class="n">entrance</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entrance&#39;</span><span class="p">)</span>
+			<span class="n">measures</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;measures&#39;</span><span class="p">]</span>
+			<span class="n">dx</span> <span class="o">=</span> <span class="n">measures</span><span class="p">[</span><span class="s1">&#39;dx&#39;</span><span class="p">]</span>
+			<span class="n">dy</span> <span class="o">=</span> <span class="n">measures</span><span class="p">[</span><span class="s1">&#39;dy&#39;</span><span class="p">]</span>
+			<span class="n">newRoom</span> <span class="o">=</span> <span class="n">Room</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">conectedTo</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+			<span class="n">newRoom</span><span class="o">.</span><span class="n">entrance</span> <span class="o">=</span> <span class="n">entrance</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newRoom</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">room1</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">room1</span><span class="o">.</span><span class="n">conectedTo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="k">for</span> <span class="n">otherRooms</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">room1</span><span class="o">.</span><span class="n">conectedTo</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+					<span class="k">for</span> <span class="n">room2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+						<span class="k">if</span> <span class="n">room2</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">otherRooms</span><span class="p">:</span>
+							<span class="n">room1</span><span class="o">.</span><span class="n">roomsConected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room2</span><span class="p">)</span>
+							<span class="n">room2</span><span class="o">.</span><span class="n">roomsConected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room1</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">room</span><span class="o">.</span><span class="n">roomsConected</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">room</span><span class="o">.</span><span class="n">roomsConected</span><span class="p">))</span>
+		<span class="n">sameRoom</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">sameRoom</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="n">sameRoom</span><span class="p">[</span><span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">sameRoom</span><span class="p">[</span><span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">sameRoom</span><span class="p">[</span><span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="RoomsModel.setMap"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.setMap">[docs]</a>	<span class="k">def</span> <span class="nf">setMap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Define the map plane distribution.&quot;&quot;&quot;</span>
+		<span class="n">rooms_noPos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span>
+		<span class="n">rooms_using</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">rooms_used</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">entrance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+				<span class="n">rooms_using</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="n">rooms_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="n">rooms_noPos</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="k">break</span>
+		<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">rooms_noPos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">roomC</span> <span class="ow">in</span> <span class="n">rooms_using</span><span class="p">:</span>
+				<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">roomC</span><span class="o">.</span><span class="n">pos</span>
+				<span class="n">rooms_conected</span> <span class="o">=</span> <span class="n">roomC</span><span class="o">.</span><span class="n">conectedTo</span>
+				<span class="n">rooms_using</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">roomC</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">rooms_conected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">orientations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rooms_conected</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+					<span class="k">for</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="n">orientations</span><span class="p">:</span>
+						<span class="k">if</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span>
+							<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms_noPos</span><span class="p">:</span>
+								<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">rooms_conected</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]:</span>
+									<span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">xc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">yc</span><span class="p">)</span>
+									<span class="n">rooms_noPos</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_using</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+						<span class="k">elif</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">:</span>
+							<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms_noPos</span><span class="p">:</span>
+								<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">rooms_conected</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]:</span>
+									<span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">yc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+									<span class="n">rooms_noPos</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_using</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+						<span class="k">elif</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
+							<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms_noPos</span><span class="p">:</span>
+								<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">rooms_conected</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]:</span>
+									<span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">yc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+									<span class="n">rooms_noPos</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_using</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+						<span class="k">elif</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span>
+							<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms_noPos</span><span class="p">:</span>
+								<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">rooms_conected</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]:</span>
+									<span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">xc</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">yc</span><span class="p">)</span>
+									<span class="n">rooms_noPos</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+									<span class="n">rooms_using</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">pass</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rooms</span> <span class="o">=</span> <span class="n">rooms_used</span></div>
+
+<div class="viewcode-block" id="RoomsModel.createDoors"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.createDoors">[docs]</a>	<span class="k">def</span> <span class="nf">createDoors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Create the doors in the grid space.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">doors</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">roomC</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">roomsConected</span> <span class="o">=</span> <span class="n">roomC</span><span class="o">.</span><span class="n">roomsConected</span>
+			<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">roomsConected</span><span class="p">:</span>
+				<span class="n">door_created</span> <span class="o">=</span> <span class="kc">False</span>
+				<span class="n">same_corridor</span> <span class="o">=</span> <span class="kc">False</span>
+				<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">roomC</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">door</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="p">:</span>
+						<span class="k">if</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">room1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">roomC</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room2</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">room2</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">roomC</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+							<span class="n">door_created</span> <span class="o">=</span> <span class="kc">True</span>
+						<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">roomC</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+							<span class="n">same_corridor</span> <span class="o">=</span> <span class="kc">True</span>
+					<span class="k">if</span> <span class="n">door_created</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">same_corridor</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+						<span class="n">d</span> <span class="o">=</span> <span class="n">DoorRooms</span><span class="p">(</span><span class="n">roomC</span><span class="p">,</span> <span class="n">room</span><span class="p">)</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+						<span class="n">room</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+						<span class="n">roomC</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoomsModel.createWalls"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.createWalls">[docs]</a>	<span class="k">def</span> <span class="nf">createWalls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Create the walls in the grid space.&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">walls</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="n">xr</span><span class="p">,</span> <span class="n">yr</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span>
+			<span class="n">roomA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoom</span><span class="p">((</span><span class="n">xr</span><span class="p">,</span> <span class="n">yr</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+			<span class="k">if</span> <span class="n">roomA</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">roomA</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="k">pass</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">roomA</span><span class="p">)</span>
+					<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="n">roomB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoom</span><span class="p">((</span><span class="n">xr</span><span class="p">,</span> <span class="n">yr</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+			<span class="k">if</span> <span class="n">roomB</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">roomB</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="k">pass</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">roomB</span><span class="p">)</span>
+					<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="n">roomC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoom</span><span class="p">((</span><span class="n">xr</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yr</span><span class="p">))</span>
+			<span class="k">if</span> <span class="n">roomC</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">roomC</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="k">pass</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">roomC</span><span class="p">)</span>
+					<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="n">roomD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoom</span><span class="p">((</span><span class="n">xr</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">yr</span><span class="p">))</span>
+			<span class="k">if</span> <span class="n">roomD</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">roomD</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="k">pass</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">roomD</span><span class="p">)</span>
+					<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">wall</span> <span class="o">=</span> <span class="n">WallRooms</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+				<span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span>
+
+			<span class="n">room</span><span class="o">.</span><span class="n">walls</span> <span class="o">=</span> <span class="n">walls</span></div>
+
+<div class="viewcode-block" id="RoomsModel.thereIsClosedDoor"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.thereIsClosedDoor">[docs]</a>	<span class="k">def</span> <span class="nf">thereIsClosedDoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beforePos</span><span class="p">,</span> <span class="n">nextPos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if one door is closed or open.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				beforePos, nextPos: The two common positions of the door as (x, y).</span>
+<span class="sd">			Return: True (closed) or False (opened).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">oldRoom</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="n">newRoom</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">==</span> <span class="n">beforePos</span><span class="p">:</span>
+				<span class="n">oldRoom</span> <span class="o">=</span> <span class="n">room</span>
+			<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">==</span> <span class="n">nextPos</span><span class="p">:</span>
+				<span class="n">newRoom</span> <span class="o">=</span> <span class="n">room</span>
+		<span class="k">for</span> <span class="n">door</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="p">:</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">room1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">oldRoom</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room2</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">newRoom</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">room2</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">oldRoom</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">newRoom</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+				<span class="k">if</span> <span class="n">door</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+					<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RoomsModel.thereIsOtherOccupantInRoom"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.thereIsOtherOccupantInRoom">[docs]</a>	<span class="k">def</span> <span class="nf">thereIsOtherOccupantInRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">agent</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Evaluate if there is another occupant apart of the past as a parameter in a room.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				room: Room object to be checked.</span>
+<span class="sd">				agent: Occupant object to be ignored.</span>
+<span class="sd">			Return: True (yes), False (no)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">roomAux</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">possible_occupant</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">if</span> <span class="n">roomAux</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+				<span class="n">possible_occupant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">(</span><span class="n">roomAux</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">occupant</span> <span class="ow">in</span> <span class="n">possible_occupant</span><span class="p">:</span>
+				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">occupant</span><span class="p">,</span> <span class="n">Occupant</span><span class="p">)</span> <span class="ow">and</span> <span class="n">occupant</span> <span class="o">!=</span> <span class="n">agent</span><span class="p">:</span>
+					<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RoomsModel.thereIsSomeOccupantInRoom"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.thereIsSomeOccupantInRoom">[docs]</a>	<span class="k">def</span> <span class="nf">thereIsSomeOccupantInRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Evaluate if there is any occupant in a room.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				room: Room object to be checked.</span>
+<span class="sd">			Return: True (yes), False (no)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">roomAux</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">possible_occupant</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">if</span> <span class="n">roomAux</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+				<span class="n">possible_occupant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">(</span><span class="n">roomAux</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">occupant</span> <span class="ow">in</span> <span class="n">possible_occupant</span><span class="p">:</span>
+				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">occupant</span><span class="p">,</span> <span class="n">Occupant</span><span class="p">):</span>
+					<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RoomsModel.thereIsOccupantInRoom"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.thereIsOccupantInRoom">[docs]</a>	<span class="k">def</span> <span class="nf">thereIsOccupantInRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">agent</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Evaluate if there is one specific occupant in a room.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				room: Room object to be checked.</span>
+<span class="sd">			Return: True (yes), False (no)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">roomAux</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">possible_occupant</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">if</span> <span class="n">roomAux</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+				<span class="n">possible_occupant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">(</span><span class="n">roomAux</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">occupant</span> <span class="ow">in</span> <span class="n">possible_occupant</span><span class="p">:</span>
+				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">occupant</span><span class="p">,</span> <span class="n">Occupant</span><span class="p">)</span> <span class="ow">and</span> <span class="n">occupant</span> <span class="o">==</span> <span class="n">agent</span><span class="p">:</span>
+					<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RoomsModel.getRoom"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.getRoom">[docs]</a>	<span class="k">def</span> <span class="nf">getRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">		Get one Room Object by position.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Position of the grid as (x,y).</span>
+<span class="sd">			Return: Room Object or False</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">==</span> <span class="n">pos</span><span class="p">:</span>
+				<span class="k">return</span> <span class="n">room</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RoomsModel.pushAgentRoom"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.pushAgentRoom">[docs]</a>	<span class="k">def</span> <span class="nf">pushAgentRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add one agent to a room.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				agent: Agent Object</span>
+<span class="sd">				pos: Position of the grid as (x,y)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">room</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoom</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+		<span class="n">room</span><span class="o">.</span><span class="n">agentsInRoom</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoomsModel.popAgentRoom"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.popAgentRoom">[docs]</a>	<span class="k">def</span> <span class="nf">popAgentRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Remove one agent from a room.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				agent: Agent Object</span>
+<span class="sd">				pos: Position of the grid as (x,y)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">room</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoom</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+		<span class="n">room</span><span class="o">.</span><span class="n">agentsInRoom</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoomsModel.openDoor"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.openDoor">[docs]</a>	<span class="k">def</span> <span class="nf">openDoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">room1</span><span class="p">,</span> <span class="n">room2</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Change the status of the door to open (True). </span>
+<span class="sd">			Args:</span>
+<span class="sd">				agent: Agent object which want to open the door.</span>
+<span class="sd">				room1, room2: The two common rooms of the door as Room object.</span>
+<span class="sd">				&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">door</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="p">:</span>
+			<span class="k">if</span> <span class="p">((</span><span class="n">door</span><span class="o">.</span><span class="n">room1</span> <span class="o">==</span> <span class="n">room1</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room2</span> <span class="o">==</span> <span class="n">room2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">room1</span> <span class="o">==</span> <span class="n">room2</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room2</span> <span class="o">==</span> <span class="n">room1</span><span class="p">)):</span>
+				<span class="n">door</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RoomsModel.closeDoor"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.roomsModel.RoomsModel.closeDoor">[docs]</a>	<span class="k">def</span> <span class="nf">closeDoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">room1</span><span class="p">,</span> <span class="n">room2</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Change the status of the door to close (False).</span>
+<span class="sd">			Args:</span>
+<span class="sd">				agent: Agent object which want to close the door.</span>
+<span class="sd">				room1, room2: The two common rooms of the door as Room object.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">numb</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">door</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="p">:</span>
+			<span class="k">if</span> <span class="p">((</span><span class="n">door</span><span class="o">.</span><span class="n">room1</span> <span class="o">==</span> <span class="n">room1</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room2</span> <span class="o">==</span> <span class="n">room2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">room1</span> <span class="o">==</span> <span class="n">room2</span> <span class="ow">and</span> <span class="n">door</span><span class="o">.</span><span class="n">room2</span> <span class="o">==</span> <span class="n">room1</span><span class="p">)):</span>
+				<span class="k">if</span>  <span class="mi">7</span> <span class="o">&gt;=</span> <span class="n">numb</span><span class="p">:</span>
+					<span class="n">door</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="kc">False</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">door</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+	<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">step</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

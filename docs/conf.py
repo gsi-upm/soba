@@ -17,10 +17,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+
 import os
 import sys
-sys.path.append(os.path.abspath('..'))
-print(sys.path)
+
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, "..")
+sys.path.insert(0, "../soba/models")
 
 from unittest.mock import MagicMock
 
@@ -29,8 +32,8 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return MagicMock()
 
-MOCK_MODULES = ['mesa','mesa.space', 'mesa.visualization.ModularVisualization', 'mesa.time', 'transitions.*', 'numpy', 'anaconda-client','tqdm','transitions', 'tornado', 'pandas', 'tornado', 'tornado.ioloop', 'tornado.server', 'tornado.web', 'tornado.websocket', 'tornado.escape', 'tornado.gen']
-
+# MOCK_MODULES = ['mesa','mesa.space', 'mesa.visualization.ModularVisualization', 'mesa.time', 'transitions', 'numpy', 'anaconda-client','tqdm','transitions', 'tornado', 'pandas', 'tornado', 'tornado.ioloop', 'tornado.server', 'tornado.web', 'tornado.websocket', 'tornado.escape', 'tornado.gen']
+MOCK_MODULES = []
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 

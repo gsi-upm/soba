@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>soba.agents.roomsOccupant &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>soba.agents.roomsOccupant</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for soba.agents.roomsOccupant</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">soba.agents.resources.aStar</span> <span class="k">as</span> <span class="nn">aStar</span>
+<span class="kn">from</span> <span class="nn">soba.agents.occupant</span> <span class="k">import</span> <span class="n">Occupant</span>
+
+<div class="viewcode-block" id="RoomsOccupant"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.roomsOccupant.RoomsOccupant">[docs]</a><span class="k">class</span> <span class="nc">RoomsOccupant</span><span class="p">(</span><span class="n">Occupant</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This class enables to create occupants that are modelled with a simplified models based on a discrete space associated with rooms.</span>
+<span class="sd">	The occupants are agents with their activity defined by markov states.</span>
+
+<span class="sd">	Attributes:</span>
+<span class="sd">		Those inherited from the Occupant class.</span>
+<span class="sd">	</span>
+<span class="sd">	Methods:</span>
+<span class="sd">		getPosState: Auxiliary method to distribute the occupants between the rooms shared by more than one occupant object.</span>
+<span class="sd">		getWay: Invocation of the AStar resource to calculate the optimal path.</span>
+<span class="sd">		occupantMovePos: Calculation of the control attributes that regulate the cost (steps) of the movement between rooms according to their size.</span>
+<span class="sd">		getPlaceToGo: Obtaining the position associated with the current state.</span>
+<span class="sd">		step: Method invoked by the Model scheduler in each step.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">json</span><span class="p">,</span> <span class="n">speed</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">json</span><span class="p">,</span> <span class="n">speed</span><span class="p">)</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create a new RoomsOccupant object.</span>
+<span class="sd">			Args: </span>
+<span class="sd">				unique_id: Unique identifier corresponding to the Occupant.</span>
+<span class="sd">				models: Associated Model object, by default RoomsModel.</span>
+<span class="sd">				json: Json of definition of parameters of behavior</span>
+<span class="sd">				speed: Movement speed in m/s</span>
+<span class="sd">			Return: RoomsOccupant object</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+		<span class="c1">#State machine</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;states&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPosState</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">positionByState</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+
+		<span class="n">possible_rooms</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">roomsNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positionByState</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">]</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roomsNames</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+				<span class="k">for</span> <span class="n">roomName</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">roomsNames</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+					<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">roomName</span><span class="p">:</span>
+						<span class="n">possible_rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">positionByState</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">]:</span>
+						<span class="n">possible_rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_rooms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="n">roomaux</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">possible_rooms</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">roomaux</span> <span class="o">=</span> <span class="n">possible_rooms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">place_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roomaux</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">pushAgentRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roomaux</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+
+		<span class="c1">#control</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">onMyWay1</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">onMyWay2</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">costMovementToNewRoom</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">costMovementInNewRoom</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">room1</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">room2</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="RoomsOccupant.getPosState"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.roomsOccupant.RoomsOccupant.getPosState">[docs]</a>	<span class="k">def</span> <span class="nf">getPosState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">posAux</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Auxiliary method to distribute the occupants between the rooms shared by more than one occupant object.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				name: State name.</span>
+<span class="sd">				posAux: Name of the room associated with this state, string, </span>
+<span class="sd">				or dictionary of room names with number of occupants. {&#39;RoomName1&#39;: numberofOccupantsAssigned1,</span>
+<span class="sd">				&#39;RoomName2&#39;: numberofOccupantsAssigned2... }</span>
+<span class="sd">			Return: Position associated with this occupant</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">posAux</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">posAux</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">positionByStateAux</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="mi">1</span>
+					<span class="k">return</span> <span class="n">k</span>
+		<span class="k">return</span> <span class="n">posAux</span></div>
+
+	<span class="c1">#Movement</span>
+<div class="viewcode-block" id="RoomsOccupant.getWay"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.roomsOccupant.RoomsOccupant.getWay">[docs]</a>	<span class="k">def</span> <span class="nf">getWay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pos_to_go</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Invocation of the AStar resource to calculate the optimal path.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Initial position, by default the current position of the occupant.</span>
+<span class="sd">				pos_to_go: Final position, by default the value of the &#39;pos_to_go&#39; attribute of the occupant.</span>
+<span class="sd">			Return: List of positions (x, y).</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">posSend</span> <span class="o">=</span> <span class="n">pos</span>
+		<span class="n">pos_to_goSend</span> <span class="o">=</span> <span class="n">pos_to_go</span>
+		<span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">posSend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+		<span class="k">if</span> <span class="n">pos_to_go</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">pos_to_goSend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span>
+		<span class="k">return</span> <span class="n">aStar</span><span class="o">.</span><span class="n">getPathRooms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posSend</span><span class="p">,</span> <span class="n">pos_to_goSend</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoomsOccupant.occupantMovePos"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.roomsOccupant.RoomsOccupant.occupantMovePos">[docs]</a>	<span class="k">def</span> <span class="nf">occupantMovePos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_position</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Calculation of the control attributes that regulate the cost (steps) of the movement between rooms according to their size.</span>
+<span class="sd">				Args:</span>
+<span class="sd">					new_position: Room object to which it moves.</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">ux</span><span class="p">,</span> <span class="n">uy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+		<span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">new_position</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="n">rx</span><span class="p">,</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span>
+			<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">:</span>
+			<span class="c1">#Cost as steps</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">rx</span> <span class="o">==</span> <span class="n">nx</span><span class="p">):</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">costMovemenToNewRoom</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">dy</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">timeByStep</span><span class="p">)</span><span class="c1"># m * seg/m * step/seg</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">ry</span> <span class="o">==</span> <span class="n">ny</span><span class="p">):</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">costMovemenToNewRoom</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">timeByStep</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">pos</span> <span class="o">==</span> <span class="n">new_position</span><span class="p">:</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">rx</span> <span class="o">==</span> <span class="n">ux</span><span class="p">):</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">costMovementInNewRoom</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">dy</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">timeByStep</span><span class="p">)</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">ry</span> <span class="o">==</span> <span class="n">uy</span><span class="p">):</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">costMovementInNewRoom</span> <span class="o">=</span> <span class="n">room</span><span class="o">.</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">timeByStep</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoomsOccupant.getPlaceToGo"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.roomsOccupant.RoomsOccupant.getPlaceToGo">[docs]</a>	<span class="k">def</span> <span class="nf">getPlaceToGo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">		Obtaining the position associated with the current state. It is invoked when you enter a new state.</span>
+<span class="sd">			Return: Position as coordinate (x, y).</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+		<span class="n">roomsNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positionByState</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">]</span>
+		<span class="n">possible_rooms</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">rooms</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roomsNames</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+				<span class="k">for</span> <span class="n">roomName</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">roomsNames</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+					<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">roomName</span><span class="p">:</span>
+						<span class="n">possible_rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">positionByState</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">]:</span>
+						<span class="n">possible_rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">room</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_rooms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="n">pos_to_go</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">possible_rooms</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">pos_to_go</span> <span class="o">=</span> <span class="n">possible_rooms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">return</span> <span class="n">pos_to_go</span></div>
+
+	<span class="k">def</span> <span class="nf">startActivity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="o">.</span><span class="n">startActivity</span><span class="p">()</span>
+
+<div class="viewcode-block" id="RoomsOccupant.step"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.roomsOccupant.RoomsOccupant.step">[docs]</a>	<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Method invoked by the Model scheduler in each step. Evaluate if appropriate and, if so, perform: </span>
+<span class="sd">		A change of state, a movement or advance in the cost of a movement, or an advance in the performance of an activity.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">changeSchedule</span><span class="p">():</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">markov_machine</span><span class="o">.</span><span class="n">runStep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markovActivity</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getPeriod</span><span class="p">()])</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">onMyWay1</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">costMovemenToNewRoom</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">costMovemenToNewRoom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">costMovemenToNewRoom</span> <span class="o">-</span> <span class="mi">1</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">room1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getRoom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+				<span class="n">room2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getRoom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">movements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">])</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">room1</span> <span class="o">=</span> <span class="n">room1</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">room2</span> <span class="o">=</span> <span class="n">room2</span>
+				<span class="k">if</span> <span class="n">room1</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">room2</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">openDoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room1</span><span class="p">,</span> <span class="n">room2</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">popAgentRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">move_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">movements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">])</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">pushAgentRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">onMyWay1</span> <span class="o">=</span> <span class="kc">False</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">onMyWay2</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">onMyWay2</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">costMovementInNewRoom</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">costMovementInNewRoom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">costMovementInNewRoom</span> <span class="o">-</span> <span class="mi">1</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">room1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">room1</span>
+				<span class="n">room2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">room2</span>
+				<span class="k">if</span> <span class="n">room1</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">room2</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">r&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">closeDoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room1</span><span class="p">,</span> <span class="n">room2</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">onMyWay2</span> <span class="o">=</span> <span class="kc">False</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">occupantMovePos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">movements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">])</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">onMyWay1</span> <span class="o">=</span> <span class="kc">True</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">-</span> <span class="mi">1</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">=</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

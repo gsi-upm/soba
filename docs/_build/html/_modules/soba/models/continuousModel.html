@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>soba.models.continuousModel &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>soba.models.continuousModel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for soba.models.continuousModel</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">soba.models.timeControl</span> <span class="k">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">soba.models.generalModel</span> <span class="k">import</span> <span class="n">GeneralModel</span>
+<span class="kn">from</span> <span class="nn">soba.agents.continuousOccupant</span> <span class="k">import</span> <span class="n">ContinuousOccupant</span>
+<span class="kn">from</span> <span class="nn">soba.agents.roomsOccupant</span> <span class="k">import</span> <span class="n">RoomsOccupant</span>
+<span class="kn">import</span> <span class="nn">soba.agents.resources.aStar</span> <span class="k">as</span> <span class="nn">aStar</span>
+<span class="kn">from</span> <span class="nn">soba.space.continuousElements</span> <span class="k">import</span> <span class="n">GeneralItem</span>
+<span class="kn">from</span> <span class="nn">soba.space.continuousElements</span> <span class="k">import</span> <span class="n">Door</span>
+<span class="kn">from</span> <span class="nn">soba.space.continuousElements</span> <span class="k">import</span> <span class="n">Wall</span>
+<span class="kn">from</span> <span class="nn">soba.space.continuousElements</span> <span class="k">import</span> <span class="n">Poi</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">mesa.space</span> <span class="k">import</span> <span class="n">Grid</span>
+<span class="kn">import</span> <span class="nn">soba.visualization.ramen.performanceGenerator</span> <span class="k">as</span> <span class="nn">ramen</span>
+<span class="kn">from</span> <span class="nn">mesa</span> <span class="k">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">mesa.time</span> <span class="k">import</span> <span class="n">SimultaneousActivation</span>
+<span class="kn">from</span> <span class="nn">soba.agents.occupant</span> <span class="k">import</span> <span class="n">Occupant</span>
+<span class="kn">import</span> <span class="nn">soba.launchers.listener</span> <span class="k">as</span> <span class="nn">api</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">soba.agents.avatar</span> <span class="k">import</span> <span class="n">Avatar</span>
+
+<div class="viewcode-block" id="ContinuousModel"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel">[docs]</a><span class="k">class</span> <span class="nc">ContinuousModel</span><span class="p">(</span><span class="n">GeneralModel</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">	Base Class to create simulation models on a simplified space based on rooms.</span>
+<span class="sd">		Attributes:</span>
+<span class="sd">			Those inherited from the Occupant class.</span>
+<span class="sd">			rooms: List of Room objects.</span>
+<span class="sd">			walls: List of Wall objects.</span>
+<span class="sd">			pois: List of Pois objects.</span>
+<span class="sd">			generalItems: List of GeneralItem objects.</span>
+<span class="sd">			doors: List of Door objects.</span>
+<span class="sd">		Methods:</span>
+<span class="sd">			createOccupants: Create occupants of the ContinuousOccupant type.</span>
+<span class="sd">			getScaledCoordinate: Gets the value of a coordinate or a cell size scaled.</span>
+<span class="sd">			setMap: Define the map plane distribution.</span>
+<span class="sd">			getAsciMap: Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.</span>
+<span class="sd">			thereIsClosedDoor: Check if one door is closed or open.</span>
+<span class="sd">			getDoorInPos: Get a Door object in a position given.</span>
+<span class="sd">			getOccupantsPos: Get a Occupant objects in a position given.</span>
+<span class="sd">			thereIsOccupant: Check if there is any Occupant object in a position given.</span>
+<span class="sd">			getOccupantId: Get the occupant with the unique_id given.</span>
+<span class="sd">			getPOIsId: Get the pois object with the id given.</span>
+<span class="sd">			getPOIsPos: Get the position of a poi object.</span>
+<span class="sd">			checkFreePOI: Check if one Point of interest is free (there is no occupant on this).</span>
+<span class="sd">			xyInGrid: Check if one position is inside the grid.</span>
+<span class="sd">			nearPos: Check if two positions are consecutive.</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">global</span> <span class="n">ramenAux</span>
+	<span class="k">global</span> <span class="n">ramenRT</span>
+	<span class="n">ramenAux</span> <span class="o">=</span> <span class="kc">False</span>
+	<span class="n">ramenRT</span> <span class="o">=</span> <span class="kc">False</span>
+	<span class="k">def</span> <span class="nf">activeRamen</span><span class="p">(</span><span class="n">rt</span><span class="p">):</span>
+		<span class="k">global</span> <span class="n">ramenAux</span>
+		<span class="k">global</span> <span class="n">ramenRT</span>
+		<span class="n">ramenAux</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="n">ramenRT</span> <span class="o">=</span> <span class="n">rt</span>
+		<span class="n">ContinuousOccupant</span><span class="o">.</span><span class="n">activeRamen</span><span class="p">()</span>
+
+	<span class="k">global</span> <span class="n">server</span>
+	<span class="n">server</span> <span class="o">=</span> <span class="kc">False</span>
+	<span class="k">def</span> <span class="nf">activeServer</span><span class="p">():</span>
+		<span class="k">global</span> <span class="n">server</span>
+		<span class="n">server</span> <span class="o">=</span> <span class="kc">True</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">timeByStep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">timeByStep</span><span class="p">)</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create a new ContinuousModel object.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				height: Height in number of grid cells.</span>
+<span class="sd">				width: Width in number of grid cells.</span>
+<span class="sd">				jsonMap: Json of description of the map plane.</span>
+<span class="sd">				jsonsOccupants: Json of description of the occupancy.</span>
+<span class="sd">				seed: Seed employ in random generations.</span>
+<span class="sd">				scale: Define the scale of the cells in relation with the measures given in the jsonMap.</span>
+<span class="sd">				timeByStep: Time in seconds associated with each step.</span>
+<span class="sd">				asciMap: Plane of the grid in an ASCII format to apply the fov algorithm.</span>
+<span class="sd">			Return: ContinuousModel object.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">walls</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">lineWalls</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">pois</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">doors</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">generalItems</span> <span class="o">=</span>  <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">if</span> <span class="n">server</span><span class="p">:</span>
+			<span class="n">api</span><span class="o">.</span><span class="n">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+			<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">api</span><span class="o">.</span><span class="n">runServer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
+			<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">ramenAux</span> <span class="o">=</span> <span class="n">ramenAux</span>
+
+		<span class="c1">#Create the map</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">setMap</span><span class="p">(</span><span class="n">jsonMap</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+		<span class="n">aStar</span><span class="o">.</span><span class="n">getObtacles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ContinuousModel.createOccupants"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.createOccupants">[docs]</a>	<span class="k">def</span> <span class="nf">createOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create occupants of the ContinuousOccupant type.</span>
+<span class="sd">				Args:</span>
+<span class="sd">					jsonOccupants: Json of description of the occupants.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">json</span> <span class="ow">in</span> <span class="n">jsonsOccupants</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]):</span>
+				<span class="n">a</span> <span class="o">=</span> <span class="n">ContinuousOccupant</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">json</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">updateOccupancyInfo</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.createAvatar"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.createAvatar">[docs]</a>	<span class="k">def</span> <span class="nf">createAvatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">initial_state</span> <span class="o">=</span> <span class="s1">&#39;walking&#39;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create one avatar</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">unique_id</span> <span class="o">=</span> <span class="mi">100000</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">idAvatar</span><span class="p">)</span>
+		<span class="n">a</span> <span class="o">=</span> <span class="n">Avatar</span><span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">a</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getScaledCoordinate"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getScaledCoordinate">[docs]</a>	<span class="k">def</span> <span class="nf">getScaledCoordinate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordenate</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the value of a coordinate or a cell size scaled to the size of the grid in relation to a given scale.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				coordenate: Coordenate value to be scale</span>
+<span class="sd">				scale: Value of the scale to be applied.</span>
+<span class="sd">			Return: value of the coordinate.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">n</span> <span class="o">=</span> <span class="n">coordenate</span><span class="o">/</span><span class="n">scale</span>
+		<span class="n">up</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">))[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">)</span> <span class="k">else</span> <span class="kc">False</span>
+		<span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">up</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">n</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.setMap"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.setMap">[docs]</a>	<span class="k">def</span> <span class="nf">setMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Define the map plane distribution.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				jsonMap: Json of description of the map plane.</span>
+<span class="sd">				scale: Value of the scale.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">walls</span> <span class="o">=</span> <span class="n">jsonMap</span><span class="p">[</span><span class="s2">&quot;walls&quot;</span><span class="p">]</span>
+		<span class="n">corners</span> <span class="o">=</span> <span class="n">jsonMap</span><span class="p">[</span><span class="s2">&quot;corners&quot;</span><span class="p">]</span>
+		<span class="n">items</span> <span class="o">=</span> <span class="n">jsonMap</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span>
+
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">walls</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">pos1</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;corner1&quot;</span><span class="p">]]</span>
+			<span class="n">pos2</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;corner2&quot;</span><span class="p">]]</span>
+			<span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">(</span><span class="n">pos1</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+			<span class="n">y1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">(</span><span class="n">pos1</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+			<span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">(</span><span class="n">pos2</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+			<span class="n">y2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">(</span><span class="n">pos2</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">x1</span> <span class="o">==</span> <span class="n">x2</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">y2</span> <span class="o">&gt;</span> <span class="n">y1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">block1</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">)]</span>
+						<span class="n">block2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">block3</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">w</span> <span class="o">=</span> <span class="n">Wall</span><span class="p">(</span><span class="n">block1</span><span class="p">,</span> <span class="n">block2</span><span class="p">,</span> <span class="n">block3</span><span class="p">)</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">block1</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">)]</span>
+						<span class="n">block2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">block3</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">w</span> <span class="o">=</span> <span class="n">Wall</span><span class="p">(</span><span class="n">block1</span><span class="p">,</span> <span class="n">block2</span><span class="p">,</span> <span class="n">block3</span><span class="p">)</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">x2</span> <span class="o">&gt;</span> <span class="n">x1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">x2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">block1</span> <span class="o">=</span> <span class="p">[(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">block2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">block3</span> <span class="o">=</span> <span class="p">[(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)]</span>
+						<span class="n">w</span> <span class="o">=</span> <span class="n">Wall</span><span class="p">(</span><span class="n">block1</span><span class="p">,</span> <span class="n">block2</span><span class="p">,</span> <span class="n">block3</span><span class="p">)</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">x1</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">block1</span> <span class="o">=</span> <span class="p">[(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">block2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+						<span class="n">block3</span> <span class="o">=</span> <span class="p">[(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">y1</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)]</span>
+						<span class="n">w</span> <span class="o">=</span> <span class="n">Wall</span><span class="p">(</span><span class="n">block1</span><span class="p">,</span> <span class="n">block2</span><span class="p">,</span> <span class="n">block3</span><span class="p">)</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">walls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+			<span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+			<span class="n">centerX</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.375</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]))[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mf">0.125</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="mf">0.855</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]))[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mf">0.675</span><span class="p">)</span>
+			<span class="n">centerY</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.375</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]))[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mf">0.125</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="mf">0.855</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]))[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mf">0.675</span><span class="p">)</span>
+			<span class="n">dx</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]),</span> <span class="n">scale</span><span class="p">))</span>
+			<span class="n">dy</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getScaledCoordinate</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;dy&quot;</span><span class="p">]),</span> <span class="n">scale</span><span class="p">))</span>
+			<span class="n">dxAux2</span> <span class="o">=</span> <span class="n">dxAux1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+			<span class="n">dyAux2</span> <span class="o">=</span> <span class="n">dyAux1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dy</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">centerY</span> <span class="ow">and</span> <span class="n">centerX</span><span class="p">:</span>
+				<span class="k">pass</span>
+			<span class="k">elif</span> <span class="ow">not</span> <span class="n">centerY</span> <span class="ow">and</span> <span class="n">centerX</span><span class="p">:</span>
+				<span class="n">dyAux1</span> <span class="o">=</span> <span class="n">dyAux1</span><span class="o">-</span><span class="mi">1</span>
+			<span class="k">elif</span> <span class="n">centerY</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">centerX</span><span class="p">:</span>
+				<span class="n">dxAux1</span> <span class="o">=</span> <span class="n">dxAux1</span><span class="o">-</span><span class="mi">1</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">dxAux1</span> <span class="o">=</span> <span class="n">dxAux1</span><span class="o">-</span><span class="mi">1</span>
+				<span class="n">dyAux1</span> <span class="o">=</span> <span class="n">dyAux1</span><span class="o">-</span><span class="mi">1</span>
+
+			<span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;itemType&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;door&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">dxAux1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dxAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">dyAux1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dyAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+							<span class="n">i</span> <span class="o">=</span> <span class="n">Door</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;rot&quot;</span><span class="p">])</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">dxAux1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dxAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">yAux</span> <span class="o">=</span> <span class="n">y</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">Door</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;rot&quot;</span><span class="p">])</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">dyAux1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dyAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">xAux</span> <span class="o">=</span> <span class="n">x</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">Door</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;rot&quot;</span><span class="p">])</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dx</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="n">xAux</span> <span class="o">=</span> <span class="n">x</span>
+					<span class="n">yAux</span> <span class="o">=</span> <span class="n">y</span>
+					<span class="n">rot</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;rot&quot;</span><span class="p">]</span>
+					<span class="k">if</span> <span class="n">rot</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">Door</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;rot&quot;</span><span class="p">])</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">Door</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;rot&quot;</span><span class="p">])</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+			<span class="k">elif</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;itemType&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;poi&#39;</span><span class="p">:</span>
+				<span class="n">i</span> <span class="o">=</span> <span class="kc">False</span>
+				<span class="k">if</span> <span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">dxAux1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dxAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">dyAux1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dyAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+							<span class="k">if</span> <span class="s1">&#39;share&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+								<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;share&#39;</span><span class="p">])</span>
+							<span class="k">else</span><span class="p">:</span>
+								<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">pois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+							<span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;itemName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;exit&#39;</span><span class="p">:</span>
+								<span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">dxAux1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dxAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">yAux</span> <span class="o">=</span> <span class="n">y</span>
+						<span class="k">if</span> <span class="s1">&#39;share&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+							<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;share&#39;</span><span class="p">])</span>
+						<span class="k">else</span><span class="p">:</span>
+							<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">pois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+						<span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;itemName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;exit&#39;</span><span class="p">:</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">dyAux1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dyAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">xAux</span> <span class="o">=</span> <span class="n">x</span>
+						<span class="k">if</span> <span class="s1">&#39;share&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+							<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;share&#39;</span><span class="p">])</span>
+						<span class="k">else</span><span class="p">:</span>
+							<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">pois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+						<span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;itemName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;exit&#39;</span><span class="p">:</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dx</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="n">xAux</span> <span class="o">=</span> <span class="n">x</span>
+					<span class="n">yAux</span> <span class="o">=</span> <span class="n">y</span>
+					<span class="k">if</span> <span class="s1">&#39;share&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;share&#39;</span><span class="p">])</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">Poi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">pois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+					<span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;itemName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;exit&#39;</span><span class="p">:</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">dxAux1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dxAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">dyAux1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dyAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+							<span class="n">i</span> <span class="o">=</span> <span class="n">GeneralItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">generalItems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">yAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">dyAux1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dyAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">xAux</span> <span class="o">=</span> <span class="n">x</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">GeneralItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">generalItems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">elif</span> <span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="k">for</span> <span class="n">xAux</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">dxAux1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dxAux2</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+						<span class="n">yAux</span> <span class="o">=</span> <span class="n">y</span>
+						<span class="n">i</span> <span class="o">=</span> <span class="n">GeneralItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">xAux</span><span class="p">,</span> <span class="n">yAux</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">generalItems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">dx</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+					<span class="n">i</span> <span class="o">=</span> <span class="n">GeneralItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Color&#39;</span><span class="p">))</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">generalItems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">getAsciMap</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getAsciMap"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getAsciMap">[docs]</a>	<span class="k">def</span> <span class="nf">getAsciMap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.&quot;&quot;&quot;</span>
+		<span class="n">asciMapAux</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">asciMap2</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+			<span class="n">asciMapAux</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+				<span class="n">asciMapAux</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+		<span class="k">for</span> <span class="n">wall</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">walls</span><span class="p">:</span>
+			<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">wall</span><span class="o">.</span><span class="n">block1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+			<span class="n">asciMapAux</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#&#39;</span>
+		<span class="k">for</span> <span class="n">door</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doors</span><span class="p">:</span>
+			<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">door</span><span class="o">.</span><span class="n">pos1</span>
+			<span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">door</span><span class="o">.</span><span class="n">pos2</span>
+			<span class="n">asciMapAux</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+			<span class="n">asciMapAux</span><span class="p">[</span><span class="n">y2</span><span class="p">][</span><span class="n">x2</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+		<span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+		<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">asciMapAux</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+				<span class="n">string</span> <span class="o">=</span> <span class="n">string</span> <span class="o">+</span> <span class="n">element</span>
+			<span class="n">asciMap2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+			<span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">asciMap</span> <span class="o">=</span> <span class="n">asciMap2</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.thereIsClosedDoor"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.thereIsClosedDoor">[docs]</a>	<span class="k">def</span> <span class="nf">thereIsClosedDoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if one door is closed or open.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Position of the door as (x, y).</span>
+<span class="sd">			Return: State of the door as boolean.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">possibleDoor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">([</span><span class="n">pos</span><span class="p">])</span>
+		<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">possibleDoor</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Door</span><span class="p">):</span>
+				<span class="k">return</span> <span class="n">Door</span><span class="o">.</span><span class="n">state</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getDoorInPos"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getDoorInPos">[docs]</a>	<span class="k">def</span> <span class="nf">getDoorInPos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get a Door object in a position given.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Position of the door as (x, y).</span>
+<span class="sd">			Return: Door object or false.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">possibleDoor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">([</span><span class="n">pos</span><span class="p">])</span>
+		<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">possibleDoor</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Door</span><span class="p">):</span>
+				<span class="k">return</span> <span class="n">item</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getOccupantsPos"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getOccupantsPos">[docs]</a>	<span class="k">def</span> <span class="nf">getOccupantsPos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get a Occupant objects in a position given.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Position as (x, y).</span>
+<span class="sd">			Return: List of Cccupant objects.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">possibleOccupants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">([</span><span class="n">pos</span><span class="p">])</span>
+		<span class="n">occupants</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">possibleOccupants</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Occupant</span><span class="p">):</span>
+				<span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">occupants</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.thereIsOccupant"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.thereIsOccupant">[docs]</a>	<span class="k">def</span> <span class="nf">thereIsOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if there is any Occupant object in a position given.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Position as (x, y).</span>
+<span class="sd">			Return: True (yes), False (no).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">possible_occupant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">([</span><span class="n">pos</span><span class="p">])</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">possible_occupant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">occupant</span> <span class="ow">in</span> <span class="n">possible_occupant</span><span class="p">:</span>
+				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">occupant</span><span class="p">,</span><span class="n">Occupant</span><span class="p">):</span>
+					<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getOccupantId"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getOccupantId">[docs]</a>	<span class="k">def</span> <span class="nf">getOccupantId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Id</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the occupant with the unique_id given.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				Id: Unique_id given as number</span>
+<span class="sd">			Return: Occupant object or False.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">unique_id</span> <span class="o">==</span> <span class="n">Id</span><span class="p">:</span>
+				<span class="k">return</span> <span class="n">o</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getPOIsId"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getPOIsId">[docs]</a>	<span class="k">def</span> <span class="nf">getPOIsId</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poiId</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the pois object with the id given.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				poiId: poi id given as number</span>
+<span class="sd">			Return: list of pois object or False.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">pois</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pois</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">poiId</span><span class="p">:</span>
+				<span class="n">pois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">pois</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">pois</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.getPOIsPos"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.getPOIsPos">[docs]</a>	<span class="k">def</span> <span class="nf">getPOIsPos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poiPos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the position of a poi object.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				poiPos: position as (x, y)</span>
+<span class="sd">			Return: poi object or False.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">pois</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">conts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">(</span><span class="n">poiPos</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">conts</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Poi</span><span class="p">):</span>
+				<span class="n">pois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">pois</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">pois</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.checkFreePOI"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.checkFreePOI">[docs]</a>	<span class="k">def</span> <span class="nf">checkFreePOI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if one Point of interest is free (there is no occupant on this).</span>
+<span class="sd">			Args:</span>
+<span class="sd">				p: Poi object.</span>
+<span class="sd">			Return: True (yes), False (no).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">conts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get_cell_list_contents</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">conts</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Occupant</span><span class="p">):</span>
+				<span class="k">return</span> <span class="kc">False</span>
+		<span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.xyInGrid"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.xyInGrid">[docs]</a>	<span class="k">def</span> <span class="nf">xyInGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if one position is inside the grid.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos: Position as (x, y).</span>
+<span class="sd">			Return: True (yes), False (no).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span>
+		<span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+				<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ContinuousModel.nearPos"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.continuousModel.ContinuousModel.nearPos">[docs]</a>	<span class="k">def</span> <span class="nf">nearPos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if two positions are consecutive.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				pos1: Position as (x, y).</span>
+<span class="sd">				pos2: Position as (x, y).</span>
+<span class="sd">			Return: True (yes), False (no).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pos2</span>
+		<span class="n">posis</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+		<span class="k">if</span> <span class="n">pos1</span> <span class="ow">in</span> <span class="n">posis</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+	<span class="c1">#API methods</span>
+	<span class="k">def</span> <span class="nf">getMovementsOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movement&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getPositionOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getStatesOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getMovementOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movement&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getPositionOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getStateOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getFOVOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fov&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">getInfoOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">putCreateAvatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">initial_state</span> <span class="o">=</span> <span class="s1">&#39;walking&#39;</span><span class="p">):</span>
+		<span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createAvatar</span><span class="p">(</span><span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">a</span>
+
+	<span class="k">def</span> <span class="nf">postPosAvatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+		<span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOccupantId</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">idAvatar</span><span class="p">))</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">a</span>
+		<span class="n">a</span><span class="o">.</span><span class="n">makeMovementAvatar</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">a</span>
+
+	<span class="c1">#Report method aux</span>
+	<span class="k">def</span> <span class="nf">updateOccupancyInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">occupant</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="p">:</span>
+			<span class="n">ocDict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;unique_id&#39;</span><span class="p">:</span> <span class="n">occupant</span><span class="o">.</span><span class="n">unique_id</span><span class="p">,</span>
+					  <span class="s1">&#39;movement&#39;</span><span class="p">:</span> <span class="n">occupant</span><span class="o">.</span><span class="n">movement</span><span class="p">,</span>
+					  <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">occupant</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+					  <span class="s1">&#39;position&#39;</span><span class="p">:</span> <span class="n">occupant</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span>
+					  <span class="s1">&#39;fov&#39;</span><span class="p">:</span> <span class="n">occupant</span><span class="o">.</span><span class="n">fov</span><span class="p">}</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant</span><span class="o">.</span><span class="n">unique_id</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ocDict</span>
+
+	<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">finishSimulation</span> <span class="ow">and</span> <span class="n">ramenAux</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ramenRT</span><span class="p">:</span>
+			<span class="n">ramen</span><span class="o">.</span><span class="n">generateJSON</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="p">:</span>
+			<span class="n">a</span><span class="o">.</span><span class="n">alreadyMovement</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">updateOccupancyInfo</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">ramenRT</span><span class="p">:</span>
+			<span class="n">ramen</span><span class="o">.</span><span class="n">generateRTJSON</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NStep</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

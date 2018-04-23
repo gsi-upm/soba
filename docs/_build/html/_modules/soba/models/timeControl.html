@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>soba.models.timeControl &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>soba.models.timeControl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for soba.models.timeControl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">mesa</span> <span class="k">import</span> <span class="n">Agent</span>
+
+<div class="viewcode-block" id="Time"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.timeControl.Time">[docs]</a><span class="k">class</span> <span class="nc">Time</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Class that inherits of the Agent class to manage the time in sexagesimal units.</span>
+
+<span class="sd">		Attributes:</span>
+<span class="sd">			clock: Clock for time monitoring during simulation.</span>
+<span class="sd">			timeByStep: Time in seconds associated with each step.</span>
+<span class="sd">			startDay: Time of the beginning of a day in the simulation.</span>
+<span class="sd">			endDay: Time of the end of a day in the simulation.</span>
+<span class="sd">		Methods:</span>
+<span class="sd">			step: Advance of the clock in a step.</span>
+<span class="sd">			increaseTime: Increase the value of the clock a given time.</span>
+<span class="sd">			decreaseTime: Decrease the value of the clock a given time.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">timeByStep</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hour</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">minute</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">seg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create a new Time object.</span>
+<span class="sd">			Args: </span>
+<span class="sd">				models: Associated Model object.</span>
+<span class="sd">				timeByStep: Time in seconds associated with each step.</span>
+<span class="sd">				day, hour, minute, seg, microsecond: Initial time value of the clock.</span>
+<span class="sd">			Return: Time object.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">timeByStep</span> <span class="o">=</span> <span class="n">timeByStep</span>
+		<span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">startDay</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="n">minute</span><span class="p">,</span> <span class="n">seg</span><span class="p">,</span> <span class="n">microsecond</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">endDay</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">startDay</span>
+
+<div class="viewcode-block" id="Time.increaseTime"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.timeControl.Time.increaseTime">[docs]</a>	<span class="k">def</span> <span class="nf">increaseTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microseconds</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Increase the value of the clock a given time.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				seconds, days, hours, minutes, microseconds: Time value to be increase.</span>
+<span class="sd">			Return: The new Clock object.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">clockOld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span>
+		<span class="n">dayOld</span> <span class="o">=</span> <span class="n">clockOld</span><span class="o">.</span><span class="n">day</span>
+		<span class="n">clockNew</span> <span class="o">=</span> <span class="n">clockOld</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">seconds</span><span class="p">,</span> <span class="n">microseconds</span><span class="o">=</span><span class="n">microseconds</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">clockNew</span><span class="o">.</span><span class="n">hour</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endDay</span><span class="o">.</span><span class="n">hour</span> <span class="ow">and</span> <span class="n">clockNew</span><span class="o">.</span><span class="n">minute</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">endDay</span><span class="o">.</span><span class="n">minute</span><span class="p">:</span>
+			<span class="n">clockNew</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2107</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dayOld</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">startDay</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">startDay</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="o">+</span> <span class="p">(</span><span class="n">clockNew</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">endDay</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">clockNew</span></div>
+
+<div class="viewcode-block" id="Time.decreaseTime"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.timeControl.Time.decreaseTime">[docs]</a>	<span class="k">def</span> <span class="nf">decreaseTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microseconds</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Decrease the value of the clock a given time.</span>
+<span class="sd">			Args:</span>
+<span class="sd">				seconds, days, hours, minutes, microseconds: Time value to be decrease.</span>
+<span class="sd">			Return: The new Clock object.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">clockOld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span>
+		<span class="n">clockNew</span> <span class="o">=</span> <span class="n">clockOld</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">seconds</span><span class="p">,</span> <span class="n">microseconds</span><span class="o">=</span><span class="n">microseconds</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">clockNew</span></div>
+
+<div class="viewcode-block" id="Time.step"><a class="viewcode-back" href="../../../apiDocumentation/model.html#soba.models.timeControl.Time.step">[docs]</a>	<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Advance of the clock in a step.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">increaseTime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeByStep</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">:%H:%M:%S&quot;</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
