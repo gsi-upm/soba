@@ -9,6 +9,29 @@ import listener as lstn
 from avatar import EmergencyAvatar
 
 class SEBAModel(ContinuousModel):
+	"""
+
+	Base Class to create simulation models  on emergency situations in buildings.
+		Attributes:
+			Those inherited from the ContinuousModel class.
+	        adults: List of all adult EmergencyOccupant objects created.
+	        children: List of all children EmergencyOccupant objects created.
+	        emergency: Control of the start of the emergency. 
+	        FireControl: FireControl Object.
+	        fireTime: Date and time of the start of the emergency
+	        outDoors: Listing of exit doors of the building
+		Methods:
+			createOccupants: Create one occupant object of the EmergencyOccupant type.
+			createEmergencyAvatar: Create one avatar object of the EmergencyAvatar type.
+			isThereFire: Evaluate if there is fire in a position.
+			informEmergency: Launches the state of emergency.
+			harmOccupant: Damages an occupant with the fire that is in its same position.
+			getUncrowdedGate: Get the path to the uncrowded exit door.
+			getSafestGate: Get the path to the safest exit door.
+			getNearestGate: Get the path to the nearest exit door.
+			step: Execution of the scheduler steps.
+
+	"""
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed = int(time())):
 		lstn.setModel(self)
@@ -21,8 +44,6 @@ class SEBAModel(ContinuousModel):
 		self.fireTime = dt.datetime(today.year, today.month, 1, 8, 10, 0, 0)
 		self.outDoors = []
 		self.getOutDoors()
-		self.make = False
-		self.families = []
 		self.familiesJson = sebaConfiguration.get('families')
 		self.createOccupants(jsonsOccupants)
 		self.uncrowdedStr = []
@@ -33,6 +54,11 @@ class SEBAModel(ContinuousModel):
 				self.outDoors.append(poi)
 
 	def createOccupants(self, jsonsOccupants):
+		"""
+		Create one occupant object of the EmergencyOccupant type.
+				Args:
+					jsonOccupants: Json of description of the occupants.
+		"""
 		for json in jsonsOccupants:
 			for n in range(0, json['N']):
 				a = EmergencyOccupant(n, self, json)
@@ -72,28 +98,53 @@ class SEBAModel(ContinuousModel):
 						c.parents.append(ad)
 
 	def createEmergencyAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
+		"""
+		Create one avatar object of the EmergencyAvatar type.
+			Args:
+				idAvatar: Unique ID given to the avatar agent as int.
+				pos: Initial position of the avatar as (x, y)
+				color: Color assigned to the avatar as String
+				initial_state: State of the avatar as String
+			Return: EmergencyAvatar object
+		"""
 		unique_id = 100000 + int(idAvatar)
 		a = EmergencyAvatar(unique_id, self, pos, color, initial_state)
 		self.occupants.append(a)
 		return a
 
 	def isThereFire(self, pos):
+		"""
+		Evaluate if there is fire in a position.
+			Args:
+				pos: Position given as (x, y)
+			Return: Boolean
+		"""
 		for fire in self.FireControl:
 			if fire.pos == pos:
 				return True
 		return False
 
 	def informEmergency(self):
+		"""
+		Launches the state of emergency.
+		"""
 		for occupant in self.occupants:
 			occupant.makeEmergencyAction()
 
 	def harmOccupant(self, occupant, fire):
+		"""
+		Damages an occupant with the fire that is in its same position.
+			Args:
+				occupant: EmergencyOccupant object
+				fire: 
+			Return: Boolean
+		"""
 		if occupant.life > fire.grade:
 			occupant.life = occupant.life - fire.grade
 		else:
 			occupant.life = 0
 			occupant.alive = False
-
+"""
 	def getUncrowdedGate(self):
 		fewerPeople = 1000000
 		doorAux = False
@@ -111,8 +162,11 @@ class SEBAModel(ContinuousModel):
 				doorAux = door
 				fewerPeople = nPeople
 		return doorAux.pos
-
+"""
 	def getSafestGate(self, occupant):
+		"""
+		Get the path to the safest exit door.
+		"""
 		longPath = 0
 		doorAux = ''
 		for door in self.outDoors:
@@ -124,6 +178,9 @@ class SEBAModel(ContinuousModel):
 		return doorAux.pos
 
 	def getNearestGate(self, occupant):
+		"""
+		Get the path to the safest nearest exit door.
+		"""
 		shortPath = 1000000
 		doorAux = False
 		for door in self.outDoors:
@@ -135,6 +192,9 @@ class SEBAModel(ContinuousModel):
 		return doorAux.pos
 
 	def getUncrowdedGate(self):
+		"""
+		Get the path to the uncrowded exit door.
+		"""
 		doorsN = {}
 		for d in self.outDoors:
 			doorsN[str(d.pos)] = 0
@@ -183,6 +243,9 @@ class SEBAModel(ContinuousModel):
 		return a
 
 	def step(self):
+		"""
+		Execution of the scheduler steps.
+		"""
 		if self.clock.clock.hour > 13:
 			self.finishSimulation = True
 		if (self.clock.clock >= self.fireTime) and not self.emergency:

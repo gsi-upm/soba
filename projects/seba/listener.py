@@ -4,6 +4,30 @@ from tornado import httpserver
 from tornado.ioloop import IOLoop
 import tornado.web
 
+
+"""
+
+    In this file, the API is defined to obtain information about the simulation and control of avatars.
+    Specifically, the API provide the next requests:
+
+        /api/v1/seba/getpositionsfire
+            Returns all the position where there is fire as a list of [x, y].
+
+        /api/v1/seba/getexitwayavatar/id&strategy
+            Return the best way to be exit of the building in function of a given strategy.
+            The way is given as a list of [x, y].
+
+        /api/v1/seba/putcreateemergencyavatar/id&x,y
+            Create an avatar on the position (x, y) on the grid.
+            
+        Where:
+            id is a number with the unique_id of an occupant.
+            x and y are the two numbers with the grid coordinates.
+            strategy is one string of the next options: uncrowded, safest, nearest or lessassigned
+
+"""
+
+# Simulation model
 global model
 model = None
 
@@ -43,7 +67,7 @@ def setModel(modelAux):
     ltnr.model = modelAux
     model = modelAux
     ltnr.externalHandlers = [
-            (r"/api/v1/soba/getpositionsfire?", getPositionsFire),
-            (r"/api/v1/soba/getexitwayavatar/([0-9]+)?&([n-z]+)?", getExitWayAvatar),
-            (r"/api/v1/soba/putcreateemergencyavatar/([0-9]+)?&([0-9]+)?,([0-9]+)?", putCreateEmergencyAvatar)
+            (r"/api/v1/seba/getpositionsfire?", getPositionsFire),
+            (r"/api/v1/seba/getexitwayavatar/([0-9]+)?&([n-z]+)?", getExitWayAvatar),
+            (r"/api/v1/seba/putcreateemergencyavatar/([0-9]+)?&([0-9]+)?,([0-9]+)?", putCreateEmergencyAvatar)
             ]
