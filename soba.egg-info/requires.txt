@@ -1,0 +1,8 @@
+numpy
+anaconda-client
+tqdm
+mesa
+transitions
+tornado
+pandas
+tornado

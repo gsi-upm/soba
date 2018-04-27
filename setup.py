@@ -12,7 +12,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='soba',
-    version='2.2',
+    version='2.3',
     description='Simulator of Occupancy Based on Agent',
     url='https://github.com/gsi-upm/soba',
     author='GSI - UPM',

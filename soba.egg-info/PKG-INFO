@@ -1,0 +1,19 @@
+Metadata-Version: 1.2
+Name: soba
+Version: 2.3
+Summary: Simulator of Occupancy Based on Agent
+Home-page: https://github.com/gsi-upm/soba
+Author: GSI - UPM
+Author-email: eduardo.merinom13@gmail.com
+License: MIT
+Description-Content-Type: UNKNOWN
+Description: UNKNOWN
+Keywords: simulation agents crowds
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Requires-Python: >=3
