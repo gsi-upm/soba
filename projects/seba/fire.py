@@ -86,7 +86,7 @@ class FireControl(Agent):
             doorsPoss = aStar.doorsPoss
             for pos in posAdj:
                 xaux, yaux = pos
-                if self.model.xyInGrid(xaux, yaux):
+                if self.model.xyInGrid((xaux, yaux)):
                     cellPos = fire.pos
                     posAux = pos
                     move = True

@@ -41,7 +41,7 @@ class getPositionsFire(tornado.web.RequestHandler):
 
 #Get methods with query
 class getExitWayAvatar(tornado.web.RequestHandler):
-    def get(self, avatar_id, strategy = 'nearest'):
+    def get(self, avatar_id, strategy = 1):
         global model
         data = model.getExitWayAvatar(avatar_id, strategy)
         response = json.dumps(data)
@@ -68,6 +68,6 @@ def setModel(modelAux):
     model = modelAux
     ltnr.externalHandlers = [
             (r"/api/v1/seba/getpositionsfire?", getPositionsFire),
-            (r"/api/v1/seba/getexitwayavatar/([0-9]+)?&([n-z]+)?", getExitWayAvatar),
+            (r"/api/v1/seba/getexitwayavatar/([0-9]+)?&([0-9]+)?", getExitWayAvatar),
             (r"/api/v1/seba/putcreateemergencyavatar/([0-9]+)?&([0-9]+)?,([0-9]+)?", putCreateEmergencyAvatar)
             ]

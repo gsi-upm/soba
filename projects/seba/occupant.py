@@ -86,9 +86,9 @@ class EmergencyOccupant(ContinuousOccupant):
             elif self.exitGateStrategy == 'nearest':
                 self.pos_to_go = self.model.getNearestGate(self)
             elif self.exitGateStrategy == 'lessassigned':
-                self.pos_to_go = self.model.getLessAssignedGate()
+                self.pos_to_go = self.model.getLessAssignedGate(self)
             else:
-                self.pos_to_go = self.model.getNearestGate()
+                self.pos_to_go = self.model.getNearestGate(self)
         else:
             self.pos_to_go = self.model.getNearestGate(self)
         pathReturn = super().getWay()

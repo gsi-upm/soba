@@ -6,3 +6,4 @@ SEBA Documentation
    sebaoverview
    usecase
    APIs Documentation <apiDocumentation/api.rst>
+   restApi

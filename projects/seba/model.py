@@ -10,16 +10,15 @@ from avatar import EmergencyAvatar
 
 class SEBAModel(ContinuousModel):
 	"""
-
 	Base Class to create simulation models  on emergency situations in buildings.
 		Attributes:
 			Those inherited from the ContinuousModel class.
-	        adults: List of all adult EmergencyOccupant objects created.
-	        children: List of all children EmergencyOccupant objects created.
-	        emergency: Control of the start of the emergency. 
-	        FireControl: FireControl Object.
-	        fireTime: Date and time of the start of the emergency
-	        outDoors: Listing of exit doors of the building
+			adults: List of all adult EmergencyOccupant objects created.
+			children: List of all children EmergencyOccupant objects created.
+			emergency: Control of the start of the emergency. 
+			FireControl: FireControl Object.
+			fireTime: Date and time of the start of the emergency
+			outDoors: Listing of exit doors of the building
 		Methods:
 			createOccupants: Create one occupant object of the EmergencyOccupant type.
 			createEmergencyAvatar: Create one avatar object of the EmergencyAvatar type.
@@ -144,7 +143,7 @@ class SEBAModel(ContinuousModel):
 		else:
 			occupant.life = 0
 			occupant.alive = False
-"""
+	"""
 	def getUncrowdedGate(self):
 		fewerPeople = 1000000
 		doorAux = False
@@ -162,7 +161,7 @@ class SEBAModel(ContinuousModel):
 				doorAux = door
 				fewerPeople = nPeople
 		return doorAux.pos
-"""
+	"""
 	def getSafestGate(self, occupant):
 		"""
 		Get the path to the safest exit door.
@@ -227,8 +226,9 @@ class SEBAModel(ContinuousModel):
 			data.append(fire.pos)
 		return data
 
-	def getExitWayAvatar(self, avatar_id, strategy = 'nearest'):
+	def getExitWayAvatar(self, avatar_id, strategy = 0):
 		a = self.getOccupantId(int(avatar_id))
+		strategies = ['nearest', 'safest', 'uncrowded', 'lessassigned']
 		a.exitGateStrategy = strategy
 		data = a.getExitGate()
 		return data
