@@ -29,8 +29,9 @@ This API is supported by default at http://127.0.1.1:10000
 
     
 
-      Double speed: Speed of the occupants in meters per second.
-      String orientation: Orientation of movement as a cardinal point.
+      ``Double speed: Speed of the occupants in meters per second.``
+      
+      ``String orientation: Orientation of movement as a cardinal point.``
       
 
     Example:
