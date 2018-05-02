@@ -4,14 +4,36 @@ REST API
 SEBA provides an API defined as a REST service (Get, Post, Pull and Push) to interact with the simulation. Specifically, the following methods are defined.
 
 
-This API is supported by default at http://127.0.1.1:10000.
+This API is supported by default at `http://127.0.1.1:10000 
+<http://127.0.1.1:10000>`_
 
 
 .. http:get:: /api/v1/soba/getmovementsoccupants
 	
-	mediante esta api...
+	Return information about the movement all occupants are performing.
 
-    Results:
+
+    Result:
+
+   .. sourcecode:: js
+
+      {
+        "id_unique1": 
+          {
+            "speed": speed1, 
+            "orientation": "orientation1"
+          }, 
+        "id_unique2": 
+          {
+            "speed": speed2, 
+            "orientation": "orientation2"
+          }
+      }
+
+      :>json double speed: Speed of the occupants in meters per second.
+      :>json string orientation: Orientation of movement as a cardinal point.
+
+    Example:
 
    .. sourcecode:: js
 
@@ -23,30 +45,40 @@ This API is supported by default at http://127.0.1.1:10000.
    				}, 
    			"0": 
    				{
-   					"speed": 0.71428, "orientation": "E"
+   					"speed": 0.71428, 
+            "orientation": "E"
    				}, 
    			"3": 
    				{
-   					"speed": 0.71428, "orientation": "E"
+   					"speed": 0.71428, 
+            "orientation": "E"
    				},
    			"100009":
    				{
    				}, 
    			"2": 
    				{
-   					"speed": 0.71428, "orientation": "E"
+   					"speed": 0.71428, 
+            "orientation": "E"
    				}
    		}
 
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
 
 
 .. http:get:: /api/v1/soba/getpositionoccupants
 	
-	mediante esta api...
+	Returns the position of all occupants on the grid x, y.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+      {
+        "id_unique1": [x1, y1], 
+        "id_unique2": [x2, y2]
+      }
+
+    Example:
 
    .. sourcecode:: js
 
@@ -61,9 +93,18 @@ This API is supported by default at http://127.0.1.1:10000.
 
 .. http:get:: /api/v1/soba/getstateoccupants
 	
-	mediante esta api...
+	Returns the state or activity of all occupants.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+      {
+        "id_unique1": "state1", 
+        id_unique1: "state2"
+      }
+
+    Example:
 
    .. sourcecode:: js
 
@@ -76,15 +117,20 @@ This API is supported by default at http://127.0.1.1:10000.
    		}
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
-
-
 .. http:get:: /api/v1/soba/getmovementoccupant/{id}
 	
-	mediante esta api...
+  Return information about the movement one occupant is performing. The unique_id of the occupant must be provided.
 
     Results:
+
+   .. sourcecode:: js
+
+      {
+        "speed": speed, 
+        "orientation": "orientation"
+      }
+
+    Example:
 
    .. sourcecode:: js
 
@@ -95,37 +141,51 @@ This API is supported by default at http://127.0.1.1:10000.
 
 .. http:get:: /api/v1/soba/getpositionoccupant/{id}
 	
-	mediante esta api...
+  Returns the position of one occupant on the grid x, y. The unique_id of the occupant must be provided.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+    [x, y]
+
+    Example:
 
    .. sourcecode:: js
 
 		[3, 15]
 
-   :>json double speed: Speed of the ...
-   :>json string orientation:
-
-
 .. http:get:: /api/v1/soba/soba/getstatesoccupant/{id}
 	
-	mediante esta api...
+  Returns the state or activity of one occupant. The unique_id of the occupant must be provided.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+      "State"
+
+    Example:
 
    .. sourcecode:: js
 
    		"Resting"
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
-
 .. http:get:: /api/v1/soba/getfovoccupant/{id}
 	
-	mediante esta api...
+  Returns the position of the FOV (field of vision) of one occupant. The unique_id of the occupant must be provided.
 
-    Results:
+
+    Result:
+
+   .. sourcecode:: js
+
+    [
+      [x1, y1], [x2, y2], [x3, y3], [x4, y4], ... , [xn, yn]
+    ]
+
+    Example:
 
    .. sourcecode:: js
 
@@ -149,12 +209,34 @@ This API is supported by default at http://127.0.1.1:10000.
 
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
-
 .. http:get:: /api/v1/soba/getinfooccupant/{id}
 	
-	mediante esta api...
+    Returns general information (unique_id, state, FOV, position and movement) of one occupant. The unique_id of the occupant must be provided.
+
+    Result:
+
+   .. sourcecode:: js
+
+      {
+        "state": "state", 
+        "fov": [
+              [x1, y1], [x2, y2], [x3, y3], [x4, y4], ... , [xn, yn]
+          ], 
+      "movement": {
+        "orientation": "orientation", 
+        "speed": speed
+            }, 
+      "position": [x0, y0], 
+      "unique_id": unique_id
+    }
+
+      :>json double unique_id: Unique identifier of an occupant.
+      :>json string state: State or activity of an occupant.
+      :>json double fov: Fielf of vision of an occupant.
+      :>json double position: Position on the grid as (x, y) of an occupant.
+      :>json double movement: Movement of an occupant.
+      :>json double speed: Speed of the occupants in meters per second.
+      :>json string orientation: Orientation of movement as a cardinal point.
 
     Results:
 
@@ -174,81 +256,95 @@ This API is supported by default at http://127.0.1.1:10000.
 		}
 
 
-
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
-
 .. http:get:: /api/v1/soba/putcreateavatar/{id}&{x},{y}
 	
-	mediante esta api...
+	Create an avatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
 
     Results:
+
+   .. sourcecode:: js
+
+      Avatar with id: unique_id, created in pos: (x, y)
+
+    Example:
 
    .. sourcecode:: js
 
    		Avatar with id: 100009, created in pos: (3, 3)
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
-
 .. http:get:: /api/v1/soba/postposavatar/{id}&{x},{y}
 	
-	mediante esta api...
+	Move an avatar object to a given position. The unique_id and the new position (x, y) of the avatar must be provided.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+      Avatar with id: unique_id, moved to pos: (x, y)
+
+    Example:
 
    .. sourcecode:: js
 
    		Avatar with id: 100009, moved to pos: (3, 4)
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
-
 
 .. http:get:: /api/v1/seba/getpositionsfire
 	
-	mediante esta api...
+	 Returns the positions where there is fire.
+
+    Result:
+
+   .. sourcecode:: js
+
+      [
+        [x1, y1], [x2, y2], ..., [xn, yn]
+      ]
 
     Results:
 
    .. sourcecode:: js
 
    		[
-   			[13, 15], [13, 15], [13, 15]
+   			[13, 15], [14, 15], [13, 16], [14, 16]
    		]
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation:
-
 .. http:get:: /api/v1/seba/putcreateemergencyavatar/{id}&{x},{y}
 	
-	mediante esta api...
+	 Create an EmergencyAvatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+      Avatar with id: unique_id, created in pos: (x, y)
+
+    Example:
 
    .. sourcecode:: js
 
    		Avatar with id: 200009, created in pos: (4, 4)
 
 
-   :>json double speed: Speed of the ...
-   :>json string orientation:
-
 .. http:get:: /api/v1/seba/getexitwayavatar/{id}&{strategy}
 	
-	mediante esta api...
+  Returns the path that an avatar must follow to evacuate the building based on a strategy. The unique_id of the avatar and the strategy used must be provided.
 
-    Results:
+    Result:
+
+   .. sourcecode:: js
+
+      [
+      [x1, y1], [x2, y2], [x3, y3], ..., [xn, yn]
+      ]
+
+    Example:
 
    .. sourcecode:: js
 
    		[
    		[3, 4], [2, 5], [1, 6], [0, 6]
    		]
-
-
-   :>json double speed: Speed of the ...
-   :>json string orientation: 
