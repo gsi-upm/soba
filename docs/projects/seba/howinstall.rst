@@ -1,5 +1,5 @@
-How install
-===========
+How install and run
+===================
 
 SOBA package instalation
 ------------------------
@@ -69,10 +69,10 @@ Different options are provided for execution:
 
 .. code:: bash
 
-        $ python3 run.py -s
+        $ python3 run.py -b -s
 
 2.2 Using RAMEN tool
 
 .. code:: bash
 
-        $ python3 run.py -r
+        $ python3 run.py -b -r
