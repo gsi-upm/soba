@@ -47,13 +47,13 @@ Different options are provided for execution:
 
         $ python3 run.py -v
 
-1.1 Launching REST Server
+  1.1 Launching REST Server
 
 .. code:: bash
 
         $ python3 run.py -v -s
 
-1.2 Using RAMEN tool
+  1.2 Using RAMEN tool
 
 .. code:: bash
 
@@ -65,13 +65,13 @@ Different options are provided for execution:
 
         $ python3 run.py -b
 
-2.1 Launching REST Server
+  2.1 Launching REST Server
 
 .. code:: bash
 
         $ python3 run.py -s
 
-2.2 Using RAMEN tool
+  2.2 Using RAMEN tool
 
 .. code:: bash
 
