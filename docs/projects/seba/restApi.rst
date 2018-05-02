@@ -1,564 +1,347 @@
-Read the Docs Public API
-=========================
+REST API
+========
 
-We have a limited public API that is available for you to get data out of the site. 
-This document covers only part of the API provided. We have plans to create a read/write API, so that you can easily automate interactions with your project.
-
-.. warning:: This API is out of date and not currently maintained.
-             We have a v2 API that is currently supported at http://readthedocs.org/api/v2/.
-
-A basic API client using slumber
---------------------------------
-
-You can use `Slumber <http://slumber.readthedocs.io/>`_ to build basic API wrappers in python. Here is a simple example of using slumber to interact with the RTD API::
-
-    from __future__ import print_function
-    import slumber
-    import json
-
-    show_objs = True
-    api = slumber.API(base_url='http://readthedocs.org/api/v1/')
-
-    val = api.project.get(slug='pip')
-
-    if show_objs:
-        for obj in val['objects']:
-            print(json.dumps(obj, indent=4))
-    else:
-        print(json.dumps(val, indent=4))
-    
-Alternatively you can try with the following value::
-
-    # fetch project pip without metadata.
-    val = api.project('pip').get()
-
-    # get a specific build
-    val = api.build(2592228).get()
-
-    # get the build of a specific project.
-    val = api.build.get(project__slug='read-the-docs')
-
-    # get a specific user by `username`
-    val = api.user.get(username='eric')
-
-    #val = api.version('pip').get()
-    #val = api.version('pip').get(slug='1.0.1')
+SEBA provides an API defined as a REST service (Get, Post, Pull and Push) to interact with the simulation. Specifically, the following methods are defined.
 
 
-API Endpoints
--------------
+This API is supported by default at http://127.0.1.1:10000
 
-Feel free to use cURL and python to look at formatted json examples. You can also look at them in your browser, if it handles returned json.
+.. admonition:: GET /api/v1/soba/getmovementsoccupants
+  
+  Return information about the movement all occupants are performing.
 
-::
 
-    curl http://readthedocs.org/api/v1/project/pip/?format=json | python -m json.tool
+    Result:
 
-Doc Search
-----------
+   .. sourcecode:: js
 
-.. http:get:: /api/v2/docsearch/
+      {
+        "id_unique1": 
+          {
+            "speed": speed1, 
+            "orientation": "orientation1"
+          }, 
+        "id_unique2": 
+          {
+            "speed": speed2, 
+            "orientation": "orientation2"
+          }
+      }
 
-    :string project: **Required**. The slug of a project. 
-    :string version: **Required**. The slug of the version for this project.
-    :string q: **Required**. The search query
+      :>json double speed: Speed of the occupants in meters per second.
+      :>json string orientation: Orientation of movement as a cardinal point.
 
-    You can search a specific set of documentation using our doc search endpoint.
-    It returns data in the format of Elastic Search,
-    which requires a bit of traversing to use.
+    Example:
 
-    In the future we might change the format of this endpoint to make it more abstact.
+   .. sourcecode:: js
 
-    An example URL: http://readthedocs.org/api/v2/docsearch/?project=docs&version=latest&q=subdomains
+      {
+        "1": 
+          {
+            "speed": 0.71428, 
+            "orientation": "E"
+          }, 
+        "0": 
+          {
+            "speed": 0.71428, 
+            "orientation": "E"
+          }, 
+        "3": 
+          {
+            "speed": 0.71428, 
+            "orientation": "E"
+          },
+        "100009":
+          {
+          }, 
+        "2": 
+          {
+            "speed": 0.71428, 
+            "orientation": "E"
+          }
+      }
 
+
+
+.. admonition:: GET /api/v1/soba/getpositionoccupants
+  
+  Returns the position of all occupants on the grid x, y.
+
+    Result:
+
+   .. sourcecode:: js
+
+      {
+        "id_unique1": [x1, y1], 
+        "id_unique2": [x2, y2]
+      }
+
+    Example:
+
+   .. sourcecode:: js
+
+      {
+        "100009": [4, 4], 
+        "1": [7, 8], 
+        "0": [7, 14], 
+        "3": [7, 15], 
+        "2": [11, 10]
+      }
+
+
+.. admonition:: GET /api/v1/soba/getstateoccupants
+  
+  Returns the state or activity of all occupants.
+
+    Result:
+
+   .. sourcecode:: js
+
+      {
+        "id_unique1": "state1", 
+        id_unique1: "state2"
+      }
+
+    Example:
+
+   .. sourcecode:: js
+
+      {
+        "100009": "walking", 
+        "1": "Resting", 
+        "0": "Resting", 
+        "3": "Resting", 
+        "2": "Resting"
+      }
+
+
+.. admonition:: GET /api/v1/soba/getmovementoccupant/{id}
+  
+  Return information about the movement one occupant is performing. The unique_id of the occupant must be provided.
 
     Results:
 
    .. sourcecode:: js
+
+      {
+        "speed": speed, 
+        "orientation": "orientation"
+      }
+
+    Example:
+
+   .. sourcecode:: js
+
+      {
+        "speed": 0.71428, 
+        "orientation": "E"
+      }
+
+.. admonition:: GET /api/v1/soba/getpositionoccupant/{id}
   
+  Returns the position of one occupant on the grid x, y. The unique_id of the occupant must be provided.
 
-        {
-            "results": {
-                "hits": {
-                    "hits": [
-                        {
-                            "fields": {
-                                "link": "http://localhost:9999/docs/test-docs/en/latest/history/classes/coworking",
-                                "path": [
-                                    "history/classes/coworking"
-                                ],
-                                "project": [
-                                    "test-docs"
-                                ],
-                                "title": [
-                                    "PIE coworking"
-                                ],
-                                "version": [
-                                    "latest"
-                                ]
-                            },
-                            "highlight": {
-                                "content": [
-                                    "\nhelp fund more endeavors. Beta <em>test</em>  This first iteration of PIE was a very underground project"
-                                ]
-                            }
-                        },
-                    ],
-                    "max_score": 0.47553805,
-                    "total": 2
-                }
-            }
-        }
+    Result:
 
- 
-
-Root
-----
-.. http:get::  /api/v1/
-
-    Retrieve a list of resources.
-   
    .. sourcecode:: js
+
+    [x, y]
+
+    Example:
+
+   .. sourcecode:: js
+
+    [3, 15]
+
+.. admonition:: GET /api/v1/soba/soba/getstatesoccupant/{id}
   
-      {
-          "build": {
-              "list_endpoint": "/api/v1/build/", 
-              "schema": "/api/v1/build/schema/"
-          }, 
-          "file": {
-              "list_endpoint": "/api/v1/file/", 
-              "schema": "/api/v1/file/schema/"
-          }, 
-          "project": {
-              "list_endpoint": "/api/v1/project/", 
-              "schema": "/api/v1/project/schema/"
-          }, 
-          "user": {
-              "list_endpoint": "/api/v1/user/", 
-              "schema": "/api/v1/user/schema/"
-          }, 
-          "version": {
-              "list_endpoint": "/api/v1/version/", 
-              "schema": "/api/v1/version/schema/"
-          }
-      }
-      
-   :>json string list_endpoint: API endpoint for resource.
-   :>json string schema: API endpoint for schema of resource.
+  Returns the state or activity of one occupant. The unique_id of the occupant must be provided.
 
-Builds
-------
-.. http:get::  /api/v1/build/
+    Result:
 
-    Retrieve a list of Builds.
+   .. sourcecode:: js
+
+      "State"
+
+    Example:
+
+   .. sourcecode:: js
+
+      "Resting"
+
+
+.. admonition:: GET /api/v1/soba/getfovoccupant/{id}
+  
+  Returns the position of the FOV (field of vision) of one occupant. The unique_id of the occupant must be provided.
+
+
+    Result:
+
+   .. sourcecode:: js
+
+    [
+      [x1, y1], [x2, y2], [x3, y3], [x4, y4], ... , [xn, yn]
+    ]
+
+    Example:
+
+   .. sourcecode:: js
+
+    [
+      [0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], 
+      [7, 0], [8, 0], [9, 0], [0, 1], [1, 1], [2, 1], [3, 1], 
+      [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [0, 2], 
+      [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], 
+      [8, 2], [9, 2], [0, 3], [1, 3], [2, 3], [3, 3], [4, 3], 
+      [5, 3], [6, 3], [7, 3], [8, 3], [9, 3], [0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4], [0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5], [8, 5], [9, 5], [0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6], [8, 6], [9, 6], 
+      [0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [6, 7], [7, 7], [8, 7], [9, 7], [0, 8], [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8], [8, 8], [9, 8], [0, 9], [1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [7, 9], [8, 9], [9, 9], [0, 10], [1, 10], [2, 10], [3, 10], [4, 10], 
+      [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], 
+      [8, 11], [9, 11], [10, 11], [11, 11], [9, 12], [10, 12], [11, 12], [12, 12], [13, 12], [10, 13], [11, 13], 
+      [12, 13], [13, 13], [14, 13], [11, 14], [12, 14], 
+      [13, 14], [14, 14], [15, 14], [16, 14], [12, 15], 
+      [13, 15], [14, 15], [15, 15], [16, 15], [17, 15], 
+      [13, 16], [14, 16], [15, 16], [16, 16], [17, 16], 
+      [18, 16], [14, 17], [15, 17], [16, 17], [17, 17], 
+      [18, 17], [15, 18], [16, 18], [17, 18], [18, 18]
+    ]
+
+
+
+.. admonition:: GET /api/v1/soba/getinfooccupant/{id}
+  
+    Returns general information (unique_id, state, FOV, position and movement) of one occupant. The unique_id of the occupant must be provided.
+
+    Result:
 
    .. sourcecode:: js
 
       {
-          "meta": {
-              "limit": 20, 
-              "next": "/api/v1/build/?limit=20&offset=20", 
-              "offset": 0, 
-              "previous": null, 
-              "total_count": 86684
-          }, 
-          "objects": [BUILDS]
-      }
-
-   :>json integer limit: Number of Builds returned.
-   :>json string next: URI for next set of Builds.
-   :>json integer offset: Current offset used for pagination.
-   :>json string previous: URI for previous set of Builds.
-   :>json integer total_count: Total number of Builds.
-   :>json array objects: Array of `Build`_ objects.
-
-
-Build
------
-.. http:get::  /api/v1/build/{id}/
-
-   :arg id: A Build id.
-
-    Retrieve a single Build.
-
-   .. sourcecode:: js
-
-      {
-          "date": "2012-03-12T19:58:29.307403", 
-          "error": "SPHINX ERROR", 
-          "id": "91207", 
-          "output": "SPHINX OUTPUT", 
-          "project": "/api/v1/project/2599/", 
-          "resource_uri": "/api/v1/build/91207/", 
-          "setup": "HEAD is now at cd00d00 Merge pull request #181 from Nagyman/solr_setup\n", 
-          "setup_error": "", 
-          "state": "finished", 
-          "success": true, 
-          "type": "html", 
-          "version": "/api/v1/version/37405/"
-      }
-
-
-   :>json string date: Date of Build.
-   :>json string error: Error from Sphinx build process.
-   :>json string id: Build id.
-   :>json string output: Output from Sphinx build process.
-   :>json string project: URI for Project of Build.
-   :>json string resource_uri: URI for Build.
-   :>json string setup: Setup output from Sphinx build process.
-   :>json string setup_error: Setup error from Sphinx build process.
-   :>json string state: "triggered", "building", or "finished"
-   :>json boolean success: Was build successful?
-   :>json string type: Build type ("html", "pdf", "man", or "epub")
-   :>json string version: URI for Version of Build.
-
-Files
------
-.. http:get::  /api/v1/file/
-
-    Retrieve a list of Files.
-
-   .. sourcecode:: js
-
-      {
-          "meta": {
-              "limit": 20, 
-              "next": "/api/v1/file/?limit=20&offset=20", 
-              "offset": 0, 
-              "previous": null, 
-              "total_count": 32084
-          }, 
-          "objects": [FILES]
-      }
-
-
-   :>json integer limit: Number of Files returned.
-   :>json string next: URI for next set of Files.
-   :>json integer offset: Current offset used for pagination.
-   :>json string previous: URI for previous set of Files.
-   :>json integer total_count: Total number of Files.
-   :>json array objects: Array of `File`_ objects.
-
-File
-----
-.. http:get::  /api/v1/file/{id}/
-
-   :arg id: A File id.
-
-    Retrieve a single File.
-
-   .. sourcecode:: js
-
-      {
-          "absolute_url": "/docs/keystone/en/latest/search.html", 
-          "id": "332692", 
-          "name": "search.html", 
-          "path": "search.html", 
-          "project": {PROJECT},
-          "resource_uri": "/api/v1/file/332692/"
-        }
-
-
-   :>json string absolute_url: URI for actual file (not the File object from the API.)
-   :>json string id: File id.
-   :>json string name: Name of File.
-   :>json string path: Name of Path.
-   :>json object project: A `Project`_ object for the file's project.
-   :>json string resource_uri: URI for File object.
-
-Projects
---------
-.. http:get::  /api/v1/project/
-
-    Retrieve a list of Projects.
-
-   .. sourcecode:: js
-
-      {
-          "meta": {
-              "limit": 20, 
-              "next": "/api/v1/project/?limit=20&offset=20", 
-              "offset": 0, 
-              "previous": null, 
-              "total_count": 2067
-          }, 
-          "objects": [PROJECTS]
-      }
-
-
-   :>json integer limit: Number of Projects returned.
-   :>json string next: URI for next set of Projects.
-   :>json integer offset: Current offset used for pagination.
-   :>json string previous: URI for previous set of Projects.
-   :>json integer total_count: Total number of Projects.
-   :>json array objects: Array of `Project`_ objects.
-
-   
-Project
--------
-.. http:get::  /api/v1/project/{id}
-
-   :arg id: A Project id.
-
-    Retrieve a single Project.
-
-   .. sourcecode:: js
-
-      {
-          "absolute_url": "/projects/docs/", 
-          "analytics_code": "", 
-          "copyright": "", 
-          "crate_url": "", 
-          "default_branch": "", 
-          "default_version": "latest", 
-          "description": "Make docs.readthedocs.io work :D", 
-          "django_packages_url": "", 
-          "documentation_type": "sphinx", 
-          "id": "2599", 
-          "modified_date": "2012-03-12T19:59:09.130773", 
-          "name": "docs", 
-          "project_url": "", 
-          "pub_date": "2012-02-19T18:10:56.582780", 
-          "repo": "git://github.com/rtfd/readthedocs.org", 
-          "repo_type": "git", 
-          "requirements_file": "", 
-          "resource_uri": "/api/v1/project/2599/", 
-          "slug": "docs", 
-          "subdomain": "http://docs.readthedocs.io/", 
-          "suffix": ".rst", 
-          "theme": "default", 
-          "use_virtualenv": false, 
-          "users": [
-              "/api/v1/user/1/"
+        "state": "state", 
+        "fov": [
+              [x1, y1], [x2, y2], [x3, y3], [x4, y4], ... , [xn, yn]
           ], 
-          "version": ""
-      }
+      "movement": {
+        "orientation": "orientation", 
+        "speed": speed
+            }, 
+      "position": [x0, y0], 
+      "unique_id": unique_id
+    }
 
+      :>json double unique_id: Unique identifier of an occupant.
+      :>json string state: State or activity of an occupant.
+      :>json double fov: Fielf of vision of an occupant.
+      :>json double position: Position on the grid as (x, y) of an occupant.
+      :>json double movement: Movement of an occupant.
+      :>json double speed: Speed of the occupants in meters per second.
+      :>json string orientation: Orientation of movement as a cardinal point.
 
-   :>json string absolute_url: URI for project (not the Project object from the API.)
-   :>json string analytics_code: Analytics tracking code.
-   :>json string copyright: Copyright
-   :>json string crate_url: Crate.io URI.
-   :>json string default_branch: Default branch.
-   :>json string default_version: Default version.
-   :>json string description: Description of project.
-   :>json string django_packages_url: Djangopackages.com URI.
-   :>json string documentation_type: Either "sphinx" or "sphinx_html". 
-   :>json string id: Project id.
-   :>json string modified_date: Last modified date.
-   :>json string name: Project name.
-   :>json string project_url: Project homepage.
-   :>json string pub_date: Last published date.
-   :>json string repo: URI for VCS repository.
-   :>json string repo_type: Type of VCS repository.
-   :>json string requirements_file: Pip requirements file for packages needed for building docs.
-   :>json string resource_uri: URI for Project.
-   :>json string slug: Slug.
-   :>json string subdomain: Subdomain.
-   :>json string suffix: File suffix of docfiles. (Usually ".rst".)
-   :>json string theme: Sphinx theme.
-   :>json boolean use_virtualenv: Build project in a virtualenv? (True or False)
-   :>json array users: Array of readthedocs.org user URIs for administrators of Project.
-   :>json string version: DEPRECATED. 
-
-
-Users
------
-.. http:get::  /api/v1/user/
-
-    Retrieve List of Users
-
-   .. sourcecode:: js
-   
-      {
-          "meta": {
-              "limit": 20, 
-              "next": "/api/v1/user/?limit=20&offset=20", 
-              "offset": 0, 
-              "previous": null, 
-              "total_count": 3200
-          }, 
-          "objects": [USERS]
-      }
-
-   :>json integer limit: Number of Users returned.
-   :>json string next: URI for next set of Users.
-   :>json integer offset: Current offset used for pagination.
-   :>json string previous: URI for previous set of Users.
-   :>json integer total_count: Total number of Users.
-   :>json array USERS: Array of `User`_ objects.
- 
- 
-User
-----
-.. http:get::  /api/v1/user/{id}/
-
-   :arg id: A User id.
-   
-    Retrieve a single User
-
-   .. sourcecode:: js
-   
-      {
-          "first_name": "", 
-          "id": "1", 
-          "last_login": "2010-10-28T13:38:13.022687", 
-          "last_name": "", 
-          "resource_uri": "/api/v1/user/1/", 
-          "username": "testuser"
-      }
-      
-   :>json string first_name: First name.
-   :>json string id: User id.
-   :>json string last_login: Timestamp of last login.
-   :>json string last_name: Last name.
-   :>json string resource_uri: URI for this user.
-   :>json string username: User name.
-   
- 
-Versions
---------
-.. http:get::  /api/v1/version/
-
-    Retrieve a list of Versions.
+    Results:
 
    .. sourcecode:: js
 
       {
-          "meta": {
-              "limit": 20, 
-              "next": "/api/v1/version/?limit=20&offset=20", 
-              "offset": 0, 
-              "previous": null, 
-              "total_count": 16437
-          }, 
-          "objects": [VERSIONS]
-      }
+        "state": "Resting", 
+        "fov": [
+              [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [15, 0], [16, 0], [17, 0], [18, 0], [6, 1], [7, 1], [8, 1], [9, 1], [14, 1], [15, 1], [16, 1], [17, 1], [18, 1], [6, 2], [7, 2], [8, 2], [9, 2], [14, 2], [15, 2], [16, 2], [17, 2], [18, 2], [6, 3], [7, 3], [8, 3], [9, 3], [13, 3], [14, 3], [15, 3], [16, 3], [17, 3], [18, 3], [6, 4], [7, 4], [8, 4], [9, 4], [12, 4], [13, 4], [14, 4], [15, 4], [16, 4], [17, 4], [18, 4], [19, 4], [6, 5], [7, 5], [8, 5], [9, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5], [17, 5], [18, 5], [19, 5], [7, 6], [8, 6], [9, 6], [11, 6], [12, 6], [13, 6], [14, 6], [15, 6], [16, 6], [17, 6], [7, 7], [8, 7], [9, 7], [11, 7], [12, 7], [13, 7], [14, 7], [15, 7], [16, 7], [7, 8], [8, 8], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [7, 9], [8, 9], [9, 9], [10, 9], [11, 9], [12, 9], [13, 9], [0, 10], [1, 10], [2, 10], [3, 10], [4, 10], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [16, 10], [17, 10], [18, 10], [0, 11], [1, 11], [2, 11], [3, 11], [4, 11], [5, 11], [6, 11], [7, 11], [8, 11], [9, 11], [10, 11], [11, 11], [12, 11], [13, 11], [14, 11], [15, 11], [16, 11], [17, 11], [18, 11], [0, 12], [1, 12], [2, 12], [3, 12], [4, 12], [5, 12], [6, 12], [7, 12], [9, 12], [10, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [17, 12], [18, 12], [0, 13], [1, 13], [2, 13], [3, 13], [4, 13], [5, 13], [6, 13], [7, 13], [8, 13], [9, 13], [10, 13], [11, 13], [12, 13], [13, 13], [14, 13], [15, 13], [16, 13], [17, 13], [18, 13], [0, 14], [1, 14], [2, 14], [3, 14], [4, 14], [5, 14], [6, 14], [7, 14], [8, 14], [9, 14], [10, 14], [11, 14], [12, 14], [13, 14], [14, 14], [15, 14], [16, 14], [17, 14], [18, 14], [0, 15], [1, 15], [2, 15], [3, 15], [4, 15], [5, 15], [6, 15], [7, 15], [8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14, 15], [15, 15], [16, 15], [17, 15], [18, 15], [0, 16], [1, 16], [2, 16], [3, 16], [4, 16], [5, 16], [6, 16], [7, 16], [8, 16], [9, 16], [10, 16], [11, 16], [12, 16], [13, 16], [14, 16], [15, 16], [16, 16], [17, 16], [18, 16], [0, 17], [1, 17], [2, 17], [3, 17], [4, 17], [5, 17], [6, 17], [7, 17], [8, 17], [9, 17], [10, 17], [11, 17], [12, 17], [13, 17], [14, 17], [15, 17], [16, 17], [17, 17], [18, 17], [0, 18], [1, 18], [2, 18], [3, 18], [4, 18], [5, 18], [6, 18], [7, 18], [8, 18], [9, 18], [10, 18], [11, 18], [12, 18], [13, 18], [14, 18], [15, 18], [16, 18], [17, 18], [18, 18]
+          ], 
+      "movement": {
+        "orientation": "E", 
+        "speed": 0.71428
+            }, 
+      "position": [8, 12], 
+      "unique_id": 1
+    }
 
 
-   :>json integer limit: Number of Versions returned.
-   :>json string next: URI for next set of Versions.
-   :>json integer offset: Current offset used for pagination.
-   :>json string previous: URI for previous set of Versions.
-   :>json integer total_count: Total number of Versions.
-   :>json array objects: Array of `Version`_ objects.
+.. admonition:: PUT /api/v1/soba/putcreateavatar/{id}&{x},{y}
+  
+  Create an avatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
 
-
-Version
--------
-.. http:get::  /api/v1/version/{id}
-
-   :arg id: A Version id.
-
-    Retrieve a single Version.
+    Results:
 
    .. sourcecode:: js
 
-      {
-          "active": false, 
-          "built": false, 
-          "id": "12095", 
-          "identifier": "remotes/origin/zip_importing", 
-          "project": {PROJECT}, 
-          "resource_uri": "/api/v1/version/12095/", 
-          "slug": "zip_importing", 
-          "uploaded": false, 
-          "verbose_name": "zip_importing"
-      }
+      Avatar with id: unique_id, created in pos: (x, y)
 
-
-   :>json boolean active: Are we continuing to build docs for this version? 
-   :>json boolean built: Have docs been built for this version?
-   :>json string id: Version id.
-   :>json string identifier: Identifier of Version.
-   :>json object project: A `Project`_ object for the version's project.
-   :>json string resource_uri: URI for Version object.
-   :>json string slug: String that uniquely identifies a project
-   :>json boolean uploaded: Were docs uploaded? (As opposed to being build by Read the Docs.)
-   :>json string verbose_name: Usually the same as Slug.
-
-
-Filtering Examples
-------------------
-
-
-File Search
-~~~~~~~~~~~
-::
-
-    http://readthedocs.org/api/v1/file/search/?format=json&q=virtualenvwrapper
-    
-.. http:get::  /api/v1/file/search/?q={search_term}
-
-   :arg search_term: Perform search with this term.
-
-    Retrieve a list of File objects that contain the search term.
-
-   .. sourcecode:: js
-   
-      {
-          "objects": [
-              {
-                  "absolute_url": "/docs/python-guide/en/latest/scenarios/virtualenvs/index.html", 
-                  "id": "375539", 
-                  "name": "index.html", 
-                  "path": "scenarios/virtualenvs/index.html", 
-                  "project": {
-                      "absolute_url": "/projects/python-guide/", 
-                      "analytics_code": null, 
-                      "copyright": "Unknown", 
-                      "crate_url": "", 
-                      "default_branch": "", 
-                      "default_version": "latest", 
-                      "description": "[WIP] Python best practices...", 
-                      "django_packages_url": "", 
-                      "documentation_type": "sphinx_htmldir", 
-                      "id": "530", 
-                      "modified_date": "2012-03-13T01:05:30.191496", 
-                      "name": "python-guide", 
-                      "project_url": "", 
-                      "pub_date": "2011-03-20T19:40:03.599987", 
-                      "repo": "git://github.com/kennethreitz/python-guide.git", 
-                      "repo_type": "git", 
-                      "requirements_file": "", 
-                      "resource_uri": "/api/v1/project/530/", 
-                      "slug": "python-guide", 
-                      "subdomain": "http://python-guide.readthedocs.io/", 
-                      "suffix": ".rst", 
-                      "theme": "kr", 
-                      "use_virtualenv": false, 
-                      "users": [
-                          "/api/v1/user/130/"
-                      ], 
-                      "version": ""
-                  }, 
-                  "resource_uri": "/api/v1/file/375539/", 
-                  "text": "...<span class=\"highlighted\">virtualenvwrapper</span>\n..."
-              },
-              ...
-          ]
-      }
-
-Anchor Search
-~~~~~~~~~~~~~
-::
-
-    http://readthedocs.org/api/v1/file/anchor/?format=json&q=virtualenv
-
-.. http:get::  /api/v1/file/anchor/?q={search_term}
-
-   :arg search_term: Perform search of files containing anchor text with this term.
-
-    Retrieve a list of absolute URIs for files that contain the search term.
+    Example:
 
    .. sourcecode:: js
 
-      {
-          "objects": [
-              "http//django-fab-deploy.readthedocs.io/en/latest/...", 
-              "http//dimagi-deployment-tools.readthedocs.io/en/...", 
-              "http//openblock.readthedocs.io/en/latest/install/base_install.html#virtualenv", 
-              ...
-          ]
-      }
+      Avatar with id: 100009, created in pos: (3, 3)
 
+
+.. admonition:: POST /api/v1/soba/postposavatar/{id}&{x},{y}
+  
+  Move an avatar object to a given position. The unique_id and the new position (x, y) of the avatar must be provided.
+
+    Result:
+
+   .. sourcecode:: js
+
+      Avatar with id: unique_id, moved to pos: (x, y)
+
+    Example:
+
+   .. sourcecode:: js
+
+      Avatar with id: 100009, moved to pos: (3, 4)
+
+
+.. admonition:: GET /api/v1/seba/getpositionsfire
+  
+   Returns the positions where there is fire.
+
+    Result:
+
+   .. sourcecode:: js
+
+      [
+        [x1, y1], [x2, y2], ..., [xn, yn]
+      ]
+
+    Results:
+
+   .. sourcecode:: js
+
+      [
+        [13, 15], [14, 15], [13, 16], [14, 16]
+      ]
+
+
+.. admonition:: PUT /api/v1/seba/putcreateemergencyavatar/{id}&{x},{y}
+  
+   Create an EmergencyAvatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
+
+    Result:
+
+   .. sourcecode:: js
+
+      Avatar with id: unique_id, created in pos: (x, y)
+
+    Example:
+
+   .. sourcecode:: js
+
+      Avatar with id: 200009, created in pos: (4, 4)
+
+
+.. admonition:: GET /api/v1/seba/getexitwayavatar/{id}&{strategy}
+  
+  Returns the path that an avatar must follow to evacuate the building based on a strategy. The unique_id of the avatar and the strategy used must be provided.
+
+    Result:
+
+   .. sourcecode:: js
+
+      [
+      [x1, y1], [x2, y2], [x3, y3], ..., [xn, yn]
+      ]
+
+    Example:
+
+   .. sourcecode:: js
+
+      [
+      [3, 4], [2, 5], [1, 6], [0, 6]
+      ]
