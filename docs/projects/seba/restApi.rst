@@ -26,7 +26,7 @@ This API is supported by default at http://127.0.1.1:10000
               "orientation": "orientation2"
             }
         }
-      ..
+
     
       .. code-block:: json
         double speed: Speed of the occupants in meters per second.
