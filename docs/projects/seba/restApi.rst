@@ -11,7 +11,6 @@ This API is supported by default at http://127.0.1.1:10000
   Return information about the movement all occupants are performing.
 
     Result:
-
       .. sourcecode:: js
 
         {
@@ -28,14 +27,14 @@ This API is supported by default at http://127.0.1.1:10000
         }
 
     
-      .. code-block:: json
+      .. sourcecode:: js
         double speed: Speed of the occupants in meters per second.
         string orientation: Orientation of movement as a cardinal point.
-      ..
+      
 
     Example:
 
-     .. sourcecode:: js
+      .. sourcecode:: js
 
         {
           "1": 
@@ -62,7 +61,7 @@ This API is supported by default at http://127.0.1.1:10000
               "orientation": "E"
             }
         }
-      ..
+      
 
 
 .. admonition:: GET /api/v1/soba/getpositionoccupants
