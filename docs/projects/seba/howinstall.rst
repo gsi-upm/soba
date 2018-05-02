@@ -43,36 +43,36 @@ Different options are provided for execution:
 	
 	1. Visual mode
 
-		.. code:: bash
+.. code:: bash
 
-        	$ python3 run.py
+        $ python3 run.py -v
 
 		1.1 Launching REST Server
 
-			.. code:: bash
+.. code:: bash
 
-	        	$ python3 run.py
+        $ python3 run.py -v -s
 
 		1.2 Using RAMEN tool
 
-			.. code:: bash
+.. code:: bash
 
-	        	$ python3 run.py
+        $ python3 run.py -v -r
 
 	2. Batch mode
 
-		.. code:: bash
+.. code:: bash
 
-        	$ python3 run.py
+        $ python3 run.py -b
 
 		2.1 Launching REST Server
 
-			.. code:: bash
+.. code:: bash
 
-	        	$ python3 run.py
+        $ python3 run.py -s
 
 		2.2 Using RAMEN tool
 
-			.. code:: bash
+.. code:: bash
 
-	        	$ python3 run.py
+        $ python3 run.py -r
