@@ -6,10 +6,9 @@ SEBA provides an API defined as a REST service (Get, Post, Pull and Push) to int
 
 This API is supported by default at http://127.0.1.1:10000
 
-.. admonition:: GET /api/v1/soba/getmovementsoccupants
+.. GET:: GET /api/v1/soba/getmovementsoccupants
   
   Return information about the movement all occupants are performing.
-
 
     Result:
 
@@ -62,7 +61,7 @@ This API is supported by default at http://127.0.1.1:10000
       }
 
 
-
+:guilabel:`GET /api/v1/soba/getpositionoccupants`
 .. admonition:: GET /api/v1/soba/getpositionoccupants
   
   Returns the position of all occupants on the grid x, y.
