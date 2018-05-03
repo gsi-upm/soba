@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>projects.seba.occupant &mdash; SOBA 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SOBA 1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SOBA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SOBA</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>projects.seba.occupant</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for projects.seba.occupant</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">soba.agents.continuousOccupant</span> <span class="k">import</span> <span class="n">ContinuousOccupant</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">soba.agents.resources.aStar</span> <span class="k">as</span> <span class="nn">aStar</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="EmergencyOccupant"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant">[docs]</a><span class="k">class</span> <span class="nc">EmergencyOccupant</span><span class="p">(</span><span class="n">ContinuousOccupant</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    This class enables to create occupants defined to work in an emergency modeling.</span>
+<span class="sd">    This class inherits from the ContinuousOccupant class of SOBA.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        Those Inherited from the ContinuousOccupant class of SOBA.</span>
+<span class="sd">        children: Children associated with the occupant.</span>
+<span class="sd">        parents: Parents associated with the occupant.</span>
+<span class="sd">        alive: Current state of an occupant, live or not.</span>
+<span class="sd">        life: Number of remaining life points of the occupant.</span>
+<span class="sd">        foundChildren: Children associated with the occupant found by the occupant during a emergency.</span>
+<span class="sd">        exitGateStrategy: strategy that is used to leave the building during a emergency.</span>
+<span class="sd">        adult: Inform if the occupant is an adult.</span>
+<span class="sd">        alone: Inform if the occupant has occupants who follow him.</span>
+<span class="sd">        speedEmergency: Movement speed during an emergency.</span>
+<span class="sd">        parentAsos: Familiar that the child occupant has to follow.</span>
+<span class="sd">    </span>
+<span class="sd">    Methods:</span>
+<span class="sd">        fireInMyFOV: Check if there is fire in the FOV of the occupant.</span>
+<span class="sd">        makeEmergencyAction: Method that is invoked when initiating an emergency to make the decision of response.</span>
+<span class="sd">        getExitGate: Obtain the optimal way to evacuate the building according to an evacuation strategy.</span>
+<span class="sd">        getPosFireFOV: Obtain the positions in the occupant&#39;s field of vision where there is fire.</span>
+<span class="sd">        step: Method invoked by the Model scheduler in each step.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">json</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">json</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alive</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">foundChildren</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">strategies</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;safest&#39;</span><span class="p">,</span> <span class="s1">&#39;uncrowded&#39;</span><span class="p">,</span> <span class="s1">&#39;nearest&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exitGateStrategy</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;strategy&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;nearest&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateOne</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alreadyCreated</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initmove</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adult</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alone</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">speedEmergency</span> <span class="o">=</span> <span class="mf">1.38</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;speedEmergency&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;speedEmergency&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parentAsos</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="EmergencyOccupant.makeEmergencyAction"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.makeEmergencyAction">[docs]</a>    <span class="k">def</span> <span class="nf">makeEmergencyAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that is invoked when initiating an emergency to make the decision of response.</span>
+<span class="sd">        If the occupant is a parent, he will look for his son. If he is a child, </span>
+<span class="sd">        he will wait for one of his parents. In any other case, a path is decided to leave the building.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">speedEmergency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeActivity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">pos</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">movements</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getWay</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">adult</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alone</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">movements</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">movements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getExitGate</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="EmergencyOccupant.getExitGate"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.getExitGate">[docs]</a>    <span class="k">def</span> <span class="nf">getExitGate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Obtain the optimal way to evacuate the building according to an evacuation strategy.</span>
+<span class="sd">            Return: List of positions (x, y)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitGateStrategy</span> <span class="o">==</span> <span class="s1">&#39;uncrowded&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNearestGate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">uncrowdedStr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitGateStrategy</span> <span class="o">==</span> <span class="s1">&#39;safest&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getSafestGate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitGateStrategy</span> <span class="o">==</span> <span class="s1">&#39;nearest&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNearestGate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">exitGateStrategy</span> <span class="o">==</span> <span class="s1">&#39;lessassigned&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getLessAssignedGate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNearestGate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNearestGate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">pathReturn</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getWay</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pathReturn</span></div>
+
+<div class="viewcode-block" id="EmergencyOccupant.fireInMyFOV"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.fireInMyFOV">[docs]</a>    <span class="k">def</span> <span class="nf">fireInMyFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if there is fire in the FOV of the occupant.</span>
+<span class="sd">            Return: Boolean</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">firePos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">FireControl</span><span class="o">.</span><span class="n">fireExpansion</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">firePos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">movements</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">posInMyFOV</span><span class="p">(</span><span class="n">firePos</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="EmergencyOccupant.getPosFireFOV"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.getPosFireFOV">[docs]</a>    <span class="k">def</span> <span class="nf">getPosFireFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtain the positions in the occupant&#39;s field of vision where there is fire.</span>
+<span class="sd">            Return: list of positions (x, y)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">others</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">FireControl</span><span class="o">.</span><span class="n">fireExpansion</span><span class="p">:</span>
+                <span class="n">others</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">others</span></div>
+
+    <span class="k">def</span> <span class="nf">changeSchedule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">emergency</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">changeSchedule</span><span class="p">()</span>
+
+<div class="viewcode-block" id="EmergencyOccupant.step"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method invoked by the Model scheduler in each step.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alive</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">emergency</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">timeActivity</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentAsos</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">nearPos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parentAsos</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentAsos</span><span class="o">.</span><span class="n">pos</span>
+                        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getWay</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+                    <span class="n">posC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getOccupantsPos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">movements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">posC</span> <span class="ow">and</span> <span class="n">posC</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exits</span><span class="p">:</span>
+                        <span class="n">posC</span> <span class="o">=</span> <span class="n">posC</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">posC</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+                            <span class="n">posC</span><span class="o">.</span><span class="n">alone</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">posC</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">posC</span> <span class="ow">in</span> <span class="n">parent</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+                                    <span class="n">parent</span><span class="o">.</span><span class="n">foundChildren</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">posC</span><span class="p">)</span>
+                                    <span class="n">parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">posC</span><span class="p">)</span>
+                            <span class="n">posC</span><span class="o">.</span><span class="n">parentAsos</span> <span class="o">=</span> <span class="bp">self</span>
+                            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">posC</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="o">==</span> <span class="n">posC</span><span class="o">.</span><span class="n">pos</span><span class="p">:</span>
+                                    <span class="n">parent</span><span class="o">.</span><span class="n">makeEmergencyAction</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fireInMyFOV</span><span class="p">():</span>
+                        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getWay</span><span class="p">(</span><span class="n">others</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPosFireFOV</span><span class="p">())</span>
+                    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exits</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">makeEmergencyAction</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, GSI - UPM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ''
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

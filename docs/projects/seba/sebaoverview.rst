@@ -14,9 +14,8 @@ Arquitecture Description
 ------------------------
 
 .. image:: ../../images/SEBAarquitectura.png
-   :width: 50%
-   :scale: 50%
-
+   :width: 80%
+   :scale: 100%
 
 SEBA Components
 ***************

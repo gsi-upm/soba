@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SEBA Documentation &mdash; SOBA 1 documentation</title>
+  <title>How install and run &mdash; SOBA 1 documentation</title>
   
 
   
@@ -33,8 +33,9 @@
 
   
     <link rel="top" title="SOBA 1 documentation" href="../../index.html"/>
-        <link rel="next" title="SEBA Overview" href="sebaoverview.html"/>
-        <link rel="prev" title="Launchers Module Documentation" href="../../apiDocumentation/launchers.html"/> 
+        <link rel="up" title="SEBA Documentation" href="index.html"/>
+        <link rel="next" title="Use case" href="usecase.html"/>
+        <link rel="prev" title="SEBA Overview" href="sebaoverview.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -92,9 +93,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apiDocumentation/api.html">APIs Documentation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SEBA Project</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">SEBA Project</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="sebaoverview.html">SEBA Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howinstall.html">How install and run</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How install and run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#soba-package-instalation">SOBA package instalation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seba-github-repository">SEBA Github repository</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="usecase.html">Use case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="restApi.html">REST API</a></li>
@@ -144,13 +149,15 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>SEBA Documentation</li>
+          <li><a href="index.html">SEBA Documentation</a> &raquo;</li>
+        
+      <li>How install and run</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/projects/seba/index.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/projects/seba/howinstall.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -163,43 +170,64 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="seba-documentation">
-<h1>SEBA Documentation<a class="headerlink" href="#seba-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="sebaoverview.html">SEBA Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sebaoverview.html#arquitecture-description">Arquitecture Description</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sebaoverview.html#seba-components">SEBA Components</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sebaoverview.html#seba-modules">SEBA Modules</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="howinstall.html">How install and run</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="howinstall.html#soba-package-instalation">SOBA package instalation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howinstall.html#seba-github-repository">SEBA Github repository</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="usecase.html">Use case</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apiDocumentation/model.html">Model Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apiDocumentation/model.html#module-projects.seba.occupant">Model</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="apiDocumentation/agents.html">Agents Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apiDocumentation/agents.html#module-projects.seba.occupant">Occupant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apiDocumentation/agents.html#module-projects.seba.fire">Fire</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apiDocumentation/agents.html#module-projects.seba.avatar">Avatar</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="apiDocumentation/launchers.html">Launchers Module Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apiDocumentation/launchers.html#module-projects.seba.occupant">API Server</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="restApi.html">REST API</a></li>
-</ul>
+  <div class="section" id="how-install-and-run">
+<h1>How install and run<a class="headerlink" href="#how-install-and-run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="soba-package-instalation">
+<h2>SOBA package instalation<a class="headerlink" href="#soba-package-instalation" title="Permalink to this headline">¶</a></h2>
+<p>First of all, it is necessary to have the SOBA package installed. For this, we execute the following command.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ pip install soba
+</pre></div>
+</div>
+<p>In case of error, this other command should be used, ensuring to have installed python 3 version and pip 3 version.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ pip3 install soba
+</pre></div>
+</div>
+</div>
+<div class="section" id="seba-github-repository">
+<h2>SEBA Github repository<a class="headerlink" href="#seba-github-repository" title="Permalink to this headline">¶</a></h2>
+<p>To use the SEBA software, we must first download the repository of the github SOBA project and access its directory.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/gsi-upm/soba
+
+$ cd soba/projects/seba
+</pre></div>
+</div>
+<p>Then, execute the run file.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python run.py
+</pre></div>
+</div>
+<p>or</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py
+</pre></div>
+</div>
+<p>Different options are provided for execution:</p>
+<ol class="arabic simple">
+<li>Visual mode</li>
+</ol>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py -v
+</pre></div>
+</div>
+<p>1.1 Launching REST Server</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py -v -s
+</pre></div>
+</div>
+<p>1.2 Using RAMEN tool</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py -v -r
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Batch mode</li>
+</ol>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py -b
+</pre></div>
+</div>
+<p>2.1 Launching REST Server</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py -b -s
+</pre></div>
+</div>
+<p>2.2 Using RAMEN tool</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 run.py -b -r
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -213,10 +241,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sebaoverview.html" class="btn btn-neutral float-right" title="SEBA Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="usecase.html" class="btn btn-neutral float-right" title="Use case" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../../apiDocumentation/launchers.html" class="btn btn-neutral" title="Launchers Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sebaoverview.html" class="btn btn-neutral" title="SEBA Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

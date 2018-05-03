@@ -95,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">SEBA Project</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../sebaoverview.html">SEBA Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howinstall.html">How install and run</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../usecase.html">Use case</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
@@ -107,6 +108,7 @@
 <li class="toctree-l3"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../restApi.html">REST API</a></li>
 </ul>
 </li>
 </ul>
@@ -180,12 +182,197 @@
 <h1>Agents Module Documentation<a class="headerlink" href="#agents-module-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-projects.seba.occupant">
 <span id="occupant"></span><h2>Occupant<a class="headerlink" href="#module-projects.seba.occupant" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="projects.seba.occupant.EmergencyOccupant">
+<em class="property">class </em><code class="descclassname">projects.seba.occupant.</code><code class="descname">EmergencyOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class enables to create occupants defined to work in an emergency modeling.
+This class inherits from the ContinuousOccupant class of SOBA.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>Those Inherited from the ContinuousOccupant class of SOBA.
+children: Children associated with the occupant.
+parents: Parents associated with the occupant.
+alive: Current state of an occupant, live or not.
+life: Number of remaining life points of the occupant.
+foundChildren: Children associated with the occupant found by the occupant during a emergency.
+exitGateStrategy: strategy that is used to leave the building during a emergency.
+adult: Inform if the occupant is an adult.
+alone: Inform if the occupant has occupants who follow him.
+speedEmergency: Movement speed during an emergency.
+parentAsos: Familiar that the child occupant has to follow.</dd>
+<dt>Methods:</dt>
+<dd>fireInMyFOV: Check if there is fire in the FOV of the occupant.
+makeEmergencyAction: Method that is invoked when initiating an emergency to make the decision of response.
+getExitGate: Obtain the optimal way to evacuate the building according to an evacuation strategy.
+getPosFireFOV: Obtain the positions in the occupant&#8217;s field of vision where there is fire.
+step: Method invoked by the Model scheduler in each step.</dd>
+</dl>
+<dl class="method">
+<dt id="projects.seba.occupant.EmergencyOccupant.fireInMyFOV">
+<code class="descname">fireInMyFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.fireInMyFOV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.fireInMyFOV" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check if there is fire in the FOV of the occupant.</dt>
+<dd>Return: Boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.occupant.EmergencyOccupant.getExitGate">
+<code class="descname">getExitGate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.getExitGate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.getExitGate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Obtain the optimal way to evacuate the building according to an evacuation strategy.</dt>
+<dd>Return: List of positions (x, y)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.occupant.EmergencyOccupant.getPosFireFOV">
+<code class="descname">getPosFireFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.getPosFireFOV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.getPosFireFOV" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Obtain the positions in the occupant&#8217;s field of vision where there is fire.</dt>
+<dd>Return: list of positions (x, y)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.occupant.EmergencyOccupant.makeEmergencyAction">
+<code class="descname">makeEmergencyAction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.makeEmergencyAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.makeEmergencyAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that is invoked when initiating an emergency to make the decision of response.
+If the occupant is a parent, he will look for his son. If he is a child, 
+he will wait for one of his parents. In any other case, a path is decided to leave the building.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.occupant.EmergencyOccupant.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoked by the Model scheduler in each step.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-projects.seba.fire">
 <span id="fire"></span><h2>Fire<a class="headerlink" href="#module-projects.seba.fire" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="projects.seba.fire.Fire">
+<em class="property">class </em><code class="descclassname">projects.seba.fire.</code><code class="descname">Fire</code><span class="sig-paren">(</span><em>model</em>, <em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#Fire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.Fire" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class enables to create fire object on a position. 
+The objects of this class are controlled by one FireControl object.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>grade: Intensity level of the fire.
+pos: Fire position.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="projects.seba.fire.FireControl">
+<em class="property">class </em><code class="descclassname">projects.seba.fire.</code><code class="descname">FireControl</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>posInit</em>, <em>expansionRate=1</em>, <em>growthRate=1</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#FireControl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.FireControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class enables to create agents that control the fire expansión, representing the emergency threat.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>fireExpansion: Set of Fire objects belonging to this FireControl.
+limitFire: Fire objects that are in the limit to make the expansion.
+expansionRate: Rate of expansion of the threat.
+growthRate: Value of growth in intensity of the fire.</dd>
+<dt>Methods:</dt>
+<dd>createFirePos: Create a Fire object in a given position.
+getFirePos: Get a Fire object in a position given.
+expansionFire:  Make the expansion of fire limits.
+growthFire: Make the growth in intensity of the fire.
+step: Method invoked by the Model scheduler in each step.</dd>
+</dl>
+<dl class="method">
+<dt id="projects.seba.fire.FireControl.createFirePos">
+<code class="descname">createFirePos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#FireControl.createFirePos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.FireControl.createFirePos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create a Fire object in a given position.</dt>
+<dd><dl class="first last docutils">
+<dt>Args:</dt>
+<dd>pos: Position to put the Fire object as (x, y)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.fire.FireControl.expansionFire">
+<code class="descname">expansionFire</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#FireControl.expansionFire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.FireControl.expansionFire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the expansion of fire limits.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.fire.FireControl.getFirePos">
+<code class="descname">getFirePos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#FireControl.getFirePos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.FireControl.getFirePos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Get a Fire object in a position given.</dt>
+<dd><dl class="first docutils">
+<dt>Args: </dt>
+<dd>pos: Position to be checked.</dd>
+</dl>
+<p class="last">Return: Fire object or False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.fire.FireControl.growthFire">
+<code class="descname">growthFire</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#FireControl.growthFire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.FireControl.growthFire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the growth in intensity of the fire.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.fire.FireControl.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/fire.html#FireControl.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.fire.FireControl.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoked by the Model scheduler in each step.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-projects.seba.avatar">
 <span id="avatar"></span><h2>Avatar<a class="headerlink" href="#module-projects.seba.avatar" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="projects.seba.avatar.EmergencyAvatar">
+<em class="property">class </em><code class="descclassname">projects.seba.avatar.</code><code class="descname">EmergencyAvatar</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>initial_pos</em>, <em>color='red'</em>, <em>initial_state='walking'</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/avatar.html#EmergencyAvatar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.avatar.EmergencyAvatar" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class enables to create avatars that represent virtual occupants, that is, they are
+not controlled by the simulation but by an API Rest. This class inherits from the avatar class of SOBA.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>Those Inherited from the Avatar class of SOBA.
+alive: Current state of an avatar, live or not.
+life: Number of remaining life points of the avatar.</dd>
+<dt>Methods:</dt>
+<dd>getExitGate: Obtain the optimal way to evacuate the building according to an evacuation strategy.
+getPosFireFOV: Obtain the positions in the avatar&#8217;s field of vision where there is fire.
+makeEmergencyAction: Method that is invoked when initiating an emergency to make the decision of response.</dd>
+</dl>
+<dl class="method">
+<dt id="projects.seba.avatar.EmergencyAvatar.getExitGate">
+<code class="descname">getExitGate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/avatar.html#EmergencyAvatar.getExitGate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.avatar.EmergencyAvatar.getExitGate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Obtain the optimal way to evacuate the building according to an evacuation strategy.</dt>
+<dd>Return: List of positions (x, y)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.avatar.EmergencyAvatar.getPosFireFOV">
+<code class="descname">getPosFireFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/avatar.html#EmergencyAvatar.getPosFireFOV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.avatar.EmergencyAvatar.getPosFireFOV" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Check if the position is in my field of vision</dt>
+<dd>Return: List of positions (x, y)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="projects.seba.avatar.EmergencyAvatar.makeEmergencyAction">
+<code class="descname">makeEmergencyAction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/avatar.html#EmergencyAvatar.makeEmergencyAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.avatar.EmergencyAvatar.makeEmergencyAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that is invoked when initiating an emergency to make the decision of response.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
