@@ -14,7 +14,6 @@ class ContinuousOccupant(Occupant):
 	Attributes:
 		Those Inherited from the Occupant class.
 		fov: List of positions (x, y) that the occupant can see.
-		fovCal: Control if the FOV is calculated when an occupant has moved.
 	
 	Methods:
 		getPosState: Auxiliary method to distribute the occupants between the points of interests with same id for more than one occupant.

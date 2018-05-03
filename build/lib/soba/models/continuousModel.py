@@ -26,8 +26,7 @@ from soba.agents.avatar import Avatar
 class ContinuousModel(GeneralModel):
 	"""
 
-	Base Class to create simulation models on a continuous space
-	based on considering a scaled grid (x, y). Cell size of 0.5m ^ 2 by default.
+	Base Class to create simulation models on a simplified space based on rooms.
 		Attributes:
 			Those inherited from the Occupant class.
 			rooms: List of Room objects.
@@ -37,7 +36,6 @@ class ContinuousModel(GeneralModel):
 			doors: List of Door objects.
 		Methods:
 			createOccupants: Create occupants of the ContinuousOccupant type.
-			createAvatar: Create one avatar object.
 			getScaledCoordinate: Gets the value of a coordinate or a cell size scaled.
 			setMap: Define the map plane distribution.
 			getAsciMap: Get the plane of the grid in an ASCII format, such as a matrix, to apply the fov algorithm.
@@ -51,7 +49,6 @@ class ContinuousModel(GeneralModel):
 			checkFreePOI: Check if one Point of interest is free (there is no occupant on this).
 			xyInGrid: Check if one position is inside the grid.
 			nearPos: Check if two positions are consecutive.
-			step: Execution of the scheduler steps.
 
 	"""
 	global ramenAux
@@ -106,8 +103,8 @@ class ContinuousModel(GeneralModel):
 	def createOccupants(self, jsonsOccupants):
 		"""
 		Create occupants of the ContinuousOccupant type.
-			Args:
-				jsonOccupants: Json of description of the occupants.
+				Args:
+					jsonOccupants: Json of description of the occupants.
 		"""
 		for json in jsonsOccupants:
 			for n in range(0, json['N']):
@@ -117,8 +114,7 @@ class ContinuousModel(GeneralModel):
 
 	def createAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
 		"""
-		Create one avatar object.
-			Return: An avatar object
+		Create one avatar
 		"""
 		unique_id = 100000 + int(idAvatar)
 		a = Avatar(unique_id, self, pos, color, initial_state)
@@ -520,9 +516,6 @@ class ContinuousModel(GeneralModel):
 			self.occupantsInfo[str(occupant.unique_id)] = ocDict
 
 	def step(self):
-		"""
-		Execution of the scheduler steps.
-		"""
 		if self.finishSimulation and ramenAux and not ramenRT:
 			ramen.generateJSON()
 		for a in self.occupants:
