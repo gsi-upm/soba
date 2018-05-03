@@ -1,7 +1,7 @@
 SEBA Overview
 =============
 
-`SEBA <https://github.com/gsi-upm/soba/tree/master/projects/seba>`_ (Simulation of Evacuations Based on SOBA) is a useful simulation tool for studies related to emergencies and evacuations in buildings. It is implemented in `Python <http://www.python.org/>`_. on `SOBA <https://github.com/gsi-upm/soba>`_ software.
+`SEBA <https://github.com/gsi-upm/soba/tree/master/projects/seba>`_ (Simulation of Evacuations Based on SOBA) is a useful simulation tool for studies related to emergencies and evacuations in buildings. It is implemented in `Python <http://www.python.org/>`_ on `SOBA <https://github.com/gsi-upm/soba>`_ software.
 
 Simulations can be defined in three different ways. First, using behavioral modeling and strategies already implemented, by defining the space and specific characteristics of the occupants. Second, through inheritance and modification of the models defined in the classes already implemented. Third, by modifying the current software implementation.
 

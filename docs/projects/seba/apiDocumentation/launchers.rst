@@ -1,8 +1,0 @@
-Launchers Module Documentation
-==============================
-
-API Server
-----------
-
-.. automodule:: projects.seba.occupant
-   :members:

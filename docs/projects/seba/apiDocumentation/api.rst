@@ -4,4 +4,3 @@ APIs
 .. toctree::
    model
    agents
-   launchers

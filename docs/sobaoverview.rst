@@ -1,11 +1,11 @@
 SOBA Overview
 =============
 
-`SOBA <https://github.com/gsi-upm/soba>`_ (**S**imulation of **O**ccupancy **B**ased on **A**gents) is a new system of Simulation of Occupancy Based on Agents implemented in `Python <http://www.python.org/>`_., which has become an increasingly popular language for scientific computing.
+`SOBA <https://github.com/gsi-upm/soba>`_ (Simulation of Occupancy Based on Agents) is a tool of simulation of occupancy in buildings implemented in `Python <http://www.python.org/>`_.
 
-This software is useful for conducting studies based on occupancy simulations, mainly in buildings, such as drill simulation or energy studies. 
+This software is useful for studies that require working with crowds, mainly in buildings. For example, SOBA has been used to carry out studies on the improvement of evacuations and for the improvement of energy efficiency in buildings.
 
-The simulations are configured by declaring one or more types of occupants, with specific and definable behavior, a physical space (rooms of the building) and agents that are interconnected with each other and with the occupants. The simulation and results can be evaluated both in real time and post-simulation.
+The simulations are configured by declaring one or more types of occupants, with specific and definable behavior and a physical space. Regarding space, two different models are provided: a simplified model with a room defined by rooms, and a model with a continuous space. The simulation and results can be evaluated both in real time and post-simulation.
 
 
 It is provided as open source software:
