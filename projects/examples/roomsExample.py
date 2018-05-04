@@ -15,11 +15,9 @@ class ModelExample(RoomsModel):
 		super().step()
 
 jsonMap = {
-
   'Pos1': {'entrance':'', 'conectedTo': {'U':'Pos2'}, 'measures': {'dx':2, 'dy':2}},
   'Pos2': {'measures': {'dx':3, 'dy':3.5}, 'conectedTo': {'R':'Pos3'}},
   'Pos3': {'measures': {'dx':3, 'dy':3.5}}
-
 	}
 
 jsonsOccupants = []

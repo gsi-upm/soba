@@ -4,7 +4,7 @@ How install
 SOBA package instalation
 ------------------------
 
-First of all, it is necessary to have the SOBA package installed. For this, we execute the following command.
+To install SOBA the best option is to use the package management system PIP. For this, we execute the following command.
 
 .. code:: bash
 
