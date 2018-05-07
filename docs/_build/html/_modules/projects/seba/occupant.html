@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../restApi.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -162,7 +163,7 @@
 <span class="kn">import</span> <span class="nn">soba.agents.resources.aStar</span> <span class="k">as</span> <span class="nn">aStar</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="EmergencyOccupant"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant">[docs]</a><span class="k">class</span> <span class="nc">EmergencyOccupant</span><span class="p">(</span><span class="n">ContinuousOccupant</span><span class="p">):</span>
+<div class="viewcode-block" id="EmergencyOccupant"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.occupant.EmergencyOccupant">[docs]</a><span class="k">class</span> <span class="nc">EmergencyOccupant</span><span class="p">(</span><span class="n">ContinuousOccupant</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    </span>
 <span class="sd">    This class enables to create occupants defined to work in an emergency modeling.</span>
@@ -209,7 +210,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">speedEmergency</span> <span class="o">=</span> <span class="mf">1.38</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;speedEmergency&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">eval</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;speedEmergency&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parentAsos</span> <span class="o">=</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="EmergencyOccupant.makeEmergencyAction"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.makeEmergencyAction">[docs]</a>    <span class="k">def</span> <span class="nf">makeEmergencyAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmergencyOccupant.makeEmergencyAction"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.occupant.EmergencyOccupant.makeEmergencyAction">[docs]</a>    <span class="k">def</span> <span class="nf">makeEmergencyAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method that is invoked when initiating an emergency to make the decision of response.</span>
 <span class="sd">        If the occupant is a parent, he will look for his son. If he is a child, </span>
@@ -230,7 +231,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">movements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getExitGate</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="EmergencyOccupant.getExitGate"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.getExitGate">[docs]</a>    <span class="k">def</span> <span class="nf">getExitGate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmergencyOccupant.getExitGate"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.occupant.EmergencyOccupant.getExitGate">[docs]</a>    <span class="k">def</span> <span class="nf">getExitGate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Obtain the optimal way to evacuate the building according to an evacuation strategy.</span>
 <span class="sd">            Return: List of positions (x, y)</span>
@@ -252,7 +253,7 @@
         <span class="n">pathReturn</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getWay</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">pathReturn</span></div>
 
-<div class="viewcode-block" id="EmergencyOccupant.fireInMyFOV"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.fireInMyFOV">[docs]</a>    <span class="k">def</span> <span class="nf">fireInMyFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmergencyOccupant.fireInMyFOV"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.occupant.EmergencyOccupant.fireInMyFOV">[docs]</a>    <span class="k">def</span> <span class="nf">fireInMyFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if there is fire in the FOV of the occupant.</span>
 <span class="sd">            Return: Boolean</span>
@@ -262,7 +263,7 @@
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="EmergencyOccupant.getPosFireFOV"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.getPosFireFOV">[docs]</a>    <span class="k">def</span> <span class="nf">getPosFireFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmergencyOccupant.getPosFireFOV"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.occupant.EmergencyOccupant.getPosFireFOV">[docs]</a>    <span class="k">def</span> <span class="nf">getPosFireFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Obtain the positions in the occupant&#39;s field of vision where there is fire.</span>
 <span class="sd">            Return: list of positions (x, y)</span>
@@ -278,7 +279,7 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">changeSchedule</span><span class="p">()</span>
 
-<div class="viewcode-block" id="EmergencyOccupant.step"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/model.html#projects.seba.occupant.EmergencyOccupant.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmergencyOccupant.step"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.occupant.EmergencyOccupant.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Method invoked by the Model scheduler in each step.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alive</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">emergency</span><span class="p">:</span>

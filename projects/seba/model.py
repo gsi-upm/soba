@@ -218,28 +218,43 @@ class SEBAModel(ContinuousModel):
 			self.uncrowdedStr.remove(o)
 
 	#API methods
-	def getPositionsFire(self):
-		data = []
+	def positions_fire(self):
+		fire = []
 		if not self.FireControl:
-			return data
-		for fire in self.FireControl.fireExpansion:
-			data.append(fire.pos)
+			return fire
+		for f in self.FireControl.fireExpansion:
+			x, y = f.pos
+			fire.append({"x": x, "y": y})
+		data = {"positions": fire}
 		return data
 
-	def getExitWayAvatar(self, avatar_id, strategy = 0):
+	def exit_way_avatar(self, avatar_id, strategy = 0):
 		a = self.getOccupantId(int(avatar_id))
 		strategies = ['nearest', 'safest', 'uncrowded', 'lessassigned']
 		a.exitGateStrategy = strategy
-		data = a.getExitGate()
+		pos = a.getExitGate()
+		positions = []
+		for p in pos:
+			x, y = p
+			positions.append({"x": x, "y": y})
+		data = {"positions": positions}
 		return data
 
-	def getFireInFOVAvatar(self, avatar_id):
+	def fire_in_pov(self, avatar_id):
 		a = self.getOccupantId(int(avatar_id))
-		data = a.getPosFireFOV()
+		print(a)
+		pos = a.getPosFireFOV()
+		print(pos)
+		positions = []
+		for p in pos:
+			x, y = p
+			positions.append({"x": x, "y": y})
+		data = {"positions": positions}
 		return data
 
-	def putCreateEmergencyAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
+	def create_avatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
 		a = self.createEmergencyAvatar(idAvatar, pos, color, initial_state)
+		self.occupants.append(a)
 		return a
 
 	def step(self):

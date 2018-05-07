@@ -21,6 +21,7 @@ class EmergencyAvatar(Avatar):
 
 		self.alive = True
 		self.life = 3
+		self.getFOV()
 
 	def getExitGate(self):
 		'''
@@ -56,8 +57,10 @@ class EmergencyAvatar(Avatar):
 			Return: List of positions (x, y)
 		'''
 		others = []
+		print('fov', self.fov)
 		for pos in self.fov:
-			if pos in self.model.FireControl.fireExpansion:
+			print(self.model.FireControl.movements)
+			if pos in self.model.FireControl.movements:
 				others.append(pos)
 		return others
 

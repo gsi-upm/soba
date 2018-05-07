@@ -90,12 +90,13 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pip-instalation">Pip instalation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#github-repository">Github repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#soba-package-instalation">SOBA package instalation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-run">First run</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restApi.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -162,16 +163,62 @@
             
   <div class="section" id="how-install">
 <h1>How install<a class="headerlink" href="#how-install" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="pip-instalation">
-<h2>Pip instalation<a class="headerlink" href="#pip-instalation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="soba-package-instalation">
+<h2>SOBA package instalation<a class="headerlink" href="#soba-package-instalation" title="Permalink to this headline">¶</a></h2>
+<p>To install SOBA the best option is to use the package management system PIP. For this, we execute the following command.</p>
 <div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ pip install soba
 </pre></div>
 </div>
+<p>In case of error, this other command should be used, ensuring to have installed python 3 version and pip 3 version.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ pip3 install soba
+</pre></div>
 </div>
-<div class="section" id="github-repository">
-<h2>Github repository<a class="headerlink" href="#github-repository" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><a class="reference external" href="https://github.com/gsi-upm/soba">https://github.com/gsi-upm/soba</a></div></blockquote>
+</div>
+<div class="section" id="first-run">
+<h2>First run<a class="headerlink" href="#first-run" title="Permalink to this headline">¶</a></h2>
+<p>Now let&#8217;s execute an example. In this first execution we opted for the continuous model. First, we must first download the repository of the github SOBA project and access to the example directory.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/gsi-upm/soba
+
+$ cd soba/projects/examples
+</pre></div>
+</div>
+<p>Then, execute the run file.</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python continuousExample.py
+</pre></div>
+</div>
+<p>or</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py
+</pre></div>
+</div>
+<p>Different options are provided for execution:</p>
+<ol class="arabic simple">
+<li>Visual mode</li>
+</ol>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -v
+</pre></div>
+</div>
+<p>1.1 Launching REST Server</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -v -s
+</pre></div>
+</div>
+<p>1.2 Using RAMEN tool</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -v -r
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Batch mode</li>
+</ol>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -b
+</pre></div>
+</div>
+<p>2.1 Launching REST Server</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -b -s
+</pre></div>
+</div>
+<p>2.2 Using RAMEN tool</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -b -r
+</pre></div>
+</div>
 </div>
 </div>
 

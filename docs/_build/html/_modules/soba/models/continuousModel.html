@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../restApi.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -614,49 +615,71 @@
 		<span class="k">return</span> <span class="kc">False</span></div>
 
 	<span class="c1">#API methods</span>
-	<span class="k">def</span> <span class="nf">getMovementsOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">list_occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">unique_ids</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="n">unique_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;unique_id&#39;</span><span class="p">))</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;occupants&quot;</span><span class="p">:</span> <span class="n">unique_ids</span><span class="p">}</span>
+		<span class="k">return</span> <span class="n">data</span>
+
+	<span class="k">def</span> <span class="nf">movements_occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movement&#39;</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getPositionOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">positions_occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+			<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">}</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getStatesOccupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">states_occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 			<span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getMovementOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
-		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movement&#39;</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">movement_occupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">movement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;movement&#39;</span><span class="p">)</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;movement&quot;</span><span class="p">:</span> <span class="n">movement</span><span class="p">}</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getPositionOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
-		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">position_occupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">}</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getStateOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
-		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">state_occupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">}</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getFOVOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
-		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fov&#39;</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">fov_occupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">fov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fov&#39;</span><span class="p">)</span>
+		<span class="n">fov_json</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">fov</span><span class="p">:</span>
+			<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span>
+			<span class="n">fov_json</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fov&quot;</span><span class="p">:</span> <span class="n">fov_json</span><span class="p">}</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">getInfoOccupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
-		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">))</span>
+	<span class="k">def</span> <span class="nf">info_occupant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">occupant_id</span><span class="p">):</span>
+		<span class="n">data_fov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov_occupant</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">)</span>
+		<span class="n">data_movement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">movement_occupant</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">)</span>
+		<span class="n">data_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_occupant</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">)</span>
+		<span class="n">data_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_occupant</span><span class="p">(</span><span class="n">occupant_id</span><span class="p">)</span>
+		<span class="n">data_occupant</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;unique_id&quot;</span><span class="p">:</span> <span class="n">occupant_id</span><span class="p">,</span> <span class="s2">&quot;fov&quot;</span><span class="p">:</span> <span class="n">data_fov</span><span class="p">[</span><span class="s2">&quot;fov&quot;</span><span class="p">],</span> <span class="s2">&quot;movement&quot;</span><span class="p">:</span> <span class="n">data_movement</span><span class="p">[</span><span class="s2">&quot;movement&quot;</span><span class="p">],</span> <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">data_position</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">data_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]}</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;occupant&quot;</span><span class="p">:</span> <span class="n">data_occupant</span><span class="p">}</span>
 		<span class="k">return</span> <span class="n">data</span>
 
-	<span class="k">def</span> <span class="nf">putCreateAvatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">initial_state</span> <span class="o">=</span> <span class="s1">&#39;walking&#39;</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">create_avatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">initial_state</span> <span class="o">=</span> <span class="s1">&#39;walking&#39;</span><span class="p">):</span>
 		<span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createAvatar</span><span class="p">(</span><span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">a</span>
 
-	<span class="k">def</span> <span class="nf">postPosAvatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">move_avatar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idAvatar</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
 		<span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOccupantId</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">idAvatar</span><span class="p">))</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="p">:</span>
 			<span class="k">return</span> <span class="n">a</span>

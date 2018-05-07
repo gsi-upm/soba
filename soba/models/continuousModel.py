@@ -489,7 +489,7 @@ class ContinuousModel(GeneralModel):
 
 	def position_occupant(self, occupant_id):
 		x, y = self.occupantsInfo.get(str(occupant_id)).get('position')
-		data = {"x": x, "y": y}
+		data = {"position" : {"x": x, "y": y}}
 		return data
 
 	def state_occupant(self, occupant_id):
@@ -517,6 +517,7 @@ class ContinuousModel(GeneralModel):
 
 	def create_avatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
 		a = self.createAvatar(idAvatar, pos, color, initial_state)
+		self.occupants.append(a)
 		return a
 
 	def move_avatar(self, idAvatar, pos):

@@ -108,15 +108,15 @@ class position_occupant(tornado.web.RequestHandler):
 
     def post(self, avatar_id):
         global model
-        data = json.loads(self.request.body)
+        data = tornado.escape.json_decode(self.request.body)
         x = data["x"]
         y = data["y"]
         pos = (int(x), int(y))
         a = model.move_avatar(avatar_id, pos)
-        if not a:
-            self.write('Error Avatar ID')
-        else:
-            self.write('Avatar with id: {}, moved to pos: {}'.format(a.unique_id, a.pos))
+        x, y = a.pos
+        data = {'avatar': {'id': a.unique_id, 'position': {'x': x, 'y': y}}}
+        response = json.dumps(data)
+        self.write(response)
 
 class state_occupant(tornado.web.RequestHandler):
     def get(self, occupant_id):
@@ -146,7 +146,11 @@ class info_occupant(tornado.web.RequestHandler):
         y = data["y"]
         pos = (int(x), int(y))
         a = model.create_avatar(avatar_id, pos)
-        self.write('Avatar with id: {}, created in pos: {}'.format(a.unique_id, a.pos))
+        x, y = a.pos
+        data = {'avatar': {'id': a.unique_id, 'position': {'x': x, 'y': y}}}
+        response = json.dumps(data)
+        self.write(response)
+        #self.write('Avatar with id: {}, created in pos: {} \n'.format(a.unique_id, a.pos))
 
 #Defining application
 class Application(tornado.web.Application):

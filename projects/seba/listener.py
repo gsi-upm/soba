@@ -10,14 +10,14 @@ import tornado.web
     In this file, the API is defined to obtain information about the simulation and control of avatars.
     Specifically, the API provide the next requests:
 
-        /api/v1/seba/getpositionsfire
+        /api/v1/seba/positions_fire
             Returns all the position where there is fire as a list of [x, y].
 
-        /api/v1/seba/getexitwayavatar/id&strategy
+        /api/v1/seba/exit_way_avatar/id&strategy
             Return the best way to be exit of the building in function of a given strategy.
             The way is given as a list of [x, y].
 
-        /api/v1/seba/putcreateemergencyavatar/id&x,y
+        /api/v1/seba/create_avatar/id&x,y
             Create an avatar on the position (x, y) on the grid.
             
         Where:
@@ -32,42 +32,49 @@ global model
 model = None
 
 #Get methods without query
-class getPositionsFire(tornado.web.RequestHandler):
+class positions_fire(tornado.web.RequestHandler):
     def get(self):
         global model
-        data = model.getPositionsFire()
+        data = model.positions_fire()
         response = json.dumps(data)
         self.write(response)
 
 #Get methods with query
-class getExitWayAvatar(tornado.web.RequestHandler):
+class exit_way_avatar(tornado.web.RequestHandler):
     def get(self, avatar_id, strategy = 1):
         global model
-        data = model.getExitWayAvatar(avatar_id, strategy)
+        data = model.exit_way_avatar(avatar_id, strategy)
         response = json.dumps(data)
         self.write(response)
 
-class getFireInFOVAvatar(tornado.web.RequestHandler):
+class fire_in_fov(tornado.web.RequestHandler):
     def get(self, avatar_id):
         global model
-        data = model.getFireInFOVAvatar(avatar_id)
+        data = model.fire_in_pov(avatar_id)
         response = json.dumps(data)
         self.write(response)
 
 #Put methods with query
-class putCreateEmergencyAvatar(tornado.web.RequestHandler):
-    def put(self, avatar_id, x, y):
+class create_avatar(tornado.web.RequestHandler):
+    def put(self, avatar_id):
         global model
+        data = tornado.escape.json_decode(self.request.body)
+        x = data["x"]
+        y = data["y"]
         pos = (int(x), int(y))
-        a = model.putCreateEmergencyAvatar(avatar_id, pos)
-        self.write('Avatar with id: {}, created in pos: {}'.format(a.unique_id, a.pos))
+        a = model.create_avatar(avatar_id, pos)
+        x, y = a.pos
+        data = {'avatar': {'id': a.unique_id, 'position': {'x': x, 'y': y}}}
+        response = json.dumps(data)
+        self.write(response)
 
 def setModel(modelAux):
     global model
     ltnr.model = modelAux
     model = modelAux
     ltnr.externalHandlers = [
-            (r"/api/v1/seba/getpositionsfire?", getPositionsFire),
-            (r"/api/v1/seba/getexitwayavatar/([0-9]+)?&([0-9]+)?", getExitWayAvatar),
-            (r"/api/v1/seba/putcreateemergencyavatar/([0-9]+)?&([0-9]+)?,([0-9]+)?", putCreateEmergencyAvatar)
-            ]
+        (r"/api/seba/v1/fire?", positions_fire),
+        (r"/api/seba/v1/occupants/([0-9]+)/route/([0-9]+)?", exit_way_avatar),
+        (r"/api/seba/v1/occupants/([0-9]+)/fire?", fire_in_fov),
+        (r"/api/seba/v1/occupants/([0-9]+)?", create_avatar)
+    ]
