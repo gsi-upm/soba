@@ -9,34 +9,34 @@ import json
     In this file, the API is defined to obtain information about the simulation and control of avatars.
     Specifically, the API provide the next requests:
 
-        /api/v1/soba/getmovementsoccupants
+        /api/v1/soba/movements_occupants
             Returns the movement of all occupants as a list of positions [x, y].
 
-        /api/v1/soba/getpositionoccupants
+        /api/v1/soba/positions_occupants
             Returns the position of all occupants as a list of positions [x, y].
 
-        /api/v1/soba/getstateoccupants
+        /api/v1/soba/state_occupants
             Returns the state of all occupants as a String.
 
-        /api/v1/soba/getmovementoccupant/id
+        /api/v1/soba/movement_occupant/id
             Returns the movement of one occupant given as orientation and speed.
 
-        /api/v1/soba/getpositionoccupant/id
+        /api/v1/soba/position_occupant/id
             Returns the position of one occupant as position [x, y].
 
         /api/v1/soba/getstatesoccupant/id
             Returns the state of one occupant as a String.
 
-        /api/v1/soba/getfovoccupant/id
+        /api/v1/soba/fov_occupant/id
             Returns the FOV (field of view) of one occupant as a list of positiions [x, y].
 
-        /api/v1/soba/getinfooccupant/id
+        /api/v1/soba/info_occupant/id
             Returns the state, movement, position and FOV of one occupant.
 
-        /api/v1/soba/putcreateavatar/id&x,y
+        /api/v1/soba/create_avatar/id&x,y
             Creates an avatar with an id in an (x, y) position in the grid.
 
-        /api/v1/soba/postposavatar/id&x,y
+        /api/v1/soba/move_avatar/id&x,y
             Moves an avatar to the position (x, y) in the grid.
             
         Where:
@@ -44,6 +44,7 @@ import json
             x and y are the two numbers with the grid coordinates.
 
 """
+
 # Simulation model
 global model
 model = None
@@ -57,106 +58,115 @@ def setModel(modelAux):
     if not model:
         model = modelAux
 
-# Defining Server Handlers
-class getPresentation(tornado.web.RequestHandler):
+class presentation(tornado.web.RequestHandler):
     def get(self):
         global model
         response = ' Welcome to SOBA API! \n Simulation in step: {}'.format(model.NStep)
         self.write(response)
 
-#Get methods without query
-class getMovementsOccupants(tornado.web.RequestHandler):
+class list_occupants(tornado.web.RequestHandler):
     def get(self):
         global model
-        data = model.getMovementsOccupants()
+        data = model.list_occupants()
         response = json.dumps(data)
         self.write(response)
 
-class getPositionOccupants(tornado.web.RequestHandler):
+class movements_occupants(tornado.web.RequestHandler):
     def get(self):
         global model
-        data = model.getPositionOccupants()
+        data = model.movements_occupants()
         response = json.dumps(data)
         self.write(response)
 
-class getStatesOccupants(tornado.web.RequestHandler):
+class positions_occupants(tornado.web.RequestHandler):
     def get(self):
         global model
-        data = model.getStatesOccupants()
+        data = model.positions_occupants()
         response = json.dumps(data)
         self.write(response)
 
-#Get methods with query
-class getMovementOccupant(tornado.web.RequestHandler):
+class states_occupants(tornado.web.RequestHandler):
+    def get(self):
+        global model
+        data = model.states_occupants()
+        response = json.dumps(data)
+        self.write(response)
+
+class movement_occupant(tornado.web.RequestHandler):
     def get(self, occupant_id):
         global model
-        data = model.getMovementOccupant(occupant_id)
+        data = model.movement_occupant(occupant_id)
         response = json.dumps(data)
         self.write(response)
 
-class getPositionOccupant(tornado.web.RequestHandler):
+class position_occupant(tornado.web.RequestHandler):
     def get(self, occupant_id):
         global model
-        data = model.getPositionOccupant(occupant_id)
+        data = model.position_occupant(occupant_id)
         response = json.dumps(data)
         self.write(response)
 
-class getStateOccupant(tornado.web.RequestHandler):
-    def get(self, occupant_id):
+    def post(self, avatar_id):
         global model
-        data = model.getStateOccupant(occupant_id)
-        response = json.dumps(data)
-        self.write(response)
-
-class getFOVOccupant(tornado.web.RequestHandler):
-    def get(self, occupant_id):
-        global model
-        data = model.getFOVOccupant(occupant_id)
-        response = json.dumps(data)
-        self.write(response)
-
-class getInfoOccupant(tornado.web.RequestHandler):
-    def get(self, occupant_id):
-        global model
-        data = model.getInfoOccupant(occupant_id)
-        response = json.dumps(data)
-        self.write(response)
-
-#Put methods with query
-class putCreateAvatar(tornado.web.RequestHandler):
-    def put(self, avatar_id, x, y):
-        global model
+        data = tornado.escape.json_decode(self.request.body)
+        x = data["x"]
+        y = data["y"]
         pos = (int(x), int(y))
-        a = model.putCreateAvatar(avatar_id, pos)
-        self.write('Avatar with id: {}, created in pos: {}'.format(a.unique_id, a.pos))
+        a = model.move_avatar(avatar_id, pos)
+        x, y = a.pos
+        data = {'avatar': {'id': a.unique_id, 'position': {'x': x, 'y': y}}}
+        response = json.dumps(data)
+        self.write(response)
 
-#Post methods with query
-class postPosAvatar(tornado.web.RequestHandler):
-    def post(self, avatar_id, x, y):
+class state_occupant(tornado.web.RequestHandler):
+    def get(self, occupant_id):
         global model
+        data = model.state_occupant(occupant_id)
+        response = json.dumps(data)
+        self.write(response)
+
+class fov_occupant(tornado.web.RequestHandler):
+    def get(self, occupant_id):
+        global model
+        data = model.fov_occupant(occupant_id)
+        response = json.dumps(data)
+        self.write(response)
+
+class info_occupant(tornado.web.RequestHandler):
+    def get(self, occupant_id):
+        global model
+        data = model.info_occupant(occupant_id)
+        response = json.dumps(data)
+        self.write(response)
+
+    def put(self, avatar_id):
+        global model
+        data = tornado.escape.json_decode(self.request.body)
+        x = data["x"]
+        y = data["y"]
         pos = (int(x), int(y))
-        a = model.postPosAvatar(avatar_id, pos)
-        if not a:
-            self.write('Error Avatar ID')
-        else:
-            self.write('Avatar with id: {}, moved to pos: {}'.format(a.unique_id, a.pos))
+        a = model.create_avatar(avatar_id, pos)
+        x, y = a.pos
+        data = {'avatar': {'id': a.unique_id, 'position': {'x': x, 'y': y}}}
+        response = json.dumps(data)
+        self.write(response)
+        #self.write('Avatar with id: {}, created in pos: {} \n'.format(a.unique_id, a.pos))
 
 #Defining application
 class Application(tornado.web.Application):
     global externalHandlers
     def __init__(self):
         internalHandlers = [
-            (r"/?", getPresentation),
-            (r"/api/v1/soba/getmovementsoccupants?", getMovementsOccupants),
-            (r"/api/v1/soba/getpositionoccupants?", getPositionOccupants),
-            (r"/api/v1/soba/getstateoccupants?", getStatesOccupants),
-            (r"/api/v1/soba/getmovementoccupant/([0-9]+)?", getMovementOccupant),
-            (r"/api/v1/soba/getpositionoccupant/([0-9]+)?", getPositionOccupant),
-            (r"/api/v1/soba/getstatesoccupant/([0-9]+)?", getStateOccupant),
-            (r"/api/v1/soba/getfovoccupant/([0-9]+)?", getFOVOccupant),
-            (r"/api/v1/soba/getinfooccupant/([0-9]+)?", getInfoOccupant),
-            (r"/api/v1/soba/putcreateavatar/([0-9]+)?&([0-9]+)?,([0-9]+)?", putCreateAvatar),
-            (r"/api/v1/soba/postposavatar/([0-9]+)?&([0-9]+)?,([0-9]+)?", postPosAvatar),
+            (r"/?", presentation),
+            (r"/api/soba/v1/occupants?", list_occupants),
+            (r"/api/soba/v1/occupants/movements?", movements_occupants),
+            (r"/api/soba/v1/occupants/positions?", positions_occupants),
+            (r"/api/soba/v1/occupants/states?", states_occupants),
+            (r"/api/soba/v1/occupants/([0-9]+)?", info_occupant),
+            (r"/api/soba/v1/occupants/([0-9]+)/movement?", movement_occupant),
+            (r"/api/soba/v1/occupants/([0-9]+)/position?", position_occupant),
+            (r"/api/soba/v1/occupants/([0-9]+)/state?", state_occupant),
+            (r"/api/soba/v1/occupants/([0-9]+)/fov?", fov_occupant)
         ]
         handlers = internalHandlers + externalHandlers
         tornado.web.Application.__init__(self, handlers)

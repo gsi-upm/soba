@@ -456,49 +456,71 @@ class ContinuousModel(GeneralModel):
 		return False
 
 	#API methods
-	def getMovementsOccupants(self):
+	def list_occupants(self):
+		unique_ids = []
+		for k, v in self.occupantsInfo.items():
+			unique_ids.append(v.get('unique_id'))
+		data = {"occupants": unique_ids}
+		return data
+
+	def movements_occupants(self):
 		data = {}
 		for k, v in self.occupantsInfo.items():
 			data[k] = v.get('movement')
 		return data
 
-	def getPositionOccupants(self):
+	def positions_occupants(self):
 		data = {}
 		for k, v in self.occupantsInfo.items():
-			data[k] = v.get('position')
+			x, y = v.get('position')
+			data[k] = {"x": x, "y": y}
 		return data
 
-	def getStatesOccupants(self):
+	def states_occupants(self):
 		data = {}
 		for k, v in self.occupantsInfo.items():
 			data[k] = v.get('state')
 		return data
 
-	def getMovementOccupant(self, occupant_id):
-		data = self.occupantsInfo.get(str(occupant_id)).get('movement')
+	def movement_occupant(self, occupant_id):
+		movement = self.occupantsInfo.get(str(occupant_id)).get('movement')
+		data = {"movement": movement}
 		return data
 
-	def getPositionOccupant(self, occupant_id):
-		data = self.occupantsInfo.get(str(occupant_id)).get('position')
+	def position_occupant(self, occupant_id):
+		x, y = self.occupantsInfo.get(str(occupant_id)).get('position')
+		data = {"position" : {"x": x, "y": y}}
 		return data
 
-	def getStateOccupant(self, occupant_id):
-		data = self.occupantsInfo.get(str(occupant_id)).get('state')
+	def state_occupant(self, occupant_id):
+		state = self.occupantsInfo.get(str(occupant_id)).get('state')
+		data = {"state": state}
 		return data
 
-	def getFOVOccupant(self, occupant_id):
-		data = self.occupantsInfo.get(str(occupant_id)).get('fov')
+	def fov_occupant(self, occupant_id):
+		fov = self.occupantsInfo.get(str(occupant_id)).get('fov')
+		fov_json = []
+		for pos in fov:
+			x, y = pos
+			fov_json.append({"x": x, "y": y})
+		data = {"fov": fov_json}
 		return data
 
-	def getInfoOccupant(self, occupant_id):
-		data = self.occupantsInfo.get(str(occupant_id))
+	def info_occupant(self, occupant_id):
+		data_fov = self.fov_occupant(occupant_id)
+		data_movement = self.movement_occupant(occupant_id)
+		data_position = self.position_occupant(occupant_id)
+		data_state = self.state_occupant(occupant_id)
+		data_occupant = {"unique_id": occupant_id, "fov": data_fov["fov"], "movement": data_movement["movement"], "position": data_position, "state": data_state["state"]}
+		data = {"occupant": data_occupant}
 		return data
 
-	def putCreateAvatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
+	def create_avatar(self, idAvatar, pos, color = 'red', initial_state = 'walking'):
 		a = self.createAvatar(idAvatar, pos, color, initial_state)
+		self.occupants.append(a)
 		return a
 
-	def postPosAvatar(self, idAvatar, pos):
+	def move_avatar(self, idAvatar, pos):
 		a = self.getOccupantId(int(idAvatar))
 		if not a:
 			return a

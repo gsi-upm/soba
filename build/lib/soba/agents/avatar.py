@@ -41,6 +41,7 @@ class Avatar(Occupant):
         self.movement = {}        
         self.movements = [self.pos]
         self.inbuilding = False
+        self.getFOV()
 
     def getWay(self, pos = None, pos_to_go = None, other = []):
         '''

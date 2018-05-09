@@ -3,6 +3,7 @@ import soba.agents.resources.aStar as aStar
 import soba.agents.resources.fov as fov
 import soba.visualization.ramen.performanceGenerator as ramen
 from soba.agents.occupant import Occupant
+from soba.agents.avatar import Avatar 
 import time
 
 class ContinuousOccupant(Occupant):
@@ -190,7 +191,7 @@ class ContinuousOccupant(Occupant):
 			return True
 		possibleOccupant = self.model.grid.get_cell_list_contents(self.movements[self.N])
 		for i in possibleOccupant:
-			if isinstance(i, Occupant):
+			if isinstance(i, Occupant) and not isinstance(i, Avatar):
 				if self.evalAvoid(i):
 					return True
 				self.movements = self.checkCanMove()
