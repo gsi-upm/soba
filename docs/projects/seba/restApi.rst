@@ -432,6 +432,15 @@ This API is supported by default at http://127.0.1.1:10000
   
   Create an avatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
 
+    Args:
+
+      .. sourcecode:: js
+
+        {
+          "x": x, 
+          "y": y
+        }
+
     Results:
 
       .. sourcecode:: js
@@ -453,6 +462,13 @@ This API is supported by default at http://127.0.1.1:10000
       .. sourcecode:: js
 
         {
+          "x": 4, 
+          "y": 5
+        }
+
+      .. sourcecode:: js
+
+        {
           "avatar": 
             {
               "position": 
@@ -468,6 +484,15 @@ This API is supported by default at http://127.0.1.1:10000
 .. admonition:: POST /api/soba/v1/occupants/{id}/position
   
   Move an avatar object to a given position. The unique_id and the new position (x, y) of the avatar must be provided.
+
+    Args:
+
+      .. sourcecode:: js
+
+        {
+          "x": x, 
+          "y": y
+        }
 
     Result:
 
@@ -486,6 +511,13 @@ This API is supported by default at http://127.0.1.1:10000
         }
 
     Example:
+
+      .. sourcecode:: js
+
+        {
+          "x": 4, 
+          "y": 5
+        }
 
       .. sourcecode:: js
 
@@ -605,6 +637,15 @@ This API is supported by default at http://127.0.1.1:10000
 .. admonition:: PUT /api/seba/v1/occupants/{id}
   
    Create an EmergencyAvatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
+    
+    Args:
+
+      .. sourcecode:: js
+
+        {
+          "x": x, 
+          "y": y
+        }
 
     Result:
 
@@ -623,6 +664,13 @@ This API is supported by default at http://127.0.1.1:10000
         }
 
     Example:
+      
+      .. sourcecode:: js
+
+        {
+          "x": 3, 
+          "y": 2
+        }
 
       .. sourcecode:: js
 
