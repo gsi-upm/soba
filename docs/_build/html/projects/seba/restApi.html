@@ -299,7 +299,6 @@
 <p>Example:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;100001&quot;</span><span class="o">:</span> <span class="p">{},</span>
   <span class="s2">&quot;1&quot;</span><span class="o">:</span>
     <span class="p">{</span>
       <span class="s2">&quot;orientation&quot;</span><span class="o">:</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span>
@@ -625,7 +624,16 @@
 <p class="first admonition-title">PUT /api/soba/v1/occupants/{id}</p>
 <p>Create an avatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.</p>
 <blockquote class="last">
-<div><p>Results:</p>
+<div><p>Args:</p>
+<blockquote>
+<div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="o">:</span> <span class="nx">y</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Results:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;avatar&quot;</span><span class="o">:</span>
@@ -644,6 +652,12 @@
 <p>Example:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="o">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;avatar&quot;</span><span class="o">:</span>
     <span class="p">{</span>
       <span class="s2">&quot;position&quot;</span><span class="o">:</span>
@@ -663,7 +677,16 @@
 <p class="first admonition-title">POST /api/soba/v1/occupants/{id}/position</p>
 <p>Move an avatar object to a given position. The unique_id and the new position (x, y) of the avatar must be provided.</p>
 <blockquote class="last">
-<div><p>Result:</p>
+<div><p>Args:</p>
+<blockquote>
+<div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="o">:</span> <span class="nx">y</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Result:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;avatar&quot;</span><span class="o">:</span>
@@ -682,6 +705,12 @@
 <p>Example:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="o">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;avatar&quot;</span><span class="o">:</span>
     <span class="p">{</span>
       <span class="s2">&quot;position&quot;</span><span class="o">:</span>
@@ -750,7 +779,7 @@
 </div>
 <div class="admonition-get-api-seba-v1-occupants-id-fire admonition">
 <p class="first admonition-title">GET /api/seba/v1/occupants/{id}/fire</p>
-<p>Returns the positions... que ve el agente donde hay fuego.</p>
+<p>Returns the positions in the field of vision of the agent where there is fire.</p>
 <blockquote class="last">
 <div><p>Result:</p>
 <blockquote>
@@ -803,7 +832,16 @@
 <p class="first admonition-title">PUT /api/seba/v1/occupants/{id}</p>
 <p>Create an EmergencyAvatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.</p>
 <blockquote class="last">
-<div><p>Result:</p>
+<div><p>Args:</p>
+<blockquote>
+<div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="o">:</span> <span class="nx">y</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Result:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;avatar&quot;</span><span class="o">:</span>
@@ -822,6 +860,12 @@
 <p>Example:</p>
 <blockquote>
 <div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="o">:</span> <span class="mi">2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;avatar&quot;</span><span class="o">:</span>
     <span class="p">{</span>
       <span class="s2">&quot;position&quot;</span><span class="o">:</span>

@@ -466,7 +466,8 @@ class ContinuousModel(GeneralModel):
 	def movements_occupants(self):
 		data = {}
 		for k, v in self.occupantsInfo.items():
-			data[k] = v.get('movement')
+			if v.get('movement'):
+				data[k] = v.get('movement')
 		return data
 
 	def positions_occupants(self):
@@ -511,7 +512,7 @@ class ContinuousModel(GeneralModel):
 		data_movement = self.movement_occupant(occupant_id)
 		data_position = self.position_occupant(occupant_id)
 		data_state = self.state_occupant(occupant_id)
-		data_occupant = {"unique_id": occupant_id, "fov": data_fov["fov"], "movement": data_movement["movement"], "position": data_position, "state": data_state["state"]}
+		data_occupant = {"unique_id": occupant_id, "fov": data_fov["fov"], "movement": data_movement["movement"], "position": data_position["position"], "state": data_state["state"]}
 		data = {"occupant": data_occupant}
 		return data
 

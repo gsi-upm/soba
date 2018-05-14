@@ -108,7 +108,6 @@ This API is supported by default at http://127.0.1.1:10000
       .. sourcecode:: js
 
         {
-          "100001": {}, 
           "1":
             {
               "orientation": "E",
@@ -586,7 +585,7 @@ This API is supported by default at http://127.0.1.1:10000
 
 .. admonition:: GET /api/seba/v1/occupants/{id}/fire
   
-  Returns the positions... que ve el agente donde hay fuego. 
+  Returns the positions in the field of vision of the agent where there is fire. 
 
     Result:
 
