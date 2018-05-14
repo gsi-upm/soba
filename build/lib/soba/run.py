@@ -14,7 +14,11 @@ def process(aux):
 		print('SOBA is running')
 	else:
 		print('\n Wrong params :(\n')
-		print('   Options:\n\t-v,\t\tVisual option on browser\n\t-b,\t\tBackground option\n\t-r,\t\tRamen option')
+		print('   Options:')
+		print('       -> First argument:')
+		print('\n\t-v,\t\tVisual option on browser\n\t-b,\t\tBackground option\n')
+		print('       -> Second argument:')
+		print('\n\t-rb,\t\tRamen visualization after simulation\n\t-rt,\t\tRamen visualization real time\n\t-s,\t\tServer execution\n')
 		print(' ')
 
 def run(model, *args, visualJS = '', back = False, iterations = 1):
