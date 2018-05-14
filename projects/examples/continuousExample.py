@@ -9,7 +9,7 @@ import sys
 class ModelExample(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = int(time())):
-		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
+		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
 		self.createOccupants(jsonsOccupants)
 
 	def step(self):

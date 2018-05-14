@@ -270,12 +270,12 @@ class ContinuousOccupant(Occupant):
 		elif x2 > x1 and y1 > y2:
 			pos = 'SE'
 		else:
-			if ramen:
+			if ramenAux:
 				ramen.reportStop(self)
 			else:
 				self.movement = {'speed': self.speed, 'orientation': stop}
 			return
-		if ramen:
+		if ramenAux:
 			ramen.reportMovement(self, pos, self.rect)
 		else:
 			orientation = pos
