@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                2.2
+                2.6
               </div>
             
           
@@ -91,7 +91,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html">Instalation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html#tutorial">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../restApi.html">REST API</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">SEBA Project</a><ul class="current">
@@ -107,6 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="usecase.html">Use case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="restApi.html">REST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="restApi.html#seba-documentation">SEBA Documentation</a></li>
 </ul>
 </li>
 </ul>
@@ -202,8 +205,8 @@
 <li><dl class="first docutils">
 <dt><em>Agents</em>.</dt>
 <dd><ul class="first last simple">
-<li><strong>Occupant</strong>. Component to implement the people who are in the building, their activity and behavior.</li>
-<li><strong>Avatar</strong>. It is interesting to provide a means of interaction between simulation and real human participation. This functionality is provided through this component.</li>
+<li><strong>Occupant</strong>.  An object of the Occupant class is a type of agent developed and characterized to simulate the behavior of crowds in buildings. The occupants are agents with their activity defined by markov states.</li>
+<li><strong>Avatar</strong>. It enables to create avatars that represent virtual occupants, that is, they are not controlled by the simulation but by an API Rest, providing a means of interaction between simulation and real human participation.</li>
 <li><strong>Fire</strong>. Through this component the threat of the emergency is modeled, specifically a fire that spreads through the building.</li>
 </ul>
 </dd>
@@ -212,7 +215,7 @@
 <li><dl class="first docutils">
 <dt><em>Visualization</em>.</dt>
 <dd><ul class="first last simple">
-<li><strong>Back.py</strong> and <strong>front js</strong>. Definition of visualization elements in browser. Connection between a JS file and a class p by means of parameter rendering.</li>
+<li><strong>Back.py</strong> and <strong>front js</strong>. Two components provide a simple mechanism to represent the model in a web interface, based on HTML rendering though a server interface, implemented with web sockets. Connection between a JS file and a class py by means of parameters rendering.</li>
 </ul>
 </dd>
 </dl>

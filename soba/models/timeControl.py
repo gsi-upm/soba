@@ -16,7 +16,7 @@ class Time(Agent):
 			decreaseTime: Decrease the value of the clock a given time.
 	"""
 
-	def __init__(self, model, timeByStep = 1, day = 1, hour = 8, minute = 0, seg = 0, microsecond = 0):
+	def __init__(self, model, timeByStep = 60, day = 1, hour = 7, minute = 50, seg = 0, microsecond = 0):
 		super().__init__(100000, model)
 		"""
 		Create a new Time object.

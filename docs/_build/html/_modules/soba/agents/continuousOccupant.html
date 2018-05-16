@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                2.2
+                2.6
               </div>
             
           
@@ -89,7 +89,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Instalation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#tutorial">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../restApi.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
@@ -217,7 +219,7 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">entering</span> <span class="o">=</span> <span class="kc">False</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">rect</span> <span class="o">=</span> <span class="kc">True</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">alreadyMovement</span> <span class="o">=</span> <span class="kc">False</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;direction&#39;</span><span class="p">:</span><span class="s1">&#39;out&#39;</span><span class="p">}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;orientation&#39;</span><span class="p">:</span><span class="s1">&#39;out&#39;</span><span class="p">}</span>
 
 		<span class="c1">#State machine</span>
 		<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;states&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -409,6 +411,7 @@
 
 <div class="viewcode-block" id="ContinuousOccupant.reportMovement"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.continuousOccupant.ContinuousOccupant.reportMovement">[docs]</a>	<span class="k">def</span> <span class="nf">reportMovement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot; Auxiliary method to notify a movement giving its orientation and speed. &quot;&quot;&quot;</span>
+		<span class="k">global</span> <span class="n">ramenAux</span>
 		<span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
 		<span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">movements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">]</span>
 		<span class="n">pos</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -429,19 +432,20 @@
 		<span class="k">elif</span> <span class="n">x2</span> <span class="o">&gt;</span> <span class="n">x1</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">&gt;</span> <span class="n">y2</span><span class="p">:</span>
 			<span class="n">pos</span> <span class="o">=</span> <span class="s1">&#39;SE&#39;</span>
 		<span class="k">else</span><span class="p">:</span>
-			<span class="k">if</span> <span class="n">ramen</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">ramenAux</span><span class="p">:</span>
 				<span class="n">ramen</span><span class="o">.</span><span class="n">reportStop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 			<span class="k">else</span><span class="p">:</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;orientation&#39;</span><span class="p">:</span> <span class="n">stop</span><span class="p">}</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;orientation&#39;</span><span class="p">:</span> <span class="s1">&#39;stop&#39;</span><span class="p">}</span>
 			<span class="k">return</span>
-		<span class="k">if</span> <span class="n">ramen</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">ramenAux</span><span class="p">:</span>
 			<span class="n">ramen</span><span class="o">.</span><span class="n">reportMovement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="n">orientation</span> <span class="o">=</span> <span class="n">pos</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;orientation&#39;</span><span class="p">:</span> <span class="n">pos</span><span class="p">}</span></div>
+			<span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;orientation&#39;</span><span class="p">:</span> <span class="n">orientation</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="ContinuousOccupant.checkLeaveArrive"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.continuousOccupant.ContinuousOccupant.checkLeaveArrive">[docs]</a>	<span class="k">def</span> <span class="nf">checkLeaveArrive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot; Evaluates the entrance and exit of the building by an occupying agent. &quot;&quot;&quot;</span>
+		<span class="k">global</span> <span class="n">ramenAux</span>
 		<span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exits</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">entering</span> <span class="o">=</span> <span class="kc">True</span>
 			<span class="k">if</span> <span class="n">ramenAux</span><span class="p">:</span>
@@ -478,13 +482,14 @@
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">changeSchedule</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">markov_machine</span><span class="o">.</span><span class="n">runStep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markovActivity</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getPeriod</span><span class="p">()])</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">checkLeaveArrive</span><span class="p">()</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">=</span> <span class="kc">False</span>
 		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">makeMovement</span><span class="p">()</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">alreadyMovement</span> <span class="o">=</span> <span class="kc">True</span>
 		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">-</span> <span class="mi">1</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">checkLeaveArrive</span><span class="p">()</span>
+			<span class="k">global</span> <span class="n">ramenAux</span>
 			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span> <span class="ow">and</span> <span class="n">ramenAux</span><span class="p">:</span>
 				<span class="n">ramen</span><span class="o">.</span><span class="n">reportStop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>

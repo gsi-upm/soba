@@ -49,6 +49,9 @@ timeActivityVariation = {
     '-t1': [1, 0, 0], 't1-t2': [1, 1, 1], 't2-t3': [1, 1, 1], 't3-': [1, 1, 1]
 }
 
+jsonOccupant = {'type': 'example' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
+'markovActivity': markovActivity, 'timeActivity': timeActivity, "timeActivityVariation": timeActivityVariation}
+
 jsonsOccupants.append(jsonOccupant)
 
 with open('auxiliarFiles/labgsi.blueprint3d') as data_file:

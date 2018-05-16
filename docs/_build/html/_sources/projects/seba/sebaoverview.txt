@@ -32,11 +32,12 @@ SEBA is implemented through 4 modules with classes with related functionalities.
 
 - **Model**. This component is the center of the simulations. In the model class, the simulation starts, creating the variables and defining the conditions. During execution, it manages and functions as an intermediary between instances. In this class the strategies of the models are specified.
 - *Agents*.
-	- **Occupant**. Component to implement the people who are in the building, their activity and behavior.
-	- **Avatar**. It is interesting to provide a means of interaction between simulation and real human participation. This functionality is provided through this component.
+	- **Occupant**.  An object of the Occupant class is a type of agent developed and characterized to simulate the behavior of crowds in buildings. The occupants are agents with their activity defined by markov states.
+	- **Avatar**. It enables to create avatars that represent virtual occupants, that is, they are not controlled by the simulation but by an API Rest, providing a means of interaction between simulation and real human participation.
 	- **Fire**. Through this component the threat of the emergency is modeled, specifically a fire that spreads through the building.
 - *Visualization*.
-	- **Back.py** and **front js**. Definition of visualization elements in browser. Connection between a JS file and a class p by means of parameter rendering.
+	- **Back.py** and **front js**. Two components provide a simple mechanism to represent the model in a web interface, based on HTML rendering though a server interface, implemented with web sockets. Connection between a JS file and a class py by means of parameters rendering.
+
 - *Launchers*.
 	- **RESTServer**. Specification of the REST service server deployment.
 	- **Run**. Provides the execution of the simulation from terminal.

@@ -29,7 +29,7 @@ states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my la
 schedule = {'t1': "08:00:00", 't2': "09:00:00", 't3': "14:10:00"}
 
 #Possible Variation on the schedule
-variation = {'t1': "00:01:00", 't2': "00:01:00", 't3': "00:20:00"}
+variation = {'t1': "00:10:00", 't2': "00:01:00", 't3': "00:20:00"}
 
 #Probability of state change associated with the Markovian chain as a function of the temporal period
 markovActivity = {
@@ -57,8 +57,8 @@ jsonsOccupants.append(jsonOccupant)
 with open('labgsi.blueprint3d') as data_file:
 	jsonMap = ramen.returnMap(data_file)
 
-cellW = 40
-cellH = 40
+cellW = 20
+cellH = 20
 
 if len(sys.argv) > 1 and sys.argv[1] == '-v':
 	parameters = {'width': cellW, 'height': cellH, 'jsonMap': jsonMap, 'jsonsOccupants': jsonsOccupants}

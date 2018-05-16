@@ -7,4 +7,4 @@ SEBA Documentation
    howinstall
    usecase
    APIs Documentation <apiDocumentation/api.rst>
-   restApi
+   rest

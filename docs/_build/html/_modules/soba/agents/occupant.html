@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                2.2
+                2.6
               </div>
             
           
@@ -89,7 +89,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Instalation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#tutorial">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../restApi.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
@@ -269,7 +271,8 @@
 				<span class="n">variationSecondsNormal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
 				<span class="n">variationTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">variationSecondsNormal</span><span class="p">)</span>
 				<span class="n">newSchedule</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">v</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">variationSecondsNormal</span><span class="p">)</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">newSchedule</span></div>
+				<span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">newSchedule</span>
+		<span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Occupant.start_activity"><a class="viewcode-back" href="../../../apiDocumentation/agents.html#soba.agents.occupant.Occupant.start_activity">[docs]</a>	<span class="k">def</span> <span class="nf">start_activity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot; </span>

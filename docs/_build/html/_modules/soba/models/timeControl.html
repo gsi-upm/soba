@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                2.2
+                2.6
               </div>
             
           
@@ -89,7 +89,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Instalation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#tutorial">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../restApi.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
@@ -175,7 +177,7 @@
 <span class="sd">			decreaseTime: Decrease the value of the clock a given time.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 
-	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">timeByStep</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hour</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">minute</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">seg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">timeByStep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hour</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">minute</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">seg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
 		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Create a new Time object.</span>
