@@ -1,5 +1,5 @@
-API Rest Test
-=============
+# REST API Test 
+===============
 
 Test execution guide
 --------------------
