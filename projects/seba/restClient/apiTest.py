@@ -7,8 +7,8 @@ import unittest
 
 ipServer = socket.gethostbyname(socket.gethostname())
 
-
-URLBASE = "http://127.0.1.1:10000"
+port = "10000"
+URLBASE = "http://127.0.0.1:" + 10000
 URISOBA = "/api/soba/v1/occupants"
 URISEBA = "/api/seba/v1/occupants"
 URIFIRE = "/api/seba/v1/fire"

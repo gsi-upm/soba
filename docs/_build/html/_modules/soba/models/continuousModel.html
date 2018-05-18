@@ -225,9 +225,11 @@
 
 	<span class="k">global</span> <span class="n">server</span>
 	<span class="n">server</span> <span class="o">=</span> <span class="kc">False</span>
-	<span class="k">def</span> <span class="nf">activeServer</span><span class="p">():</span>
+	<span class="k">def</span> <span class="nf">activeServer</span><span class="p">(</span><span class="n">portAux</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
 		<span class="k">global</span> <span class="n">server</span>
+		<span class="k">global</span> <span class="n">port</span>
 		<span class="n">server</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="n">port</span> <span class="o">=</span> <span class="n">portAux</span>
 
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">jsonMap</span><span class="p">,</span> <span class="n">jsonsOccupants</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">timeByStep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">):</span>
 		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">timeByStep</span><span class="p">)</span>
@@ -252,7 +254,7 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">[]</span>
 		<span class="k">if</span> <span class="n">server</span><span class="p">:</span>
 			<span class="n">api</span><span class="o">.</span><span class="n">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-			<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">api</span><span class="o">.</span><span class="n">runServer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
+			<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">api</span><span class="o">.</span><span class="n">runServer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">port</span><span class="p">,))</span>
 			<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">occupantsInfo</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">ramenAux</span> <span class="o">=</span> <span class="n">ramenAux</span>

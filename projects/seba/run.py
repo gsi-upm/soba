@@ -25,7 +25,7 @@ sebaConfiguration = {'families': families}
 
 jsonsOccupants = []
 
-N = 1
+N = 4
 
 states = OrderedDict([('Leaving','out'), ('Resting', 'sofa'), ('Working in my laboratory', 'wp')])
 

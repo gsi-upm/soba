@@ -40,7 +40,7 @@ class SEBAModel(ContinuousModel):
 		self.emergency = False
 		self.FireControl = False
 		today = dt.date.today()
-		self.fireTime = dt.datetime(today.year, today.month, 1, 8, 10, 0, 0)
+		self.fireTime = dt.datetime(today.year, today.month, 1, 8, 30, 0, 0)
 		self.outDoors = []
 		self.getOutDoors()
 		self.familiesJson = sebaConfiguration.get('families')
