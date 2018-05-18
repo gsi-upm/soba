@@ -58,7 +58,7 @@ class ContinuousOccupant(Occupant):
 		self.entering = False
 		self.rect = True
 		self.alreadyMovement = False
-		self.movement = {'speed': self.speed, 'direction':'out'}
+		self.movement = {'speed': self.speed, 'orientation':'out'}
 
 		#State machine
 		for k, v in json['states'].items():
@@ -250,6 +250,7 @@ class ContinuousOccupant(Occupant):
 
 	def reportMovement(self):
 		""" Auxiliary method to notify a movement giving its orientation and speed. """
+		global ramenAux
 		x1, y1 = self.pos
 		x2, y2 = self.movements[self.N]
 		pos = ''
@@ -270,19 +271,20 @@ class ContinuousOccupant(Occupant):
 		elif x2 > x1 and y1 > y2:
 			pos = 'SE'
 		else:
-			if ramen:
+			if ramenAux:
 				ramen.reportStop(self)
 			else:
-				self.movement = {'speed': self.speed, 'orientation': stop}
+				self.movement = {'speed': self.speed, 'orientation': 'stop'}
 			return
-		if ramen:
+		if ramenAux:
 			ramen.reportMovement(self, pos, self.rect)
 		else:
 			orientation = pos
-			self.movement = {'speed': self.speed, 'orientation': pos}
+			self.movement = {'speed': self.speed, 'orientation': orientation}
 
 	def checkLeaveArrive(self):
 		""" Evaluates the entrance and exit of the building by an occupying agent. """
+		global ramenAux
 		if (self.pos_to_go not in self.model.exits) and not self.inbuilding:
 			self.entering = True
 			if ramenAux:
@@ -319,13 +321,14 @@ class ContinuousOccupant(Occupant):
 		if self.changeSchedule() or self.markov == True:
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
 			self.checkLeaveArrive()
-			self.step()
+			self.markov = False
 		elif self.pos != self.pos_to_go:
 			self.makeMovement()
 			self.alreadyMovement = True
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1
 			self.checkLeaveArrive()
+			global ramenAux
 			if self.inbuilding and ramenAux:
 				ramen.reportStop(self)
 		else:
