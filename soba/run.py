@@ -39,8 +39,11 @@ def run(model, *args, visualJS = '', back = False, iterations = 1):
 			process(True)
 			ContinuousModel.activeRamen(rt = True)
 		elif sys.argv[2] == '-s':
+			if len(sys.argv > 3)
+				ContinuousModel.activeServer(sys.argv[3])
+			else:
+				ContinuousModel.activeServer()
 			process(True)
-			ContinuousModel.activeServer()
 		else:
 			pass
 	if len(sys.argv) > 1:
