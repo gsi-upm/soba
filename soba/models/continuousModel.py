@@ -64,9 +64,11 @@ class ContinuousModel(GeneralModel):
 
 	global server
 	server = False
-	def activeServer():
+	def activeServer(portAux = 10000):
 		global server
+		global port
 		server = True
+		port = portAux
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, seed = dt.datetime.now(), scale = 0.5, timeByStep = 60):
 		super().__init__(width, height, seed, timeByStep)
@@ -83,6 +85,7 @@ class ContinuousModel(GeneralModel):
 				asciMap: Plane of the grid in an ASCII format to apply the fov algorithm.
 			Return: ContinuousModel object.
 		"""
+		global port
 		self.walls = []
 		self.lineWalls = []
 		self.pois = []
@@ -91,7 +94,7 @@ class ContinuousModel(GeneralModel):
 		self.exits = []
 		if server:
 			api.setModel(self)
-			thread = threading.Thread(target=api.runServer, args=())
+			thread = threading.Thread(target=api.runServer, args=(port,))
 			thread.start()
 		self.occupantsInfo = {}
 		self.ramenAux = ramenAux

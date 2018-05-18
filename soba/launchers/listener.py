@@ -172,10 +172,10 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers)
 
 #Run server method
-def runServer(host='127.0.1.1', port=10000):
+def runServer(port=10000):
     global app
     print('server launched in port: {}.\n'.format(port))
     app = Application()
-    app.listen(port, address=host)
+    app.listen(port, address='127.0.0.1')
     tornado.autoreload.start()
     IOLoop.current().start()
