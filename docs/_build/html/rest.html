@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; SOBA 1 documentation</title>
+  <title>REST API &mdash; SOBA 1 documentation</title>
   
 
   
@@ -32,7 +32,9 @@
   
 
   
-    <link rel="top" title="SOBA 1 documentation" href="index.html"/> 
+    <link rel="top" title="SOBA 1 documentation" href="index.html"/>
+        <link rel="next" title="REST API" href="restApi.html"/>
+        <link rel="prev" title="Launchers Module Documentation" href="apiDocumentation/launchers.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -68,7 +70,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -85,12 +87,16 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howinstall.html">How install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rest.html">REST API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">REST API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="restApi.html">REST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apiTest.html">REST API Test</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -136,10 +142,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li></li>
+      <li>REST API</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/rest.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -151,19 +161,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="rest-api">
+<h1>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="restApi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apiTest.html">REST API Test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apiTest.html#test-execution-guide">Test execution guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apiTest.html#tests-in-a-notebook">Tests in a notebook</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apiTest.html#initialization-of-params">Initialization of params</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apiTest.html#tests">Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            <div class="articleComments">
@@ -171,6 +186,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="restApi.html" class="btn btn-neutral float-right" title="REST API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="apiDocumentation/launchers.html" class="btn btn-neutral" title="Launchers Module Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -210,7 +234,6 @@
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
 
@@ -226,14 +249,7 @@
           SphinxRtdTheme.StickyNav.enable();
       });
   </script>
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

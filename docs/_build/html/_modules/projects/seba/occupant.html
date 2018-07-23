@@ -89,11 +89,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Instalation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#tutorial">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../apiDocumentation/api.html">APIs Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../restApi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rest.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -313,6 +311,9 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exits</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">makeEmergencyAction</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occupEmerg</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occupEmerg</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>

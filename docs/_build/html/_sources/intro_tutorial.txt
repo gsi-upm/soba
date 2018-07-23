@@ -1,6 +1,9 @@
 
+Introductory Tutorial
+=====================
+
 Instalation
------------
+~~~~~~~~~~~
 
 If the SOBA package is not yet installed, we must first do so. To
 install SOBA the best option is to use the package management system
@@ -17,11 +20,8 @@ installed python 3 and pip 3.
 
         $ pip3 install soba
 
-Introductory Tutorial
-=====================
-
 Tutorial
---------
+~~~~~~~~
 
 The SOBA tool can be provided to be used directly on two scenarios:
 
@@ -85,7 +85,7 @@ define the generic parameters to both types of scenario.
         '-t1': [[100, 0, 0], [0, 0, 0], [0, 0, 0]],
         't1-t2': [[0, 0, 100], [0, 50, 50], [0, 50, 50]],
         't2-t3': [[100, 0, 0], [0, 50, 50], [0, 50, 50]],
-        't3-': [[0, 0, 100], [0, 100, 0], [0, 100, 0]]
+        't3-': [[0, 0, 100], [100, 0, 0], [0, 0, 100]]
     }
     
     #Time associated to each state (minutes)
@@ -152,6 +152,132 @@ define the generic parameters to both types of scenario.
     sys.argv.append("-v")
     
     soba.run.run(ModelExample, parameters, visualJS="example.js")
+
+
+.. parsed-literal::
+
+    SOBA is running
+    Interface starting at http://127.0.0.1:7777
+    Socket opened!
+    {"type":"get_params"}
+    {"type":"reset"}
+    {"type":"get_step","step":1}
+    01:08:01:00
+    {"type":"get_step","step":2}
+    01:08:02:00
+    {"type":"get_step","step":3}
+    01:08:03:00
+    {"type":"get_step","step":4}
+    01:08:04:00
+    {"type":"get_step","step":5}
+    01:08:05:00
+    {"type":"get_step","step":6}
+    01:08:06:00
+    {"type":"get_step","step":7}
+    01:08:07:00
+    {"type":"get_step","step":8}
+    01:08:08:00
+    {"type":"get_step","step":9}
+    01:08:09:00
+    {"type":"get_step","step":10}
+    01:08:10:00
+    {"type":"get_step","step":11}
+    01:08:11:00
+    {"type":"get_step","step":12}
+    01:08:12:00
+    {"type":"get_step","step":13}
+    01:08:13:00
+    {"type":"get_step","step":14}
+    01:08:14:00
+    {"type":"get_step","step":15}
+    01:08:15:00
+    {"type":"get_step","step":16}
+    01:08:16:00
+    {"type":"get_step","step":17}
+    01:08:17:00
+    {"type":"get_step","step":18}
+    01:08:18:00
+    {"type":"get_step","step":19}
+    01:08:19:00
+    {"type":"get_step","step":20}
+    01:08:20:00
+    {"type":"get_step","step":21}
+    01:08:21:00
+    {"type":"get_step","step":22}
+    01:08:22:00
+    {"type":"get_step","step":23}
+    01:08:23:00
+    {"type":"get_step","step":24}
+    01:08:24:00
+    {"type":"get_step","step":25}
+    01:08:25:00
+    {"type":"get_step","step":26}
+    01:08:26:00
+    {"type":"get_step","step":27}
+    01:08:27:00
+    {"type":"get_step","step":28}
+    01:08:28:00
+    {"type":"get_step","step":29}
+    01:08:29:00
+    {"type":"get_step","step":30}
+    01:08:30:00
+    {"type":"get_step","step":31}
+    01:08:31:00
+    {"type":"get_step","step":32}
+    01:08:32:00
+    {"type":"get_step","step":33}
+    01:08:33:00
+    {"type":"get_step","step":34}
+    01:08:34:00
+    {"type":"get_step","step":35}
+    01:08:35:00
+    {"type":"get_step","step":36}
+    01:08:36:00
+    {"type":"get_step","step":37}
+    01:08:37:00
+    {"type":"get_step","step":38}
+    01:08:38:00
+    {"type":"get_step","step":39}
+    01:08:39:00
+    {"type":"get_step","step":40}
+    01:08:40:00
+    {"type":"get_step","step":41}
+    01:08:41:00
+    {"type":"get_step","step":42}
+    01:08:42:00
+    {"type":"get_step","step":43}
+    01:08:43:00
+    {"type":"get_step","step":44}
+    01:08:44:00
+    {"type":"get_step","step":45}
+    01:08:45:00
+    {"type":"get_step","step":46}
+    01:08:46:00
+    {"type":"get_step","step":47}
+    01:08:47:00
+    {"type":"get_step","step":48}
+    01:08:48:00
+    {"type":"get_step","step":49}
+    01:08:49:00
+    {"type":"get_step","step":50}
+    01:08:50:00
+    {"type":"get_step","step":51}
+    01:08:51:00
+    {"type":"get_step","step":52}
+    01:08:52:00
+    {"type":"get_step","step":53}
+    01:08:53:00
+    {"type":"get_step","step":54}
+    01:08:54:00
+    {"type":"get_step","step":55}
+    01:08:55:00
+    {"type":"get_step","step":56}
+    01:08:56:00
+    {"type":"get_step","step":57}
+    01:08:57:00
+    {"type":"get_step","step":58}
+    01:08:58:00
+
 
 ::
 
@@ -284,7 +410,7 @@ define the generic parameters to both types of scenario.
     soba.run.run(ModelExample, fixed_params, variable_params)
 
 Running the simulation using the terminal
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
 

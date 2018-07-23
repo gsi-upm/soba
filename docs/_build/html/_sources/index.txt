@@ -7,5 +7,5 @@ SOBA Documentation
    howinstall
    intro_tutorial
    APIs Documentation <apiDocumentation/api.rst>
-   restApi
+   rest
    SEBA Project <projects/seba/index.rst>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Instalation &mdash; SOBA 1 documentation</title>
+  <title>Introductory Tutorial &mdash; SOBA 1 documentation</title>
   
 
   
@@ -90,14 +90,16 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howinstall.html">How install</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Instalation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#introductory-tutorial">Introductory Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introductory Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#instalation">Instalation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorial">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementing-a-sample-model-with-continuous-space">Implementing a sample model with continuous space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementing-a-sample-model-with-simplified-space">Implementing a sample model with simplified space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#tutorial">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="restApi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -143,7 +145,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Instalation</li>
+      <li>Introductory Tutorial</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,8 +164,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="instalation">
-<h1>Instalation<a class="headerlink" href="#instalation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="introductory-tutorial">
+<h1>Introductory Tutorial<a class="headerlink" href="#introductory-tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="instalation">
+<h2>Instalation<a class="headerlink" href="#instalation" title="Permalink to this headline">¶</a></h2>
 <p>If the SOBA package is not yet installed, we must first do so. To
 install SOBA the best option is to use the package management system
 PIP. For this, we execute the following command.</p>
@@ -175,12 +179,9 @@ installed python 3 and pip 3.</p>
 <div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ pip3 install soba
 </pre></div>
 </div>
-<div class="section" id="introductory-tutorial">
-<h2>Introductory Tutorial<a class="headerlink" href="#introductory-tutorial" title="Permalink to this headline">¶</a></h2>
-</div>
 </div>
 <div class="section" id="tutorial">
-<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
 <p>The SOBA tool can be provided to be used directly on two scenarios:</p>
 <ol class="arabic simple">
 <li>Generic case with a space defined as a grid of a given square size
@@ -209,6 +210,9 @@ for advanced 3D-visualization on Three.js.</li>
 <p>IMPORTANT NOTE: The .py files described in this tutorial are available
 in the github repository
 <a class="reference external" href="https://github.com/gsi-upm/soba/tree/master/projects/basicExamples">https://github.com/gsi-upm/soba/tree/master/projects/basicExamples</a></p>
+</div>
+<div class="section" id="implementing-a-sample-model-with-continuous-space">
+<h2>Implementing a sample model with continuous space<a class="headerlink" href="#implementing-a-sample-model-with-continuous-space" title="Permalink to this headline">¶</a></h2>
 <p>Once soba is installed, the implementation can be started. First we
 define the generic parameters to both types of scenario.</p>
 <p>1.- We define the characteristics of the occupants</p>
@@ -233,7 +237,7 @@ define the generic parameters to both types of scenario.</p>
     <span class="s1">&#39;-t1&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
     <span class="s1">&#39;t1-t2&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span>
     <span class="s1">&#39;t2-t3&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span>
-    <span class="s1">&#39;t3-&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+    <span class="s1">&#39;t3-&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span>
 <span class="p">}</span>
 
 <span class="c1">#Time associated to each state (minutes)</span>
@@ -294,6 +298,129 @@ define the generic parameters to both types of scenario.</p>
 <span class="n">soba</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ModelExample</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">visualJS</span><span class="o">=</span><span class="s2">&quot;example.js&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>SOBA is running
+Interface starting at http://127.0.0.1:7777
+Socket opened!
+{&quot;type&quot;:&quot;get_params&quot;}
+{&quot;type&quot;:&quot;reset&quot;}
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:1}
+01:08:01:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:2}
+01:08:02:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:3}
+01:08:03:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:4}
+01:08:04:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:5}
+01:08:05:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:6}
+01:08:06:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:7}
+01:08:07:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:8}
+01:08:08:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:9}
+01:08:09:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:10}
+01:08:10:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:11}
+01:08:11:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:12}
+01:08:12:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:13}
+01:08:13:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:14}
+01:08:14:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:15}
+01:08:15:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:16}
+01:08:16:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:17}
+01:08:17:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:18}
+01:08:18:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:19}
+01:08:19:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:20}
+01:08:20:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:21}
+01:08:21:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:22}
+01:08:22:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:23}
+01:08:23:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:24}
+01:08:24:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:25}
+01:08:25:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:26}
+01:08:26:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:27}
+01:08:27:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:28}
+01:08:28:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:29}
+01:08:29:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:30}
+01:08:30:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:31}
+01:08:31:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:32}
+01:08:32:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:33}
+01:08:33:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:34}
+01:08:34:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:35}
+01:08:35:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:36}
+01:08:36:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:37}
+01:08:37:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:38}
+01:08:38:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:39}
+01:08:39:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:40}
+01:08:40:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:41}
+01:08:41:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:42}
+01:08:42:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:43}
+01:08:43:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:44}
+01:08:44:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:45}
+01:08:45:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:46}
+01:08:46:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:47}
+01:08:47:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:48}
+01:08:48:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:49}
+01:08:49:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:50}
+01:08:50:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:51}
+01:08:51:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:52}
+01:08:52:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:53}
+01:08:53:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:54}
+01:08:54:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:55}
+01:08:55:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:56}
+01:08:56:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:57}
+01:08:57:00
+{&quot;type&quot;:&quot;get_step&quot;,&quot;step&quot;:58}
+01:08:58:00
+</pre></div>
+</div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">4.1</span><span class="o">-</span> <span class="n">Bacth</span> <span class="n">mode</span><span class="o">.</span>
 </pre></div>
 </div>
@@ -311,6 +438,9 @@ define the generic parameters to both types of scenario.</p>
 <span class="n">soba</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ModelExample</span><span class="p">,</span> <span class="n">fixed_params</span><span class="p">,</span> <span class="n">variable_params</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="implementing-a-sample-model-with-simplified-space">
+<h2>Implementing a sample model with simplified space<a class="headerlink" href="#implementing-a-sample-model-with-simplified-space" title="Permalink to this headline">¶</a></h2>
 <p>Once soba is installed, the implementation can be started. First we
 define the generic parameters to both types of scenario.</p>
 <p>1.- We define the characteristics of the occupants</p>
@@ -410,7 +540,7 @@ define the generic parameters to both types of scenario.</p>
 </div>
 </div>
 <div class="section" id="running-the-simulation-using-the-terminal">
-<h1>Running the simulation using the terminal<a class="headerlink" href="#running-the-simulation-using-the-terminal" title="Permalink to this headline">¶</a></h1>
+<h2>Running the simulation using the terminal<a class="headerlink" href="#running-the-simulation-using-the-terminal" title="Permalink to this headline">¶</a></h2>
 <div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/gsi-upm/soba
 
 $ cd soba/projects/examples
@@ -452,6 +582,7 @@ $ cd soba/projects/examples
 <p>2.2 Using RAMEN tool</p>
 <div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ python3 continuousExample.py -b -r
 </pre></div>
+</div>
 </div>
 </div>
 

@@ -1,37 +1,43 @@
-# REST API Test 
-===============
+
+REST API Test
+=============
 
 Test execution guide
 --------------------
 
-To make a test of the REST service, the first thing to do is to make sure to run the SEBA software with the server option specified (-s), providing or not (optional) the port where the service will be defined.
+To make a test of the REST service, the first thing to do is to make
+sure to run the SOBA example with the server option specified (-s),
+providing or not (optional) the port where the service will be defined.
 
 .. code:: bash
 
-        $ git clone https://github.com/gsi-upm/soba
+            $ git clone https://github.com/gsi-upm/soba
 
-        $ cd soba/projects/seba
+            $ cd soba/projects/examples
 
-        $ python3 run.py -v -s
+            $ python3 continuousExample.py -v -s
 
-
-Then, once the software has run, following the previous case, selecting the start option of the interface in the browser. Once the simulation has started, run the 'apiTest.py' test script. If a port was defined in the execution, change the variable port of the file to the chosen value.
+Then, once the software has run, following the previous case, selecting
+the start option of the interface in the browser. Once the simulation
+has started, run the 'apiTest.py' test script. If a port was defined in
+the execution, change the variable port of the file to the chosen value.
 
 .. code:: bash
 
-        $ cd restClient
 
-        $ python3 apiTest.py
-
+            $ python3 apiTest.py
 
 Tests in a notebook
 -------------------
-To execute the tests with greater control, it is recommended to download and use the jupyter notebook that is provided in the following address: `Notebook <https://github.com/gsi-upm/soba/blob/master/docs/projects/seba/apiTest.ipynb>`_ 
+
+To execute the tests with greater control, it is recommended to download
+and use the jupyter notebook that is provided in the following address:
+`Notebook <https://github.com/gsi-upm/soba/blob/master/docs/apiTest.ipynb>`__
 
 This notebook is also presented below.
 
 Initialization of params
-""""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -50,8 +56,6 @@ Initialization of params
     #Template of the URLs
     URLBASE = "http://127.0.0.1:"+ port
     URISOBA = "/api/soba/v1/occupants"
-    URISEBA = "/api/seba/v1/occupants"
-    URIFIRE = "/api/seba/v1/fire"
     
     stringTemplate = {"type": "string"}
     numberTemplate = {"type": "number"}
@@ -60,7 +64,7 @@ Initialization of params
     N = 1
 
 Tests
-"""""
+~~~~~
 
 .. code:: python
 
@@ -500,179 +504,4 @@ Tests
 
     Testing POST /api/soba/v1/occupants/{id}/position
     Response:  {'avatar': {'position': {'y': 7, 'x': 5}, 'id': 100000}}
-
-
-.. code:: python
-
-    print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
-    template = {
-        "type": "object",
-        "properties": {
-            "positions": {
-                "type": "array"
-                }
-        }
-    }
-    
-    template2 = {
-        "type": "object",
-        "properties": {
-            "x": {
-                "type": "number"
-                },
-            "y": {
-                "type": "number"
-                }
-        },
-        "required": ["x", "y"]
-    }
-    
-    for i in range(N):
-        url = URLBASE + URISEBA + "/" + str(100000) + "/route/1"
-        data = requests.get(url)
-        datajson = data.json()
-        print("Response: ", datajson)
-        validate(datajson, template)
-        for m in datajson["positions"]:
-            validate(m, template2)
-
-
-.. parsed-literal::
-
-    Testing GET /api/seba/v1/occupants/{id}/route/{route_id}
-    Response:  {'positions': [{'y': 7, 'x': 4}, {'y': 7, 'x': 3}, {'y': 7, 'x': 2}, {'y': 6, 'x': 1}, {'y': 6, 'x': 0}]}
-
-
-.. code:: python
-
-    print(str('Testing {}').format('PUT /api/seba/v1/occupants/{id}'))
-    template = {
-        "type": "object",
-        "properties": {
-            "avatar": {
-                "type": "object",
-                "properties":{
-                    "position":{
-                        "type": "object",
-                        "properties":{
-                            "x": {
-                                "type": "number"
-                            },
-                            "y": {
-                                "type": "number"
-                            }
-                        },
-                        "required": ["x", "y"]
-                    },
-                    "id": {
-                        "type": "number"
-                    }
-                },
-                "required": ["position", "id"]
-            }
-        },
-        "required": ["avatar"]
-    }
-    
-    dataBody = {"x": 13, "y": 13}
-    
-    for i in range(N):
-        url = URLBASE + URISEBA + "/" + str(1)
-        data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
-        datajson = data.json()
-        print("Response: ", datajson)
-        validate(datajson, template)
-
-
-.. parsed-literal::
-
-    Testing PUT /api/seba/v1/occupants/{id}
-    Response:  {'avatar': {'id': 100001, 'position': {'y': 13, 'x': 13}}}
-
-
-.. code:: python
-
-    print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/fire'))
-    template = {
-        "type": "object",
-        "properties": {
-            "positions": {
-                "type": "array"
-                }
-        },
-        "required": ["positions"]
-    }
-    
-    template2 = {
-        "type": "object",
-        "properties": {
-            "x": {
-                "type": "number"
-                },
-            "y": {
-                "type": "number"
-                }
-        },
-        "required": ["x", "y"]
-    }
-    
-    for i in range(N):
-        url = URLBASE + URISEBA + "/" + str(2) + "/fire"
-        data = requests.get(url)
-        datajson = data.json()
-        print("Response: ", datajson)
-        validate(datajson, template)
-        for m in datajson["positions"]:
-            validate(m, template2)
-    
-
-
-
-.. parsed-literal::
-
-    Testing GET /api/seba/v1/occupants/{id}/fire
-    Response:  {'positions': [{'y': 4, 'x': 12}, {'y': 5, 'x': 13}, {'y': 4, 'x': 13}, {'y': 4, 'x': 11}, {'y': 3, 'x': 11}, {'y': 5, 'x': 12}, {'y': 3, 'x': 12}, {'y': 5, 'x': 11}, {'y': 3, 'x': 13}, {'y': 6, 'x': 14}, {'y': 5, 'x': 14}, {'y': 6, 'x': 13}, {'y': 6, 'x': 12}, {'y': 4, 'x': 14}, {'y': 3, 'x': 14}, {'y': 4, 'x': 10}, {'y': 3, 'x': 10}, {'y': 5, 'x': 10}, {'y': 2, 'x': 10}, {'y': 2, 'x': 11}, {'y': 2, 'x': 12}, {'y': 6, 'x': 11}, {'y': 2, 'x': 13}, {'y': 6, 'x': 10}, {'y': 2, 'x': 14}, {'y': 7, 'x': 15}, {'y': 6, 'x': 15}, {'y': 7, 'x': 14}, {'y': 7, 'x': 13}, {'y': 5, 'x': 15}, {'y': 4, 'x': 15}, {'y': 7, 'x': 12}, {'y': 7, 'x': 11}, {'y': 3, 'x': 15}, {'y': 2, 'x': 15}, {'y': 1, 'x': 10}, {'y': 1, 'x': 11}, {'y': 1, 'x': 12}, {'y': 1, 'x': 13}, {'y': 7, 'x': 10}, {'y': 1, 'x': 14}, {'y': 1, 'x': 15}, {'y': 8, 'x': 16}, {'y': 7, 'x': 16}, {'y': 8, 'x': 15}, {'y': 8, 'x': 14}, {'y': 6, 'x': 16}, {'y': 5, 'x': 16}, {'y': 8, 'x': 13}, {'y': 8, 'x': 12}, {'y': 4, 'x': 16}, {'y': 3, 'x': 16}, {'y': 8, 'x': 11}, {'y': 8, 'x': 10}, {'y': 2, 'x': 16}, {'y': 1, 'x': 16}]}
-
-
-.. code:: python
-
-    
-    print(str('Testing {}').format('GET /api/seba/v1/fire'))
-    template = {
-        "type": "object",
-        "properties": {
-            "positions": {
-                "type": "array"
-                }
-        },
-        "required": ["positions"]
-    }
-    
-    template2 = {
-        "type": "object",
-        "properties": {
-            "x": {
-                "type": "number"
-                },
-            "y": {
-                "type": "number"
-                }
-        },
-        "required": ["x", "y"]
-    }
-    
-    for i in range(N):
-        url = URLBASE + URIFIRE
-        data = requests.get(url)
-        datajson = data.json()
-        print("Response: ", datajson)
-        validate(datajson, template)
-        for m in datajson["positions"]:
-            validate(m, template2)
-
-
-.. parsed-literal::
-
-    Testing GET /api/seba/v1/fire
-    Response:  {'positions': [{'y': 4, 'x': 12}, {'y': 5, 'x': 13}, {'y': 4, 'x': 13}, {'y': 4, 'x': 11}, {'y': 3, 'x': 11}, {'y': 5, 'x': 12}, {'y': 3, 'x': 12}, {'y': 5, 'x': 11}, {'y': 3, 'x': 13}, {'y': 6, 'x': 14}, {'y': 5, 'x': 14}, {'y': 6, 'x': 13}, {'y': 6, 'x': 12}, {'y': 4, 'x': 14}, {'y': 3, 'x': 14}, {'y': 4, 'x': 10}, {'y': 3, 'x': 10}, {'y': 5, 'x': 10}, {'y': 2, 'x': 10}, {'y': 2, 'x': 11}, {'y': 2, 'x': 12}, {'y': 6, 'x': 11}, {'y': 2, 'x': 13}, {'y': 6, 'x': 10}, {'y': 2, 'x': 14}, {'y': 7, 'x': 15}, {'y': 6, 'x': 15}, {'y': 7, 'x': 14}, {'y': 7, 'x': 13}, {'y': 5, 'x': 15}, {'y': 4, 'x': 15}, {'y': 7, 'x': 12}, {'y': 7, 'x': 11}, {'y': 3, 'x': 15}, {'y': 2, 'x': 15}, {'y': 1, 'x': 10}, {'y': 1, 'x': 11}, {'y': 1, 'x': 12}, {'y': 1, 'x': 13}, {'y': 7, 'x': 10}, {'y': 1, 'x': 14}, {'y': 1, 'x': 15}, {'y': 8, 'x': 16}, {'y': 7, 'x': 16}, {'y': 8, 'x': 15}, {'y': 8, 'x': 14}, {'y': 6, 'x': 16}, {'y': 5, 'x': 16}, {'y': 8, 'x': 13}, {'y': 8, 'x': 12}, {'y': 4, 'x': 16}, {'y': 3, 'x': 16}, {'y': 8, 'x': 11}, {'y': 8, 'x': 10}, {'y': 2, 'x': 16}, {'y': 1, 'x': 16}]}
 
