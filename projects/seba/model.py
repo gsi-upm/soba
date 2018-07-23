@@ -4,6 +4,7 @@ import random
 import datetime as dt
 from soba.models.continuousModel import ContinuousModel
 from time import time
+import time as sp
 from ast import literal_eval as make_tuple
 import listener as lstn
 from avatar import EmergencyAvatar
@@ -40,12 +41,13 @@ class SEBAModel(ContinuousModel):
 		self.emergency = False
 		self.FireControl = False
 		today = dt.date.today()
-		self.fireTime = dt.datetime(today.year, today.month, 1, 8, 30, 0, 0)
+		self.fireTime = sebaConfiguration.get('hazard') or dt.datetime(today.year, today.month, 1, 8, 30, 0, 0)
 		self.outDoors = []
 		self.getOutDoors()
 		self.familiesJson = sebaConfiguration.get('families')
 		self.createOccupants(jsonsOccupants)
 		self.uncrowdedStr = []
+		self.occupEmerg = []
 
 	def getOutDoors(self):
 		for poi in self.pois:
@@ -128,6 +130,7 @@ class SEBAModel(ContinuousModel):
 		Launches the state of emergency.
 		"""
 		for occupant in self.occupants:
+			self.occupEmerg.append(occupant)
 			occupant.makeEmergencyAction()
 
 	def harmOccupant(self, occupant, fire):
@@ -143,6 +146,8 @@ class SEBAModel(ContinuousModel):
 		else:
 			occupant.life = 0
 			occupant.alive = False
+			if occupant in self.occupEmerg:
+				self.occupEmerg.remove(occupant)
 	"""
 	def getUncrowdedGate(self):
 		fewerPeople = 1000000
@@ -261,8 +266,21 @@ class SEBAModel(ContinuousModel):
 		"""
 		Execution of the scheduler steps.
 		"""
-		if self.clock.clock.hour > 13:
+		a = 0
+		d = 0
+		t = "Normal" 
+		if self.emergency:
+			t = "Emergency"
+		for o in self.occupants:
+			if o.alive:
+				a = a + 1
+			else:
+				d = d + 1
+		print("Situation: ", t, ", Occupants dead: ", d, ", Occupants alive: ", a)
+		if self.emergency and not self.occupEmerg:
+			print("Simulation terminated.")
 			self.finishSimulation = True
+			sp.sleep(1)
 		if (self.clock.clock >= self.fireTime) and not self.emergency:
 			self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)
 			self.informEmergency()

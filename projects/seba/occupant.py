@@ -152,6 +152,9 @@ class EmergencyOccupant(ContinuousOccupant):
                 else:
                     if self.pos not in self.model.exits:
                         self.makeEmergencyAction()
+                    else:
+                        if self in self.model.occupEmerg:
+                            self.model.occupEmerg.remove(self)
             else:
                 super().step()
         else:

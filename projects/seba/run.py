@@ -7,10 +7,13 @@ from time import time
 import sys
 from model import SEBAModel
 from visualization.back import Visualization
+import datetime as dt
 
 strategies = ['nearest', 'safest', 'uncrowded']
 
 # Simulation configuration
+today = dt.date.today()
+timeHazard = dt.datetime(today.year, today.month, 1, 8, 30, 0, 0)
 
 families = []
 
@@ -19,7 +22,7 @@ family2 = {'N': 3, 'child': 2, 'adult': 1}
 #families.append(family1)
 #families.append(family2)
 
-sebaConfiguration = {'families': families}
+sebaConfiguration = {'families': families, 'hazard': timeHazard}
 
 # Occupancy atributtes
 
@@ -50,7 +53,8 @@ timeActivityVariation = {
 }
 
 jsonOccupant = {'type': 'example' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
-'markovActivity': markovActivity, 'timeActivity': timeActivity, "timeActivityVariation": timeActivityVariation}
+'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
+'strategy': 'nearest'}
 
 jsonsOccupants.append(jsonOccupant)
 
