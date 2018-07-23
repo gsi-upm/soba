@@ -1,5 +1,5 @@
 from occupant import EmergencyOccupant
-from fire import FireControl
+from hazard import hazardControl
 import random
 import datetime as dt
 from soba.models.continuousModel import ContinuousModel
@@ -16,15 +16,15 @@ class SEBAModel(ContinuousModel):
 			adults: List of all adult EmergencyOccupant objects created.
 			children: List of all children EmergencyOccupant objects created.
 			emergency: Control of the start of the emergency. 
-			FireControl: FireControl Object.
-			fireTime: Date and time of the start of the emergency
+			hazardControl: hazardControl Object.
+			hazardTime: Date and time of the start of the emergency
 			outDoors: Listing of exit doors of the building
 		Methods:
 			createOccupants: Create one occupant object of the EmergencyOccupant type.
 			createEmergencyAvatar: Create one avatar object of the EmergencyAvatar type.
-			isThereFire: Evaluate if there is fire in a position.
+			isThereHazard: Evaluate if there is hazard in a position.
 			informEmergency: Launches the state of emergency.
-			harmOccupant: Damages an occupant with the fire that is in its same position.
+			harmOccupant: Damages an occupant with the hazard that is in its same position.
 			getUncrowdedGate: Get the path to the uncrowded exit door.
 			getSafestGate: Get the path to the safest exit door.
 			getNearestGate: Get the path to the nearest exit door.
@@ -38,9 +38,9 @@ class SEBAModel(ContinuousModel):
 		self.adults = []
 		self.children = []
 		self.emergency = False
-		self.FireControl = False
+		self.hazardControl = False
 		today = dt.date.today()
-		self.fireTime = dt.datetime(today.year, today.month, 1, 8, 10, 0, 0)
+		self.hazardTime = dt.datetime(today.year, today.month, 1, 8, 10, 0, 0)
 		self.outDoors = []
 		self.getOutDoors()
 		self.familiesJson = sebaConfiguration.get('families')
@@ -111,15 +111,15 @@ class SEBAModel(ContinuousModel):
 		self.occupants.append(a)
 		return a
 
-	def isThereFire(self, pos):
+	def isThereHazard(self, pos):
 		"""
-		Evaluate if there is fire in a position.
+		Evaluate if there is hazard in a position.
 			Args:
 				pos: Position given as (x, y)
 			Return: Boolean
 		"""
-		for fire in self.FireControl:
-			if fire.pos == pos:
+		for hazard in self.hazardControl:
+			if hazard.pos == pos:
 				return True
 		return False
 
@@ -130,16 +130,16 @@ class SEBAModel(ContinuousModel):
 		for occupant in self.occupants:
 			occupant.makeEmergencyAction()
 
-	def harmOccupant(self, occupant, fire):
+	def harmOccupant(self, occupant, hazard):
 		"""
-		Damages an occupant with the fire that is in its same position.
+		Damages an occupant with the hazard that is in its same position.
 			Args:
 				occupant: EmergencyOccupant object
-				fire: 
+				hazard: 
 			Return: Boolean
 		"""
-		if occupant.life > fire.grade:
-			occupant.life = occupant.life - fire.grade
+		if occupant.life > hazard.grade:
+			occupant.life = occupant.life - hazard.grade
 		else:
 			occupant.life = 0
 			occupant.alive = False
@@ -169,8 +169,8 @@ class SEBAModel(ContinuousModel):
 		longPath = 0
 		doorAux = ''
 		for door in self.outDoors:
-			for fire in self.FireControl.limitFire:
-				path = occupant.getWay(door.pos, fire.pos)
+			for hazard in self.hazardControl.limithazard:
+				path = occupant.getWay(door.pos, hazard.pos)
 				if len(path) > longPath:
 					longPath = len(path)
 					doorAux = door
@@ -218,14 +218,14 @@ class SEBAModel(ContinuousModel):
 			self.uncrowdedStr.remove(o)
 
 	#API methods
-	def positions_fire(self):
-		fire = []
-		if not self.FireControl:
-			return fire
-		for f in self.FireControl.fireExpansion:
+	def positions_hazard(self):
+		hazard = []
+		if not self.hazardControl:
+			return hazard
+		for f in self.hazardControl.hazardExpansion:
 			x, y = f.pos
-			fire.append({"x": x, "y": y})
-		data = {"positions": fire}
+			hazard.append({"x": x, "y": y})
+		data = {"positions": hazard}
 		return data
 
 	def exit_way_avatar(self, avatar_id, strategy = 0):
@@ -240,10 +240,10 @@ class SEBAModel(ContinuousModel):
 		data = {"positions": positions}
 		return data
 
-	def fire_in_pov(self, avatar_id):
+	def hazard_in_pov(self, avatar_id):
 		a = self.getOccupantId(int(avatar_id))
 		print(a)
-		pos = a.getPosFireFOV()
+		pos = a.getPoshazardFOV()
 		print(pos)
 		positions = []
 		for p in pos:
@@ -263,8 +263,8 @@ class SEBAModel(ContinuousModel):
 		"""
 		if self.clock.clock.hour > 13:
 			self.finishSimulation = True
-		if (self.clock.clock >= self.fireTime) and not self.emergency:
-			self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)
+		if (self.clock.clock >= self.hazardTime) and not self.emergency:
+			self.hazardControl = hazardControl(100000, self, random.choice(self.pois).pos)
 			self.informEmergency()
 			self.emergency = True
 		if self.emergency and self.uncrowdedStr:
@@ -272,6 +272,6 @@ class SEBAModel(ContinuousModel):
 		super().step()
 		if self.emergency:
 			for occupant in self.occupants:
-				fire = self.FireControl.getFirePos(occupant.pos)
-				if fire != False:
-					self.harmOccupant(occupant, fire)
+				hazard = self.hazardControl.gethazardPos(occupant.pos)
+				if hazard != False:
+					self.harmOccupant(occupant, hazard)

@@ -4,7 +4,7 @@ from mesa.agent import Agent
 import soba.agents.resources.aStar as aStar
 
 
-class Fire():
+class Hazard():
     """
     This class enables to create fire object on a position. 
     The objects of this class are controlled by one FireControl object.
@@ -19,7 +19,7 @@ class Fire():
         model.grid.place_agent(self, pos)
         self.grade = 1
 
-class Hazard(Agent):
+class HazardControl(Agent):
     """
     This class enables to create agents that control the hazard expansión, representing the emergency threat.
 
