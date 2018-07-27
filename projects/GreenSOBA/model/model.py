@@ -28,11 +28,12 @@ from space.room import Room
 from space.window import Window
 from space.wall import Wall
 from space.thermalZone import ThermalZone
+from time import time
 
 class SOBAModel(Model):
 
-	def __init__(self, width, height, modelWay = None):
-
+	def __init__(self, width, height, modelWay = None, seed = int(time()), nothing = 1):
+		super().__init__(seed)
 		#Init configurations and defines
 		configuration.settings.init()
 		configuration.defineOccupancy.init()
@@ -480,6 +481,7 @@ class SOBAModel(Model):
 		# Create occupants
 		if self.modelWay == 0:
 			countPC = 0
+			print('Número de ocupantes: ', configuration.defineOccupancy.occupancy_json[0]['N'])
 			for n_type_occupants in configuration.defineOccupancy.occupancy_json:
 				self.placeByStateByTypeAgent[n_type_occupants['type']] = n_type_occupants['states']
 				n_agents_perfect = int((n_type_occupants['N'] * n_type_occupants['environment'][0]) / 100)
@@ -757,8 +759,8 @@ class SOBAModel(Model):
 
 	def step(self):
 		if (self.running == False):
-			PID = os.system('$!')
-			os.system('kill ' + str(PID))
+			os.system("kill -9 %d"%(os.getppid()))
+			os.killpg(os.getpgid(os.getppid()), signal.SIGTERM)
 
 		if (self.clock.day == 5):
 			self.energy.finalDay(self.NStep)

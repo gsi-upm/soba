@@ -8,7 +8,7 @@ def init():
     '''
 
     global model
-    model = 2
+    model = 0
 
 ################ General #######################
 

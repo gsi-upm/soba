@@ -1,4 +1,11 @@
 import random
+global NProfessors
+global NStudients
+global NResearches
+
+NProfessors = 40
+NStudients = 0
+NResearches = 40
 
 def init():
 
@@ -9,7 +16,7 @@ def init():
 
 		#Professors
 	#Number of Occupants
-	NProfessors = 40 #40
+	global NProfessors
 
 	#Define states: name (str), position: str or ditc
 	statesProfessors = [
@@ -43,7 +50,7 @@ def init():
 
 		#Researchers
 	#Number of Occupants
-	NResearches = 40 #40
+	global NResearches
 
 	#Define states: name (str), position: str or ditc
 	statesResearchers = [
@@ -75,7 +82,8 @@ def init():
 
 		#Studients
 	#Number of Occupants
-	NStudients = 120 # 4 classes, Class1: 40, Class2: 35, Class3: 30, Class4: 20  Total: 125
+	global NStudients
+	# 4 classes, Class1: 40, Class2: 35, Class3: 30, Class4: 20  Total: 125
 
 	#Define states: name (str), position: str or ditc
 	statesStudients = [

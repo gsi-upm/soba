@@ -38,11 +38,11 @@ class Energy():
 
     def consumeEnergyAppliance(self, appliance, consume):
         if appliance == 'PC':
-            self.energyByStepPCs.append(consume*self.time/3600)
+            self.energyByStepPCs.append(consume)
         elif appliance == 'Light':
-            self.energyByStepLights.append(consume*self.time/3600)
+            self.energyByStepLights.append(consume)
         elif appliance == 'HVAC':
-            self.energyByStepHVACs.append(consume*self.time/3600)
+            self.energyByStepHVACs.append(consume)
         else:
             pass
 
@@ -71,10 +71,10 @@ class Energy():
         energyDayHVAC = 0
         energyDayTotal = 0
         for i in range(self.lastStep, NStep):
-            energyDayPC = energyDayPC + self.energyByStepPCsTotal[i]
-            energyDayLight = energyDayLight + self.energyByStepLightsTotal[i]
-            energyDayHVAC = energyDayHVAC + self.energyByStepHVACsTotal[i]
-            energyDayTotal = energyDayTotal + self.energyByStepTotal[i]
+            energyDayPC = energyDayPC + self.energyByStepPCsTotal[i]*self.time/3600
+            energyDayLight = energyDayLight + self.energyByStepLightsTotal[i]*self.time/3600
+            energyDayHVAC = energyDayHVAC + self.energyByStepHVACsTotal[i]*self.time/3600
+            energyDayTotal = energyDayTotal + self.energyByStepTotal[i]*self.time/3600
         self.energyByDayPC.append(energyDayPC)
         self.energyByDayLight.append(energyDayLight)
         self.energyByDayLPC.append(energyDayPC+energyDayLight)

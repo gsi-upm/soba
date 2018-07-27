@@ -21,7 +21,7 @@ graphVisualization = GraphVisualization()
 server = ModularServer(SOBAModel,
                        [mapVisualization, graphVisualization],
                        "GreenSOBA Model",
-                       22, 22, None)
+                       {"width": 22, "height": 22, "modelWay": None})
 
 server.port = 8882
 server.launch()
