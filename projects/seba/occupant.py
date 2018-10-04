@@ -48,8 +48,10 @@ class EmergencyOccupant(ContinuousOccupant):
         self.initmove = True
         self.adult = True
         self.alone = True
-        self.speedEmergency = 1.38 if not json.get('speedEmergency') else eval(json.get('speedEmergency'))
+        self.speedEmergency = 1.38 if not json.get('speedEmergency') else json.get('speedEmergency')
         self.parentAsos = False
+        self.shape = "circle"
+        self.exclude = []
 
     def makeEmergencyAction(self):
         """
@@ -72,26 +74,26 @@ class EmergencyOccupant(ContinuousOccupant):
         else:
             self.movements = self.getExitGate()
 
-    def getExitGate(self):
+    def getExitGate(self, exclude = []):
         '''
         Obtain the optimal way to evacuate the building according to an evacuation strategy.
             Return: List of positions (x, y)
         '''
         if True:
             if self.exitGateStrategy == 'uncrowded':
-                self.pos_to_go = self.model.getNearestGate(self)
+                self.pos_to_go = self.model.getNearestGate(self, exclude)
                 self.model.uncrowdedStr.append(self)
             elif self.exitGateStrategy == 'safest':
-                self.pos_to_go = self.model.getSafestGate(self)
+                self.pos_to_go = self.model.getSafestGate(self, exclude)
             elif self.exitGateStrategy == 'nearest':
-                self.pos_to_go = self.model.getNearestGate(self)
-            elif self.exitGateStrategy == 'lessassigned':
-                self.pos_to_go = self.model.getLessAssignedGate(self)
+                self.pos_to_go = self.model.getNearestGate(self, exclude)
             else:
-                self.pos_to_go = self.model.getNearestGate(self)
+                self.pos_to_go = self.model.getNearestGate(self, exclude)
         else:
             self.pos_to_go = self.model.getNearestGate(self)
-        pathReturn = super().getWay()
+        print('Donde tengo que ir es ', self.pos_to_go,' ya que no puedo ir a excluidas:', exclude)
+        pathReturn = super().getWay(other = self.exclude)
+        #print('El camino a seguir es ', pathReturn,' ya que no puedo ir por others:', other, 'mi posición es:' , self.pos)
         return pathReturn
 
     def fireInMyFOV(self):
@@ -99,8 +101,10 @@ class EmergencyOccupant(ContinuousOccupant):
         Check if there is fire in the FOV of the occupant.
             Return: Boolean
         """
-        for firePos in self.model.FireControl.fireExpansion:
+        for firePos in self.model.FireControl.fireMovements:
             if firePos in self.movements and self.posInMyFOV(firePos):
+                print("estos son mis movimientos: ", self.movements, "estas son las pos de fuego:", firePos)
+                print('Hay fuego en mi camino')
                 return True
         return False
 
@@ -111,8 +115,9 @@ class EmergencyOccupant(ContinuousOccupant):
         """
         others = []
         for pos in self.fov:
-            if pos in self.model.FireControl.fireExpansion:
+            if pos in self.model.FireControl.fireMovements:
                 others.append(pos)
+        print('Mis posiciones que no puedo moverme son:', others)
         return others
 
     def changeSchedule(self):
@@ -122,14 +127,14 @@ class EmergencyOccupant(ContinuousOccupant):
 
     def step(self):
         """Method invoked by the Model scheduler in each step."""
-        if self.alive == True:
+        if self.alive == True or not set(self.model.exits).issubset(self.exclude):
             if self.model.emergency:
                 self.markov = False
                 self.timeActivity = 0
                 if self.parentAsos:
                     if not self.model.nearPos(self.parentAsos.pos, self.pos):
                         self.pos_to_go = self.parentAsos.pos
-                        super().getWay()
+                        self.movements = super().getWay()
                         self.N = 0
                 elif self.children:
                     posC = self.model.getOccupantsPos(self.movements[self.N])
@@ -146,8 +151,19 @@ class EmergencyOccupant(ContinuousOccupant):
                                 if parent.pos_to_go == posC.pos:
                                     parent.makeEmergencyAction()
                 if self.pos != self.pos_to_go:
+                    print('Mi posición es:', self.pos, 'Me quiero mover por el camino: ', self.movements)
                     if self.fireInMyFOV():
-                        super().getWay(others = self.getPosFireFOV())
+                        print('Hay fuego en mi camino')
+                        self.exclude += self.getPosFireFOV()
+                        self.movements = super().getWay(other = self.exclude)
+                        self.N = 0
+                        print("El camino que se me ha asignado es:", self.movements, 'y yo estoy en: ', self.pos)
+                        if self.pos == self.movements[0]:
+                            print('No puedo moverme, ya que mis movimientos son:', self.movements, 'y mi posición es', self.pos)
+                            print('Excluyo la puerta ', self.pos_to_go)
+                            self.exclude.append(self.pos_to_go)
+                            self.movements = self.getExitGate(self.exclude)
+                            self.N = 0
                     super().step()
                 else:
                     if self.pos not in self.model.exits:

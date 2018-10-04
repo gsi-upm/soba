@@ -41,7 +41,10 @@ class SEBAModel(ContinuousModel):
 		self.emergency = False
 		self.FireControl = False
 		today = dt.date.today()
-		self.fireTime = sebaConfiguration.get('hazard') or dt.datetime(today.year, today.month, 1, 8, 30, 0, 0)
+		self.fireTime = dt.datetime(today.year, today.month, 1, 13, 30, 0, 0)
+		if (sebaConfiguration.get('hazard')):
+			h = sebaConfiguration.get('hazard')
+			self.fireTime = dt.datetime(today.year, today.month, 1, int(h[0]+h[1]), int(h[3]+h[4]), int(h[6]+h[7]))
 		self.outDoors = []
 		self.getOutDoors()
 		self.familiesJson = sebaConfiguration.get('families')
@@ -148,6 +151,7 @@ class SEBAModel(ContinuousModel):
 			occupant.alive = False
 			if occupant in self.occupEmerg:
 				self.occupEmerg.remove(occupant)
+
 	"""
 	def getUncrowdedGate(self):
 		fewerPeople = 1000000
@@ -167,60 +171,67 @@ class SEBAModel(ContinuousModel):
 				fewerPeople = nPeople
 		return doorAux.pos
 	"""
-	def getSafestGate(self, occupant):
+
+	def getSafestGate(self, occupant, exclude = []):
 		"""
 		Get the path to the safest exit door.
 		"""
 		longPath = 0
-		doorAux = ''
+		doorAux = occupant
 		for door in self.outDoors:
-			for fire in self.FireControl.limitFire:
-				path = occupant.getWay(door.pos, fire.pos)
-				if len(path) > longPath:
-					longPath = len(path)
-					doorAux = door
+			if not door.pos in exclude:
+				for fire in self.FireControl.limitFire:
+					path = occupant.getWay(door.pos, fire.pos)
+					if len(path) > longPath:
+						longPath = len(path)
+						doorAux = door
 		return doorAux.pos
 
-	def getNearestGate(self, occupant):
+	def getNearestGate(self, occupant, exclude = []):
 		"""
 		Get the path to the safest nearest exit door.
 		"""
 		shortPath = 1000000
-		doorAux = False
+		doorAux = occupant
 		for door in self.outDoors:
-			path = occupant.getWay(occupant.pos, door.pos)
-			if shortPath > len(path):
-				shortPath = len(path)
-				pathReturn = path
-				doorAux = door
+			if not door.pos in exclude:
+				print("no está door.pos: ", door.pos, 'en exclude: ', exclude)
+				path = occupant.getWay(occupant.pos, door.pos, other = exclude)
+				if shortPath > len(path):
+					shortPath = len(path)
+					pathReturn = path
+					doorAux = door
 		return doorAux.pos
 
-	def getUncrowdedGate(self):
+	def getUncrowdedGate(self, exclude = []):
 		"""
 		Get the path to the uncrowded exit door.
 		"""
 		doorsN = {}
 		for d in self.outDoors:
-			doorsN[str(d.pos)] = 0
+			if d.pos not in exclude:
+				doorsN[str(d.pos)] = 0
 		for o in self.occupants:
 			pos = o.pos_to_go
-			doorsN[str(pos)] = doorsN[str(pos)] + 1
+			if doorsN.get(str(pos)):
+				doorsN[str(pos)] = doorsN.get(str(pos)) + 1
 		for o in self.uncrowdedStr:
 			pos = o.pos_to_go
-			n = doorsN[str(pos)]
-			naux = 100000
-			doorPos = False
-			for k, v in doorsN.items():
-				if naux > v+1:
-					doorPos = make_tuple(k)
-					naux = v
-			if doorPos:
-				doorsN[str(doorPos)] = doorsN[str(doorPos)] + 1
-				doorsN[str(o.pos_to_go)] = doorsN[str(o.pos_to_go)] - 1
-				o.pos_to_go = doorPos
-				o.movements = o.getWay()
-				o.N = 0
-			self.uncrowdedStr.remove(o)
+			if pos in self.exits:
+				n = doorsN[str(pos)]
+				naux = 100000
+				doorPos = False
+				for k, v in doorsN.items():
+					if naux > v+1:
+						doorPos = make_tuple(k)
+						naux = v
+				if doorPos:
+					doorsN[str(doorPos)] = doorsN[str(doorPos)] + 1
+					doorsN[str(o.pos_to_go)] = doorsN[str(o.pos_to_go)] - 1
+					o.pos_to_go = doorPos
+					o.movements = o.getWay()
+					o.N = 0
+				self.uncrowdedStr.remove(o)
 
 	#API methods
 	def positions_fire(self):
@@ -266,6 +277,8 @@ class SEBAModel(ContinuousModel):
 		"""
 		Execution of the scheduler steps.
 		"""
+		for i in self.exits:
+			print(i)
 		a = 0
 		d = 0
 		t = "Normal" 

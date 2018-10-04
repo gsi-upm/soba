@@ -40,14 +40,19 @@ class FireControl(Agent):
         super().__init__(unique_id, model)
         self.model.schedule.add(self)
         self.fireExpansion = []
+        self.firePositions = []
         self.limitFire = []
         self.expansionRate = expansionRate #m/s
         self.growthRate = growthRate
         self.N = 0
-        self.movements = []
+        self.fireMovements = []
         self.costMovement = 0.5*(1/self.expansionRate)*(1/self.model.clock.timeByStep)
         self.costGrowth = 0.5*(1/self.growthRate)*(1/self.model.clock.timeByStep)
         self.createFirePos(posInit)
+        
+        self.createFirePos(self.model.exits[0])
+        self.createFirePos(self.model.exits[1])
+
 
     def createFirePos(self, pos):
         """
@@ -58,7 +63,7 @@ class FireControl(Agent):
         f = Fire(self.model, pos)
         self.limitFire.append(f)
         self.fireExpansion.append(f)
-        self.movements.append(pos)
+        self.fireMovements.append(pos)
 
     def getFirePos(self, pos):
         """
@@ -98,7 +103,7 @@ class FireControl(Agent):
                             if ((cellPos in doorsPos) and (posAux in doorsPos)):
                                 move = True
                     if move:
-                        if not (pos in self.movements):
+                        if not (pos in self.fireMovements):
                             self.createFirePos(pos)
 
     def growthFire(self):
