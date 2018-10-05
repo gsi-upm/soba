@@ -48,11 +48,7 @@ class FireControl(Agent):
         self.fireMovements = []
         self.costMovement = 0.5*(1/self.expansionRate)*(1/self.model.clock.timeByStep)
         self.costGrowth = 0.5*(1/self.growthRate)*(1/self.model.clock.timeByStep)
-        self.createFirePos(posInit)
-        
-        self.createFirePos(self.model.exits[0])
-        self.createFirePos(self.model.exits[1])
-
+        self.focalPoint = self.createFirePos(posInit)
 
     def createFirePos(self, pos):
         """
@@ -64,6 +60,7 @@ class FireControl(Agent):
         self.limitFire.append(f)
         self.fireExpansion.append(f)
         self.fireMovements.append(pos)
+        return f
 
     def getFirePos(self, pos):
         """

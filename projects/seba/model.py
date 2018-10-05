@@ -144,13 +144,16 @@ class SEBAModel(ContinuousModel):
 				fire: 
 			Return: Boolean
 		"""
-		if occupant.life > fire.grade:
-			occupant.life = occupant.life - fire.grade
-		else:
-			occupant.life = 0
-			occupant.alive = False
-			if occupant in self.occupEmerg:
-				self.occupEmerg.remove(occupant)
+		if occupant.pos not in self.exits:
+			if occupant.life > fire.grade:
+				occupant.life = occupant.life - fire.grade
+			else:
+				occupant.life = 0
+				occupant.alive = False
+				if self in self.occupEmerg:
+					self.model.occupEmerg.remove(self)
+				occupant.movements = [occupant.pos]
+				occupant.pos_to_go = occupant.pos
 
 	"""
 	def getUncrowdedGate(self):
@@ -178,14 +181,31 @@ class SEBAModel(ContinuousModel):
 		"""
 		longPath = 0
 		doorAux = occupant
+		fire = self.FireControl.focalPoint
+		for door in self.outDoors:
+			if not door.pos in exclude:
+				print("Calculo camino seguro", door.pos)
+				path = occupant.getWay(door.pos, fire.pos)
+				if len(path) > longPath:
+					longPath = len(path)
+					doorAux = door
+		return doorAux.pos
+
+	"""
+	def getSafestGate(self, occupant, exclude = []):
+		print("Lanzando metodo", self.outDoors)
+		longPath = 0
+		doorAux = occupant
 		for door in self.outDoors:
 			if not door.pos in exclude:
 				for fire in self.FireControl.limitFire:
+					print("Calculo camino seguro", door.pos)
 					path = occupant.getWay(door.pos, fire.pos)
 					if len(path) > longPath:
 						longPath = len(path)
 						doorAux = door
 		return doorAux.pos
+	"""
 
 	def getNearestGate(self, occupant, exclude = []):
 		"""

@@ -18,10 +18,10 @@ timeHazard = "10:00:00"
 
 families = []
 
-family1 = {'N': 3, 'child': 1, 'adult': 2} #Only two are neccesary 
+family1 = {'N': 2, 'child': 1, 'adult': 1} #Only two are neccesary 
 family2 = {'N': 3, 'child': 2, 'adult': 1}
 families.append(family1)
-families.append(family2)
+#families.append(family2)
 
 sebaConfiguration = {'families': families, 'hazard': timeHazard}
 
@@ -29,7 +29,7 @@ sebaConfiguration = {'families': families, 'hazard': timeHazard}
 
 jsonsOccupants = []
 
-N = 10
+N = 2
 
 states = OrderedDict([('Free time','out'), ('Rest', 'sofa'), ('Lunch','out'), ('Work', 'wp')])
 
