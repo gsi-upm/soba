@@ -93,6 +93,7 @@ class SEBAModel(ContinuousModel):
 						ch = random.choice(self.adults)
 					children.append(ch)
 					ch.adult = False
+					ch.familiar = True
 					self.adults.remove(ch)
 					self.children.append(ch)
 				for j in range(0, nA):
@@ -100,6 +101,7 @@ class SEBAModel(ContinuousModel):
 					while ad.children:
 						ad = random.choice(self.adults)
 					ad.children = children
+					ad.familiar = True
 					for c in children:
 						c.parents.append(ad)
 
@@ -137,6 +139,7 @@ class SEBAModel(ContinuousModel):
 		for occupant in self.occupants:
 			if occupant.inbuilding:
 				self.occupEmerg.append(occupant)
+				occupant.state = 'Emergency'
 			occupant.makeEmergencyAction()
 
 	def harmOccupant(self, occupant, fire):
@@ -245,15 +248,18 @@ class SEBAModel(ContinuousModel):
 				naux = 100000
 				doorPos = False
 				for k, v in doorsN.items():
-					if naux > v+1:
-						doorPos = make_tuple(k)
-						naux = v
+					if make_tuple(k) not in o.exclude:
+						if naux > v+1:
+							doorPos = make_tuple(k)
+							naux = v
 				if doorPos:
 					doorsN[str(doorPos)] = doorsN[str(doorPos)] + 1
 					doorsN[str(o.pos_to_go)] = doorsN[str(o.pos_to_go)] - 1
 					o.pos_to_go = doorPos
 					o.movements = o.getWay()
 					o.N = 0
+				else:
+					o.pos_to_go = o.pos
 				self.uncrowdedStr.remove(o)
 
 	#API methods
@@ -298,14 +304,13 @@ class SEBAModel(ContinuousModel):
 
 	#Report
 	def reportSimulationState(self):
-		#Report
 		nOccupantsInBuilding = 0
 		nOccupantsNormalInBuilding = 0
 		nOccupantsDisInBuilding = 0
 		nFamiliesInBuilding = 0
-
 		startEmergency = False
 		endEmergency = False
+		nOccupantsWorking = 0
 		
 		for o in self.occupants:
 			if o.inbuilding:
@@ -316,15 +321,17 @@ class SEBAModel(ContinuousModel):
 					nOccupantsDisInBuilding += 1
 				else:
 					nOccupantsNormalInBuilding += 1
+				if o.state == 'Work':
+					nOccupantsWorking +=1
 
 		if self.emergency:
 			startEmergency = True
 		if self.emergency and not self.occupEmerg:
 			endEmergency = True
-
+		print(nFamiliesInBuilding)
 		self.log.reportSimulationState(nOccupantsInBuilding = nOccupantsInBuilding,  nOccupantsNormalInBuilding = nOccupantsNormalInBuilding, 
 										nOccupantsDisInBuilding = nOccupantsDisInBuilding, nFamiliesInBuilding = nFamiliesInBuilding, 
-										startEmergency = startEmergency, endEmergency = endEmergency)
+										startEmergency = startEmergency, endEmergency = endEmergency, nOccupantsWorking = nOccupantsWorking)
 
 	def step(self):
 		"""

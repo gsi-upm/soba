@@ -101,7 +101,7 @@ def getPathContinuous(model, start, finish, other = []):
 		Return: List of positions (x, y).
 	"""
 	if start == finish:
-		return start
+		return [start]
 	finish = Cell(finish)
 	start = Cell(start)
 	not_visited = [start]

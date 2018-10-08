@@ -66,7 +66,6 @@ class EmergencyOccupant(ContinuousOccupant):
         self.markov = False
         self.timeActivity = 0
         if self.children and not self.child:
-            self.familiar = True
             print("Tengo hijos asi que escojo uno")
             child = random.choice(self.children)
             print(child)
@@ -77,7 +76,6 @@ class EmergencyOccupant(ContinuousOccupant):
             self.child = child
             print("mis movimientos son estos porque voy a por mi hijo: ", self.movements)
         elif not self.adult:
-            self.familiar = True
             print("soy un niño")
             if self.alone:
                 print("estoy solo asi que me quedo quieto, en la posición: ", self.pos)
@@ -135,8 +133,12 @@ class EmergencyOccupant(ContinuousOccupant):
     def step(self):
         print(self.inbuilding)
         """Method invoked by the Model scheduler in each step."""
-        if self.alive == True and not set(self.model.exits).issubset(self.exclude):
+        if self.alive == True:
             if self.model.emergency:
+                if set(self.model.exits).issubset(self.exclude) or self.pos in self.model.exits:
+                    if self in self.model.occupEmerg:
+                        self.model.occupEmerg.remove(self)
+                        return
                 self.markov = False
                 self.timeActivity = 0
                 if self.parentAsos:
@@ -144,9 +146,14 @@ class EmergencyOccupant(ContinuousOccupant):
                     if not self.model.nearPos(self.parentAsos.pos, self.pos):
                         print("mi padre no está en una posición justo al lado a si que me muevo")
                         self.pos_to_go = self.parentAsos.pos
-                        self.movements = super().getWay()
+                        self.movements = super().getWay(other = self.exclude)
                         self.N = 0
                         print("")
+                        if self.pos == self.movements[0]:
+                            self.parentAsos = False
+                            self.pos_to_go = self.pos
+                            self.movements = [self.pos]
+                            self.N = 0
                 elif self.child:
                     print("tengo niño al que buscar")
                     print("Mis movimientos son estos: ", self.movements)
@@ -179,17 +186,24 @@ class EmergencyOccupant(ContinuousOccupant):
                         self.movements = super().getWay(other = self.exclude)
                         self.N = 0
                         print("Calculo nueva ruta: ", self.movements)
-                        if self.pos == self.movements[0] and self.adult:
-                            if self.child:
-                                if chi in self.children:
-                                    self.children.remove(chi)
-                                self.child = False
-                            self.exclude.append(self.pos_to_go)
-                            self.makeEmergencyAction(self.exclude)
+                        if self.pos == self.movements[0]:
+                            if self.adult:
+                                if self.child:
+                                    chi = self.model.getOccupantsPos(self.movements[self.N])
+                                    if chi:
+                                        chi = chi[0]
+                                        if chi in self.children:
+                                            self.children.remove(chi)
+                                    self.child = False
+                                self.exclude.append(self.pos_to_go)
+                                self.makeEmergencyAction(self.exclude)
+                            else:
+                                self.parentAsos = False
+                                self.pos_to_go = self.pos
+                                self.movements = [self.pos]
+                                self.N = 0
                         else:
                             self.pos_to_go = self.movements[-1]
-                            if not self.adult:
-                                self.parentAsos = False
                     print("Estos son mis movimiento sahora: ", self.movements, 'y m pos a ir:', self.pos_to_go)
                     super().step()
                 else:

@@ -6,6 +6,7 @@ import soba.visualization.ramen.performanceGenerator as ramen
 from mesa import Model
 from mesa.time import RandomActivation
 from soba.models.timeControl import Time
+import signal
 
 class GeneralModel(Model):
 	"""
@@ -63,8 +64,8 @@ class GeneralModel(Model):
 
 	def finishTheSimulation(self):
 		"""Finish with the execution of the simulation software."""
-		PID = os.system('$!')
-		os.system('kill ' + str(PID))
+		os.system("kill -9 %d"%(os.getpid()))
+		os.killpg(os.getpgid(os.getpid()), signal.SIGTERM)
 
 	def step(self):
 		"""Main step of the simulation, execution of the scheduler steps."""
