@@ -9,7 +9,6 @@ def init():
 
     global model
     model = 0
-
 ################ General #######################
 
     # Consume
@@ -87,7 +86,7 @@ def init():
     global varTempertarueInInitialSummer
     global temperatureSummerInCorridors
 
-    temperatureSummerIn = 24
+    temperatureSummerIn = 24 #24
     #                        0   1   2   3   4   5   6   7   8   9   10  11  12  13 14  15  16  17  18  19  20  21  22  23
     temperatureSummerOut = [25, 25, 24, 23, 22, 22, 22, 22, 23, 23, 25, 27, 30, 33, 35, 33, 36, 34, 33, 32, 29, 27, 26, 25] #Generical: [18, 18, 17, 17, 16, 16, 15, 16, 17, 20, 22, 24, 27, 28, 29, 30, 31, 31, 30, 29, 27, 25, 23, 19]
     temperatureSummerInMinimun = 20

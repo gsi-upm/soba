@@ -16,12 +16,10 @@ today = dt.date.today()
 
 timeHazard = "10:00:00"
 
-families = []
 
-family1 = {'N': 2, 'child': 1, 'adult': 1} #Only two are neccesary 
-family2 = {'N': 3, 'child': 2, 'adult': 1}
-families.append(family1)
-#families.append(family2)
+ #Only two are neccesary 
+
+families = []#{'N': 4, 'child': 2, 'adult': 2}]
 
 sebaConfiguration = {'families': families, 'hazard': timeHazard}
 
@@ -29,7 +27,15 @@ sebaConfiguration = {'families': families, 'hazard': timeHazard}
 
 jsonsOccupants = []
 
-N = 2
+strategy = strategies[1]
+
+N = 0
+NDis = 10
+
+speed = 1.38
+speedDis = 0.7
+
+
 
 states = OrderedDict([('Free time','out'), ('Rest', 'sofa'), ('Lunch','out'), ('Work', 'wp')])
 
@@ -55,11 +61,17 @@ timeActivityVariation = {
     '-t1': [0, 0, 0, 0], 't1-t2': [0, 5, 0, 10], 't2-t3': [0, 5, 7, 10], 't3-': [0, 5, 5, 10]
 }
 
-jsonOccupant = {'type': 'example' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
+jsonOccupant = {'type': 'regular' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
 'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
-'strategy': strategies[2], 'speedEmergency': 1.38}
+'strategy': strategy, 'speedEmergency': speed}
 
 jsonsOccupants.append(jsonOccupant)
+
+jsonOccupantDis = {'type': 'dis' , 'N': NDis, 'states': states , 'schedule': schedule, 'variation': variation,
+'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
+'strategy': strategy, 'speedEmergency': speedDis}
+
+jsonsOccupants.append(jsonOccupantDis)
 
 with open('auxiliarFiles/labgsi.blueprint3d') as data_file:
 	jsonMap = ramen.returnMap(data_file, offsety = 9, offsetx = 0)

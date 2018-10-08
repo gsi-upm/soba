@@ -38,8 +38,8 @@ def init():
 	controlBehaviourProfessors = {'arriveTime': 8.55, 'meetingTime': 10.25, 'lunchTime': 12.55, 'backLunchTime': 14.00, 'classTime': 16.0, 'leaveWorkTime': 19.0, 'leaveWorkTimeMaximun': 20}
 
 	# %Occupants with behaviour: Perfect, good, bad. For "traditional case" only, in other case will be ignored.
-	behaviourEnvironmentProfessors = [25, 60, 15] #25/60/15
-	TconfortProfessors = [19, 27]
+	behaviourEnvironmentProfessors = [25, 60, 15] #[25, 60, 15]
+	TconfortProfessors = [19, 27] #[19, 27]
 	#TconfortWinter = [19, 25]
 	leftClosedDoorProfessors = [7, 10]
 
@@ -70,8 +70,8 @@ def init():
 	controlBehaviourResearchers = {'arriveTime': 9.00, 'lunchTime': 13.20, 'backLunchTime': 14.30, 'leaveWorkTime': 18.30, 'leaveWorkTimeMaximun': 20}
 
 	# %Occupants with behaviour: Perfect, good, bad. For "traditional case" only, in other case will be ignored.
-	behaviourEnvironmentResearchers = [35, 60, 5] #35/60/5
-	TconfortResearchers = [19, 27]
+	behaviourEnvironmentResearchers = [35, 60, 5] #[35, 60, 5]
+	TconfortResearchers = [19, 27] #[19, 27]
 	#TconfortWinter = [20, 26]
 	leftClosedDoorResearchers = [7, 10]
 

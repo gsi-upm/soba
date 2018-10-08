@@ -8,6 +8,7 @@ import time as sp
 from ast import literal_eval as make_tuple
 import listener as lstn
 from avatar import EmergencyAvatar
+from log import Log
 
 class SEBAModel(ContinuousModel):
 	"""
@@ -51,6 +52,7 @@ class SEBAModel(ContinuousModel):
 		self.createOccupants(jsonsOccupants)
 		self.uncrowdedStr = []
 		self.occupEmerg = []
+		self.log = Log()
 
 	def getOutDoors(self):
 		for poi in self.pois:
@@ -133,7 +135,8 @@ class SEBAModel(ContinuousModel):
 		Launches the state of emergency.
 		"""
 		for occupant in self.occupants:
-			self.occupEmerg.append(occupant)
+			if occupant.inbuilding:
+				self.occupEmerg.append(occupant)
 			occupant.makeEmergencyAction()
 
 	def harmOccupant(self, occupant, fire):
@@ -293,12 +296,40 @@ class SEBAModel(ContinuousModel):
 		self.occupants.append(a)
 		return a
 
+	#Report
+	def reportSimulationState(self):
+		#Report
+		nOccupantsInBuilding = 0
+		nOccupantsNormalInBuilding = 0
+		nOccupantsDisInBuilding = 0
+		nFamiliesInBuilding = 0
+
+		startEmergency = False
+		endEmergency = False
+		
+		for o in self.occupants:
+			if o.inbuilding:
+				nOccupantsInBuilding += 1
+				if o.familiar:
+					nFamiliesInBuilding += 1
+				if o.type == 'dis':
+					nOccupantsDisInBuilding += 1
+				else:
+					nOccupantsNormalInBuilding += 1
+
+		if self.emergency:
+			startEmergency = True
+		if self.emergency and not self.occupEmerg:
+			endEmergency = True
+
+		self.log.reportSimulationState(nOccupantsInBuilding = nOccupantsInBuilding,  nOccupantsNormalInBuilding = nOccupantsNormalInBuilding, 
+										nOccupantsDisInBuilding = nOccupantsDisInBuilding, nFamiliesInBuilding = nFamiliesInBuilding, 
+										startEmergency = startEmergency, endEmergency = endEmergency)
+
 	def step(self):
 		"""
 		Execution of the scheduler steps.
 		"""
-		for i in self.exits:
-			print(i)
 		a = 0
 		d = 0
 		t = "Normal" 
@@ -310,10 +341,6 @@ class SEBAModel(ContinuousModel):
 			else:
 				d = d + 1
 		print("Situation: ", t, ", Occupants dead: ", d, ", Occupants alive: ", a)
-		if self.emergency and not self.occupEmerg:
-			print("Simulation terminated.")
-			self.finishSimulation = True
-			sp.sleep(1)
 		if (self.clock.clock >= self.fireTime) and not self.emergency:
 			self.FireControl = FireControl(100000, self, random.choice(self.pois).pos)
 			self.informEmergency()
@@ -326,3 +353,12 @@ class SEBAModel(ContinuousModel):
 				fire = self.FireControl.getFirePos(occupant.pos)
 				if fire != False:
 					self.harmOccupant(occupant, fire)
+
+		self.reportSimulationState()
+		print("OcEmerg", self.occupEmerg)
+		if self.emergency and not self.occupEmerg:
+			self.log.saveSimulationState(time_by_step=self.clock.timeByStep)
+			print("Simulation terminated.")
+			self.finishSimulation = True
+			sp.sleep(1)
+			super().step()

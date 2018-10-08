@@ -11,6 +11,7 @@ class Time(Agent):
         self.minute = 0
         self.seg = 0
         self.clock = 00.00
+        self.unique_id = 999999999999
 
     def step(self):
         self.seg = self.seg + self.timeByStep

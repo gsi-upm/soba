@@ -34,6 +34,7 @@ class EmergencyOccupant(ContinuousOccupant):
     def __init__(self, unique_id, model, json):
         super().__init__(unique_id, model, json)
 
+        self.familiar = False
         self.children = []
         self.parents = []
         self.child = False
@@ -65,14 +66,18 @@ class EmergencyOccupant(ContinuousOccupant):
         self.markov = False
         self.timeActivity = 0
         if self.children and not self.child:
+            self.familiar = True
             print("Tengo hijos asi que escojo uno")
             child = random.choice(self.children)
             print(child)
             self.pos_to_go = child.pos
+            print(4, self.movements)
             self.movements = super().getWay()
+            print(5, self.movements)
             self.child = child
             print("mis movimientos son estos porque voy a por mi hijo: ", self.movements)
         elif not self.adult:
+            self.familiar = True
             print("soy un niño")
             if self.alone:
                 print("estoy solo asi que me quedo quieto, en la posición: ", self.pos)
@@ -128,7 +133,7 @@ class EmergencyOccupant(ContinuousOccupant):
         super().changeSchedule()
 
     def step(self):
-        print(self.movements)
+        print(self.inbuilding)
         """Method invoked by the Model scheduler in each step."""
         if self.alive == True and not set(self.model.exits).issubset(self.exclude):
             if self.model.emergency:
@@ -144,8 +149,10 @@ class EmergencyOccupant(ContinuousOccupant):
                         print("")
                 elif self.child:
                     print("tengo niño al que buscar")
+                    print("Mis movimientos son estos: ", self.movements)
                     chi = self.model.getOccupantsPos(self.movements[self.N])
                     if chi:
+                        print(1, self.movements)
                         chi = chi[0]
                         if chi.pos not in self.model.exits:
                             posChi = chi.pos
@@ -159,7 +166,13 @@ class EmergencyOccupant(ContinuousOccupant):
                             for parent in chi.parents:
                                 if parent.pos_to_go == posChi:
                                     parent.child = False
+                                    print(2, self.movements)
                                     parent.makeEmergencyAction()
+                        else:
+                            self.child = False
+                            if chi in self.children:
+                                self.children.remove(chi)
+                            self.makeEmergencyAction()
                 if self.pos != self.pos_to_go:
                     if self.fireInMyFOV():
                         self.exclude += self.getPosFireFOV()
@@ -168,7 +181,8 @@ class EmergencyOccupant(ContinuousOccupant):
                         print("Calculo nueva ruta: ", self.movements)
                         if self.pos == self.movements[0] and self.adult:
                             if self.child:
-                                self.children.remove(self.child)
+                                if chi in self.children:
+                                    self.children.remove(chi)
                                 self.child = False
                             self.exclude.append(self.pos_to_go)
                             self.makeEmergencyAction(self.exclude)
@@ -182,9 +196,11 @@ class EmergencyOccupant(ContinuousOccupant):
                     if self.pos not in self.model.exits:
                         self.makeEmergencyAction()
                     else:
+                        print(232312312323123123)
                         if self in self.model.occupEmerg:
                             self.model.occupEmerg.remove(self)
             else:
                 super().step()
         else:
-            pass
+            if self in self.model.occupEmerg:
+                self.model.occupEmerg.remove(self)
