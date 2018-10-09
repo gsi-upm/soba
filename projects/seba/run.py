@@ -64,7 +64,7 @@ timeActivityVariation = {
 
 jsonOccupant = {'type': 'regular' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
 'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
-'strategy': strategy, 'speedEmergency': speed}
+'strategy': strategy, 'speedEmergency': speed, 'shape': 'rect'}
 
 jsonsOccupants.append(jsonOccupant)
 

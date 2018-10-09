@@ -47,9 +47,9 @@ class Occupant(Agent):
 			Return: Occupant object
 		"""
 
-		self.shape = 'circle' if json.get('shape') == None else color
+		self.shape = 'circle' if json.get('shape') == None else json.get('shape')
 		self.model.schedule.add(self)
-		self.color = 'blue' if json.get('color') == None else color
+		self.color = 'blue' if json.get('color') == None else json.get('color')
 		self.variationSchedule = json.get('variation')
 		self.jsonSchedule = json['schedule']
 		self.schedule = json['schedule'].copy()
