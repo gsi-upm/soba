@@ -14,12 +14,12 @@ strategies = ['nearest', 'safest', 'uncrowded']
 # Simulation configuration
 today = dt.date.today()
 
-timeHazard = "10:00:00"
+timeHazard = "20:00:00"
 
 
  #Only two are neccesary 
 
-families = []
+families = [{'N': 4, 'child': 2, 'adult': 2}]
 
 sebaConfiguration = {'families': families, 'hazard': timeHazard}
 
@@ -32,10 +32,10 @@ strategy = strategies[0]
 N = 8
 NDis = 2
 
+fov = True
+
 speed = 1.38
 speedDis = 0.7
-
-
 
 states = OrderedDict([('Free time','out'), ('Rest', 'sofa'), ('Lunch','out'), ('Work', 'wp')])
 
@@ -48,7 +48,7 @@ markovActivity = {
     '-t1': [[100, 0, 0, 0], [100, 0, 0, 0], [100, 0, 0, 0], [100, 0, 0, 0]],
     't1-t2': [[0, 30, 0, 70], [0, 10, 0, 90], [0, 20, 0, 80], [0, 40, 0, 60]],
     't2-t3': [[100, 0, 0, 0], [0, 10, 20, 60], [20, 10, 50, 40], [0, 10, 70, 30]],
-    't3-t4': [[100, 0, 0, 0], [0, 10, 20, 60], [20, 10, 0, 70], [30, 10, 0, 60]],
+    't3-t4': [[100, 0, 0, 0], [0, 10, 20, 60], [0, 10, 0, 70], [20, 10, 0, 70]],
     't4-': [[100, 0, 0, 0], [70, 0, 0, 30], [70, 0, 0, 30], [70, 0, 0, 30]]
 
 }
@@ -64,13 +64,13 @@ timeActivityVariation = {
 
 jsonOccupant = {'type': 'regular' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
 'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
-'strategy': strategy, 'speedEmergency': speed, 'shape': 'rect'}
+'strategy': strategy, 'speedEmergency': speed, 'shape': 'rect', 'fov': fov}
 
 jsonsOccupants.append(jsonOccupant)
 
 jsonOccupantDis = {'type': 'dis' , 'N': NDis, 'states': states , 'schedule': schedule, 'variation': variation,
 'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
-'strategy': strategy, 'speedEmergency': speedDis}
+'strategy': strategy, 'speedEmergency': speedDis, 'fov': fov}
 
 jsonsOccupants.append(jsonOccupantDis)
 

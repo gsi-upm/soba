@@ -2,6 +2,7 @@ import random
 import sys
 from mesa.agent import Agent
 import soba.agents.resources.aStar as aStar
+import random
 
 class Fire():
     """
@@ -36,7 +37,7 @@ class FireControl(Agent):
         step: Method invoked by the Model scheduler in each step. 
     
     """
-    def __init__(self, unique_id, model, posInit, expansionRate = 1, growthRate = 1):
+    def __init__(self, unique_id, model, posInit, expansionRate = 0.7, growthRate = 0.7):
         super().__init__(unique_id, model)
         self.model.schedule.add(self)
         self.fireExpansion = []
@@ -46,9 +47,11 @@ class FireControl(Agent):
         self.growthRate = growthRate
         self.N = 0
         self.fireMovements = []
-        self.costMovement = 0.5*(1/self.expansionRate)*(1/self.model.clock.timeByStep)
-        self.costGrowth = 0.5*(1/self.growthRate)*(1/self.model.clock.timeByStep)
+        self.costMovement = round(0.5/(self.expansionRate*self.model.clock.timeByStep))
+        self.costGrowth =  round(0.5/(self.growthRate*self.model.clock.timeByStep))
         self.focalPoint = self.createFirePos(posInit)
+
+        self.createFirePos(random.choice(self.model.exits))
 
     def createFirePos(self, pos):
         """
@@ -118,9 +121,9 @@ class FireControl(Agent):
             self.costGrowth = self.costGrowth - 1
         else:
             self.growthFire()
-            self.costGrowth = 0.5*(1/self.growthRate)*(1/self.model.clock.timeByStep)
+            self.costGrowth = round(0.5/(self.growthRate*self.model.clock.timeByStep))
         if self.costMovement > 0:
             self.costMovement = self.costMovement - 1
         else:
             self.expansionFire()
-            self.costMovement = 0.5*(1/self.expansionRate)*(1/self.model.clock.timeByStep)
+            self.costMovement = round(0.5/(self.expansionRate*self.model.clock.timeByStep))

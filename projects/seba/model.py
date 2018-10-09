@@ -36,7 +36,7 @@ class SEBAModel(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed = int(time())):
 		lstn.setModel(self)
-		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
+		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
 		self.adults = []
 		self.children = []
 		self.emergency = False

@@ -54,6 +54,7 @@ class EmergencyOccupant(ContinuousOccupant):
         self.parentAsos = False
         self.shape = "circle"
         self.exclude = []
+        self.fovCal = True if not json.get('fov') else json.get('fov')
 
     def makeEmergencyAction(self, exclude = []):
         """
@@ -197,6 +198,10 @@ class EmergencyOccupant(ContinuousOccupant):
                                     self.child = False
                                 self.exclude.append(self.pos_to_go)
                                 self.makeEmergencyAction(self.exclude)
+                                if self.pos == self.movements[0]:
+                                    self.pos_to_go = self.pos
+                                    self.movements = [self.pos]
+                                    self.N = 0
                             else:
                                 self.parentAsos = False
                                 self.pos_to_go = self.pos
