@@ -14,7 +14,7 @@ strategies = ['nearest', 'safest', 'uncrowded']
 # Simulation configuration
 today = dt.date.today()
 
-timeHazard = "20:00:00"
+timeHazard = "10:00:00"
 
 
  #Only two are neccesary 

@@ -36,7 +36,7 @@ class SEBAModel(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed = int(time())):
 		lstn.setModel(self)
-		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 0.1)
+		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
 		self.adults = []
 		self.children = []
 		self.emergency = False
@@ -53,6 +53,7 @@ class SEBAModel(ContinuousModel):
 		self.uncrowdedStr = []
 		self.occupEmerg = []
 		self.log = Log()
+		
 
 	def getOutDoors(self):
 		for poi in self.pois:
@@ -137,9 +138,9 @@ class SEBAModel(ContinuousModel):
 		Launches the state of emergency.
 		"""
 		for occupant in self.occupants:
+			occupant.state = 'Emergency'
 			if occupant.inbuilding:
 				self.occupEmerg.append(occupant)
-				occupant.state = 'Emergency'
 			occupant.makeEmergencyAction()
 
 	def harmOccupant(self, occupant, fire):

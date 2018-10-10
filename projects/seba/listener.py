@@ -4,7 +4,6 @@ from tornado import httpserver
 from tornado.ioloop import IOLoop
 import tornado.web
 
-
 """
 
     In this file, the API is defined to obtain information about the simulation and control of avatars.
@@ -78,3 +77,7 @@ def setModel(modelAux):
         (r"/api/seba/v1/occupants/([0-9]+)/fire?", fire_in_fov),
         (r"/api/seba/v1/occupants/([0-9]+)?", create_avatar)
     ]
+
+def getModel():
+    global model
+    return model

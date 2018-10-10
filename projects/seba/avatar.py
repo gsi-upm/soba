@@ -23,6 +23,13 @@ class EmergencyAvatar(Avatar):
 		self.life = 3
 		self.getFOV()
 
+		self.type = 'avatar'
+		self.familiar = False
+		self.inbuilding = True
+		self.initmove = True
+		self.adult = True
+		self.shape = "circle"
+
 	def getExitGate(self):
 		'''
 		Obtain the optimal way to evacuate the building according to an evacuation strategy.
@@ -59,10 +66,16 @@ class EmergencyAvatar(Avatar):
 		others = []
 		print('fov', self.fov)
 		for pos in self.fov:
-			print(self.model.FireControl.movements)
-			if pos in self.model.FireControl.movements:
+			print(self.model.FireControl.fireMovements)
+			if pos in self.model.FireControl.fireMovements:
 				others.append(pos)
 		return others
 
 	def step():
-		pass
+		if self.pos in self.model.exits:
+			self.inbuilding = False
+		else:
+			self.inbuilding = True
+		
+		if not self.inbuilding and self.model.emergency and self in self.model.occupEmerg:
+			self.model.occupEmerg.remove(self)

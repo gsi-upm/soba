@@ -3,6 +3,7 @@ import random
 import sys
 import soba.agents.resources.aStar as aStar
 import numpy as np
+from avatar import EmergencyAvatar
 
 class EmergencyOccupant(ContinuousOccupant):
     """
@@ -135,6 +136,8 @@ class EmergencyOccupant(ContinuousOccupant):
         print(self.inbuilding)
         """Method invoked by the Model scheduler in each step."""
         if self.alive == True:
+            if isinstance(self, EmergencyAvatar):
+                return
             if self.model.emergency:
                 if set(self.model.exits).issubset(self.exclude) or self.pos in self.model.exits:
                     if self in self.model.occupEmerg:
