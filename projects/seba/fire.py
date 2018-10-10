@@ -51,8 +51,6 @@ class FireControl(Agent):
         self.costGrowth =  round(0.5/(self.growthRate*self.model.clock.timeByStep))
         self.focalPoint = self.createFirePos(posInit)
 
-        self.createFirePos(random.choice(self.model.exits))
-
     def createFirePos(self, pos):
         """
         Create a Fire object in a given position.

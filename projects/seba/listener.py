@@ -49,7 +49,7 @@ class exit_way_avatar(tornado.web.RequestHandler):
 class fire_in_fov(tornado.web.RequestHandler):
     def get(self, avatar_id):
         global model
-        data = model.fire_in_pov(avatar_id)
+        data = model.fire_in_fov(avatar_id)
         response = json.dumps(data)
         self.write(response)
 

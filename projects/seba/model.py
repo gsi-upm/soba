@@ -191,7 +191,6 @@ class SEBAModel(ContinuousModel):
 		fire = self.FireControl.focalPoint
 		for door in self.outDoors:
 			if not door.pos in exclude:
-				print("Calculo camino seguro", door.pos)
 				path = occupant.getWay(door.pos, fire.pos)
 				if len(path) > longPath:
 					longPath = len(path)
@@ -222,7 +221,6 @@ class SEBAModel(ContinuousModel):
 		doorAux = occupant
 		for door in self.outDoors:
 			if not door.pos in exclude:
-				print("no está door.pos: ", door.pos, 'en exclude: ', exclude)
 				path = occupant.getWay(occupant.pos, door.pos, other = exclude)
 				if shortPath > len(path):
 					shortPath = len(path)
@@ -263,6 +261,10 @@ class SEBAModel(ContinuousModel):
 					o.pos_to_go = o.pos
 				self.uncrowdedStr.remove(o)
 
+
+	def createFire(self, pos):
+		self.FireControl = FireControl(100000, self, pos)
+		
 	#API methods
 	def positions_fire(self):
 		fire = []
@@ -286,11 +288,9 @@ class SEBAModel(ContinuousModel):
 		data = {"positions": positions}
 		return data
 
-	def fire_in_pov(self, avatar_id):
+	def fire_in_fov(self, avatar_id):
 		a = self.getOccupantId(int(avatar_id))
-		print(a)
 		pos = a.getPosFireFOV()
-		print(pos)
 		positions = []
 		for p in pos:
 			x, y = p
@@ -329,7 +329,6 @@ class SEBAModel(ContinuousModel):
 			startEmergency = True
 		if self.emergency and not self.occupEmerg:
 			endEmergency = True
-		print(nFamiliesInBuilding)
 		self.log.reportSimulationState(nOccupantsInBuilding = nOccupantsInBuilding,  nOccupantsNormalInBuilding = nOccupantsNormalInBuilding, 
 										nOccupantsDisInBuilding = nOccupantsDisInBuilding, nFamiliesInBuilding = nFamiliesInBuilding, 
 										startEmergency = startEmergency, endEmergency = endEmergency, nOccupantsWorking = nOccupantsWorking)
@@ -363,7 +362,6 @@ class SEBAModel(ContinuousModel):
 					self.harmOccupant(occupant, fire)
 
 		self.reportSimulationState()
-		print("OcEmerg", self.occupEmerg)
 		if self.emergency and not self.occupEmerg:
 			self.log.saveSimulationState(time_by_step=self.clock.timeByStep)
 			print("Simulation terminated.")

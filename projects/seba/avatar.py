@@ -64,9 +64,7 @@ class EmergencyAvatar(Avatar):
 			Return: List of positions (x, y)
 		'''
 		others = []
-		print('fov', self.fov)
 		for pos in self.fov:
-			print(self.model.FireControl.fireMovements)
 			if pos in self.model.FireControl.fireMovements:
 				others.append(pos)
 		return others

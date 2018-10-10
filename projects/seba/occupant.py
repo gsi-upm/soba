@@ -68,19 +68,12 @@ class EmergencyOccupant(ContinuousOccupant):
         self.markov = False
         self.timeActivity = 0
         if self.children and not self.child:
-            print("Tengo hijos asi que escojo uno")
             child = random.choice(self.children)
-            print(child)
             self.pos_to_go = child.pos
-            print(4, self.movements)
             self.movements = super().getWay()
-            print(5, self.movements)
             self.child = child
-            print("mis movimientos son estos porque voy a por mi hijo: ", self.movements)
         elif not self.adult:
-            print("soy un niño")
             if self.alone:
-                print("estoy solo asi que me quedo quieto, en la posición: ", self.pos)
                 self.pos_to_go = self.pos
                 self.movements = [self.pos_to_go]
         else:
@@ -133,7 +126,6 @@ class EmergencyOccupant(ContinuousOccupant):
         super().changeSchedule()
 
     def step(self):
-        print(self.inbuilding)
         """Method invoked by the Model scheduler in each step."""
         if self.alive == True:
             if isinstance(self, EmergencyAvatar):
@@ -146,28 +138,21 @@ class EmergencyOccupant(ContinuousOccupant):
                 self.markov = False
                 self.timeActivity = 0
                 if self.parentAsos:
-                    print("tengo padres asociados, que ya me han encontrado")
                     if not self.model.nearPos(self.parentAsos.pos, self.pos):
-                        print("mi padre no está en una posición justo al lado a si que me muevo")
                         self.pos_to_go = self.parentAsos.pos
                         self.movements = super().getWay(other = self.exclude)
                         self.N = 0
-                        print("")
                         if self.pos == self.movements[0]:
                             self.parentAsos = False
                             self.pos_to_go = self.pos
                             self.movements = [self.pos]
                             self.N = 0
                 elif self.child:
-                    print("tengo niño al que buscar")
-                    print("Mis movimientos son estos: ", self.movements)
                     chi = self.model.getOccupantsPos(self.movements[self.N])
                     if chi:
-                        print(1, self.movements)
                         chi = chi[0]
                         if chi.pos not in self.model.exits:
                             posChi = chi.pos
-                            print("en la pos,", posChi)
                             chi.alone = False
                             for parent in chi.parents:
                                 if chi in parent.children:
@@ -177,7 +162,6 @@ class EmergencyOccupant(ContinuousOccupant):
                             for parent in chi.parents:
                                 if parent.pos_to_go == posChi:
                                     parent.child = False
-                                    print(2, self.movements)
                                     parent.makeEmergencyAction()
                         else:
                             self.child = False
@@ -189,7 +173,6 @@ class EmergencyOccupant(ContinuousOccupant):
                         self.exclude += self.getPosFireFOV()
                         self.movements = super().getWay(other = self.exclude)
                         self.N = 0
-                        print("Calculo nueva ruta: ", self.movements)
                         if self.pos == self.movements[0]:
                             if self.adult:
                                 if self.child:
@@ -212,13 +195,11 @@ class EmergencyOccupant(ContinuousOccupant):
                                 self.N = 0
                         else:
                             self.pos_to_go = self.movements[-1]
-                    print("Estos son mis movimiento sahora: ", self.movements, 'y m pos a ir:', self.pos_to_go)
                     super().step()
                 else:
                     if self.pos not in self.model.exits:
                         self.makeEmergencyAction()
                     else:
-                        print(232312312323123123)
                         if self in self.model.occupEmerg:
                             self.model.occupEmerg.remove(self)
             else:
