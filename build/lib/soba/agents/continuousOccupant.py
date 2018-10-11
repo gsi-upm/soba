@@ -324,6 +324,7 @@ class ContinuousOccupant(Occupant):
 			self.markov = False
 		elif self.pos != self.pos_to_go:
 			self.makeMovement()
+			self.checkLeaveArrive()
 			self.alreadyMovement = True
 		elif self.time_activity > 0:
 			self.time_activity = self.time_activity - 1

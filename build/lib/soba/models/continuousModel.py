@@ -503,6 +503,8 @@ class ContinuousModel(GeneralModel):
 	def fov_occupant(self, occupant_id):
 		fov = self.occupantsInfo.get(str(occupant_id)).get('fov')
 		fov_json = []
+		if fov == None:
+			return {"fov": fov_json}
 		for pos in fov:
 			x, y = pos
 			fov_json.append({"x": x, "y": y})

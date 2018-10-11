@@ -40,7 +40,6 @@ var VisualClass = function(canvas_width, canvas_height, grid_width, grid_height,
 		else{
 			console.log('Model is not defined')
 		};
-
 		canvasDraw.drawAgents(data[1]);
 
 	};

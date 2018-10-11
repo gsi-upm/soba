@@ -4,13 +4,13 @@ import math
 # with open(your file) as datafile:
 # map = returnMap(datafile)
 
-def returnMap(data_file):
+def returnMap(data_file, offsety = 0, offsetx = 0):
 	data = json.load(data_file)
 	corners = {}
 	walls = {}
 	items = {}
-	offsety = 9
-	offsetx = 0
+	offsety = offsety
+	offsetx = offsetx
 	flor = data["floorplan"]
 	for k, v in flor["corners"].items():
 		corners[k] = {"x":  v["x"]/100 + offsetx,"y": -v["y"]/100 + offsety}

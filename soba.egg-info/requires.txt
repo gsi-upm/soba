@@ -3,6 +3,5 @@ anaconda-client
 tqdm
 mesa
 transitions
-tornado
+tornado==4.5.3
 pandas
-tornado

@@ -1,5 +1,6 @@
 import random
 import time
+import sys
 
 """
 In the file aStar.py the AStar algorithm is implemented.
@@ -12,8 +13,29 @@ In the file aStar.py the AStar algorithm is implemented.
 		canMovePos: Evaluate if a position is reachable in a continuous space.
 
 """
+
+def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_length=100):
+    '''
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        bar_length  - Optional  : character length of bar (Int)
+    '''
+    str_format = "{0:." + str(decimals) + "f}"
+    percents = str_format.format(100 * (iteration / float(total)))
+    filled_length = int(round(bar_length * iteration / float(total)))
+    bar = '=' * filled_length + '>' + '-' * (bar_length - filled_length - 1)
+
+    sys.stdout.write('\r%s [%s] %s%s %s' % (prefix, bar, percents, '%', suffix)),
+    if iteration == total:
+        sys.stdout.flush()
+
 global maxIteration
-maxIteration = 100000
+maxIteration = 3000
 
 generalItemsPos = []
 doorsPoss = []
@@ -78,6 +100,8 @@ def getPathContinuous(model, start, finish, other = []):
 			other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.
 		Return: List of positions (x, y).
 	"""
+	if start == finish:
+		return [start]
 	finish = Cell(finish)
 	start = Cell(start)
 	not_visited = [start]
@@ -87,7 +111,9 @@ def getPathContinuous(model, start, finish, other = []):
 	it = 0
 	while notFinished:
 		it = it + 1
-		if it > maxIteration:
+		print_progress(it, maxIteration, prefix='Progress:', suffix='Complete', bar_length=30)
+		if it > maxIteration or (finish.x, finish.y) in other:
+			print("Demasida iteración, devolvemos: ", (start.x, start.y))
 			return [(start.x, start.y)]
 		for cell_not_visited in not_visited:
 			if cell_not_visited.x == finish.x and cell_not_visited.y == finish.y:
@@ -116,7 +142,7 @@ def getPathContinuous(model, start, finish, other = []):
 		way = way + [pos]
 	way.reverse()
 	if len(way) == 1 and not canMovePos(model, start, way[0]):
-		way = (start.x, start.y)
+		way = [(start.x, start.y)]
 	return way
 
 def getConectedCellsRooms(model, cell):
@@ -188,7 +214,7 @@ def canMovePos(model, cellPos, posAux, others = []):
 				move = True
 	if move:
 		if not (cellPos in generalItemsPos or posAux in generalItemsPos):
-			if not (posAux in others):
+			if not (posAux in others) or not (cellPos in others):
 				return True
 	return False
 
