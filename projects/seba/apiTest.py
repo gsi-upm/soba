@@ -11,6 +11,7 @@ from jsonschema import validate
 import socket
 import unittest
 import listener 
+import sys
 
 ## Rest Service variables ##
 
@@ -1020,6 +1021,9 @@ class SebaApiTest(SEBAModel, TestCase):
 
 
 ## Defining the Test Model and running the test ##
+
+sys.argv.append('-b')
+sys.argv.append('-s')
 
 strategy = 'nearest'
 N = 3
