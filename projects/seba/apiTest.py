@@ -12,6 +12,7 @@ import socket
 import unittest
 import listener 
 import sys
+from PyUnitReport import HTMLTestRunner
 
 ## Rest Service variables ##
 
@@ -25,41 +26,63 @@ URIFIRE = "/api/seba/v1/fire"
 stringTemplate = {"type": "string"}
 numberTemplate = {"type": "number"}
 
+global modelSto
+modelSto = None
 
 ## Test Class ##
 
-class SebaApiTest(SEBAModel, TestCase):
+class test(TestCase):
 
-	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed ):
-		super().__init__(width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed)
-		
-		## Running the test to evaluate the values of the model ##
+	## Test methods ##
 
-		self.updateOccupancyInfo()
+	model = False
+	occupantTest0 = True
+	occupantTest1 = True
+	occupantTest2 = True
+
+	def setUp(self):
+		global modelSto
+		self.model = modelSto
+		self.N = 1
+		self.model.updateOccupancyInfo()
+		self.occupantTest0 = self.model.getOccupantId(0)
+		self.occupantTest1 = self.model.getOccupantId(1)
+		self.occupantTest2 = self.model.getOccupantId(2)
+
+	def test01_ListOccupants(self):
+
+		print(str('Testing {}').format('GET /api/soba/v1/occupants'))
 
 		occupantsId = [0, 1, 2]
 		occupantsIdSim = []
-		for o in self.occupants:
+		for o in self.model.occupants:
 			occupantsIdSim.append(o.unique_id)
+		self.model.updateOccupancyInfo()
 
-		self.updateOccupancyInfo()
-		self.testListOccupants(occupantsId, occupantsIdSim)
+		url = URLBASE + URISOBA
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse = datajson['occupants']				
+		self.assertCountEqual(occupantsIdSim, occupantsId)
+		self.assertCountEqual(APIResponse, occupantsIdSim)
 
+	def test02_PositionsOccupants(self):
 
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/positions'))
 
-
-		occupantTest0 = self.getOccupantId(0)
-		occupantTest1 = self.getOccupantId(1)
-		occupantTest2 = self.getOccupantId(2)
+		self.occupantTest0 = self.model.getOccupantId(0)
+		self.occupantTest1 = self.model.getOccupantId(1)
+		self.occupantTest2 = self.model.getOccupantId(2)
 
 		pos0 = (6, 7)
 		pos1 = (3, 8)
 		pos2 = (5, 4)
 		
-		self.grid.move_agent(occupantTest0, pos0)
-		self.grid.move_agent(occupantTest1, pos1)
-		self.grid.move_agent(occupantTest2, pos2)
-		self.updateOccupancyInfo()
+		self.model.grid.move_agent(self.occupantTest0, pos0)
+		self.model.grid.move_agent(self.occupantTest1, pos1)
+		self.model.grid.move_agent(self.occupantTest2, pos2)
+		self.model.updateOccupancyInfo()
 
 
 		occupantsPos = {
@@ -68,9 +91,9 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': {'y': 4, 'x': 5}, 
 		}
 
-		pos0Sim = occupantTest0.pos
-		pos1Sim = occupantTest1.pos
-		pos2Sim = occupantTest2.pos
+		pos0Sim = self.occupantTest0.pos
+		pos1Sim = self.occupantTest1.pos
+		pos2Sim = self.occupantTest2.pos
 
 		x0, y0 = pos0Sim
 		x1, y1 = pos1Sim
@@ -82,9 +105,18 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': {'y': y2, 'x': x2}, 
 		}
 
-		self.testPositionsOccupants(occupantsPos , occupantsPosSim)
 
-		print('Testing GET states of the occupants')
+		url = URLBASE + URISOBA + "/positions"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson				
+		self.assertDictContainsSubset(occupantsPosSim, occupantsPos)
+		self.assertDictContainsSubset(APIResponse, occupantsPosSim)
+
+	def test03_StatesOccupants(self):
+
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/states'))
 
 		state1 = 'testState1'
 		state2 = 'testState2'
@@ -95,18 +127,25 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': 'testState1', 
 		}
 		occupantsStaSim1 = {
-			'0': occupantTest0.state, 
-			'1': occupantTest1.state, 
-			'2': occupantTest2.state, 
+			'0': self.occupantTest0.state, 
+			'1': self.occupantTest1.state, 
+			'2': self.occupantTest2.state, 
 		}
 
-		self.testStatesOccupants(occupantsSta1 ,occupantsStaSim1)
 
-		
-		occupantTest0.state = state2
-		occupantTest1.state = state2
-		occupantTest2.state = state2
-		self.updateOccupancyInfo()
+		url = URLBASE + URISOBA + "/states"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson			
+		self.assertDictContainsSubset(occupantsStaSim1, occupantsSta1)
+		self.assertDictContainsSubset(APIResponse, occupantsStaSim1)
+
+
+		self.occupantTest0.state = state2
+		self.occupantTest1.state = state2
+		self.occupantTest2.state = state2
+		self.model.updateOccupancyInfo()
 		
 		occupantsSta2 = {
 			'0': 'testState2', 
@@ -115,14 +154,22 @@ class SebaApiTest(SEBAModel, TestCase):
 		}
 
 		occupantsStaSim2 = {
-			'0': occupantTest0.state, 
-			'1': occupantTest1.state, 
-			'2': occupantTest2.state, 
+			'0': self.occupantTest0.state, 
+			'1': self.occupantTest1.state, 
+			'2': self.occupantTest2.state, 
 		}
 
-		self.testStatesOccupants(occupantsSta2 ,occupantsStaSim2)
 
-		#self.movement = {'speed': self.speed, 'orientation':'out'}
+		url = URLBASE + URISOBA + "/states"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson			
+		self.assertDictContainsSubset(occupantsStaSim2, occupantsSta2)
+		self.assertDictContainsSubset(APIResponse, occupantsStaSim2)
+
+	def test04_MovementsOccupants(self):
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/movements'))
 
 		occupantsMov = {
 			'0': {'orientation': 'out', 'speed': 0.71428},
@@ -130,12 +177,12 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': {'orientation': 'out', 'speed': 0.71428},
 		}
 
-		speed0Sim = occupantTest0.movement['speed']
-		speed1Sim = occupantTest1.movement['speed']
-		speed2Sim = occupantTest2.movement['speed']
-		orientation0Sim = occupantTest0.movement['orientation']
-		orientation1Sim = occupantTest1.movement['orientation']
-		orientation2Sim = occupantTest2.movement['orientation']
+		speed0Sim = self.occupantTest0.movement['speed']
+		speed1Sim = self.occupantTest1.movement['speed']
+		speed2Sim = self.occupantTest2.movement['speed']
+		orientation0Sim = self.occupantTest0.movement['orientation']
+		orientation1Sim = self.occupantTest1.movement['orientation']
+		orientation2Sim = self.occupantTest2.movement['orientation']
 
 		occupantsMovSim = {
 			'0': {'orientation': orientation0Sim, 'speed': speed0Sim}, 
@@ -143,13 +190,18 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': {'orientation': orientation2Sim, 'speed': speed2Sim}, 
 		}
 
+		url = URLBASE + URISOBA + "/movements"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson			
+		self.assertDictContainsSubset(occupantsMovSim, occupantsMov)
+		self.assertDictContainsSubset(APIResponse, occupantsMovSim)
 
-		self.testMovementsOccupants(occupantsMov , occupantsMovSim)
-
-		occupantTest0.movement = {'orientation': 'E', 'speed': 1}
-		occupantTest1.movement = {'orientation': 'S', 'speed': 1}
-		occupantTest2.movement = {'orientation': 'N', 'speed': 1}
-		self.updateOccupancyInfo()
+		self.occupantTest0.movement = {'orientation': 'E', 'speed': 1}
+		self.occupantTest1.movement = {'orientation': 'S', 'speed': 1}
+		self.occupantTest2.movement = {'orientation': 'N', 'speed': 1}
+		self.model.updateOccupancyInfo()
 
 		occupantsMov = {
 			'0': {'orientation': 'E', 'speed': 1},
@@ -157,12 +209,12 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': {'orientation': 'N', 'speed': 1},
 		}
 
-		speed0Sim = occupantTest0.movement['speed']
-		speed1Sim = occupantTest1.movement['speed']
-		speed2Sim = occupantTest2.movement['speed']
-		orientation0Sim = occupantTest0.movement['orientation']
-		orientation1Sim = occupantTest1.movement['orientation']
-		orientation2Sim = occupantTest2.movement['orientation']
+		speed0Sim = self.occupantTest0.movement['speed']
+		speed1Sim = self.occupantTest1.movement['speed']
+		speed2Sim = self.occupantTest2.movement['speed']
+		orientation0Sim = self.occupantTest0.movement['orientation']
+		orientation1Sim = self.occupantTest1.movement['orientation']
+		orientation2Sim = self.occupantTest2.movement['orientation']
 
 		occupantsMovSim = {
 			'0': {'orientation': orientation0Sim, 'speed': speed0Sim}, 
@@ -170,8 +222,16 @@ class SebaApiTest(SEBAModel, TestCase):
 			'2': {'orientation': orientation2Sim, 'speed': speed2Sim}, 
 		}
 
+		url = URLBASE + URISOBA + "/movements"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson			
+		self.assertDictContainsSubset(occupantsMovSim, occupantsMov)
+		self.assertDictContainsSubset(APIResponse, occupantsMovSim)
 
-		self.testMovementsOccupants(occupantsMov , occupantsMovSim)
+	def test05_InformationOccupant(self):
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}'))
 
 		occupantInfo = {
 			"occupant": {
@@ -186,62 +246,101 @@ class SebaApiTest(SEBAModel, TestCase):
 
 		occupantInfoSim = {
 			"occupant": {
-				"movement": occupantTest0.movement,
-				"unique_id": str(occupantTest0.unique_id),
-				"position":{"x": occupantTest0.pos[0],"y": occupantTest0.pos[1]},
-				"fov": occupantTest0.fov,
-				"state": occupantTest0.state
+				"movement": self.occupantTest0.movement,
+				"unique_id": str(self.occupantTest0.unique_id),
+				"position":{"x": self.occupantTest0.pos[0],"y": self.occupantTest0.pos[1]},
+				"fov": self.occupantTest0.fov,
+				"state": self.occupantTest0.state
 			}
 		}
 
-		occupantTest0.movement = {'orientation': 'E', 'speed': 1}
+		self.occupantTest0.movement = {'orientation': 'E', 'speed': 1}
 
-		idOc0 = occupantTest0.unique_id
+		idOc0 = self.occupantTest0.unique_id
 
-		self.testInformationOccupant(idOc0, occupantInfo, occupantInfoSim)
+		url = URLBASE + URISOBA + "/" + str(idOc0)
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(occupantInfoSim, occupantInfo)
+		self.assertDictContainsSubset(APIResponse, occupantInfoSim)
 
-
+	def test06_MovementOccupant(self):
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/movement'))
 
 		occupantMov = { "movement": {'orientation': "E", 'speed': 1} }
 
-		speed0Sim = occupantTest0.movement['speed']
-		orientation0Sim = occupantTest0.movement['orientation']
+		speed0Sim = self.occupantTest0.movement['speed']
+		orientation0Sim = self.occupantTest0.movement['orientation']
 		
-		occupantsMovSim = { "movement": {'orientation': orientation0Sim, 'speed': speed0Sim} }
+		occupantMovSim = { "movement": {'orientation': orientation0Sim, 'speed': speed0Sim} }
 
-		idOc0 = occupantTest0.unique_id
+		idOc0 = self.occupantTest0.unique_id
 
-		self.testMovementOccupant(idOc0, occupantMov, occupantsMovSim)
+		url = URLBASE + URISOBA + "/" + str(idOc0) + "/movement"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(occupantMovSim, occupantMov)
+		self.assertDictContainsSubset(APIResponse, occupantMovSim)
 
-
+	def test07_PositionOccupant(self):
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/position'))
+		
 		occupantPos = { 'position': {'y': 7, 'x': 6} }
 
-		occupantPosSim = { 'position': {'y': occupantTest0.pos[1], 'x': occupantTest0.pos[0]} }
+		occupantPosSim = { 'position': {'y': self.occupantTest0.pos[1], 'x': self.occupantTest0.pos[0]} }
 
-		idOc0 = occupantTest0.unique_id
+		idOc0 = self.occupantTest0.unique_id
 
 
-		self.testPositionOccupant(idOc0, occupantPos, occupantPosSim)
+		url = URLBASE + URISOBA + "/" + str(idOc0) + "/position"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(occupantPosSim, occupantPos)
+		self.assertDictContainsSubset(APIResponse, occupantPosSim)
 
-		
+	def test08_StateOccupant(self):
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/state'))
 
-		idOc0 = occupantTest0.unique_id
+		idOc0 = self.occupantTest0.unique_id
 
 		occupantState2 = { 'state': 'testState2' }
 
-		occupantStateSim2 = { 'state': occupantTest0.state }
-
-		self.testStateOccupant(idOc0, occupantState2, occupantStateSim2)
+		occupantStateSim2 = { 'state': self.occupantTest0.state }
 
 
-		occupantFov = { "fov": [] }
+		url = URLBASE + URISOBA + "/" + str(idOc0) + "/state"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(occupantStateSim2, occupantState2)
+		self.assertDictContainsSubset(APIResponse, occupantStateSim2)
 
-		occupantFovSim = { "fov": occupantTest0.fov }
+	def test09_FovOccupant(self):
+		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/fov'))
 
-		self.testFovOccupant(idOc0, occupantFov, occupantFovSim)
+		idOc0 = self.occupantTest0.unique_id
 
-		occupantTest0.getFOV()
-		self.updateOccupancyInfo()
+		occupantFov = {"fov": []}
+
+		occupantFovSim = {"fov": self.occupantTest0.fov}
+
+		url = URLBASE + URISOBA + "/" + str(idOc0) + "/fov"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(occupantFovSim, occupantFov)
+		self.assertDictContainsSubset(APIResponse, occupantFovSim)
+
+		self.occupantTest0.getFOV()
+		self.model.updateOccupancyInfo()
 
 		fovKnonwn = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0), (9, 0), (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (0, 2), (1, 2), (2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (0, 3), (1, 3), (2, 3), (3, 3), (4, 3), (5, 3), (6, 3), (7, 3), (8, 3), (9, 3), (0, 4), (1, 4), (2, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 4), (8, 4), (9, 4), (0, 5), (1, 5), (2, 5), (3, 5), (4, 5), (5, 5), (6, 5), (7, 5), (8, 5), (9, 5), (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6), (8, 6), (9, 6), (0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (7, 7), (8, 7), (9, 7), (0, 8), (1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8), (9, 8), (0, 9), (1, 9), (2, 9), (3, 9), (4, 9), (5, 9), (6, 9), (7, 9), (8, 9), (9, 9), (0, 10), (1, 10), (2, 10), (3, 10), (4, 10), (5, 10), (6, 10), (7, 10), (8, 10), (9, 10), (10, 10), (8, 11), (9, 11), (10, 11), (11, 11), (9, 12), (10, 12), (11, 12), (12, 12), (9, 13), (10, 13), (11, 13), (12, 13), (13, 13), (10, 14), (11, 14), (12, 14), (13, 14), (14, 14), (10, 15), (11, 15), (12, 15), (13, 15), (14, 15), (15, 15), (11, 16), (12, 16), (13, 16), (14, 16), (15, 16), (16, 16), (12, 17), (13, 17), (14, 17), (15, 17), (16, 17), (17, 17), (12, 18), (13, 18), (14, 18), (15, 18), (16, 18), (17, 18), (18, 18)]
 
@@ -250,61 +349,110 @@ class SebaApiTest(SEBAModel, TestCase):
 			fovDicts.append({"x": pos[0], "y": pos[1]})
 
 		fovDictsSim = []
-		for pos in occupantTest0.fov:
+		for pos in self.occupantTest0.fov:
 			fovDictsSim.append({"x": pos[0], "y": pos[1]})
 
 		occupantFov = { "fov": fovDicts }
 
 		occupantFovSim = { "fov": fovDictsSim }
 
+		url = URLBASE + URISOBA + "/" + str(idOc0) + "/fov"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(occupantFovSim, occupantFov)
+		self.assertDictContainsSubset(APIResponse, occupantFovSim)
 
-		self.testFovOccupant(idOc0, occupantFov, occupantFovSim)
-
-
+	def test10_CreateSobaAvatar(self):
+		print(str('Testing {}').format('PUT /api/soba/v1/occupants/{id}'))
 
 		idAvCreation = 1
 		avatarXPos = 3
 		avatarYPos = 6
 		idAvCreationResponse = idAvCreation + 100000 
 
-
 		avatarCreation = { 'avatar': { 'position': {'y': avatarYPos, 'x': avatarXPos}, 'id': idAvCreationResponse}}
 
+		dataBody = {"x": avatarXPos, "y": avatarYPos}
+		url = URLBASE + URISOBA + "/" + str(idAvCreation)
+		data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(APIResponse, avatarCreation)
 
-		self.testCreateSobaAvatar(idAvCreation, avatarXPos, avatarYPos, avatarCreation)
-		self.updateOccupancyInfo()
+		self.model.updateOccupancyInfo()
 
-		avatarTestSOBA = self.getOccupantId(idAvCreationResponse)
+		avatarTestSOBA = self.model.getOccupantId(idAvCreationResponse)
 
 		avatarPos = {'position': {'y': 6, 'x': 3}}
 
 		avatarPosSim = {'position': {'y': avatarTestSOBA.pos[1], 'x': avatarTestSOBA.pos[0]}}
+		
+		url = URLBASE + URISOBA + "/" + str(idAvCreationResponse) + "/position"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(avatarPosSim, avatarPos)
+		self.assertDictContainsSubset(APIResponse, avatarPosSim)
 
-		self.testPositionOccupant(idAvCreationResponse, avatarPos, avatarPosSim)
-
-
-
-		idAvCreation = idAvCreationResponse
+	def test11_MoveAvatar(self):
+		print(str('Testing {}').format('POST /api/soba/v1/occupants/{id}/position'))
+			
+		idAvCreation = 1
+		idAvCreationResponse = idAvCreation + 100000
 
 		avatarXPos = 5
 		avatarYPos = 8
 
+		avatarTestSOBA = self.model.getOccupantId(idAvCreationResponse)
 
-		avatarMove = { 'avatar': { 'position': {'y': avatarYPos, 'x': avatarXPos}, 'id': idAvCreation}}
+		avatarMove = { 'avatar': { 'position': {'y': avatarYPos, 'x': avatarXPos}, 'id': idAvCreationResponse}}
 
-		self.testMoveAvatar(idAvCreation, avatarXPos, avatarYPos, avatarMove)
-		self.updateOccupancyInfo()
+
+		dataBody = {"x": avatarXPos, "y": avatarYPos}
+		url = URLBASE + URISOBA + "/" + str(idAvCreationResponse) + "/position"
+		data = requests.post(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(APIResponse, avatarMove)
+
+		self.model.updateOccupancyInfo()
+
+		avatarTestSOBA = self.model.getOccupantId(idAvCreationResponse)
 
 		avatarPos = { 'position': {'y': avatarYPos, 'x': avatarXPos}}
 		avatarPosSim = {'position': {'y': avatarTestSOBA.pos[1], 'x': avatarTestSOBA.pos[0]}}
 
-		self.testPositionOccupant(idAvCreationResponse, avatarPos, avatarPosSim)
+		url = URLBASE + URISOBA + "/" + str(idAvCreationResponse) + "/position"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(avatarPosSim, avatarPos)
+		self.assertDictContainsSubset(APIResponse, avatarPosSim)
 
+	def test12_RouteOccupant(self):
+		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
 
 		occupantRoute = { "positions": [{'x': 4, 'y': 8}, {'x': 3, 'y': 8}, {'x': 2, 'y': 7}, {'x': 1, 'y': 6}, {'x': 0, 'y': 6}]}
 
-		self.testRouteOccupant(idAvCreation, occupantRoute)
-		self.updateOccupancyInfo()
+		idAvCreation = 1
+		idAvCreationResponse = idAvCreation + 100000
+
+		avatarTestSOBA = self.model.getOccupantId(idAvCreationResponse)
+
+		url = URLBASE + URISEBA + "/" + str(idAvCreationResponse) + "/route/1"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(APIResponse, occupantRoute)
+
+		self.model.updateOccupancyInfo()
 
 		lastPosRouteDict = occupantRoute["positions"][-1]
 		lastPosRouteX = lastPosRouteDict["x"]
@@ -312,9 +460,12 @@ class SebaApiTest(SEBAModel, TestCase):
 		lastPosRoute = (lastPosRouteX, lastPosRouteY)
 		lastPosRouteSim = avatarTestSOBA.pos_to_go
 
-		self.testRouteOccupantAux(lastPosRoute, lastPosRouteSim)
+		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
+		print("Pos_to_go", lastPosRoute)
+		self.assertCountEqual(lastPosRoute, lastPosRouteSim)
 
-
+	def test13_CreateSebaAvatar(self):
+		print(str('Testing {}').format('PUT /api/seba/v1/occupants/{id}'))
 
 		idAvCreation = 2
 		avatarXPos = 3
@@ -324,25 +475,45 @@ class SebaApiTest(SEBAModel, TestCase):
 
 		avatarCreation = { 'avatar': { 'position': {'y': avatarYPos, 'x': avatarXPos}, 'id': idAvCreationResponse}}
 
+		dataBody = {"x": avatarXPos, "y": avatarYPos}
+		url = URLBASE + URISEBA + "/" + str(idAvCreation)
+		data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(APIResponse, avatarCreation)
 
-		self.testCreateSobaAvatar(idAvCreation, avatarXPos, avatarYPos, avatarCreation)
-		self.updateOccupancyInfo()
+		self.model.updateOccupancyInfo()
 
-		avatarTestSEBA = self.getOccupantId(idAvCreationResponse)
+		avatarTestSEBA = self.model.getOccupantId(idAvCreationResponse)
 
 		avatarPos = {'position': {'y': 6, 'x': 3}}
 
 		avatarPosSim = {'position': {'y': avatarTestSEBA.pos[1], 'x': avatarTestSEBA.pos[0]}}
 
-		self.testPositionOccupant(idAvCreationResponse, avatarPos, avatarPosSim)
+		url = URLBASE + URISOBA + "/" + str(idAvCreationResponse) + "/position"
+		data = requests.get(url)
+		datajson = data.json()
+		print("Response: ", datajson)
+		APIResponse  = datajson
+		self.assertDictContainsSubset(avatarPosSim, avatarPos)
+		self.assertDictContainsSubset(APIResponse, avatarPosSim)
+
+	def test14_FireInFovOccupant(self):
+		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/fire'))
+
+		idAvCreation = 2
+		idAvCreationResponse = idAvCreation + 100000 
 
 		posFire1 = (5, 2)
 		posFire2 = (7, 4)
 
-		self.createFire(posFire1)
-		self.FireControl.createFirePos(posFire2)
+		self.model.createFire(posFire1)
+		self.model.FireControl.createFirePos(posFire2)
 
 		idAvSEBA = idAvCreationResponse
+
+		avatarTestSEBA = self.model.getOccupantId(idAvCreationResponse)
 
 		occupantFireSimAux = avatarTestSEBA.getPosFireFOV()
 		occupantFireSimPos = []
@@ -352,169 +523,6 @@ class SebaApiTest(SEBAModel, TestCase):
 		occupantFire = {"positions": [{'y': posFire1[1], 'x': posFire1[0]}, {'y': posFire2[1], 'x': posFire2[0]}]}
 		occupantFireSim = {"positions": occupantFireSimPos}
 
-		self.testFireInFovOccupant(idAvSEBA, occupantFire, occupantFireSim)
-
-		FirePosAux = []
-		for pos in self.FireControl.fireMovements:
-			FirePosAux.append({'x': pos[0],'y': pos[1]})
-
-		firePos = {"positions": [{'y': posFire1[1], 'x': posFire1[0]}, {'y': posFire2[1], 'x': posFire2[0]}]}
-		firePosSim = {"positions": FirePosAux}
-
-
-		self.testFirePositions(firePos, firePosSim)
-
-
-		## Method to run the test to evaluate the Api responses schema ##
-
-		self.testSchema(N=1)
-
-
-
-		# End test
-		print("Testing finished.")
-		os.system("kill -9 %d"%(os.getpid()))
-		os.killpg(os.getpgid(os.getpid()), signal.SIGTERM)
-
-
-	## Test methods ##
-
-	def testListOccupants(self, occupantsId, occupantsIdSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants'))
-		url = URLBASE + URISOBA
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse = datajson['occupants']				
-		self.assertCountEqual(occupantsIdSim, occupantsId)
-		self.assertCountEqual(APIResponse, occupantsIdSim)
-
-	def testPositionsOccupants(self, occupantsPos , occupantsPosSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/positions'))
-		url = URLBASE + URISOBA + "/positions"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson				
-		self.assertDictContainsSubset(occupantsPosSim, occupantsPos)
-		self.assertDictContainsSubset(APIResponse, occupantsPosSim)
-
-	def testStatesOccupants(self, occupantsSta , occupantsStaSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/states'))
-		url = URLBASE + URISOBA + "/states"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson			
-		self.assertDictContainsSubset(occupantsStaSim, occupantsSta)
-		self.assertDictContainsSubset(APIResponse, occupantsStaSim)
-
-	def testMovementsOccupants(self, occupantsMov , occupantsMovSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/movements'))
-		url = URLBASE + URISOBA + "/movements"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson			
-		self.assertDictContainsSubset(occupantsMovSim, occupantsMov)
-		self.assertDictContainsSubset(APIResponse, occupantsMovSim)
-
-	def testInformationOccupant(self, idOc, occupantInfo, occupantInfoSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}'))
-		url = URLBASE + URISOBA + "/" + str(idOc)
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(occupantInfoSim, occupantInfo)
-		self.assertDictContainsSubset(APIResponse, occupantInfoSim)
-
-	def testMovementOccupant(self, idOc, occupantMov, occupantMovSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/movement'))
-		url = URLBASE + URISOBA + "/" + str(idOc) + "/movement"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(occupantMovSim, occupantMov)
-		self.assertDictContainsSubset(APIResponse, occupantMovSim)
-
-	def testPositionOccupant(self, idOc, occupantPos, occupantPosSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/position'))
-		url = URLBASE + URISOBA + "/" + str(idOc) + "/position"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(occupantPosSim, occupantPos)
-		self.assertDictContainsSubset(APIResponse, occupantPosSim)
-
-	def testStateOccupant(self, idOc, occupantState, occupantStateSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/state'))
-		url = URLBASE + URISOBA + "/" + str(idOc) + "/state"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(occupantStateSim, occupantState)
-		self.assertDictContainsSubset(APIResponse, occupantStateSim)
-
-	def testFovOccupant(self, idOc, occupantFov, occupantFovSim):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/fov'))
-		url = URLBASE + URISOBA + "/" + str(idOc) + "/fov"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(occupantFovSim, occupantFov)
-		self.assertDictContainsSubset(APIResponse, occupantFovSim)
-
-	def testCreateSobaAvatar(self, idAvCreation, avatarXPos, avatarYPos, avatarCreation):
-		print(str('Testing {}').format('PUT /api/soba/v1/occupants/{id}'))
-		dataBody = {"x": avatarXPos, "y": avatarYPos}
-		url = URLBASE + URISOBA + "/" + str(idAvCreation)
-		data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(APIResponse, avatarCreation)
-
-	def testMoveAvatar(self, idAvCreation, avatarXPos, avatarYPos, avatarMove):
-		print(str('Testing {}').format('POST /api/soba/v1/occupants/{id}/position'))
-		dataBody = {"x": avatarXPos, "y": avatarYPos}
-		url = URLBASE + URISOBA + "/" + str(idAvCreation) + "/position"
-		data = requests.post(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(APIResponse, avatarMove)
-
-	def testRouteOccupant(self, idAvCreation, occupantRoute):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
-		url = URLBASE + URISEBA + "/" + str(idAvCreation) + "/route/1"
-		data = requests.get(url)
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(APIResponse, occupantRoute)
-
-	def testRouteOccupantAux(self, lastPosRoute, lastPosRouteSim):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
-		print("Pos_to_go", lastPosRoute)
-		self.assertCountEqual(lastPosRoute, lastPosRouteSim)
-
-	def testCreateSebaAvatar(self, idAvCreation, avatarXPos, avatarYPos, avatarCreation):
-		print(str('Testing {}').format('PUT /api/seba/v1/occupants/{id}'))
-		dataBody = {"x": avatarXPos, "y": avatarYPos}
-		url = URLBASE + URISEBA + "/" + str(idAvCreation)
-		data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
-		datajson = data.json()
-		print("Response: ", datajson)
-		APIResponse  = datajson
-		self.assertDictContainsSubset(APIResponse, avatarCreation)
-
-	def testFireInFovOccupant(self, idAvSEBA, occupantFire, occupantFireSim):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/fire'))
 		url = URLBASE + URISEBA + "/" + str(idAvSEBA) + "/fire"
 		data = requests.get(url)
 		datajson = data.json()
@@ -523,8 +531,19 @@ class SebaApiTest(SEBAModel, TestCase):
 		self.assertDictContainsSubset(occupantFireSim, occupantFire)
 		self.assertDictContainsSubset(APIResponse, occupantFireSim)
 
-	def testFirePositions(self, firePos, firePosSim):
+	def test15_FirePositions(self):
 		print(str('Testing {}').format('GET /api/seba/v1/fire'))
+
+		posFire1 = (5, 2)
+		posFire2 = (7, 4)
+
+		FirePosAux = []
+		for pos in self.model.FireControl.fireMovements:
+			FirePosAux.append({'x': pos[0],'y': pos[1]})
+
+		firePos = {"positions": [{'y': posFire1[1], 'x': posFire1[0]}, {'y': posFire2[1], 'x': posFire2[0]}]}
+		firePosSim = {"positions": FirePosAux}
+
 		url = URLBASE + URIFIRE
 		data = requests.get(url)
 		datajson = data.json()
@@ -533,9 +552,10 @@ class SebaApiTest(SEBAModel, TestCase):
 		self.assertDictContainsSubset(firePosSim, firePos)
 		self.assertDictContainsSubset(APIResponse, firePosSim)
 
+		## Running the test to evaluate the values of the model##
+	
 
-
-	def testSchema(self, N):
+	def test16_ListOccupantsSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants'))
 		template = {
 			"type": "object",
@@ -547,7 +567,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["occupants"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA
 			data = requests.get(url)
 			datajson = data.json()
@@ -556,6 +576,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			for o in datajson["occupants"]:
 				validate(o, numberTemplate)
 
+	def test17_PositionsOccupantsSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/movements'))
 		template = {
 			"type": "object",
@@ -574,7 +595,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"type": "object"
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/movements"
 			data = requests.get(url)
 			datajson = data.json()
@@ -585,6 +606,7 @@ class SebaApiTest(SEBAModel, TestCase):
 				validate(int(k), numberTemplate)
 				validate(v, template)
 
+	def test18_StatesOccupantsSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/positions'))
 		template = {
 			"type": "object",
@@ -599,7 +621,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["x", "y"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/positions"
 			data = requests.get(url)
 			datajson = data.json()
@@ -609,9 +631,9 @@ class SebaApiTest(SEBAModel, TestCase):
 				validate(int(k), numberTemplate)
 				validate(v, template)
 
-
+	def test19_MovementsOccupantsSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/states'))
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/states"
 			data = requests.get(url)
 			datajson = data.json()
@@ -621,6 +643,7 @@ class SebaApiTest(SEBAModel, TestCase):
 				validate(k, stringTemplate)
 				validate(int(k), numberTemplate)
 
+	def test20_InformationOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}'))
 		template = {
 			"type": "object",
@@ -681,7 +704,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["x", "y"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(0)
 			data = requests.get(url)
 			datajson = data.json()
@@ -692,7 +715,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			for p in datajson['occupant']['fov']:
 				validate(p, template2)
 
-
+	def test21_MovementOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/movement'))
 		
 		template = {
@@ -714,13 +737,14 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["movement"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(0) + "/movement"
 			data = requests.get(url)
 			datajson = data.json()
 			print("Response: ", datajson)
 			validate(datajson, template)
 
+	def test22_PositionOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/position'))
 		template = {
 			"type": "object",
@@ -741,14 +765,14 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["position"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(0) + "/position"
 			data = requests.get(url)
 			datajson = data.json()
 			print("Response: ", datajson)
 			validate(datajson, template)
 
-
+	def test23_StateOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/state'))
 		template = {
 			"type": "object",
@@ -760,14 +784,14 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["state"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(0) + "/state"
 			data = requests.get(url)
 			datajson = data.json()
 			print("Response: ", datajson)
 			validate(datajson, template)
 
-
+	def test24_FovOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/fov'))
 		template = {
 			"type": "object",
@@ -793,7 +817,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["x", "y"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(0) + "/fov"
 			data = requests.get(url)
 			datajson = data.json()
@@ -803,7 +827,7 @@ class SebaApiTest(SEBAModel, TestCase):
 				validate(p, template2)
 
 
-
+	def test25_CreateSobaAvatarSchema(self):
 		print(str('Testing {}').format('PUT /api/soba/v1/occupants/{id}'))
 		template = {
 			"type": "object",
@@ -835,13 +859,14 @@ class SebaApiTest(SEBAModel, TestCase):
 
 		dataBody = {"x": 10, "y": 10}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(0)
 			data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
 			datajson = data.json()
 			print("Response: ", datajson)
 			validate(datajson, template)
 
+	def test26_MoveAvatarSchema(self):
 		print(str('Testing {}').format('POST /api/soba/v1/occupants/{id}/position'))
 		template = {
 			"type": "object",
@@ -870,16 +895,17 @@ class SebaApiTest(SEBAModel, TestCase):
 			},
 			"required": ["avatar"]
 		}
-	
+
 		dataBody = {"x": 11, "y": 11}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISOBA + "/" + str(100000) + "/position"
 			data = requests.post(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
 			datajson = data.json()
 			print("Response: ", datajson)
 			validate(datajson, template)
 
+	def test27_RouteOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
 		template = {
 			"type": "object",
@@ -903,7 +929,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["x", "y"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISEBA + "/" + str(100000) + "/route/1"
 			data = requests.get(url)
 			datajson = data.json()
@@ -912,7 +938,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			for m in datajson["positions"]:
 				validate(m, template2)
 
-
+	def test28_CreateSebaAvatarSchema(self):
 		print(str('Testing {}').format('PUT /api/seba/v1/occupants/{id}'))
 		template = {
 			"type": "object",
@@ -944,14 +970,14 @@ class SebaApiTest(SEBAModel, TestCase):
 
 		dataBody = {"x": 13, "y": 13}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISEBA + "/" + str(1)
 			data = requests.put(url, json=dataBody, headers={'Content-Type': "application/json", 'Accept': "application/json"})
 			datajson = data.json()
 			print("Response: ", datajson)
 			validate(datajson, template)
 
-
+	def test29_FireInFovOccupantSchema(self):
 		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/fire'))
 		template = {
 			"type": "object",
@@ -976,7 +1002,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["x", "y"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URISEBA + "/" + str(100000) + "/fire"
 			data = requests.get(url)
 			datajson = data.json()
@@ -985,7 +1011,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			for m in datajson["positions"]:
 				validate(m, template2)
 
-
+	def test30FirePositionsSchema(self):
 		print(str('Testing {}').format('GET /api/seba/v1/fire'))
 		template = {
 			"type": "object",
@@ -1010,7 +1036,7 @@ class SebaApiTest(SEBAModel, TestCase):
 			"required": ["x", "y"]
 		}
 
-		for i in range(N):
+		for i in range(self.N):
 			url = URLBASE + URIFIRE
 			data = requests.get(url)
 			datajson = data.json()
@@ -1019,8 +1045,23 @@ class SebaApiTest(SEBAModel, TestCase):
 			for m in datajson["positions"]:
 				validate(m, template2)
 
+	def setDown(self):
+		print("Testing finished.")
+		os.system("kill -9 %d"%(os.getpid()))
+		os.killpg(os.getpgid(os.getpid()), signal.SIGTERM)
 
 ## Defining the Test Model and running the test ##
+class SebaApiTest(SEBAModel):
+
+	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed):
+		super().__init__(width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed)
+		sys.argv = [sys.argv[0]]
+		global modelSto
+		modelSto = self
+		unittest.TestLoader.sortTestMethodsUsing = None
+		unittest.main(testRunner=HTMLTestRunner(output='APIRest_test'), failfast=True)
+
+
 
 sys.argv.append('-b')
 sys.argv.append('-s')
@@ -1033,7 +1074,6 @@ json = [{'type': 'regular' , 'N': N, 'states': states , 'schedule': {}, 'variati
 conf = {'families': [], 'hazard': "10:00:00"}
 with open('auxiliarFiles/labgsi.blueprint3d') as data_file:
 	jsonMap = ramen.returnMap(data_file, offsety = 9, offsetx = 0)
-
 
 fixed_params = {"width": 20, "height": 20, "jsonMap": jsonMap, "jsonsOccupants": json, 'sebaConfiguration': conf}
 variable_params = {"seed": range(10, 500, 10)}
