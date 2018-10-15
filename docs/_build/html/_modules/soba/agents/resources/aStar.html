@@ -159,6 +159,7 @@
   <h1>Source code for soba.agents.resources.aStar</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">In the file aStar.py the AStar algorithm is implemented.</span>
@@ -171,8 +172,29 @@
 <span class="sd">		canMovePos: Evaluate if a position is reachable in a continuous space.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="print_progress"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.print_progress">[docs]</a><span class="k">def</span> <span class="nf">print_progress</span><span class="p">(</span><span class="n">iteration</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bar_length</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Call in a loop to create terminal progress bar</span>
+<span class="sd">    @params:</span>
+<span class="sd">        iteration   - Required  : current iteration (Int)</span>
+<span class="sd">        total       - Required  : total iterations (Int)</span>
+<span class="sd">        prefix      - Optional  : prefix string (Str)</span>
+<span class="sd">        suffix      - Optional  : suffix string (Str)</span>
+<span class="sd">        decimals    - Optional  : positive number of decimals in percent complete (Int)</span>
+<span class="sd">        bar_length  - Optional  : character length of bar (Int)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">str_format</span> <span class="o">=</span> <span class="s2">&quot;{0:.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decimals</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;f}&quot;</span>
+    <span class="n">percents</span> <span class="o">=</span> <span class="n">str_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">iteration</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total</span><span class="p">)))</span>
+    <span class="n">filled_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">bar_length</span> <span class="o">*</span> <span class="n">iteration</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total</span><span class="p">)))</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="n">filled_length</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">bar_length</span> <span class="o">-</span> <span class="n">filled_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="si">%s</span><span class="s1"> [</span><span class="si">%s</span><span class="s1">] </span><span class="si">%s%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="n">percents</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)),</span>
+    <span class="k">if</span> <span class="n">iteration</span> <span class="o">==</span> <span class="n">total</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
+
 <span class="k">global</span> <span class="n">maxIteration</span>
-<span class="n">maxIteration</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">maxIteration</span> <span class="o">=</span> <span class="mi">10000</span>
 
 <span class="n">generalItemsPos</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">doorsPoss</span> <span class="o">=</span> <span class="p">[]</span>
@@ -237,6 +259,8 @@
 <span class="sd">			other: List of auxiliary positions given to be considered impenetrable, that is, they will not be used by the AStar.</span>
 <span class="sd">		Return: List of positions (x, y).</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">finish</span><span class="p">:</span>
+		<span class="k">return</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
 	<span class="n">finish</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">finish</span><span class="p">)</span>
 	<span class="n">start</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
 	<span class="n">not_visited</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
@@ -246,7 +270,9 @@
 	<span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
 	<span class="k">while</span> <span class="n">notFinished</span><span class="p">:</span>
 		<span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>
-		<span class="k">if</span> <span class="n">it</span> <span class="o">&gt;</span> <span class="n">maxIteration</span><span class="p">:</span>
+		<span class="n">print_progress</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">maxIteration</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;Progress:&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;Complete&#39;</span><span class="p">,</span> <span class="n">bar_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">it</span> <span class="o">&gt;</span> <span class="n">maxIteration</span> <span class="ow">or</span> <span class="p">(</span><span class="n">finish</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">finish</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">other</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Demasida iteración, devolvemos: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
 			<span class="k">return</span> <span class="p">[(</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">)]</span>
 		<span class="k">for</span> <span class="n">cell_not_visited</span> <span class="ow">in</span> <span class="n">not_visited</span><span class="p">:</span>
 			<span class="k">if</span> <span class="n">cell_not_visited</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">finish</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">cell_not_visited</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">finish</span><span class="o">.</span><span class="n">y</span><span class="p">:</span>
@@ -275,7 +301,7 @@
 		<span class="n">way</span> <span class="o">=</span> <span class="n">way</span> <span class="o">+</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span>
 	<span class="n">way</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
 	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">way</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">canMovePos</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">way</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-		<span class="n">way</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+		<span class="n">way</span> <span class="o">=</span> <span class="p">[(</span><span class="n">start</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">y</span><span class="p">)]</span>
 	<span class="k">return</span> <span class="n">way</span></div>
 
 <div class="viewcode-block" id="getConectedCellsRooms"><a class="viewcode-back" href="../../../../apiDocumentation/agents.html#soba.agents.resources.aStar.getConectedCellsRooms">[docs]</a><span class="k">def</span> <span class="nf">getConectedCellsRooms</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span>
@@ -347,7 +373,7 @@
 				<span class="n">move</span> <span class="o">=</span> <span class="kc">True</span>
 	<span class="k">if</span> <span class="n">move</span><span class="p">:</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">generalItemsPos</span> <span class="ow">or</span> <span class="n">posAux</span> <span class="ow">in</span> <span class="n">generalItemsPos</span><span class="p">):</span>
-			<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">posAux</span> <span class="ow">in</span> <span class="n">others</span><span class="p">):</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">posAux</span> <span class="ow">in</span> <span class="n">others</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cellPos</span> <span class="ow">in</span> <span class="n">others</span><span class="p">):</span>
 				<span class="k">return</span> <span class="kc">True</span>
 	<span class="k">return</span> <span class="kc">False</span></div>
 

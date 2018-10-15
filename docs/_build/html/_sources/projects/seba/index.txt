@@ -5,6 +5,6 @@ SEBA Documentation
 
    sebaoverview
    howinstall
-   usecase
+   intro_tutorial
    APIs Documentation <apiDocumentation/api.rst>
    rest

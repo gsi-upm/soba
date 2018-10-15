@@ -34,7 +34,7 @@
   
     <link rel="top" title="SOBA 1 documentation" href="../../index.html"/>
         <link rel="up" title="REST API" href="rest.html"/>
-        <link rel="next" title="REST API Client" href="apiTest.html"/>
+        <link rel="next" title="# REST API Test" href="apiTest.html"/>
         <link rel="prev" title="REST API" href="rest.html"/> 
 
   
@@ -91,19 +91,17 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html">Instalation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html#tutorial">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apiDocumentation/api.html">APIs Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../restApi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rest.html">REST API</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">SEBA Project</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="sebaoverview.html">SEBA Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howinstall.html">How install and run</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usecase.html">Use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_tutorial.html">Use Case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apiDocumentation/api.html">APIs Documentation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="rest.html">REST API</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">REST API Definition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apiTest.html">REST API Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apiTest.html"># REST API Test</a></li>
 </ul>
 </li>
 </ul>
@@ -193,69 +191,65 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>GET</td>
-<td>/api/soba/v1/occupants</td>
+<td>/api/v1/occupants</td>
 <td>List with all occupants</td>
 </tr>
 <tr class="row-odd"><td>GET</td>
-<td>/api/soba/v1/occupants/movements</td>
+<td>/api/v1/occupants/movements</td>
 <td>Movement of all occupants</td>
 </tr>
 <tr class="row-even"><td>GET</td>
-<td>/api/soba/v1/occupants/positions</td>
+<td>/api/v1/occupants/positions</td>
 <td>Position of all occupants</td>
 </tr>
 <tr class="row-odd"><td>GET</td>
-<td>/api/soba/v1/occupants/states</td>
+<td>/api/v1/occupants/states</td>
 <td>States of all occupants</td>
 </tr>
 <tr class="row-even"><td>GET</td>
-<td>/api/soba/v1/occupants/{id}</td>
+<td>/api/v1/occupants/{id}</td>
 <td>Information about one occupant</td>
 </tr>
 <tr class="row-odd"><td>GET</td>
-<td>/api/soba/v1/occupants/{id}/movement</td>
+<td>/api/v1/occupants/{id}/movement</td>
 <td>Movement of one occupant</td>
 </tr>
 <tr class="row-even"><td>GET</td>
-<td>/api/soba/v1/occupants/{id}/position</td>
+<td>/api/v1/occupants/{id}/position</td>
 <td>Position of one occupant</td>
 </tr>
 <tr class="row-odd"><td>GET</td>
-<td>/api/soba/v1/occupants/{id}/state</td>
+<td>/api/v1/occupants/{id}/state</td>
 <td>State of one occupant</td>
 </tr>
 <tr class="row-even"><td>GET</td>
-<td>/api/soba/v1/occupants/{id}/fov</td>
+<td>/api/v1/occupants/{id}/fov</td>
 <td>FOV of one occupant</td>
 </tr>
-<tr class="row-odd"><td>PUT</td>
-<td>/api/soba/v1/occupants/{id}</td>
-<td>Create an occupant</td>
-</tr>
-<tr class="row-even"><td>POST</td>
-<td>/api/soba/v1/occupants/{id}/position</td>
-<td>Move an occupant</td>
-</tr>
 <tr class="row-odd"><td>GET</td>
-<td>/api/seba/v1/occupants/{id}/route/{route_id}</td>
+<td>/api/v1/occupants/{id}/route/{route_id}</td>
 <td>Evacuation route of one occupant</td>
 </tr>
 <tr class="row-even"><td>GET</td>
-<td>/api/seba/v1/occupants/{id}/fire</td>
+<td>/api/v1/occupants/{id}/fire</td>
 <td>Fire in the one occupant&#8217;s FOV</td>
 </tr>
 <tr class="row-odd"><td>PUT</td>
-<td>/api/seba/v1/occupants/{id}</td>
+<td>/api/v1/occupants/{id}</td>
 <td>Create an emergency occupant</td>
 </tr>
-<tr class="row-even"><td>GET</td>
-<td>/api/seba/v1/fire</td>
+<tr class="row-even"><td>POST</td>
+<td>/api/v1/occupants/{id}/position</td>
+<td>Move an occupant</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/api/v1/fire</td>
 <td>Positions with fire</td>
 </tr>
 </tbody>
 </table>
-<div class="admonition-get-api-soba-v1-occupants admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants</p>
+<div class="admonition-get-api-v1-occupants admonition">
+<p class="first admonition-title">GET /api/v1/occupants</p>
 <p>Return a list with all the occupants in the simulations.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -282,8 +276,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-movements admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/movements</p>
+<div class="admonition-get-api-v1-occupants-movements admonition">
+<p class="first admonition-title">GET /api/v1/occupants/movements</p>
 <p>Return information about the movement all occupants are performing.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -334,8 +328,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-positions admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/positions</p>
+<div class="admonition-get-api-v1-occupants-positions admonition">
+<p class="first admonition-title">GET /api/v1/occupants/positions</p>
 <p>Returns the position of all occupants on the grid x, y.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -396,8 +390,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-states admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/states</p>
+<div class="admonition-get-api-v1-occupants-states admonition">
+<p class="first admonition-title">GET /api/v1/occupants/states</p>
 <p>Returns the state or activity of all occupants.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -423,8 +417,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-id admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/{id}</p>
+<div class="admonition-get-api-v1-occupants-id admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}</p>
 <p>Returns general information (unique_id, state, <a class="reference external" href="http://www.roguebasin.com/index.php?title=Permissive_Field_of_View">FOV</a> (field of vision), position and movement) of one occupant. The unique_id of the occupant must be provided.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -505,8 +499,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-id-movement admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/{id}/movement</p>
+<div class="admonition-get-api-v1-occupants-id-movement admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}/movement</p>
 <p>Return information about the movement one occupant is performing. The unique_id of the occupant must be provided.</p>
 <blockquote class="last">
 <div><p>Results:</p>
@@ -537,8 +531,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-id-position admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/{id}/position</p>
+<div class="admonition-get-api-v1-occupants-id-position admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}/position</p>
 <p>Returns the position of one occupant on the grid x, y. The unique_id of the occupant must be provided.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -567,8 +561,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-id-state admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/{id}/state</p>
+<div class="admonition-get-api-v1-occupants-id-state admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}/state</p>
 <p>Returns the state or activity of one occupant. The unique_id of the occupant must be provided.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -585,8 +579,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-soba-v1-occupants-id-fov admonition">
-<p class="first admonition-title">GET /api/soba/v1/occupants/{id}/fov</p>
+<div class="admonition-get-api-v1-occupants-id-fov admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}/fov</p>
 <p>Returns the position of the <a class="reference external" href="http://www.roguebasin.com/index.php?title=Permissive_Field_of_View">FOV</a> (field of vision) of one occupant. The unique_id of the occupant must be provided.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -629,8 +623,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-put-api-soba-v1-occupants-id admonition">
-<p class="first admonition-title">PUT /api/soba/v1/occupants/{id}</p>
+<div class="admonition-put-api-v1-occupants-id admonition">
+<p class="first admonition-title">PUT /api/v1/occupants/{id}</p>
 <p>Create an avatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.</p>
 <blockquote class="last">
 <div><p>Args:</p>
@@ -682,8 +676,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-post-api-soba-v1-occupants-id-position admonition">
-<p class="first admonition-title">POST /api/soba/v1/occupants/{id}/position</p>
+<div class="admonition-post-api-v1-occupants-id-position admonition">
+<p class="first admonition-title">POST /api/v1/occupants/{id}/position</p>
 <p>Move an avatar object to a given position. The unique_id and the new position (x, y) of the avatar must be provided.</p>
 <blockquote class="last">
 <div><p>Args:</p>
@@ -735,8 +729,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-seba-v1-occupants-id-route-route-id admonition">
-<p class="first admonition-title">GET /api/seba/v1/occupants/{id}/route/{route_id}</p>
+<div class="admonition-get-api-v1-occupants-id-route-route-id admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}/route/{route_id}</p>
 <p>Returns the path that an avatar must follow to evacuate the building based on a strategy. The unique_id of the avatar and the strategy used must be provided.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -786,8 +780,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-seba-v1-occupants-id-fire admonition">
-<p class="first admonition-title">GET /api/seba/v1/occupants/{id}/fire</p>
+<div class="admonition-get-api-v1-occupants-id-fire admonition">
+<p class="first admonition-title">GET /api/v1/occupants/{id}/fire</p>
 <p>Returns the positions in the field of vision of the agent where there is fire.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -837,8 +831,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-put-api-seba-v1-occupants-id admonition">
-<p class="first admonition-title">PUT /api/seba/v1/occupants/{id}</p>
+<div class="admonition-put-api-v1-occupants-id admonition">
+<p class="first admonition-title">PUT /api/v1/occupants/{id}</p>
 <p>Create an EmergencyAvatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.</p>
 <blockquote class="last">
 <div><p>Args:</p>
@@ -890,8 +884,8 @@
 </div></blockquote>
 </div></blockquote>
 </div>
-<div class="admonition-get-api-seba-v1-fire admonition">
-<p class="first admonition-title">GET /api/seba/v1/fire</p>
+<div class="admonition-get-api-v1-fire admonition">
+<p class="first admonition-title">GET /api/v1/fire</p>
 <p>Returns the positions where there is fire.</p>
 <blockquote class="last">
 <div><p>Result:</p>
@@ -942,7 +936,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="apiTest.html" class="btn btn-neutral float-right" title="REST API Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="apiTest.html" class="btn btn-neutral float-right" title="# REST API Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="rest.html" class="btn btn-neutral" title="REST API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

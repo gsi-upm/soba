@@ -32,7 +32,7 @@ Tests in a notebook
 
 To execute the tests with greater control, it is recommended to download
 and use the jupyter notebook that is provided in the following address:
-`Notebook <https://github.com/gsi-upm/soba/blob/master/docs/apiTest.ipynb>`__
+`Notebook <https://github.com/gsi-upm/blob/master/docs/apiTest.ipynb>`__
 
 This notebook is also presented below.
 
@@ -55,7 +55,7 @@ Initialization of params
     
     #Template of the URLs
     URLBASE = "http://127.0.0.1:"+ port
-    URISOBA = "/api/soba/v1/occupants"
+    URISOBA = "/api/v1/occupants"
     
     stringTemplate = {"type": "string"}
     numberTemplate = {"type": "number"}
@@ -68,7 +68,7 @@ Tests
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants'))
+    print(str('Testing {}').format('GET /api/v1/occupants'))
     template = {
         "type": "object",
         "properties": {
@@ -91,13 +91,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants
+    Testing GET /api/v1/occupants
     Response:  {'occupants': [1, 0, 3, 100000, 2]}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/movements'))
+    print(str('Testing {}').format('GET /api/v1/occupants/movements'))
     template = {
         "type": "object",
         "properties": {
@@ -129,13 +129,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/movements
+    Testing GET /api/v1/occupants/movements
     Response:  {'0': {'speed': 1.38, 'orientation': 'SE'}, '1': {'speed': 1.38, 'orientation': 'W'}, '2': {'speed': 1.38, 'orientation': 'SE'}, '3': {'speed': 1.38, 'orientation': 'E'}}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/positions'))
+    print(str('Testing {}').format('GET /api/v1/occupants/positions'))
     template = {
         "type": "object",
         "properties": {
@@ -162,13 +162,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/positions
+    Testing GET /api/v1/occupants/positions
     Response:  {'0': {'y': 8, 'x': 12}, '1': {'y': 6, 'x': 0}, '2': {'y': 8, 'x': 13}, '100000': {'y': 7, 'x': 5}, '3': {'y': 6, 'x': 14}}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/states'))
+    print(str('Testing {}').format('GET /api/v1/occupants/states'))
     for i in range(N):
         url = URLBASE + URISOBA + "/states"
         data = requests.get(url)
@@ -182,13 +182,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/states
+    Testing GET /api/v1/occupants/states
     Response:  {'0': 'Working in my laboratory', '1': 'Working in my laboratory', '2': 'Working in my laboratory', '100000': 'walking', '3': 'Working in my laboratory'}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}'))
+    print(str('Testing {}').format('GET /api/v1/occupants/{id}'))
     template = {
         "type": "object",
         "properties": {
@@ -262,14 +262,14 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/{id}
+    Testing GET /api/v1/occupants/{id}
     Response:  {'occupant': {'unique_id': '0', 'fov': [{'y': 0, 'x': 9}, {'y': 0, 'x': 10}, {'y': 0, 'x': 11}, {'y': 0, 'x': 12}, {'y': 0, 'x': 13}, {'y': 0, 'x': 14}, {'y': 0, 'x': 15}, {'y': 0, 'x': 16}, {'y': 0, 'x': 17}, {'y': 0, 'x': 18}, {'y': 1, 'x': 9}, {'y': 1, 'x': 10}, {'y': 1, 'x': 11}, {'y': 1, 'x': 12}, {'y': 1, 'x': 13}, {'y': 1, 'x': 14}, {'y': 1, 'x': 15}, {'y': 1, 'x': 16}, {'y': 1, 'x': 17}, {'y': 1, 'x': 18}, {'y': 2, 'x': 9}, {'y': 2, 'x': 10}, {'y': 2, 'x': 11}, {'y': 2, 'x': 12}, {'y': 2, 'x': 13}, {'y': 2, 'x': 14}, {'y': 2, 'x': 15}, {'y': 2, 'x': 16}, {'y': 2, 'x': 17}, {'y': 2, 'x': 18}, {'y': 3, 'x': 9}, {'y': 3, 'x': 10}, {'y': 3, 'x': 11}, {'y': 3, 'x': 12}, {'y': 3, 'x': 13}, {'y': 3, 'x': 14}, {'y': 3, 'x': 15}, {'y': 3, 'x': 16}, {'y': 3, 'x': 17}, {'y': 3, 'x': 18}, {'y': 4, 'x': 9}, {'y': 4, 'x': 10}, {'y': 4, 'x': 11}, {'y': 4, 'x': 12}, {'y': 4, 'x': 13}, {'y': 4, 'x': 14}, {'y': 4, 'x': 15}, {'y': 4, 'x': 16}, {'y': 4, 'x': 17}, {'y': 4, 'x': 18}, {'y': 4, 'x': 19}, {'y': 5, 'x': 9}, {'y': 5, 'x': 10}, {'y': 5, 'x': 11}, {'y': 5, 'x': 12}, {'y': 5, 'x': 13}, {'y': 5, 'x': 14}, {'y': 5, 'x': 15}, {'y': 5, 'x': 16}, {'y': 5, 'x': 17}, {'y': 5, 'x': 18}, {'y': 5, 'x': 19}, {'y': 6, 'x': 9}, {'y': 6, 'x': 10}, {'y': 6, 'x': 11}, {'y': 6, 'x': 12}, {'y': 6, 'x': 13}, {'y': 6, 'x': 14}, {'y': 6, 'x': 15}, {'y': 6, 'x': 16}, {'y': 6, 'x': 17}, {'y': 6, 'x': 18}, {'y': 6, 'x': 19}, {'y': 7, 'x': 9}, {'y': 7, 'x': 10}, {'y': 7, 'x': 11}, {'y': 7, 'x': 12}, {'y': 7, 'x': 13}, {'y': 7, 'x': 14}, {'y': 7, 'x': 15}, {'y': 7, 'x': 16}, {'y': 7, 'x': 17}, {'y': 7, 'x': 18}, {'y': 8, 'x': 9}, {'y': 8, 'x': 10}, {'y': 8, 'x': 11}, {'y': 8, 'x': 13}, {'y': 8, 'x': 14}, {'y': 8, 'x': 15}, {'y': 8, 'x': 16}, {'y': 8, 'x': 17}, {'y': 8, 'x': 18}, {'y': 9, 'x': 9}, {'y': 9, 'x': 10}, {'y': 9, 'x': 11}, {'y': 9, 'x': 12}, {'y': 9, 'x': 13}, {'y': 9, 'x': 14}, {'y': 9, 'x': 15}, {'y': 9, 'x': 16}, {'y': 9, 'x': 17}, {'y': 9, 'x': 18}, {'y': 10, 'x': 8}, {'y': 10, 'x': 9}, {'y': 10, 'x': 10}, {'y': 10, 'x': 11}, {'y': 10, 'x': 12}, {'y': 10, 'x': 13}, {'y': 10, 'x': 14}, {'y': 10, 'x': 15}, {'y': 10, 'x': 16}, {'y': 10, 'x': 17}, {'y': 10, 'x': 18}, {'y': 11, 'x': 6}, {'y': 11, 'x': 7}, {'y': 11, 'x': 8}, {'y': 11, 'x': 9}, {'y': 11, 'x': 10}, {'y': 11, 'x': 11}, {'y': 12, 'x': 4}, {'y': 12, 'x': 5}, {'y': 12, 'x': 6}, {'y': 12, 'x': 7}, {'y': 12, 'x': 8}, {'y': 12, 'x': 9}, {'y': 12, 'x': 10}, {'y': 12, 'x': 11}, {'y': 13, 'x': 3}, {'y': 13, 'x': 4}, {'y': 13, 'x': 5}, {'y': 13, 'x': 6}, {'y': 13, 'x': 7}, {'y': 13, 'x': 8}, {'y': 13, 'x': 9}, {'y': 13, 'x': 10}, {'y': 13, 'x': 11}, {'y': 14, 'x': 1}, {'y': 14, 'x': 2}, {'y': 14, 'x': 3}, {'y': 14, 'x': 4}, {'y': 14, 'x': 5}, {'y': 14, 'x': 6}, {'y': 14, 'x': 7}, {'y': 14, 'x': 8}, {'y': 14, 'x': 9}, {'y': 14, 'x': 10}, {'y': 15, 'x': 0}, {'y': 15, 'x': 1}, {'y': 15, 'x': 2}, {'y': 15, 'x': 3}, {'y': 15, 'x': 4}, {'y': 15, 'x': 5}, {'y': 15, 'x': 6}, {'y': 15, 'x': 7}, {'y': 15, 'x': 8}, {'y': 15, 'x': 9}, {'y': 15, 'x': 10}, {'y': 16, 'x': 0}, {'y': 16, 'x': 1}, {'y': 16, 'x': 2}, {'y': 16, 'x': 3}, {'y': 16, 'x': 4}, {'y': 16, 'x': 5}, {'y': 16, 'x': 6}, {'y': 16, 'x': 7}, {'y': 16, 'x': 8}, {'y': 16, 'x': 9}, {'y': 16, 'x': 10}, {'y': 17, 'x': 0}, {'y': 17, 'x': 1}, {'y': 17, 'x': 2}, {'y': 17, 'x': 3}, {'y': 17, 'x': 4}, {'y': 17, 'x': 5}, {'y': 17, 'x': 6}, {'y': 17, 'x': 7}, {'y': 17, 'x': 8}, {'y': 17, 'x': 9}, {'y': 18, 'x': 0}, {'y': 18, 'x': 1}, {'y': 18, 'x': 2}, {'y': 18, 'x': 3}, {'y': 18, 'x': 4}, {'y': 18, 'x': 5}, {'y': 18, 'x': 6}, {'y': 18, 'x': 7}, {'y': 18, 'x': 8}, {'y': 18, 'x': 9}], 'state': 'Working in my laboratory', 'position': {'y': 8, 'x': 12}, 'movement': {'speed': 1.38, 'orientation': 'SE'}}}
     {'type': 'object', 'required': ['occupant'], 'properties': {'occupant': {'type': 'object', 'required': ['state', 'fov', 'unique_id', 'movement', 'position'], 'properties': {'unique_id': {'type': 'string'}, 'fov': {'type': 'array'}, 'position': {'type': 'object', 'required': ['x', 'y'], 'properties': {'y': {'type': 'number'}, 'x': {'type': 'number'}}}, 'state': {'type': 'string'}, 'movement': {'type': 'object', 'required': ['orientation', 'speed'], 'properties': {'speed': {'type': 'number'}, 'orientation': {'type': 'string'}}}}}}}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/movement'))
+    print(str('Testing {}').format('GET /api/v1/occupants/{id}/movement'))
     template = {
         "type": "object",
         "properties": {
@@ -299,13 +299,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/{id}/movement
+    Testing GET /api/v1/occupants/{id}/movement
     Response:  {'movement': {'speed': 1.38, 'orientation': 'SE'}}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/position'))
+    print(str('Testing {}').format('GET /api/v1/occupants/{id}/position'))
     template = {
         "type": "object",
         "properties": {
@@ -335,13 +335,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/{id}/position
+    Testing GET /api/v1/occupants/{id}/position
     Response:  {'position': {'y': 8, 'x': 12}}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/state'))
+    print(str('Testing {}').format('GET /api/v1/occupants/{id}/state'))
     template = {
         "type": "object",
         "properties":{
@@ -363,13 +363,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/{id}/state
+    Testing GET /api/v1/occupants/{id}/state
     Response:  {'state': 'Working in my laboratory'}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/fov'))
+    print(str('Testing {}').format('GET /api/v1/occupants/{id}/fov'))
     template = {
         "type": "object",
         "properties": {
@@ -407,13 +407,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing GET /api/soba/v1/occupants/{id}/fov
+    Testing GET /api/v1/occupants/{id}/fov
     Response:  {'fov': [{'y': 0, 'x': 9}, {'y': 0, 'x': 10}, {'y': 0, 'x': 11}, {'y': 0, 'x': 12}, {'y': 0, 'x': 13}, {'y': 0, 'x': 14}, {'y': 0, 'x': 15}, {'y': 0, 'x': 16}, {'y': 0, 'x': 17}, {'y': 0, 'x': 18}, {'y': 1, 'x': 9}, {'y': 1, 'x': 10}, {'y': 1, 'x': 11}, {'y': 1, 'x': 12}, {'y': 1, 'x': 13}, {'y': 1, 'x': 14}, {'y': 1, 'x': 15}, {'y': 1, 'x': 16}, {'y': 1, 'x': 17}, {'y': 1, 'x': 18}, {'y': 2, 'x': 9}, {'y': 2, 'x': 10}, {'y': 2, 'x': 11}, {'y': 2, 'x': 12}, {'y': 2, 'x': 13}, {'y': 2, 'x': 14}, {'y': 2, 'x': 15}, {'y': 2, 'x': 16}, {'y': 2, 'x': 17}, {'y': 2, 'x': 18}, {'y': 3, 'x': 9}, {'y': 3, 'x': 10}, {'y': 3, 'x': 11}, {'y': 3, 'x': 12}, {'y': 3, 'x': 13}, {'y': 3, 'x': 14}, {'y': 3, 'x': 15}, {'y': 3, 'x': 16}, {'y': 3, 'x': 17}, {'y': 3, 'x': 18}, {'y': 4, 'x': 9}, {'y': 4, 'x': 10}, {'y': 4, 'x': 11}, {'y': 4, 'x': 12}, {'y': 4, 'x': 13}, {'y': 4, 'x': 14}, {'y': 4, 'x': 15}, {'y': 4, 'x': 16}, {'y': 4, 'x': 17}, {'y': 4, 'x': 18}, {'y': 4, 'x': 19}, {'y': 5, 'x': 9}, {'y': 5, 'x': 10}, {'y': 5, 'x': 11}, {'y': 5, 'x': 12}, {'y': 5, 'x': 13}, {'y': 5, 'x': 14}, {'y': 5, 'x': 15}, {'y': 5, 'x': 16}, {'y': 5, 'x': 17}, {'y': 5, 'x': 18}, {'y': 5, 'x': 19}, {'y': 6, 'x': 9}, {'y': 6, 'x': 10}, {'y': 6, 'x': 11}, {'y': 6, 'x': 12}, {'y': 6, 'x': 13}, {'y': 6, 'x': 14}, {'y': 6, 'x': 15}, {'y': 6, 'x': 16}, {'y': 6, 'x': 17}, {'y': 6, 'x': 18}, {'y': 6, 'x': 19}, {'y': 7, 'x': 9}, {'y': 7, 'x': 10}, {'y': 7, 'x': 11}, {'y': 7, 'x': 12}, {'y': 7, 'x': 13}, {'y': 7, 'x': 14}, {'y': 7, 'x': 15}, {'y': 7, 'x': 16}, {'y': 7, 'x': 17}, {'y': 7, 'x': 18}, {'y': 8, 'x': 9}, {'y': 8, 'x': 10}, {'y': 8, 'x': 11}, {'y': 8, 'x': 13}, {'y': 8, 'x': 14}, {'y': 8, 'x': 15}, {'y': 8, 'x': 16}, {'y': 8, 'x': 17}, {'y': 8, 'x': 18}, {'y': 9, 'x': 9}, {'y': 9, 'x': 10}, {'y': 9, 'x': 11}, {'y': 9, 'x': 12}, {'y': 9, 'x': 13}, {'y': 9, 'x': 14}, {'y': 9, 'x': 15}, {'y': 9, 'x': 16}, {'y': 9, 'x': 17}, {'y': 9, 'x': 18}, {'y': 10, 'x': 8}, {'y': 10, 'x': 9}, {'y': 10, 'x': 10}, {'y': 10, 'x': 11}, {'y': 10, 'x': 12}, {'y': 10, 'x': 13}, {'y': 10, 'x': 14}, {'y': 10, 'x': 15}, {'y': 10, 'x': 16}, {'y': 10, 'x': 17}, {'y': 10, 'x': 18}, {'y': 11, 'x': 6}, {'y': 11, 'x': 7}, {'y': 11, 'x': 8}, {'y': 11, 'x': 9}, {'y': 11, 'x': 10}, {'y': 11, 'x': 11}, {'y': 12, 'x': 4}, {'y': 12, 'x': 5}, {'y': 12, 'x': 6}, {'y': 12, 'x': 7}, {'y': 12, 'x': 8}, {'y': 12, 'x': 9}, {'y': 12, 'x': 10}, {'y': 12, 'x': 11}, {'y': 13, 'x': 3}, {'y': 13, 'x': 4}, {'y': 13, 'x': 5}, {'y': 13, 'x': 6}, {'y': 13, 'x': 7}, {'y': 13, 'x': 8}, {'y': 13, 'x': 9}, {'y': 13, 'x': 10}, {'y': 13, 'x': 11}, {'y': 14, 'x': 1}, {'y': 14, 'x': 2}, {'y': 14, 'x': 3}, {'y': 14, 'x': 4}, {'y': 14, 'x': 5}, {'y': 14, 'x': 6}, {'y': 14, 'x': 7}, {'y': 14, 'x': 8}, {'y': 14, 'x': 9}, {'y': 14, 'x': 10}, {'y': 15, 'x': 0}, {'y': 15, 'x': 1}, {'y': 15, 'x': 2}, {'y': 15, 'x': 3}, {'y': 15, 'x': 4}, {'y': 15, 'x': 5}, {'y': 15, 'x': 6}, {'y': 15, 'x': 7}, {'y': 15, 'x': 8}, {'y': 15, 'x': 9}, {'y': 15, 'x': 10}, {'y': 16, 'x': 0}, {'y': 16, 'x': 1}, {'y': 16, 'x': 2}, {'y': 16, 'x': 3}, {'y': 16, 'x': 4}, {'y': 16, 'x': 5}, {'y': 16, 'x': 6}, {'y': 16, 'x': 7}, {'y': 16, 'x': 8}, {'y': 16, 'x': 9}, {'y': 16, 'x': 10}, {'y': 17, 'x': 0}, {'y': 17, 'x': 1}, {'y': 17, 'x': 2}, {'y': 17, 'x': 3}, {'y': 17, 'x': 4}, {'y': 17, 'x': 5}, {'y': 17, 'x': 6}, {'y': 17, 'x': 7}, {'y': 17, 'x': 8}, {'y': 17, 'x': 9}, {'y': 18, 'x': 0}, {'y': 18, 'x': 1}, {'y': 18, 'x': 2}, {'y': 18, 'x': 3}, {'y': 18, 'x': 4}, {'y': 18, 'x': 5}, {'y': 18, 'x': 6}, {'y': 18, 'x': 7}, {'y': 18, 'x': 8}, {'y': 18, 'x': 9}]}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('PUT /api/soba/v1/occupants/{id}'))
+    print(str('Testing {}').format('PUT /api/v1/occupants/{id}'))
     template = {
         "type": "object",
             "properties": {
@@ -455,13 +455,13 @@ Tests
 
 .. parsed-literal::
 
-    Testing PUT /api/soba/v1/occupants/{id}
+    Testing PUT /api/v1/occupants/{id}
     Response:  {'avatar': {'position': {'y': 10, 'x': 10}, 'id': 100000}}
 
 
 .. code:: python
 
-    print(str('Testing {}').format('POST /api/soba/v1/occupants/{id}/position'))
+    print(str('Testing {}').format('POST /api/v1/occupants/{id}/position'))
     template = {
         "type": "object",
             "properties": {
@@ -502,6 +502,6 @@ Tests
 
 .. parsed-literal::
 
-    Testing POST /api/soba/v1/occupants/{id}/position
+    Testing POST /api/v1/occupants/{id}/position
     Response:  {'avatar': {'position': {'y': 7, 'x': 5}, 'id': 100000}}
 

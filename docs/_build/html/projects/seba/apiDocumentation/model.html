@@ -97,10 +97,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">SEBA Project</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../sebaoverview.html">SEBA Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../howinstall.html">How install and run</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../usecase.html">Use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro_tutorial.html">Use Case</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Model Module Documentation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#module-projects.seba.occupant">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model">Model</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="agents.html">Agents Module Documentation</a></li>
@@ -178,76 +178,8 @@
             
   <div class="section" id="model-module-documentation">
 <h1>Model Module Documentation<a class="headerlink" href="#model-module-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-projects.seba.occupant">
-<span id="model"></span><h2>Model<a class="headerlink" href="#module-projects.seba.occupant" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="projects.seba.occupant.EmergencyOccupant">
-<em class="property">class </em><code class="descclassname">projects.seba.occupant.</code><code class="descname">EmergencyOccupant</code><span class="sig-paren">(</span><em>unique_id</em>, <em>model</em>, <em>json</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class enables to create occupants defined to work in an emergency modeling.
-This class inherits from the ContinuousOccupant class of SOBA.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>Those Inherited from the ContinuousOccupant class of SOBA.
-children: Children associated with the occupant.
-parents: Parents associated with the occupant.
-alive: Current state of an occupant, live or not.
-life: Number of remaining life points of the occupant.
-foundChildren: Children associated with the occupant found by the occupant during a emergency.
-exitGateStrategy: strategy that is used to leave the building during a emergency.
-adult: Inform if the occupant is an adult.
-alone: Inform if the occupant has occupants who follow him.
-speedEmergency: Movement speed during an emergency.
-parentAsos: Familiar that the child occupant has to follow.</dd>
-<dt>Methods:</dt>
-<dd>fireInMyFOV: Check if there is fire in the FOV of the occupant.
-makeEmergencyAction: Method that is invoked when initiating an emergency to make the decision of response.
-getExitGate: Obtain the optimal way to evacuate the building according to an evacuation strategy.
-getPosFireFOV: Obtain the positions in the occupant&#8217;s field of vision where there is fire.
-step: Method invoked by the Model scheduler in each step.</dd>
-</dl>
-<dl class="method">
-<dt id="projects.seba.occupant.EmergencyOccupant.fireInMyFOV">
-<code class="descname">fireInMyFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.fireInMyFOV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.fireInMyFOV" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Check if there is fire in the FOV of the occupant.</dt>
-<dd>Return: Boolean</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="projects.seba.occupant.EmergencyOccupant.getExitGate">
-<code class="descname">getExitGate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.getExitGate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.getExitGate" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Obtain the optimal way to evacuate the building according to an evacuation strategy.</dt>
-<dd>Return: List of positions (x, y)</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="projects.seba.occupant.EmergencyOccupant.getPosFireFOV">
-<code class="descname">getPosFireFOV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.getPosFireFOV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.getPosFireFOV" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Obtain the positions in the occupant&#8217;s field of vision where there is fire.</dt>
-<dd>Return: list of positions (x, y)</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="projects.seba.occupant.EmergencyOccupant.makeEmergencyAction">
-<code class="descname">makeEmergencyAction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.makeEmergencyAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.makeEmergencyAction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method that is invoked when initiating an emergency to make the decision of response.
-If the occupant is a parent, he will look for his son. If he is a child, 
-he will wait for one of his parents. In any other case, a path is decided to leave the building.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="projects.seba.occupant.EmergencyOccupant.step">
-<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/projects/seba/occupant.html#EmergencyOccupant.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projects.seba.occupant.EmergencyOccupant.step" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method invoked by the Model scheduler in each step.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

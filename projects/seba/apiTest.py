@@ -20,9 +20,9 @@ ipServer = socket.gethostbyname(socket.gethostname())
 
 port = "10000"
 URLBASE = "http://127.0.0.1:" + port
-URISOBA = "/api/soba/v1/occupants"
-URISEBA = "/api/seba/v1/occupants"
-URIFIRE = "/api/seba/v1/fire"
+URISOBA = "/api/v1/occupants"
+URISEBA = "/api/v1/occupants"
+URIFIRE = "/api/v1/fire"
 stringTemplate = {"type": "string"}
 numberTemplate = {"type": "number"}
 
@@ -51,7 +51,7 @@ class test(TestCase):
 
 	def test01_ListOccupants(self):
 
-		print(str('Testing {}').format('GET /api/soba/v1/occupants'))
+		print(str('Testing {}').format('GET /api/v1/occupants'))
 
 		occupantsId = [0, 1, 2]
 		occupantsIdSim = []
@@ -69,7 +69,7 @@ class test(TestCase):
 
 	def test02_PositionsOccupants(self):
 
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/positions'))
+		print(str('Testing {}').format('GET /api/v1/occupants/positions'))
 
 		self.occupantTest0 = self.model.getOccupantId(0)
 		self.occupantTest1 = self.model.getOccupantId(1)
@@ -116,7 +116,7 @@ class test(TestCase):
 
 	def test03_StatesOccupants(self):
 
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/states'))
+		print(str('Testing {}').format('GET /api/v1/occupants/states'))
 
 		state1 = 'testState1'
 		state2 = 'testState2'
@@ -169,7 +169,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantsStaSim2)
 
 	def test04_MovementsOccupants(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/movements'))
+		print(str('Testing {}').format('GET /api/v1/occupants/movements'))
 
 		occupantsMov = {
 			'0': {'orientation': 'out', 'speed': 0.71428},
@@ -231,7 +231,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantsMovSim)
 
 	def test05_InformationOccupant(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}'))
 
 		occupantInfo = {
 			"occupant": {
@@ -266,8 +266,9 @@ class test(TestCase):
 		self.assertDictContainsSubset(occupantInfoSim, occupantInfo)
 		self.assertDictContainsSubset(APIResponse, occupantInfoSim)
 
+
 	def test06_MovementOccupant(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/movement'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/movement'))
 
 		occupantMov = { "movement": {'orientation': "E", 'speed': 1} }
 
@@ -287,7 +288,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantMovSim)
 
 	def test07_PositionOccupant(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/position'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/position'))
 		
 		occupantPos = { 'position': {'y': 7, 'x': 6} }
 
@@ -305,7 +306,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantPosSim)
 
 	def test08_StateOccupant(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/state'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/state'))
 
 		idOc0 = self.occupantTest0.unique_id
 
@@ -323,7 +324,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantStateSim2)
 
 	def test09_FovOccupant(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/fov'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/fov'))
 
 		idOc0 = self.occupantTest0.unique_id
 
@@ -365,7 +366,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantFovSim)
 
 	def test10_CreateSobaAvatar(self):
-		print(str('Testing {}').format('PUT /api/soba/v1/occupants/{id}'))
+		print(str('Testing {}').format('PUT /api/v1/occupants/{id}'))
 
 		idAvCreation = 1
 		avatarXPos = 3
@@ -399,7 +400,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, avatarPosSim)
 
 	def test11_MoveAvatar(self):
-		print(str('Testing {}').format('POST /api/soba/v1/occupants/{id}/position'))
+		print(str('Testing {}').format('POST /api/v1/occupants/{id}/position'))
 			
 		idAvCreation = 1
 		idAvCreationResponse = idAvCreation + 100000
@@ -436,7 +437,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, avatarPosSim)
 
 	def test12_RouteOccupant(self):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/route/{route_id}'))
 
 		occupantRoute = { "positions": [{'x': 4, 'y': 8}, {'x': 3, 'y': 8}, {'x': 2, 'y': 7}, {'x': 1, 'y': 6}, {'x': 0, 'y': 6}]}
 
@@ -460,12 +461,12 @@ class test(TestCase):
 		lastPosRoute = (lastPosRouteX, lastPosRouteY)
 		lastPosRouteSim = avatarTestSOBA.pos_to_go
 
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/route/{route_id}'))
 		print("Pos_to_go", lastPosRoute)
 		self.assertCountEqual(lastPosRoute, lastPosRouteSim)
 
 	def test13_CreateSebaAvatar(self):
-		print(str('Testing {}').format('PUT /api/seba/v1/occupants/{id}'))
+		print(str('Testing {}').format('PUT /api/v1/occupants/{id}'))
 
 		idAvCreation = 2
 		avatarXPos = 3
@@ -500,7 +501,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, avatarPosSim)
 
 	def test14_FireInFovOccupant(self):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/fire'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/fire'))
 
 		idAvCreation = 2
 		idAvCreationResponse = idAvCreation + 100000 
@@ -532,7 +533,7 @@ class test(TestCase):
 		self.assertDictContainsSubset(APIResponse, occupantFireSim)
 
 	def test15_FirePositions(self):
-		print(str('Testing {}').format('GET /api/seba/v1/fire'))
+		print(str('Testing {}').format('GET /api/v1/fire'))
 
 		posFire1 = (5, 2)
 		posFire2 = (7, 4)
@@ -556,7 +557,7 @@ class test(TestCase):
 	
 
 	def test16_ListOccupantsSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants'))
+		print(str('Testing {}').format('GET /api/v1/occupants'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -577,7 +578,7 @@ class test(TestCase):
 				validate(o, numberTemplate)
 
 	def test17_PositionsOccupantsSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/movements'))
+		print(str('Testing {}').format('GET /api/v1/occupants/movements'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -607,7 +608,7 @@ class test(TestCase):
 				validate(v, template)
 
 	def test18_StatesOccupantsSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/positions'))
+		print(str('Testing {}').format('GET /api/v1/occupants/positions'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -632,7 +633,7 @@ class test(TestCase):
 				validate(v, template)
 
 	def test19_MovementsOccupantsSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/states'))
+		print(str('Testing {}').format('GET /api/v1/occupants/states'))
 		for i in range(self.N):
 			url = URLBASE + URISOBA + "/states"
 			data = requests.get(url)
@@ -644,7 +645,7 @@ class test(TestCase):
 				validate(int(k), numberTemplate)
 
 	def test20_InformationOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -716,7 +717,7 @@ class test(TestCase):
 				validate(p, template2)
 
 	def test21_MovementOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/movement'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/movement'))
 		
 		template = {
 			"type": "object",
@@ -745,7 +746,7 @@ class test(TestCase):
 			validate(datajson, template)
 
 	def test22_PositionOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/position'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/position'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -773,7 +774,7 @@ class test(TestCase):
 			validate(datajson, template)
 
 	def test23_StateOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/state'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/state'))
 		template = {
 			"type": "object",
 			"properties":{
@@ -792,7 +793,7 @@ class test(TestCase):
 			validate(datajson, template)
 
 	def test24_FovOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/soba/v1/occupants/{id}/fov'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/fov'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -828,7 +829,7 @@ class test(TestCase):
 
 
 	def test25_CreateSobaAvatarSchema(self):
-		print(str('Testing {}').format('PUT /api/soba/v1/occupants/{id}'))
+		print(str('Testing {}').format('PUT /api/v1/occupants/{id}'))
 		template = {
 			"type": "object",
 				"properties": {
@@ -867,7 +868,7 @@ class test(TestCase):
 			validate(datajson, template)
 
 	def test26_MoveAvatarSchema(self):
-		print(str('Testing {}').format('POST /api/soba/v1/occupants/{id}/position'))
+		print(str('Testing {}').format('POST /api/v1/occupants/{id}/position'))
 		template = {
 			"type": "object",
 				"properties": {
@@ -906,7 +907,7 @@ class test(TestCase):
 			validate(datajson, template)
 
 	def test27_RouteOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/route/{route_id}'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/route/{route_id}'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -939,7 +940,7 @@ class test(TestCase):
 				validate(m, template2)
 
 	def test28_CreateSebaAvatarSchema(self):
-		print(str('Testing {}').format('PUT /api/seba/v1/occupants/{id}'))
+		print(str('Testing {}').format('PUT /api/v1/occupants/{id}'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -978,7 +979,7 @@ class test(TestCase):
 			validate(datajson, template)
 
 	def test29_FireInFovOccupantSchema(self):
-		print(str('Testing {}').format('GET /api/seba/v1/occupants/{id}/fire'))
+		print(str('Testing {}').format('GET /api/v1/occupants/{id}/fire'))
 		template = {
 			"type": "object",
 			"properties": {
@@ -1011,8 +1012,8 @@ class test(TestCase):
 			for m in datajson["positions"]:
 				validate(m, template2)
 
-	def test30FirePositionsSchema(self):
-		print(str('Testing {}').format('GET /api/seba/v1/fire'))
+	def test30_FirePositionsSchema(self):
+		print(str('Testing {}').format('GET /api/v1/fire'))
 		template = {
 			"type": "object",
 			"properties": {

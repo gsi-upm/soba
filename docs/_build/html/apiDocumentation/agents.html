@@ -91,9 +91,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Instalation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html#tutorial">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="model.html">Model Module Documentation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Agents Module Documentation</a><ul>
@@ -113,7 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../restApi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -667,6 +665,20 @@ finish: Final position.</dd>
 <p class="last">Return: List of positions (x, y).</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="soba.agents.resources.aStar.print_progress">
+<code class="descclassname">soba.agents.resources.aStar.</code><code class="descname">print_progress</code><span class="sig-paren">(</span><em>iteration</em>, <em>total</em>, <em>prefix=''</em>, <em>suffix=''</em>, <em>decimals=1</em>, <em>bar_length=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/agents/resources/aStar.html#print_progress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.agents.resources.aStar.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call in a loop to create terminal progress bar
+&#64;params:</p>
+<blockquote>
+<div>iteration   - Required  : current iteration (Int)
+total       - Required  : total iterations (Int)
+prefix      - Optional  : prefix string (Str)
+suffix      - Optional  : suffix string (Str)
+decimals    - Optional  : positive number of decimals in percent complete (Int)
+bar_length  - Optional  : character length of bar (Int)</div></blockquote>
 </dd></dl>
 
 </div>

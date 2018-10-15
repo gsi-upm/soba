@@ -182,6 +182,13 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">=</span> <span class="mi">3</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">getFOV</span><span class="p">()</span>
 
+		<span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;avatar&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">familiar</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">initmove</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">adult</span> <span class="o">=</span> <span class="kc">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
+
 <div class="viewcode-block" id="EmergencyAvatar.getExitGate"><a class="viewcode-back" href="../../../projects/seba/apiDocumentation/agents.html#projects.seba.avatar.EmergencyAvatar.getExitGate">[docs]</a>	<span class="k">def</span> <span class="nf">getExitGate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">		Obtain the optimal way to evacuate the building according to an evacuation strategy.</span>
@@ -216,15 +223,19 @@
 <span class="sd">			Return: List of positions (x, y)</span>
 <span class="sd">		&#39;&#39;&#39;</span>
 		<span class="n">others</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fov&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">)</span>
 		<span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">:</span>
-			<span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">FireControl</span><span class="o">.</span><span class="n">movements</span><span class="p">)</span>
-			<span class="k">if</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">FireControl</span><span class="o">.</span><span class="n">movements</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">FireControl</span><span class="o">.</span><span class="n">fireMovements</span><span class="p">:</span>
 				<span class="n">others</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">others</span></div>
 
 	<span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
-		<span class="k">pass</span></div>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exits</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span> <span class="o">=</span> <span class="kc">True</span>
+		
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inbuilding</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">emergency</span> <span class="ow">and</span> <span class="bp">self</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occupEmerg</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occupEmerg</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

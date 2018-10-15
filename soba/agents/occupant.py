@@ -111,7 +111,6 @@ class Occupant(Agent):
 				variationTime = datetime.timedelta(seconds=variationSecondsNormal)
 				newSchedule = datetime.datetime(2017, 10, 1, int(v[0]+v[1]), int(v[3]+v[4]), 0, 0) + datetime.timedelta(seconds=variationSecondsNormal)
 				self.schedule[k] = newSchedule
-		print(self.schedule)
 
 	def start_activity(self):
 		""" 

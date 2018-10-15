@@ -483,6 +483,7 @@
 			<span class="bp">self</span><span class="o">.</span><span class="n">markov</span> <span class="o">=</span> <span class="kc">False</span>
 		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_to_go</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">makeMovement</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">checkLeaveArrive</span><span class="p">()</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">alreadyMovement</span> <span class="o">=</span> <span class="kc">True</span>
 		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_activity</span> <span class="o">-</span> <span class="mi">1</span>

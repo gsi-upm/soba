@@ -12,32 +12,32 @@ This API is supported by default at http://127.0.1.1:10000
 +-------------+----------------------------------------------+----------------------------------+
 | HTTP Method | URI                                          | Action                           |
 +=============+==============================================+==================================+
-| GET         | /api/soba/v1/occupants                       | List with all occupants          |
+| GET         | /api/v1/occupants                            | List with all occupants          |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/movements             | Movement of all occupants        |
+| GET         | /api/v1/occupants/movements                  | Movement of all occupants        |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/positions             | Position of all occupants        |
+| GET         | /api/v1/occupants/positions                  | Position of all occupants        |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/states                | States of all occupants          |
+| GET         | /api/v1/occupants/states                     | States of all occupants          |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/{id}                  | Information about one occupant   |
+| GET         | /api/v1/occupants/{id}                       | Information about one occupant   |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/{id}/movement         | Movement of one occupant         |
+| GET         | /api/v1/occupants/{id}/movement              | Movement of one occupant         |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/{id}/position         | Position of one occupant         |
+| GET         | /api/v1/occupants/{id}/position              | Position of one occupant         |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/{id}/state            | State of one occupant            |
+| GET         | /api/v1/occupants/{id}/state                 | State of one occupant            |
 +-------------+----------------------------------------------+----------------------------------+
-| GET         | /api/soba/v1/occupants/{id}/fov              | FOV of one occupant              |
+| GET         | /api/v1/occupants/{id}/fov                   | FOV of one occupant              |
 +-------------+----------------------------------------------+----------------------------------+
-| PUT         | /api/soba/v1/occupants/{id}                  | Create an occupant               |
+| PUT         | /api/v1/occupants/{id}                       | Create an occupant               |
 +-------------+----------------------------------------------+----------------------------------+
-| POST        | /api/soba/v1/occupants/{id}/position         | Move an occupant                 |
+| POST        | /api/v1/occupants/{id}/position              | Move an occupant                 |
 +-------------+----------------------------------------------+----------------------------------+
 
 
 
-.. admonition:: GET /api/soba/v1/occupants
+.. admonition:: GET /api/v1/occupants
   
   Return a list with all the occupants in the simulations.
 
@@ -66,7 +66,7 @@ This API is supported by default at http://127.0.1.1:10000
       
 
 
-.. admonition:: GET /api/soba/v1/occupants/movements
+.. admonition:: GET /api/v1/occupants/movements
   
   Return information about the movement all occupants are performing.
 
@@ -123,7 +123,7 @@ This API is supported by default at http://127.0.1.1:10000
       
 
 
-.. admonition:: GET /api/soba/v1/occupants/positions
+.. admonition:: GET /api/v1/occupants/positions
   
   Returns the position of all occupants on the grid x, y.
 
@@ -183,7 +183,7 @@ This API is supported by default at http://127.0.1.1:10000
             }
         }
 
-.. admonition:: GET /api/soba/v1/occupants/states
+.. admonition:: GET /api/v1/occupants/states
   
   Returns the state or activity of all occupants.
 
@@ -210,7 +210,7 @@ This API is supported by default at http://127.0.1.1:10000
         }
 
 
-.. admonition:: GET /api/soba/v1/occupants/{id}
+.. admonition:: GET /api/v1/occupants/{id}
   
     Returns general information (unique_id, state, `FOV <http://www.roguebasin.com/index.php?title=Permissive_Field_of_View>`_ (field of vision), position and movement) of one occupant. The unique_id of the occupant must be provided.
 
@@ -298,7 +298,7 @@ This API is supported by default at http://127.0.1.1:10000
           }
 
 
-.. admonition:: GET /api/soba/v1/occupants/{id}/movement
+.. admonition:: GET /api/v1/occupants/{id}/movement
   
   Return information about the movement one occupant is performing. The unique_id of the occupant must be provided.
 
@@ -329,7 +329,7 @@ This API is supported by default at http://127.0.1.1:10000
               }
           }
 
-.. admonition:: GET /api/soba/v1/occupants/{id}/position
+.. admonition:: GET /api/v1/occupants/{id}/position
   
   Returns the position of one occupant on the grid x, y. The unique_id of the occupant must be provided.
 
@@ -357,7 +357,7 @@ This API is supported by default at http://127.0.1.1:10000
             }
         }
 
-.. admonition:: GET /api/soba/v1/occupants/{id}/state
+.. admonition:: GET /api/v1/occupants/{id}/state
   
   Returns the state or activity of one occupant. The unique_id of the occupant must be provided.
 
@@ -374,7 +374,7 @@ This API is supported by default at http://127.0.1.1:10000
         {"state": "Working in my laboratory"}
 
 
-.. admonition:: GET /api/soba/v1/occupants/{id}/fov 
+.. admonition:: GET /api/v1/occupants/{id}/fov 
   
   Returns the position of the `FOV <http://www.roguebasin.com/index.php?title=Permissive_Field_of_View>`_ (field of vision) of one occupant. The unique_id of the occupant must be provided.
 
@@ -418,7 +418,7 @@ This API is supported by default at http://127.0.1.1:10000
 
 
 
-.. admonition:: PUT /api/soba/v1/occupants/{id}
+.. admonition:: PUT /api/v1/occupants/{id}
   
   Create an avatar object in a given position to be part of the simulation. The unique_id and the position (x, y) of the avatar must be provided.
 
@@ -471,7 +471,7 @@ This API is supported by default at http://127.0.1.1:10000
         }
 
 
-.. admonition:: POST /api/soba/v1/occupants/{id}/position
+.. admonition:: POST /api/v1/occupants/{id}/position
   
   Move an avatar object to a given position. The unique_id and the new position (x, y) of the avatar must be provided.
 

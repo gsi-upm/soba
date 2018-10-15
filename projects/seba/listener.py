@@ -67,15 +67,21 @@ class create_avatar(tornado.web.RequestHandler):
         response = json.dumps(data)
         self.write(response)
 
+    def get(self, occupant_id):
+        global model
+        data = model.info_occupant(occupant_id)
+        response = json.dumps(data)
+        self.write(response)
+
 def setModel(modelAux):
     global model
     ltnr.model = modelAux
     model = modelAux
     ltnr.externalHandlers = [
-        (r"/api/seba/v1/fire?", positions_fire),
-        (r"/api/seba/v1/occupants/([0-9]+)/route/([0-9]+)?", exit_way_avatar),
-        (r"/api/seba/v1/occupants/([0-9]+)/fire?", fire_in_fov),
-        (r"/api/seba/v1/occupants/([0-9]+)?", create_avatar)
+        (r"/api/v1/fire?", positions_fire),
+        (r"/api/v1/occupants/([0-9]+)/route/([0-9]+)?", exit_way_avatar),
+        (r"/api/v1/occupants/([0-9]+)/fire?", fire_in_fov),
+        (r"/api/v1/occupants/([0-9]+)?", create_avatar)
     ]
 
 def getModel():

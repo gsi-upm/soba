@@ -91,9 +91,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../sobaoverview.html">SOBA Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howinstall.html">How install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Instalation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html#tutorial">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html#running-the-simulation-using-the-terminal">Running the simulation using the terminal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_tutorial.html">Introductory Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">APIs Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Model Module Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-soba.models.generalModel">Model</a></li>
@@ -107,7 +105,7 @@
 <li class="toctree-l2"><a class="reference internal" href="launchers.html">Launchers Module Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../restApi.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../projects/seba/index.html">SEBA Project</a></li>
 </ul>
 
@@ -180,7 +178,7 @@
 <span id="model"></span><h2>Model<a class="headerlink" href="#module-soba.models.generalModel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="soba.models.generalModel.GeneralModel">
-<em class="property">class </em><code class="descclassname">soba.models.generalModel.</code><code class="descname">GeneralModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=1526638073</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/models/generalModel.html#GeneralModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.models.generalModel.GeneralModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">soba.models.generalModel.</code><code class="descname">GeneralModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>seed=1539608967</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/models/generalModel.html#GeneralModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.models.generalModel.GeneralModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models.
 It creates and manages space and agents.</p>
 <blockquote>
@@ -222,7 +220,7 @@ step: Execution of the scheduler steps.</dd>
 <span id="continuous-model"></span><h2>Continuous Model<a class="headerlink" href="#module-soba.models.continuousModel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="soba.models.continuousModel.ContinuousModel">
-<em class="property">class </em><code class="descclassname">soba.models.continuousModel.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>5</em>, <em>18</em>, <em>12</em>, <em>7</em>, <em>53</em>, <em>421961)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/models/continuousModel.html#ContinuousModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.models.continuousModel.ContinuousModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">soba.models.continuousModel.</code><code class="descname">ContinuousModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonMap</em>, <em>jsonsOccupants</em>, <em>seed=datetime.datetime(2018</em>, <em>10</em>, <em>15</em>, <em>15</em>, <em>9</em>, <em>27</em>, <em>960188)</em>, <em>scale=0.5</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/models/continuousModel.html#ContinuousModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.models.continuousModel.ContinuousModel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Base Class to create simulation models on a simplified space based on rooms.</dt>
 <dd><dl class="first last docutils">
@@ -453,7 +451,7 @@ scale: Value of the scale.</dd>
 <span id="rooms-model"></span><h2>Rooms Model<a class="headerlink" href="#module-soba.models.roomsModel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="soba.models.roomsModel.RoomsModel">
-<em class="property">class </em><code class="descclassname">soba.models.roomsModel.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=1526638073</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/models/roomsModel.html#RoomsModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.models.roomsModel.RoomsModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">soba.models.roomsModel.</code><code class="descname">RoomsModel</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>jsonRooms</em>, <em>jsonsOccupants</em>, <em>seed=1539608967</em>, <em>timeByStep=60</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/soba/models/roomsModel.html#RoomsModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#soba.models.roomsModel.RoomsModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Class to create simulation models on a simplified space based on rooms.</p>
 <blockquote>
 <div><dl class="docutils">
