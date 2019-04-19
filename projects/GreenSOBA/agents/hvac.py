@@ -116,6 +116,20 @@ class HVAC(Agent):
 	    return C
 
 	def getTComfort(self):
+		if not self.model.voting_method:
+			self.getTComfortProactive()
+		else:
+			preferences = {}
+			for room in self.thermalZone.rooms:
+				for agent in room.agentsInRoom:
+					preferences[str(agent.unique_id)] = agent.preference
+			if len(preferences) < 1:
+					self.desiredTemperature = configuration.settings.temperatureSummerIn
+					return
+			self.desiredTemperature = float(self.model.sc.voting_method(preferences, self.model.voting_method)[0])
+
+
+	def getTComfortProactive(self):
 		tComfort = []
 		for room in self.thermalZone.rooms:
 			for agent in room.agentsInRoom:

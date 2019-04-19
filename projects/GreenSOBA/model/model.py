@@ -13,6 +13,9 @@ import configuration.defineOccupancy
 import configuration.defineMap
 
 from log.log import Log
+from log.logsc import Logsc
+
+from model.socialChoice import SocialChoice
 
 from model.energy import Energy
 from model.time import Time
@@ -32,7 +35,7 @@ from time import time
 
 class SOBAModel(Model):
 
-	def __init__(self, width, height, modelWay = None, seed = int(time()), nothing = 1):
+	def __init__(self, width, height, modelWay = None, seed = int(time()), nothing = 1, voting_method = False):
 		super().__init__(seed)
 		#Init configurations and defines
 		configuration.settings.init()
@@ -54,12 +57,19 @@ class SOBAModel(Model):
 		self.energy = Energy()
 		self.clock = Time()
 
+		self.voting_method = voting_method
+		self.sc = SocialChoice()
+
 		#Log
 		self.log = Log()
+		if self.voting_method:
+			self.log = Logsc()
 		self.roomsSchedule = []
 		self.agentSatisfationByStep = []
 		self.fangerSatisfationByStep = []
 		self.agentsActivityByTime = []
+		self.averageSatisfationByTime = []
+		self.totalSatisfationByTime = []
 		self.occupantsValues = False
 		if self.modelWay != 0 and os.path.isfile('../log/tmp/occupants.txt'):
 			self.occupantsValues = self.log.getOccupantsValues()
@@ -766,9 +776,16 @@ class SOBAModel(Model):
 			self.energy.finalDay(self.NStep)
 			self.energy.finalWeek()
 			self.running = False
-			self.log.collectEnergyValues(self.modelWay, self.energy.energyByDayTotal, self.energy.energyByDayHVAC, self.energy.energyByDayLPC, configuration.settings.time_by_step, self.energy.energyByStepTotal, self.energy.energyByStepHVACsTotal, self.energy.energyByStepLPCTotal)
-			self.log.collectComfortValues(self.modelWay, configuration.settings.time_by_step, self.agentSatisfationByStep, self.fangerSatisfationByStep)
-			self.log.collectScheduleValues(self.modelWay, configuration.settings.time_by_step, self.agentsActivityByTime)
+			if self.voting_method:
+				self.log.collectEnergyValues(self, self.energy.energyByDayTotal, self.energy.energyByDayHVAC, self.energy.energyByDayLPC, configuration.settings.time_by_step, self.energy.energyByStepTotal, self.energy.energyByStepHVACsTotal, self.energy.energyByStepLPCTotal)
+				self.log.collectComfortValues(self, configuration.settings.time_by_step, self.agentSatisfationByStep, self.fangerSatisfationByStep)
+				self.log.collectScheduleValues(self, configuration.settings.time_by_step, self.agentsActivityByTime)
+				self.log.collectSatisfactionValues(self, configuration.settings.time_by_step, self.totalSatisfationByTime, self.averageSatisfationByTime)
+			else:
+				self.log.collectEnergyValues(self.modelWay, self.energy.energyByDayTotal, self.energy.energyByDayHVAC, self.energy.energyByDayLPC, configuration.settings.time_by_step, self.energy.energyByStepTotal, self.energy.energyByStepHVACsTotal, self.energy.energyByStepLPCTotal)
+				self.log.collectComfortValues(self.modelWay, configuration.settings.time_by_step, self.agentSatisfationByStep, self.fangerSatisfationByStep)
+				self.log.collectScheduleValues(self.modelWay, configuration.settings.time_by_step, self.agentsActivityByTime)
+				self.log.collectSatisfactionValues(self.modelWay, configuration.settings.time_by_step, self.totalSatisfationByTime, self.averageSatisfationByTime)
 			if self.modelWay == 0:
 				self.log.saveScheduleRooms(self.roomsSchedule)
 				dictAgents = {}
@@ -862,6 +879,24 @@ class SOBAModel(Model):
 			self.fangerSatisfationByStep.append(sumat/number)
 		else:
 			self.fangerSatisfationByStep.append(0)
+
+		# Satisfaction SC
+		if self.voting_method:
+			time = configuration.settings.time_by_step*self.NStep
+			sumat = 0
+			number = 0
+			for agent in self.agents:
+				if self.getRoom(agent.pos).typeRoom != 'out' and self.getRoom(agent.pos).typeRoom != 'restroom' and self.getRoom(agent.pos).typeRoom != 'hall' and self.getRoom(agent.pos).typeRoom != 'corridor':
+					sumat += agent.preference['{:.1f}'.format(self.getRoom(agent.pos).thermalZone.hvac.desiredTemperature)]
+					number += 1
+		
+			self.totalSatisfationByTime.append(sumat)
+
+			if number > 0:
+				self.averageSatisfationByTime.append(sumat/number)
+			else:
+				self.averageSatisfationByTime.append(0)
+
 
 		#Ocupancy activity collection
 		time = configuration.settings.time_by_step*self.NStep

@@ -7,6 +7,8 @@ import operator
 from agents.behaviourMarkov import Markov
 import space.aStar
 import configuration.settings
+import numpy as np
+import math
 
 class Occupant(Agent):
 
@@ -33,6 +35,11 @@ class Occupant(Agent):
         self.environment = environmentBehaviour #type 1, 2, 3
         self.positionByState = OrderedDict()
         self.TComfort = random.randint(json['Tconfort'][0], json['Tconfort'][1])
+        if self.model.voting_method:
+            average = 23
+            normal_desviation = 2
+            v1 = np.random.normal(average, normal_desviation)
+            self.preference = self.create_preference(int(round(v1/0.5)*5)/10)
         if self.model.occupantsValues != False:
             self.TComfort = self.model.occupantsValues[str(self.unique_id)]['TComfort']
         self.leftClosedDoor = random.randint(json['leftClosedDoor'][0], json['leftClosedDoor'][1]+1)
@@ -81,6 +88,22 @@ class Occupant(Agent):
         self.scheduleLog = []
         self.arrive = False
         self.leave = False
+
+    def get_preference(self, temperature, t):
+            
+        diff = abs(t - temperature)
+        preference = math.floor((100-10*math.pow((diff)/0.8, 1.7))/10)
+        return preference
+
+
+    def create_preference(self, temperature):
+
+        preference = {}
+        for t in np.arange(20, 27, 0.5):
+            preference[str(t)] = self.get_preference(temperature, t)
+        print(preference)
+        return preference
+
 
     # Methods when entering/exit states
     def start_activity(self):
