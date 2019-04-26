@@ -365,6 +365,6 @@ class SEBAModel(ContinuousModel):
 		if self.emergency and not self.occupEmerg:
 			self.log.saveSimulationState(time_by_step=self.clock.timeByStep)
 			print("Simulation terminated.")
-			self.finishSimulation = True
+			self.running = False
 			sp.sleep(1)
 			super().step()
