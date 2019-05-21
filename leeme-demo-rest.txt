@@ -1,0 +1,24 @@
+El primer paso es instalar el paquete 'soba'
+
+	pip3 install soba
+
+Después, descargamos el repositorio con los proyectos
+
+	https://github.com/gsi-upm/soba
+
+Nos movemos al directorio con el proyecto de evacuaciones 'seba'
+
+	cd soba/projects/seba
+
+Ahora solo tenemos que ejecutar el fichero 'run.py' con los parametros para una visualización sobre navegador (-v) y para la ejecución del servidor (-s)
+
+	python3 run.py -v -s
+
+Entonces, se recomienda avanzar en la simulación hasta el momento de inicio del incendio: 10:00, así la API proporcionará más información (por ejemplo sobre las posiciones del fuego a la vista de los agentes). Para ello, usar los botones de start y stop y el sliders de control de velocidad. Entonces, se pueden realizar las peticiones REST al endpoint '127.0.1.1:10000'. Por ejemplo con el cliente curl.
+
+	curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://127.0.1.1:10000/api/v1/occupants
+
+Para el listado de las peticiones posibles ver: 
+
+	https://soba.readthedocs.io/en/latest/restApi.html
+
