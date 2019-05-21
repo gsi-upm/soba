@@ -50,7 +50,7 @@ class GeneralModel(Model):
 				finishSimulation: Parameter to stop the software simulation.
 			Return: Model object
 		"""
-		self.seed = seed
+
 		self.width = width
 		self.height = height
 		self.schedule = RandomActivation(self)

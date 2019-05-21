@@ -35,7 +35,7 @@ def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_lengt
         sys.stdout.flush()
 
 global maxIteration
-maxIteration = 10000
+maxIteration = 3000
 
 generalItemsPos = []
 doorsPoss = []
