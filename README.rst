@@ -23,4 +23,4 @@ The folder 'docs' should be ignored.
 
 SOBA-client
 -----------
-A tutorial (in Spanish) is available `here <https://github.com/gsi-upm/soba/blob/master/leeme-demo-rest.txt>`_ together with a  `video <https://github.com/gsi-upm/soba/blob/master/video-demo-api-rest-compressed.mp4`_.
+A tutorial (in Spanish) is available `here <https://github.com/gsi-upm/soba/blob/master/leeme-demo-rest.txt>`_ together with a  `video <https://github.com/gsi-upm/soba/blob/master/video-demo-api-rest-compressed.mp4>`_.
