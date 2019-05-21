@@ -33,7 +33,7 @@ class GeneralModel(Model):
 	"""
 
 	def __init__(self, width, height, seed = int(time()), timeByStep = 60):
-		super().__init__(seed)
+		super().__init__()
 		"""
 		Create a new Model object.
 			Args:
