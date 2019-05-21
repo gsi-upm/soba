@@ -20,3 +20,7 @@ In case of error, this other command should be used, ensuring to have installed 
 	$ pip3 install soba
 
 The folder 'docs' should be ignored.
+
+SOBA-client
+-----------
+A tutorial (in Spanish) is available <https://github.com/gsi-upm/soba/blob/master/leeme-demo-rest.txt> together with a video.
