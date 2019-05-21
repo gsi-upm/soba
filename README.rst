@@ -3,8 +3,7 @@ SOBA
 
 **Simulation Occupancy Based on Agents**
 
-See complete tutorial_.
-.._tutorial: http://soba.readthedocs.io/.
+See complete `tutorial_ <http://soba.readthedocs.io/>`_.
 
 How to install
 ~~~~~~~~~~~~~~
