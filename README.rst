@@ -3,7 +3,7 @@ SOBA
 
 **Simulation Occupancy Based on Agents**
 
-See complete `tutorial_ <http://soba.readthedocs.io/>`_.
+See complete `tutorial_ <http://soba.readthedocs.io/>`.
 
 How to install
 ~~~~~~~~~~~~~~
@@ -23,4 +23,4 @@ The folder 'docs' should be ignored.
 
 SOBA-client
 -----------
-A tutorial (in Spanish) is available _here: https://github.com/gsi-upm/soba/blob/master/leeme-demo-rest.txt together with a  _video: https://github.com/gsi-upm/soba/blob/master/video-demo-api-rest-compressed.mp4.
+A tutorial (in Spanish) is available `here <https://github.com/gsi-upm/soba/blob/master/leeme-demo-rest.txt>` together with a  `video <https://github.com/gsi-upm/soba/blob/master/video-demo-api-rest-compressed.mp4`.
