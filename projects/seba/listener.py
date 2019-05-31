@@ -73,12 +73,20 @@ class create_avatar(tornado.web.RequestHandler):
         response = json.dumps(data)
         self.write(response)
 
+class simulation_situation(tornado.web.RequestHandler):
+    def get(self):
+        global model
+        data = model.simulation_situation()
+        response = json.dumps(data)
+        self.write(response)
+
 def setModel(modelAux):
     global model
     ltnr.model = modelAux
     model = modelAux
     ltnr.externalHandlers = [
         (r"/api/v1/fire?", positions_fire),
+        (r"/api/v1/situation?", simulation_situation),
         (r"/api/v1/occupants/([0-9]+)/route/([0-9]+)?", exit_way_avatar),
         (r"/api/v1/occupants/([0-9]+)/fire?", fire_in_fov),
         (r"/api/v1/occupants/([0-9]+)?", create_avatar)

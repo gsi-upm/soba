@@ -53,6 +53,9 @@ class SEBAModel(ContinuousModel):
 		self.uncrowdedStr = []
 		self.occupEmerg = []
 		self.log = Log()
+		self.occupantsInfo = {}
+
+
 		
 
 	def getOutDoors(self):
@@ -276,7 +279,7 @@ class SEBAModel(ContinuousModel):
 		data = {"positions": fire}
 		return data
 
-	def exit_way_avatar(self, avatar_id, strategy = 0):
+	def exit_way_avatar(self, avatar_id, strategy = 'nearest'):
 		a = self.getOccupantId(int(avatar_id))
 		strategies = ['nearest', 'safest', 'uncrowded', 'lessassigned']
 		a.exitGateStrategy = strategy
@@ -302,6 +305,24 @@ class SEBAModel(ContinuousModel):
 		a = self.createEmergencyAvatar(idAvatar, pos, color, initial_state)
 		self.occupants.append(a)
 		return a
+
+	def simulation_situation(self):
+		data = {}
+		data['list_occupants'] = self.list_occupants()['occupants']
+		print(data['list_occupants'])
+		occupants = {}
+		for occupant in data['list_occupants']:
+			print(occupant)
+			occupant_data = {}
+			occupant_data['movement_occupant'] = self.movement_occupant(occupant)['movement']
+			occupant_data['position_occupant'] = self.position_occupant(occupant)['position']
+			occupant_data['state_occupant'] = self.state_occupant(occupant)['state']
+			occupants[str(occupant)] = occupant_data
+		data['occupants'] = occupants
+		data['positions_fire'] = self.positions_fire()['positions']
+		return data
+
+
 
 	#Report
 	def reportSimulationState(self):
@@ -337,6 +358,7 @@ class SEBAModel(ContinuousModel):
 		"""
 		Execution of the scheduler steps.
 		"""
+		print()
 		a = 0
 		d = 0
 		t = "Normal" 
