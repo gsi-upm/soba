@@ -16,7 +16,8 @@ Ahora solo tenemos que ejecutar el fichero 'run.py' con los parametros para una 
 
 Entonces, se recomienda avanzar en la simulación hasta el momento de inicio del incendio: 10:00, así la API proporcionará más información (por ejemplo sobre las posiciones del fuego a la vista de los agentes). Para ello, usar los botones de start y stop y el sliders de control de velocidad. Entonces, se pueden realizar las peticiones REST al endpoint '127.0.1.1:10000'. Por ejemplo con el cliente curl.
 
-	curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://127.0.1.1:10000/api/v1/occupants
+	curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://127.0.1.1:10000/api/v1/situation
+
 
 Para el listado de las peticiones posibles ver: 
 
