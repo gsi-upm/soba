@@ -180,6 +180,11 @@ class ContinuousOccupant(Occupant):
 				self.pos_to_go = self.pos
 				return [self.pos]
 		way = self.getWay(other = posOccupied)
+		print('way', way)
+		if way[0] == self.pos:
+			print('if')
+			self.N = 0
+			self.pos_to_go = self.pos
 		return way
 
 	def evalCollision(self):
@@ -322,7 +327,10 @@ class ContinuousOccupant(Occupant):
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
 			self.checkLeaveArrive()
 			self.markov = False
-		elif self.pos != self.pos_to_go:
+		elif self.pos != self.pos_to_go and self.movements[0] != self.pos:
+			print('pos: ', self.pos)
+			print('pos_to_go: ', self.pos_to_go)
+			print('movements: ', self.movements)
 			self.makeMovement()
 			self.checkLeaveArrive()
 			self.alreadyMovement = True

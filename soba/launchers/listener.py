@@ -154,26 +154,26 @@ class info_occupant(tornado.web.RequestHandler):
 
 #Defining application
 class Application(tornado.web.Application):
-	global externalHandlers
-	def __init__(self):
-		internalHandlers = [
-			(r"/?", presentation),
-			(r"/api/v1/occupants?", list_occupants),
-			(r"/api/v1/occupants/movements?", movements_occupants),
-			(r"/api/v1/occupants/positions?", positions_occupants),
-			(r"/api/v1/occupants/states?", states_occupants),
-			(r"/api/v1/occupants/([0-9]+)?", info_occupant),
-			(r"/api/v1/occupants/([0-9]+)/movement?", movement_occupant),
-			(r"/api/v1/occupants/([0-9]+)/position?", position_occupant),
-			(r"/api/v1/occupants/([0-9]+)/state?", state_occupant),
-			(r"/api/v1/occupants/([0-9]+)/fov?", fov_occupant)
-		]
-		for t1 in internalHandlers:
-			for t2 in externalHandlers:
-				if t1[0]==t2[0]:
-					internalHandlers.remove((t1[0], t1[1]))
-		handlers = internalHandlers + externalHandlers
-		tornado.web.Application.__init__(self, handlers)
+    global externalHandlers
+    def __init__(self):
+        internalHandlers = [
+            (r"/?", presentation),
+            (r"/api/v1/occupants?", list_occupants),
+            (r"/api/v1/occupants/movements?", movements_occupants),
+            (r"/api/v1/occupants/positions?", positions_occupants),
+            (r"/api/v1/occupants/states?", states_occupants),
+            (r"/api/v1/occupants/([0-9]+)?", info_occupant),
+            (r"/api/v1/occupants/([0-9]+)/movement?", movement_occupant),
+            (r"/api/v1/occupants/([0-9]+)/position?", position_occupant),
+            (r"/api/v1/occupants/([0-9]+)/state?", state_occupant),
+            (r"/api/v1/occupants/([0-9]+)/fov?", fov_occupant)
+        ]
+        for t1 in internalHandlers:
+            for t2 in externalHandlers:
+                if t1[0]==t2[0]:
+                    internalHandlers.remove((t1[0], t1[1]))
+        handlers = internalHandlers + externalHandlers
+        tornado.web.Application.__init__(self, handlers)
 
 #Run server method
 def runServer(port=10000):

@@ -35,7 +35,7 @@ def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_lengt
         sys.stdout.flush()
 
 global maxIteration
-maxIteration = 3000
+maxIteration = 10000
 
 generalItemsPos = []
 doorsPoss = []
@@ -114,6 +114,7 @@ def getPathContinuous(model, start, finish, other = []):
 		print_progress(it, maxIteration, prefix='Progress:', suffix='Complete', bar_length=30)
 		if it > maxIteration or (finish.x, finish.y) in other:
 			print("Demasida iteración, devolvemos: ", (start.x, start.y))
+			print("Queriamos ir a: ", (finish.x, finish.y))
 			return [(start.x, start.y)]
 		for cell_not_visited in not_visited:
 			if cell_not_visited.x == finish.x and cell_not_visited.y == finish.y:

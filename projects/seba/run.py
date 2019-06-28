@@ -14,14 +14,14 @@ strategies = ['nearest', 'safest', 'uncrowded']
 # Simulation configuration
 today = dt.date.today()
 
-timeHazard = "10:00:00"
+timeHazard = "13:00:00"
 
 
  #Only two are neccesary 
 
 families = [{'N': 4, 'child': 2, 'adult': 2}]
 
-sebaConfiguration = {'families': families, 'hazard': timeHazard}
+sebaConfiguration = {'families': [], 'hazard': timeHazard}
 
 # Occupancy atributtes
 
@@ -29,15 +29,15 @@ jsonsOccupants = []
 
 strategy = strategies[0]
 
-N = 8
-NDis = 2
+N = 4
+NDis = 0
 
 fov = True
 
 speed = 1.38
 speedDis = 0.7
 
-states = OrderedDict([('Free time','out'), ('Rest', 'sofa'), ('Lunch','out'), ('Work', 'wp')])
+states = OrderedDict([('Free time','out'), ('Rest', 'wp'), ('Lunch','out'), ('Work', 'wp')])
 
 schedule = {'t1': "09:30:00", 't2': "13:20:00", 't3': "15:00:00", 't4': "18:00:00"}
 
@@ -74,11 +74,29 @@ jsonOccupantDis = {'type': 'dis' , 'N': NDis, 'states': states , 'schedule': sch
 
 jsonsOccupants.append(jsonOccupantDis)
 
-with open('auxiliarFiles/labgsi.blueprint3d') as data_file:
-	jsonMap = ramen.returnMap(data_file, offsety = 9, offsetx = 0)
 
-cellW = 20
-cellH = 20
+
+
+#with open('auxiliarFiles/labgsi.blueprint3d') as data_file:
+#	jsonMap = ramen.returnMap(data_file, offsety = 9, offsetx = 0)
+#cellW = 20
+#cellH = 20
+
+
+
+#with open('auxiliarFiles/uclm_furniture.blueprint3d') as data_file:
+#	jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
+#cellW = 113
+#cellH = 80
+
+
+
+with open('auxiliarFiles/uclm_furniture1.blueprint3d') as data_file:
+	jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
+cellW = 113
+cellH = 80
+
+
 
 if len(sys.argv) > 1 and sys.argv[1] == '-v':
 	back = Visualization(cellW, cellH)
