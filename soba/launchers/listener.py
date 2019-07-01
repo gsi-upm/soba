@@ -180,6 +180,6 @@ def runServer(port=10000):
 	global app
 	print('server launched in port: {}.\n'.format(port))
 	app = Application()
-	app.listen(port, address='127.0.1.1')
+	app.listen(port, address='127.0.0.1')
 	tornado.autoreload.start()
 	IOLoop.current().start()

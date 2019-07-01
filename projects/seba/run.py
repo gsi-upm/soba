@@ -84,8 +84,8 @@ jsonsOccupants.append(jsonOccupantDis)
 
 
 
-#with open('auxiliarFiles/uclm_furniture.blueprint3d') as data_file:
-#	jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
+#with open('auxiliarFiles/uclm_furniture2.blueprint3d') as data_file:
+	#jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
 #cellW = 113
 #cellH = 80
 
