@@ -8,8 +8,10 @@ RUN git clone https://github.com/gsi-upm/soba.git
 
 WORKDIR soba/projects/seba
 
-EXPOSE 10000
+ARG mode
 
-EXPOSE 7777
+ENV mode ${mode}
 
-CMD python3 run.py -v -s
+EXPOSE 10000 7777
+
+CMD python3 run.py -${mode} -s
