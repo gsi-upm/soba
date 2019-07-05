@@ -271,11 +271,10 @@ class SEBAModel(ContinuousModel):
 	#API methods
 	def positions_fire(self):
 		fire = []
-		if not self.FireControl:
-			return fire
-		for f in self.FireControl.fireExpansion:
-			x, y = f.pos
-			fire.append({"x": x, "y": y})
+		if self.FireControl:	
+			for f in self.FireControl.fireExpansion:
+				x, y = f.pos
+				fire.append({"x": x, "y": y})
 		data = {"positions": fire}
 		return data
 
