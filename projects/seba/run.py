@@ -29,7 +29,7 @@ jsonsOccupants = []
 
 strategy = strategies[0]
 
-N = 4
+N = 3
 NDis = 0
 
 fov = True
@@ -37,11 +37,13 @@ fov = True
 speed = 1.38
 speedDis = 0.7
 
+#states = OrderedDict([('Free time','out'), ('Rest', 'wp'), ('Lunch','out'), ('Work', 'wp')])
+
 states = OrderedDict([('Free time','out'), ('Rest', 'wp'), ('Lunch','out'), ('Work', 'wp')])
 
-schedule = {'t1': "09:30:00", 't2': "13:20:00", 't3': "15:00:00", 't4': "18:00:00"}
+schedule = {'t1': "09:00:00", 't2': "13:20:00", 't3': "15:00:00", 't4': "18:00:00"}
 
-variation = {'t1': "00:30:00", 't2': "00:30:00", 't3': "00:30:00", 't4': "00:59:00"}
+variation = {'t1': "00:15:00", 't2': "00:15:00", 't3': "00:15:00", 't4': "00:59:00"}
 
 markovActivity = {
 
@@ -91,7 +93,7 @@ jsonsOccupants.append(jsonOccupantDis)
 
 
 
-with open('auxiliarFiles/uclm_furniture1.blueprint3d') as data_file:
+with open('auxiliarFiles/uclm_furniture2_new.blueprint3d') as data_file:
 	jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
 cellW = 113
 cellH = 80

@@ -123,6 +123,9 @@ class Occupant(Agent):
 		self.pos_to_go = self.getPlaceToGo()
 		if self.pos != self.pos_to_go:
 			self.movements = self.getWay()
+			if self.movements[0] == self.pos and len(self.movements) == 1:
+				self.N = 0
+				self.pos_to_go = self.pos
 		else:
 			self.movements = [self.pos]
 		time_in_state = self.timeActivity[self.getPeriod()][list(self.positionByState.keys()).index(self.state)]

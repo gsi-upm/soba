@@ -181,7 +181,7 @@ class ContinuousOccupant(Occupant):
 				return [self.pos]
 		way = self.getWay(other = posOccupied)
 		print('way', way)
-		if way[0] == self.pos:
+		if way[0] == self.pos and len(way) == 1:
 			print('if')
 			self.N = 0
 			self.pos_to_go = self.pos
@@ -327,11 +327,12 @@ class ContinuousOccupant(Occupant):
 			self.markov_machine.runStep(self.markovActivity[self.getPeriod()])
 			self.checkLeaveArrive()
 			self.markov = False
-		elif self.pos != self.pos_to_go and self.movements[0] != self.pos:
+		elif self.pos != self.pos_to_go:
 			print('pos: ', self.pos)
 			print('pos_to_go: ', self.pos_to_go)
 			print('movements: ', self.movements)
 			self.makeMovement()
+			print('Aqui', self.N, self.movements)
 			self.checkLeaveArrive()
 			self.alreadyMovement = True
 		elif self.time_activity > 0:

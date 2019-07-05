@@ -56,6 +56,7 @@ class EmergencyOccupant(ContinuousOccupant):
         self.shape = "circle"
         self.exclude = []
         self.fovCal = True if not json.get('fov') else json.get('fov')
+        self.thereis_exit = True
 
     def makeEmergencyAction(self, exclude = []):
         """
@@ -78,6 +79,10 @@ class EmergencyOccupant(ContinuousOccupant):
                 self.movements = [self.pos_to_go]
         else:
             self.movements = self.getExitGate(exclude)
+            print(1)
+            if self.movements[0] == self.pos and len(self.movements)== 1:
+                print(2)
+                self.thereis_exit = False
 
     def getExitGate(self, exclude = []):
         '''
@@ -198,7 +203,10 @@ class EmergencyOccupant(ContinuousOccupant):
                     super().step()
                 else:
                     if self.pos not in self.model.exits:
-                        self.makeEmergencyAction()
+                        if self.thereis_exit:
+                            return
+                        else:
+                            self.makeEmergencyAction()
                     else:
                         if self in self.model.occupEmerg:
                             self.model.occupEmerg.remove(self)
