@@ -14,7 +14,7 @@ strategies = ['nearest', 'safest', 'uncrowded']
 # Simulation configuration
 today = dt.date.today()
 
-timeHazard = "13:00:00"
+timeHazard = "12:30:00"
 
 
  #Only two are neccesary 
@@ -29,7 +29,7 @@ jsonsOccupants = []
 
 strategy = strategies[0]
 
-N = 3
+N = 6
 NDis = 0
 
 fov = True
@@ -39,29 +39,29 @@ speedDis = 0.7
 
 #states = OrderedDict([('Free time','out'), ('Rest', 'wp'), ('Lunch','out'), ('Work', 'wp')])
 
-states = OrderedDict([('Free time','out'), ('Rest', 'wp'), ('Lunch','out'), ('Work', 'wp')])
+states = OrderedDict([('Free time','out'), ('Lunch','out'), ('Work', 'wp')])
 
-schedule = {'t1': "09:00:00", 't2': "13:20:00", 't3': "15:00:00", 't4': "18:00:00"}
+schedule = {'t1': "09:00:00", 't2': "10:00:00", 't3': "11:00:00", 't4': "18:00:00"}
 
-variation = {'t1': "00:30:00", 't2': "00:15:00", 't3': "00:15:00", 't4': "00:59:00"}
+variation = {'t1': "00:50:00", 't2': "00:30:00", 't3': "00:30:00", 't4': "00:59:00"}
 
 markovActivity = {
 
-    '-t1': [[100, 0, 0, 0], [100, 0, 0, 0], [100, 0, 0, 0], [100, 0, 0, 0]],
-    't1-t2': [[0, 30, 0, 70], [0, 10, 0, 90], [0, 20, 0, 80], [0, 40, 0, 60]],
-    't2-t3': [[100, 0, 0, 0], [0, 10, 20, 60], [20, 10, 50, 40], [0, 10, 70, 30]],
-    't3-t4': [[100, 0, 0, 0], [0, 10, 20, 60], [0, 10, 0, 70], [20, 10, 0, 70]],
-    't4-': [[100, 0, 0, 0], [70, 0, 0, 30], [70, 0, 0, 30], [70, 0, 0, 30]]
+    '-t1': [[100, 0, 0], [100, 0, 0], [100, 0, 0], [100, 0, 0]],
+    't1-t2': [[0, 0, 70], [0, 0, 90], [0, 0, 80], [0, 0, 60]],
+    't2-t3': [[100, 0, 0], [0, 20, 60], [20, 50, 40], [0, 70, 30]],
+    't3-t4': [[100, 0, 0], [0, 20, 60], [0, 0, 70], [20, 0, 70]],
+    't4-': [[100, 0, 0], [70, 0, 30], [70, 0, 30], [70, 0, 30]]
 
 }
 
 timeActivity = {
-    '-t1': [3, 0, 0, 0], 't1-t2': [0, 10, 0, 45], 't2-t3': [0, 10, 50, 45], 't3-t4': [0, 10, 20, 45], 't4-': [3, 10, 10, 20]
+    '-t1': [3, 0, 0], 't1-t2': [0, 0, 45], 't2-t3': [0, 50, 45], 't3-t4': [0, 20, 45], 't4-': [3, 10, 20]
 }
 
 
 timeActivityVariation = {
-    '-t1': [0, 0, 0, 0], 't1-t2': [0, 5, 0, 10], 't2-t3': [0, 5, 10, 10], 't3-t4': [0, 10, 5, 10], 't4-': [0, 5, 5, 10]
+    '-t1': [0, 0, 0], 't1-t2': [0, 0, 10], 't2-t3': [0, 10, 10], 't3-t4': [0, 5, 10], 't4-': [0,5, 10]
 }
 
 jsonOccupant = {'type': 'regular' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
@@ -86,14 +86,14 @@ jsonsOccupants.append(jsonOccupantDis)
 
 
 
-#with open('auxiliarFiles/uclm_furniture2.blueprint3d') as data_file:
+#with open('auxiliarFiles/uclm_furniture1_new.blueprint3d') as data_file:
 	#jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
 #cellW = 113
 #cellH = 80
 
 
 
-with open('auxiliarFiles/uclm_furniture2_new.blueprint3d') as data_file:
+with open('auxiliarFiles/AStar.blueprint3d') as data_file:
 	jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
 cellW = 113
 cellH = 80

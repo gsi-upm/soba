@@ -4,6 +4,8 @@ import sys
 import soba.agents.resources.aStar as aStar
 import numpy as np
 from avatar import EmergencyAvatar
+from ast import literal_eval as make_tuple
+import ast
 
 class EmergencyOccupant(ContinuousOccupant):
     """
@@ -57,6 +59,39 @@ class EmergencyOccupant(ContinuousOccupant):
         self.exclude = []
         self.fovCal = True if not json.get('fov') else json.get('fov')
         self.thereis_exit = True
+        self.movements = []
+
+        import csv
+        self.way_saved = []
+        with open('waysAStar.csv') as fp:
+            s = csv.reader(fp, delimiter=',')
+            for row in s:
+                start_saved = make_tuple(row[0])
+                final_saved = make_tuple(row[1])
+                way = ast.literal_eval(row[2])
+                self.way_saved.append((start_saved, final_saved, way))
+
+    def getWay(self, pos1 = False, pos2 = False, other = False):
+        pos1 = pos1
+        pos2 = pos2
+        if not pos1:
+            pos1 = self.pos
+        if not pos2:
+            pos2 = self.pos_to_go
+        from_file = True
+        if from_file:
+            for way in self.way_saved: 
+                if pos1 == way[0] and pos2 == way[1]:
+                    self.movements = way[2]
+                    return way[2]
+        else:
+            self.pos_to_go = self.pos
+            self.N=0
+            self.movements = [self.pos]
+            return [self.pos]
+
+    def evalCollision(self):
+        return True
 
     def makeEmergencyAction(self, exclude = []):
         """
@@ -64,6 +99,7 @@ class EmergencyOccupant(ContinuousOccupant):
         If the occupant is a parent, he will look for his son. If he is a child, 
         he will wait for one of his parents. In any other case, a path is decided to leave the building.
         """
+        '''
         self.speed = self.speedEmergency
         self.N = 0
         self.markov = False
@@ -71,7 +107,7 @@ class EmergencyOccupant(ContinuousOccupant):
         if self.children and not self.child:
             child = random.choice(self.children)
             self.pos_to_go = child.pos
-            self.movements = super().getWay()
+            self.movements = self.getWay()
             self.child = child
         elif not self.adult:
             if self.alone:
@@ -83,6 +119,12 @@ class EmergencyOccupant(ContinuousOccupant):
             if self.movements[0] == self.pos and len(self.movements)== 1:
                 print(2)
                 self.thereis_exit = False
+        '''
+        import random
+        self.N = 0
+        self.markov = False
+        self.timeActivity = 0
+        self.movements = self.getWay(self.pos, random.choice(self.model.exits))
 
     def getExitGate(self, exclude = []):
         '''
@@ -101,7 +143,7 @@ class EmergencyOccupant(ContinuousOccupant):
                 self.pos_to_go = self.model.getNearestGate(self, exclude)
         else:
             self.pos_to_go = self.model.getNearestGate(self)
-        pathReturn = super().getWay(other = self.exclude)
+        pathReturn = self.getWay(other = self.exclude)
         return pathReturn
 
     def fireInMyFOV(self):
@@ -109,10 +151,13 @@ class EmergencyOccupant(ContinuousOccupant):
         Check if there is fire in the FOV of the occupant.
             Return: Boolean
         """
+        return False
+        '''
         for firePos in self.model.FireControl.fireMovements:
             if firePos in self.movements and self.posInMyFOV(firePos):
                 return True
         return False
+        '''
 
     def getPosFireFOV(self):
         """
@@ -132,6 +177,52 @@ class EmergencyOccupant(ContinuousOccupant):
 
     def step(self):
         """Method invoked by the Model scheduler in each step."""
+        
+
+        """
+        pos_poi = []
+        pos_door_poi = []
+
+        for poi in self.model.pois:
+            if poi.id == 'out':
+                pos_door_poi.append(poi.pos)
+            else:
+                pos_poi.append(poi.pos)
+
+        print(len(pos_poi), pos_poi)
+        print(len(pos_door_poi), pos_door_poi)
+
+
+        import csv
+        count = 0
+        getAStar = True
+        if getAStar:
+            for x1 in range(0, 113):
+                for y1 in range(0, 80):
+                    for x2 in range(0, 113):
+                        for y2 in range(0, 80):
+                            start = (x1, y1)
+                            final = (x2, y2)
+                            if (start in pos_door_poi and final in pos_poi) or (start in pos_poi and final in pos_door_poi):
+                                if self.pos == way[0] and self.pos_to_go == way[1]:
+                                    pass
+                                else:
+                                    print(start, final)
+                                    way = self.getWay(start, final)
+                                    row = [str(start), str(final), str(way)]
+                                    with open('waysAStar.csv', 'a') as csvFile:
+                                        writer = csv.writer(csvFile)
+                                        writer.writerow(row)
+                                    csvFile.close()
+                                    count = count+1
+                                    print(count)
+            getAStar = False
+        """
+
+
+
+
+
         if self.alive == True:
             if isinstance(self, EmergencyAvatar):
                 return
@@ -145,7 +236,7 @@ class EmergencyOccupant(ContinuousOccupant):
                 if self.parentAsos:
                     if not self.model.nearPos(self.parentAsos.pos, self.pos):
                         self.pos_to_go = self.parentAsos.pos
-                        self.movements = super().getWay(other = self.exclude)
+                        self.movements = self.getWay(other = self.exclude)
                         self.N = 0
                         if self.pos == self.movements[0]:
                             self.parentAsos = False
@@ -176,7 +267,7 @@ class EmergencyOccupant(ContinuousOccupant):
                 if self.pos != self.pos_to_go:
                     if self.fireInMyFOV():
                         self.exclude += self.getPosFireFOV()
-                        self.movements = super().getWay(other = self.exclude)
+                        self.movements = self.getWay(other = self.exclude)
                         self.N = 0
                         if self.pos == self.movements[0]:
                             if self.adult:
@@ -200,6 +291,10 @@ class EmergencyOccupant(ContinuousOccupant):
                                 self.N = 0
                         else:
                             self.pos_to_go = self.movements[-1]
+                    if self.movements == None:
+                        self.movements[self.N] = [self.pos]
+                        self.pos_to_go = self.pos
+                        self.N = 0
                     super().step()
                 else:
                     if self.pos not in self.model.exits:
@@ -211,6 +306,10 @@ class EmergencyOccupant(ContinuousOccupant):
                         if self in self.model.occupEmerg:
                             self.model.occupEmerg.remove(self)
             else:
+                if self.movements == None:
+                    self.movements[self.N] = [self.pos]
+                    self.pos_to_go = self.pos
+                    self.N = 0
                 super().step()
         else:
             if self in self.model.occupEmerg:
