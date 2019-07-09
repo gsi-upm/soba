@@ -60,16 +60,8 @@ class EmergencyOccupant(ContinuousOccupant):
         self.fovCal = True if not json.get('fov') else json.get('fov')
         self.thereis_exit = True
         self.movements = []
-
-        import csv
         self.way_saved = []
-        with open('waysAStar.csv') as fp:
-            s = csv.reader(fp, delimiter=',')
-            for row in s:
-                start_saved = make_tuple(row[0])
-                final_saved = make_tuple(row[1])
-                way = ast.literal_eval(row[2])
-                self.way_saved.append((start_saved, final_saved, way))
+
 
     def getWay(self, pos1 = False, pos2 = False, other = False):
         pos1 = pos1
@@ -83,10 +75,12 @@ class EmergencyOccupant(ContinuousOccupant):
             for way in self.way_saved: 
                 if pos1 == way[0] and pos2 == way[1]:
                     self.movements = way[2]
+                    print('way', self.movements)
                     return way[2]
         else:
+            print('no way', self.movements)
             self.pos_to_go = self.pos
-            self.N=0
+            self.N = 0
             self.movements = [self.pos]
             return [self.pos]
 
@@ -124,7 +118,7 @@ class EmergencyOccupant(ContinuousOccupant):
         self.N = 0
         self.markov = False
         self.timeActivity = 0
-        self.movements = self.getWay(self.pos, random.choice(self.model.exits))
+        self.movements = self.getWay(self.pos, random.choice(self.pos_door_poi))
 
     def getExitGate(self, exclude = []):
         '''
@@ -179,10 +173,9 @@ class EmergencyOccupant(ContinuousOccupant):
         """Method invoked by the Model scheduler in each step."""
         
 
-        """
         pos_poi = []
         pos_door_poi = []
-
+        self.pos_door_poi = pos_door_poi
         for poi in self.model.pois:
             if poi.id == 'out':
                 pos_door_poi.append(poi.pos)
@@ -192,7 +185,7 @@ class EmergencyOccupant(ContinuousOccupant):
         print(len(pos_poi), pos_poi)
         print(len(pos_door_poi), pos_door_poi)
 
-
+        '''
         import csv
         count = 0
         getAStar = True
@@ -204,22 +197,21 @@ class EmergencyOccupant(ContinuousOccupant):
                             start = (x1, y1)
                             final = (x2, y2)
                             if (start in pos_door_poi and final in pos_poi) or (start in pos_poi and final in pos_door_poi):
-                                if self.pos == way[0] and self.pos_to_go == way[1]:
+                                if False: #self.pos == way[0] and self.pos_to_go == way[1]:
                                     pass
                                 else:
                                     print(start, final)
-                                    way = self.getWay(start, final)
+                                    way = super().getWay(start, final)
                                     row = [str(start), str(final), str(way)]
-                                    with open('waysAStar.csv', 'a') as csvFile:
+                                    with open('waysAStar2.csv', 'a') as csvFile:
                                         writer = csv.writer(csvFile)
                                         writer.writerow(row)
                                     csvFile.close()
                                     count = count+1
                                     print(count)
             getAStar = False
-        """
 
-
+        '''
 
 
 
@@ -227,6 +219,7 @@ class EmergencyOccupant(ContinuousOccupant):
             if isinstance(self, EmergencyAvatar):
                 return
             if self.model.emergency:
+                print('emer', self.movements)
                 if set(self.model.exits).issubset(self.exclude) or self.pos in self.model.exits:
                     if self in self.model.occupEmerg:
                         self.model.occupEmerg.remove(self)
@@ -291,10 +284,11 @@ class EmergencyOccupant(ContinuousOccupant):
                                 self.N = 0
                         else:
                             self.pos_to_go = self.movements[-1]
-                    if self.movements == None:
-                        self.movements[self.N] = [self.pos]
+                    if (self.movements == None) or (self.N >= len(self.movements))  or (len(self.movements)==1 and self.pos != self.pos_to_go):
+                        self.movements = [self.pos]
                         self.pos_to_go = self.pos
                         self.N = 0
+                        return
                     super().step()
                 else:
                     if self.pos not in self.model.exits:
@@ -306,10 +300,13 @@ class EmergencyOccupant(ContinuousOccupant):
                         if self in self.model.occupEmerg:
                             self.model.occupEmerg.remove(self)
             else:
-                if self.movements == None:
-                    self.movements[self.N] = [self.pos]
+                print(12, self.movements, self.N)
+                if (self.movements == None) or (self.N >= len(self.movements)) or (len(self.movements)==1 and self.pos != self.pos_to_go):
+                    self.movements = [self.pos]
                     self.pos_to_go = self.pos
                     self.N = 0
+                    print(13, self.movements, self.N)
+                    return
                 super().step()
         else:
             if self in self.model.occupEmerg:

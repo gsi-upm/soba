@@ -29,7 +29,7 @@ jsonsOccupants = []
 
 strategy = strategies[0]
 
-N = 6
+N = 20
 NDis = 0
 
 fov = True
@@ -93,7 +93,7 @@ jsonsOccupants.append(jsonOccupantDis)
 
 
 
-with open('auxiliarFiles/AStar.blueprint3d') as data_file:
+with open('auxiliarFiles/uclm_furniture2_new.blueprint3d') as data_file:
 	jsonMap = ramen.returnMap(data_file, offsety = 21, offsetx = 0)
 cellW = 113
 cellH = 80

@@ -9,6 +9,9 @@ from ast import literal_eval as make_tuple
 import listener as lstn
 from avatar import EmergencyAvatar
 from log import Log
+from ast import literal_eval as make_tuple
+import ast
+
 
 class SEBAModel(ContinuousModel):
 	"""
@@ -36,6 +39,17 @@ class SEBAModel(ContinuousModel):
 
 	def __init__(self, width, height, jsonMap, jsonsOccupants, sebaConfiguration, seed = int(time())):
 		lstn.setModel(self)
+		import csv
+		self.way_saved = []
+		with open('waysAStar2.csv') as fp:
+			s = csv.reader(fp, delimiter=',')
+			for row in s:
+				start_saved = make_tuple(row[0])
+				final_saved = make_tuple(row[1])
+				way = ast.literal_eval(row[2])
+				self.way_saved.append((start_saved, final_saved, way))
+
+		
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
 		self.adults = []
 		self.children = []
@@ -55,7 +69,6 @@ class SEBAModel(ContinuousModel):
 		self.log = Log()
 		self.occupantsInfo = {}
 
-
 		
 
 	def getOutDoors(self):
@@ -72,6 +85,7 @@ class SEBAModel(ContinuousModel):
 		for json in jsonsOccupants:
 			for n in range(0, json['N']):
 				a = EmergencyOccupant(n, self, json)
+				a.way_saved = self.way_saved
 				self.occupants.append(a)
 				self.adults.append(a)
 		if self.familiesJson:
@@ -121,6 +135,7 @@ class SEBAModel(ContinuousModel):
 		"""
 		unique_id = 100000 + int(idAvatar)
 		a = EmergencyAvatar(unique_id, self, pos, color, initial_state)
+		a.way_saved = self.way_saved
 		self.occupants.append(a)
 		return a
 
