@@ -41,14 +41,14 @@ class SEBAModel(ContinuousModel):
 		lstn.setModel(self)
 		import csv
 		self.way_saved = []
-		with open('waysAStar2.csv') as fp:
+		with open('waysAStar.csv') as fp:
 			s = csv.reader(fp, delimiter=',')
 			for row in s:
 				start_saved = make_tuple(row[0])
 				final_saved = make_tuple(row[1])
 				way = ast.literal_eval(row[2])
 				self.way_saved.append((start_saved, final_saved, way))
-
+		self.astar = False
 		
 		super().__init__(width, height, jsonMap, jsonsOccupants, seed = seed, timeByStep = 60)
 		self.adults = []
@@ -86,6 +86,9 @@ class SEBAModel(ContinuousModel):
 			for n in range(0, json['N']):
 				a = EmergencyOccupant(n, self, json)
 				a.way_saved = self.way_saved
+				if not self.astar and json.get('astar'):
+					a.aStar = json.get('astar')
+					self.astar = True
 				self.occupants.append(a)
 				self.adults.append(a)
 		if self.familiesJson:

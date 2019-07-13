@@ -9,12 +9,15 @@ from model import SEBAModel
 from visualization.back import Visualization
 import datetime as dt
 
+aStar = False 
+
+
 strategies = ['nearest', 'safest', 'uncrowded']
 
 # Simulation configuration
 today = dt.date.today()
 
-timeHazard = "12:30:00"
+timeHazard = "10:30:00"
 
 
  #Only two are neccesary 
@@ -29,7 +32,7 @@ jsonsOccupants = []
 
 strategy = strategies[0]
 
-N = 20
+N = 40
 NDis = 0
 
 fov = True
@@ -64,13 +67,13 @@ timeActivityVariation = {
     '-t1': [0, 0, 0], 't1-t2': [0, 0, 10], 't2-t3': [0, 10, 10], 't3-t4': [0, 5, 10], 't4-': [0,5, 10]
 }
 
-jsonOccupant = {'type': 'regular' , 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
+jsonOccupant = {'type': 'regular' , 'astar': aStar, 'N': N, 'states': states , 'schedule': schedule, 'variation': variation,
 'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
 'strategy': strategy, 'speedEmergency': speed, 'shape': 'rect', 'fov': fov}
 
 jsonsOccupants.append(jsonOccupant)
 
-jsonOccupantDis = {'type': 'dis' , 'N': NDis, 'states': states , 'schedule': schedule, 'variation': variation,
+jsonOccupantDis = {'type': 'dis' , 'astar': aStar, 'N': NDis, 'states': states , 'schedule': schedule, 'variation': variation,
 'markovActivity': markovActivity, 'timeActivity': timeActivity, 'timeActivityVariation': timeActivityVariation,
 'strategy': strategy, 'speedEmergency': speedDis, 'fov': fov}
 
